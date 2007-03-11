@@ -1,0 +1,39 @@
+V2:
+- red highlight of objects that are in a wrong place:
+	- doors without pair
+- Draw the additional annotations:
+	- cannon range
+	- door ID
+	- switch ID
+- help by pressing CTRL + h
+
+V3:
+- edit individual maps and save them
+- compose several maps into a sequence and add a password and a message for each level
+- pack everything and encode it so that the game can read it
+
+
+
+Import ST2 maps:
+OK - map1.map
+OK - map2.map
+OK - map3.map
+OK - map4.map
+OK - cannons.map
+- map5.map
+- map6.map
+- map7.map
+- map8.map
+- map9.map
+Ok - map10.map
+OK - map11.map
+- map12.map
+- map13.map
+- map14.map
+
+Second assault:
+...
+
+Sample pack:
+...
+

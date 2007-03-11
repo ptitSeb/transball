@@ -1,0 +1,82 @@
+To do in "Transball GL": --------------------------------------------------------
+
+***- Enable/Disable interface elements (para "continue" en postgame y "save" en savereplay)
+- postgame: saves replay if saving, goes to level screen if replaying, and shows results and statistics (play again, view/save replay or quit)
+
+- Player profile (substitutes configuration (in XML))
+    - add which levels and records each player has in each level (create a complete folder per player)
+- Level Pack screen: 
+    - displays the list of levels (locked and unlocked)
+    - view best replays & high scores
+    - quit
+    - select ship
+    - a button to start, 
+- background of rocks is REALLY bad
+- draw snow tiles
+- color de la bola con las naves
+- graphic effects:
+	- glow of the starts when the ship is up (as in thrust extreme) and stars disappear as you go down
+- SFX:
+	- fuel recharge
+	- attractor
+- bugs:
+	- high accuracy cannons on up and right don't work properly
+	- some times tanks hit themselves! (this is weird!) [necesito replays para debugar correctamente!!!]
+- save replays:
+    - nice memory replay structure (that can be navigated -> keyframes with all stored to move quickly in the replay)
+    - save it to disc
+    - load it from disc
+    - save demos of each ship -> ship selection screen
+- nice highscore matrix: levels x ships, showing the top three players (the game saves the best replays automatically):
+    - the game stores much more information, and can generate an HTML page with all the details (statistics of each game, etc.).
+- Más tiles
+- Modo shadow. Que muestre la mejor replay de fondo (la nave + bola) (no se, no se...)
+- Nuevos elementos:
+	- Torretas de misiles (mega explosión con onda expansiva)
+	- Cañones direccionales rápidos (metralletas, con balas pequeñas y azules que te quitan fuel y
+					 te desplazan un poco)
+	- Tanques blindados
+	- ascensores (debes meterte en ellos, y moverte con ellos, tanto horizontales como verticales)
+	- Fuel que se coge con el atractor (como en Thrust) [que pasa con c-harpoon??]
+- Modos 2 jugadores:
+    - MODOS:
+        - race: los 2 juegan a la vez (la otra nave se ve como un fantasma en tu pantalla), y
+                se compite por tiempo
+        - colaborativo:los 2 juegan a la vez, y colaboran para llevarse la bola fuera
+        - combate: los 2 jugadores en un mismo nivel, el único objetivo es matarse mutuamente
+        - competitivo: los 2 jugadoes en un mismo nivel, compiten por conseguir la bola y
+                       llevarsela
+    - En los modos colaborativo y competitivo:
+        - hay 2 bolas (cualquiera puede coger cualquiera de las dos), pero solo una a la vez.
+        - los disparos de el adversario/colaborador te quitan fuel y te desplazan un poco
+    - En red
+- Editor de mapas + creador de niveles incorporado en el juego
+- Música en el menu principal
+- Música/loop de sonido durante el juego 
+  
+- Para las instrucciones:
+    - TODO el juego tiene que estar en inglés y en español (español por defecto)
+    - Para que el atractor funcione, la nave tiene que ir lenta! (lo mismo para el grabber the harpoon)
+    - "Only the ship which has captured the ball can fire through it"
+    - Harpoon:
+        - A + O/P alarga o acorta chain (consume fuel)
+        - para coger/soltar la bola ENTER
+
+: ------------------------------------------------------------------------------------------
+
+Naves:
+	- SHADOW RUNNER (intial fuel: 64, shot fuel: 40, thrust: 24 / 8)
+	- V-PANTHER 2 (initial fuel: 64, shot fuel: 64)
+	- X-TERMINATOR (initial fuel: 96, shot fuel: 96)
+	- NITRO BLASTER: poder de disparo como shadow runner (velocidad como v-panther), pero con nitro!
+	- VIPPER BEAM: laser, potente contra enemigos, pero no destruye las balas (te propulsa un poco)
+	- DODGER-K7: tiene thrusters laterales, al pulsar abajo, si pulsas izquierda/derecha, te mueves en vez de rotar
+	- GRAVIS T8: disparo como shadow runner, y lenta como x-terminator, pero tiene un "long range attractor",
+		que al activarlo, atrae a la bola hacia donde estás tú sin importar la distancia (solo
+		después de haberla cogido, por supuesto). De hecho, lo que hace es incrementar la atracción, de 28 a 128
+	- ACCURA-T5: Mini homming misiles (little power, but homming)
+	- GYRUS-P: disparo cutre y lenta, pero el disparo es direccional! (si mantienes pulsado "abajo",
+	  com los cursores controlas la dirección del cañón!)
+	- D-FLECTER: rápida cono shadow runner, no dispara, pero tiene un escudo que quita fuel (que solo 
+	         protege de balas y choque, no contra lasers que atraviesan la nave de lado a lado)
+	- C-HARPOON (otro color): Tiene un arpón, y atrapa la bola con ua cuerda (nunca la pierde),
