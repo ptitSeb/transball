@@ -1,7 +1,7 @@
 To do in "Transball GL": --------------------------------------------------------
 
-***- Enable/Disable interface elements (para "continue" en postgame y "save" en savereplay)
-- postgame: saves replay if saving, goes to level screen if replaying, and shows results and statistics (play again, view/save replay or quit)
+***- load replays
+***- ZLIB to compress/uncompress replay files, level packs and player profile
 
 - Player profile (substitutes configuration (in XML))
     - add which levels and records each player has in each level (create a complete folder per player)

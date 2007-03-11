@@ -51,7 +51,8 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 		SDL_WarpMouse(210,352);
 		TGLinterface::add_element(new TGLframe(100,32,440,276));
 		TGLinterface::add_element(new TGLframe(100,340,440,32));
-		TGLinterface::add_element(new TGLbutton("Save",m_font32,110,404,200,64,0));
+		m_replay_save_button=new TGLbutton("Save",m_font32,110,404,200,64,0);
+		TGLinterface::add_element(m_replay_save_button);
 		TGLinterface::add_element(new TGLbutton("Cancel",m_font32,330,404,200,64,1));
 
 		// Find an initial name for the replay:
@@ -76,6 +77,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 				} else {
 					found=false;
 				} // if 
+				i++;
 			} while(found);
 		}
 		m_replay_editing_position=strlen(m_replay_name);
@@ -111,13 +113,54 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 
 		// Edit the string:
 		string_editor_cycle(m_replay_name,&m_replay_editing_position,32,k);
+
+
+		// Check if the name is a valid file:
+		{
+			FILE *fp;
+			bool valid_replay_name=true;
+			char tmp[256];
+
+			sprintf(tmp,"replays/%s",m_replay_name);
+
+            fp=fopen(tmp,"r");
+            if (fp!=0) {
+                valid_replay_name=false;
+                fclose(fp);
+            } /* if */
+
+			if (valid_replay_name) {
+				fp=fopen(tmp,"w");
+				if (fp!=0) {					
+					fclose(fp);
+					remove(tmp);
+				} else {
+					valid_replay_name=false;
+				} /* if */
+			} // if 
+
+			if (valid_replay_name) m_replay_save_button->m_enabled=true;
+							  else m_replay_save_button->m_enabled=false;
+
+		}
 	}
 
 	if (m_state_fading==2 && m_state_fading_cycle>25) {
 		switch(m_state_selection) {
 		case 0:
-				// save the replay
-				// ...
+				{
+					FILE *fp;
+					char tmp[256];
+
+					sprintf(tmp,"replays/%s",m_replay_name);
+
+					fp=fopen(tmp,"w");
+					if (fp!=0) {
+						m_game_replay->save(fp);
+						fclose(fp);
+					} /* if */
+				}
+
 				return TGL_STATE_POSTGAME;
 				break;
 		case 1:

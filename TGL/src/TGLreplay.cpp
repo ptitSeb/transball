@@ -128,7 +128,82 @@ void TGLreplay::add_player(char *player_name)
 
 bool TGLreplay::save(FILE *fp)
 {
-	/* ... */ 
+	char *tmp;
+	TGLreplay_node *node;
+	VirtualController *vc;
+	TGLreplay_object_position *op;
+	int i;
+
+	fprintf(fp,"<replay>\n");
+	fprintf(fp,"  <version>%s</version>\n",m_version);
+	fprintf(fp,"  <date>\n");
+	fprintf(fp,"    <day>%i</day>\n",m_day);
+	fprintf(fp,"    <month>%i</month>\n",m_month);
+	fprintf(fp,"    <year>%i</year>\n",m_year);
+	fprintf(fp,"    <hour>%i</hour>\n",m_hour);
+	fprintf(fp,"    <minute>%i</minute>\n",m_minute);
+	fprintf(fp,"    <second>%i</second>\n",m_second);
+	fprintf(fp,"  </date>\n");
+	fprintf(fp,"  <map>%s</map>\n",m_map);
+	
+	fprintf(fp,"  <players>\n");
+	m_players.Rewind();
+	while(m_players.Iterate(tmp)) {
+		fprintf(fp,"    <player>%i</player>\n",tmp);
+	} // while 
+	fprintf(fp,"  </players>\n");
+
+	fprintf(fp,"  <cycles>\n");
+	i=0;
+	m_replay.Rewind();
+	while(m_replay.Iterate(node)) {
+		fprintf(fp,"    <cycle num=\"%i\">\n",i++);
+		fprintf(fp,"      <input>\n");
+		node->m_input.Rewind();
+		while(node->m_input.Iterate(vc)) {
+			fprintf(fp,"        <vc>\n");
+			fprintf(fp,"          <current>%s %s %s %s %s %s %s %s</current>\n",
+				(vc->m_joystick[0] ? "true":"false"),
+				(vc->m_joystick[1] ? "true":"false"),
+				(vc->m_joystick[2] ? "true":"false"),
+				(vc->m_joystick[3] ? "true":"false"),
+				(vc->m_button[0] ? "true":"false"),
+				(vc->m_button[1] ? "true":"false"),
+				(vc->m_pause ? "true":"false"),
+				(vc->m_quit ? "true":"false"));
+			fprintf(fp,"          <old>%s %s %s %s %s %s %s %s</old>\n",
+				(vc->m_old_joystick[0] ? "true":"false"),
+				(vc->m_old_joystick[1] ? "true":"false"),
+				(vc->m_old_joystick[2] ? "true":"false"),
+				(vc->m_old_joystick[3] ? "true":"false"),
+				(vc->m_old_button[0] ? "true":"false"),
+				(vc->m_old_button[1] ? "true":"false"),
+				(vc->m_old_pause ? "true":"false"),
+				(vc->m_old_quit ? "true":"false"));
+			fprintf(fp,"        </vc>\n");
+		} // while 
+		fprintf(fp,"      </input>\n");
+
+		if (node->m_keyframe) {
+			fprintf(fp,"      <objects>\n");
+			node->m_objects.Rewind();
+			while(node->m_objects.Iterate(op)) {
+				fprintf(fp,"        <object>\n");
+				fprintf(fp,"          <name>%s</name>\n",op->m_name);
+				fprintf(fp,"          <x>%f</x>\n",op->m_x);
+				fprintf(fp,"          <y>%f</y>\n",op->m_y);
+				fprintf(fp,"          <speedx>%f</speedx>\n",op->m_speed_x);
+				fprintf(fp,"          <speedy>%f</speedx>\n",op->m_speed_y);
+				fprintf(fp,"          <angle>%i</angle>\n",op->m_a);
+				fprintf(fp,"        </object>\n");
+			} // while 
+			fprintf(fp,"      </objects>\n");
+		} // if 
+		fprintf(fp,"    </cycle>\n");
+	} // while 
+	fprintf(fp,"  </cycles>\n");
+
+	fprintf(fp,"</replay>\n");
 
 	return true;
 } /* TGLreplay::save */ 

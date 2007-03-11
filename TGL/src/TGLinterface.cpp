@@ -29,6 +29,11 @@
 List<TGLInterfaceElement> TGLinterface::m_elements;
 
 
+TGLInterfaceElement::~TGLInterfaceElement() 
+{
+} /* TGLInterfaceElement::~TGLInterfaceElement */ 
+
+
 bool TGLInterfaceElement::check_status(int mousex,int mousey,int button)
 {
 	return false;
@@ -51,6 +56,7 @@ TGLbutton::TGLbutton(char *text,TTF_Font *font,float x,float y,float dx,float dy
 	m_dy=dy;
 	m_ID=ID;
 	m_status=0;
+	m_enabled=true;
 } /* TGLbutton::TGLbutton */ 
 
 
@@ -63,6 +69,8 @@ TGLbutton::~TGLbutton()
 
 bool TGLbutton::check_status(int mousex,int mousey,int button)
 {
+	if (!m_enabled) return false;
+
 	if (mousex>=m_x && mousex<m_x+m_dx &&
 		mousey>=m_y && mousey<m_y+m_dy) {
 		if (button==0) {
@@ -101,6 +109,9 @@ void TGLbutton::draw(void)
 			break;
 	default:glColor3f(0.125f,0.125f,0.125f);
 	} // switch
+
+	if (!m_enabled) glColor3f(0.075f,0.075f,0.075f);
+
 	glBegin(GL_POLYGON);
 	glVertex3f(m_x+3,m_y,0);
 	glVertex3f(m_x+m_dx-3,m_y,0);
@@ -127,6 +138,9 @@ void TGLbutton::draw(void)
 			break;
 	default:glColor3f(0.25f,0.25f,0.25f);
 	} // switch
+
+	if (!m_enabled) glColor3f(0.125f,0.125f,0.125f);
+
 	glBegin(GL_POLYGON);
 	glVertex3f(m_x+3,m_y,0);
 	glVertex3f(m_x+m_dx-3,m_y,0);
@@ -146,8 +160,8 @@ void TGLbutton::draw(void)
 	m_dx+=2;
 	m_dy+=2;
 
-
-	TGLinterface::print_center(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2);
+	if (m_enabled) TGLinterface::print_center(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2);
+			  else TGLinterface::print_center(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2,0.5f,0.5f,0.5f);
 } /* TGLbutton::draw */ 
 
 
@@ -158,6 +172,7 @@ TGLframe::TGLframe(float x,float y,float dx,float dy)
 	m_dx=dx;
 	m_dy=dy;
 	m_ID=-1;
+	m_enabled=true;
 } /* TGLframe::TGLframe */ 
 
 
@@ -304,3 +319,40 @@ void TGLinterface::print_center(char *text,TTF_Font *font,float x,float y)
 	delete tile;
 } /* TGLinterface::print_center */ 
 
+
+void TGLinterface::print_left(char *text,TTF_Font *font,float x,float y,float r,float g,float b)
+{
+	GLTile *tile;
+	SDL_Surface *sfc;
+	SDL_Color c;
+	c.r=(unsigned char)(r*255);
+	c.g=(unsigned char)(g*255);
+	c.b=(unsigned char)(b*255);
+
+	sfc=TTF_RenderText_Blended(font,text,c);
+	tile=new GLTile(sfc);
+	tile->set_smooth();
+	glNormal3f(0,0,1);
+	tile->set_hotspot(0,tile->get_dy());
+	tile->draw(x,y,0,0,1);
+	delete tile;
+} /* TGLinterface::print_left */ 
+
+
+void TGLinterface::print_center(char *text,TTF_Font *font,float x,float y,float r,float g,float b)
+{
+	GLTile *tile;
+	SDL_Surface *sfc;
+	SDL_Color c;
+	c.r=(unsigned char)(r*255);
+	c.g=(unsigned char)(g*255);
+	c.b=(unsigned char)(b*255);
+
+	sfc=TTF_RenderText_Blended(font,text,c);
+	tile=new GLTile(sfc);
+	tile->set_smooth();
+	glNormal3f(0,0,1);
+	tile->set_hotspot(tile->get_dx()/2,tile->get_dy());
+	tile->draw(x,y,0,0,1);
+	delete tile;
+} /* TGLinterface::print_center */ 

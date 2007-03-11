@@ -114,6 +114,7 @@ protected:
 	// Save Replay
 	char m_replay_name[64];
 	unsigned int m_replay_editing_position;
+	class TGLInterfaceElement *m_replay_save_button;
 
 	// Game over:
 //	int m_gameover_state;

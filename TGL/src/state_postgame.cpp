@@ -47,10 +47,14 @@ int TGLapp::postgame_cycle(KEYBOARDSTATE *k)
 {
 	if (SDL_ShowCursor(SDL_QUERY)!=SDL_ENABLE) SDL_ShowCursor(SDL_ENABLE);
 	if (m_state_cycle==0) {
+		TGLInterfaceElement *e;
+
 		TGLinterface::reset();
 		SDL_WarpMouse(210,352);
 		TGLinterface::add_element(new TGLbutton("Retry",m_font32,110,320,200,64,0));
-		if (m_game->get_game_result()==1) TGLinterface::add_element(new TGLbutton("Continue",m_font32,330,320,200,64,1));
+		e=new TGLbutton("Continue",m_font32,330,320,200,64,1);
+		if (m_game->get_game_result()!=1) e->m_enabled=false;
+		TGLinterface::add_element(e);
 		TGLinterface::add_element(new TGLbutton("Quit",m_font32,110,404,200,64,2));
 		TGLinterface::add_element(new TGLbutton("Save Replay",m_font32,330,404,200,64,3));
 	} // if 

@@ -3,17 +3,20 @@
 
 class TGLInterfaceElement {
 public:
-	int m_ID;
+	virtual ~TGLInterfaceElement();
 
 	virtual bool check_status(int mousex,int mousey,int button);
 	virtual void draw(void);
+
+	int m_ID;
+	bool m_enabled;
 };
 
 class TGLbutton : public TGLInterfaceElement {
 public:
 
 	TGLbutton(char *text,TTF_Font *font,float x,float y,float dx,float dy,int ID);
-	~TGLbutton();
+	virtual ~TGLbutton();
 
 	virtual bool check_status(int mousex,int mousey,int button);
 	virtual void draw(void);
@@ -29,7 +32,7 @@ class TGLframe : public TGLInterfaceElement {
 public:
 
 	TGLframe(float x,float y,float dx,float dy);
-	~TGLframe();
+	virtual ~TGLframe();
 
 	virtual void draw(void);
 
@@ -48,7 +51,8 @@ public:
 
 	static void print_left(char *text,TTF_Font *font,float x,float y);
 	static void print_center(char *text,TTF_Font *font,float x,float y);
-
+	static void print_left(char *text,TTF_Font *font,float x,float y,float r,float g,float b);
+	static void print_center(char *text,TTF_Font *font,float x,float y,float r,float g,float b);
 
 };
 

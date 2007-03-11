@@ -8,6 +8,7 @@ VirtualController::VirtualController(void)
 	m_joystick[VC_DOWN]=false;
 	m_button[0]=false;
 	m_button[1]=false;
+	m_pause=false;
 	m_quit=false;
 
 	m_old_joystick[VC_UP]=false;
@@ -16,6 +17,7 @@ VirtualController::VirtualController(void)
 	m_old_joystick[VC_DOWN]=false;
 	m_old_button[0]=false;
 	m_old_button[1]=false;
+	m_old_pause=false;
 	m_old_quit=false;
 } /* VirtualController::VirtualController */ 
 
@@ -34,6 +36,7 @@ void VirtualController::copy(VirtualController *vc)
 	m_joystick[VC_DOWN]=vc->m_joystick[VC_DOWN];
 	m_button[0]=vc->m_button[0];
 	m_button[1]=vc->m_button[1];
+	m_pause=vc->m_pause;
 	m_quit=vc->m_quit;
 
 	m_old_joystick[VC_UP]=vc->m_old_joystick[VC_UP];
@@ -42,6 +45,7 @@ void VirtualController::copy(VirtualController *vc)
 	m_old_joystick[VC_DOWN]=vc->m_old_joystick[VC_DOWN];
 	m_old_button[0]=vc->m_old_button[0];
 	m_old_button[1]=vc->m_old_button[1];
+	m_old_pause=vc->m_old_pause;
 	m_old_quit=vc->m_old_quit;
 } /* VirtualController::copy */ 
 
