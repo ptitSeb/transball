@@ -31,6 +31,8 @@ public:
 	void add_player(char *player_name);
 
 	void store_cycle(List<VirtualController> *m_input,List<TGLobject> *m_objects);
+	bool execute_cycle(List<VirtualController> *m_input,List<TGLobject> *m_objects,List<TGLobject> *m_todelete,List<TGLobject> *m_toadd);
+	void rewind(void);	
 
 	bool save(FILE *fp);
 

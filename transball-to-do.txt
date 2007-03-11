@@ -1,15 +1,16 @@
 To do in "Transball GL": --------------------------------------------------------
 
-***- load replays
-***- ZLIB to compress/uncompress replay files, level packs and player profile
-
+- execute replays:
+    - state
+- check again for memory leaks
+- ZLIB to compress/uncompress replay files, level packs and player profile
 - Player profile (substitutes configuration (in XML))
     - add which levels and records each player has in each level (create a complete folder per player)
 - Level Pack screen: 
     - displays the list of levels (locked and unlocked)
     - view best replays & high scores
     - quit
-    - select ship
+    - select ship -> ship selection screen (with demos of each ship and an explanation)
     - a button to start, 
 - background of rocks is REALLY bad
 - draw snow tiles
@@ -22,11 +23,6 @@ To do in "Transball GL": -------------------------------------------------------
 - bugs:
 	- high accuracy cannons on up and right don't work properly
 	- some times tanks hit themselves! (this is weird!) [necesito replays para debugar correctamente!!!]
-- save replays:
-    - nice memory replay structure (that can be navigated -> keyframes with all stored to move quickly in the replay)
-    - save it to disc
-    - load it from disc
-    - save demos of each ship -> ship selection screen
 - nice highscore matrix: levels x ships, showing the top three players (the game saves the best replays automatically):
     - the game stores much more information, and can generate an HTML page with all the details (statistics of each game, etc.).
 - Más tiles
@@ -37,7 +33,7 @@ To do in "Transball GL": -------------------------------------------------------
 					 te desplazan un poco)
 	- Tanques blindados
 	- ascensores (debes meterte en ellos, y moverte con ellos, tanto horizontales como verticales)
-	- Fuel que se coge con el atractor (como en Thrust) [que pasa con c-harpoon??]
+    - Agua? (viscosa, frena la nave, etc. puedo definir corrientes de agua, cascadas, etc.)
 - Modos 2 jugadores:
     - MODOS:
         - race: los 2 juegan a la vez (la otra nave se ve como un fantasma en tu pantalla), y

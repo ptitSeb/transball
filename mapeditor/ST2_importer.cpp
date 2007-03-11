@@ -309,8 +309,26 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 				break;
 
 		// LINE 6:
-		// 101-110 (snow tiles) ...
-
+		case 101:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-snow1");
+				break;
+		case 102:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ceiling-snow");
+				break;
+		case 103:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-left-snow");
+				break;
+		case 104:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-right-snow");
+				break;
+		case 105:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ceiling-snow-leftcorner");
+				break;
+		case 106:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-leftcorner-snow1");
+				break;
+		case 107:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-rightcorner-snow1");
+				break;
+		case 108:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ceiling-snow-rightcorner");
+				break;
+		case 109:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-wall-leftcorner-snow1");
+				break;
+		case 110:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ceiling-wall-leftcorner-snow");
+				break;
 		case 111:
 		case 112:
 		case 113:
@@ -344,6 +362,32 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 
 		// LINE 7:
 		// ...
+		case 121:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ceiling-wall-rightcorner-snow");
+				break;
+		case 122:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-wall-rightcorner-snow1");
+				break;
+
+		case 127:
+		case 128:
+		case 130:
+				{
+					int j;
+					j=x+y;
+					
+					if ((j%2)==0) {
+						j=rand()%20;
+						if (j==0) m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-snow5");
+						if (j>0) m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-snow1");
+					} else {
+						j=rand()%20;
+						if (j==0) m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-snow4");
+						if (j>0 && j<=4) m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-snow3");
+						if (j>4 && j<=8) m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-snow1");
+						if (j>8) m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-snow2");
+					} // if 
+				}
+				break;
+
 		case 131:// vertical laser
 				 break;
 		case 133:

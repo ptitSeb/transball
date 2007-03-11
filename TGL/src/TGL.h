@@ -14,7 +14,7 @@ public:
 	void set_sfx_volume(int v);
 
 	char *get_map_name(void);
-	List<TGLobject> *get_object_list(void);
+	TGLmap *get_map(void);
 
 	int get_game_result();
 

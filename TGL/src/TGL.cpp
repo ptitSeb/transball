@@ -153,9 +153,9 @@ char *TGL::get_map_name(void)
 } /* TGL::get_map_name */ 
 
 
-List<TGLobject> *TGL::get_object_list(void)
+TGLmap *TGL::get_map(void)
 {
-	return m_map->get_objects("TGLobject");
+	return m_map;
 } /* TGL::get_object_list */ 
 
 

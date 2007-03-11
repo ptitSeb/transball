@@ -97,14 +97,39 @@ int TGLapp::game_cycle(KEYBOARDSTATE *k)
 			} // while 
 
 			{
-				List<TGLobject> *l=m_game->get_object_list();
+				List<TGLobject> *l=m_game->get_map()->get_objects("TGLobject");
 				m_game_replay->store_cycle(&m_lvc,l);
 				l->ExtractAll();
 				delete l;
 			}
 			break;
 	case 2:
-			/* ... */ 
+			{
+				List<TGLobject> *l=m_game->get_map()->get_objects("TGLobject");
+				List<TGLobject> to_delete,to_add;
+				TGLobject *o;
+				bool retval;
+				retval = m_game_replay->execute_cycle(&m_lvc,l,&to_delete,&to_add);
+				l->ExtractAll();
+				delete l;
+
+				while(!to_delete.EmptyP()) {
+					o=to_delete.ExtractIni();
+					m_game->get_map()->remove_object(o);
+					delete o;
+				} // while 
+
+				while(!to_add.EmptyP()) {
+					o=to_add.ExtractIni();
+					m_game->get_map()->add_object(o);
+					delete o;
+				} // while 
+
+				if (!retval) {
+					m_game_state=3;
+					m_game_state_cycle=0;
+				} // if  
+			}
 			break;
 	} // switch 
 			
