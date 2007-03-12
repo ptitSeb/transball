@@ -102,6 +102,9 @@ TGLmapeditor::TGLmapeditor(void)
 	m_objects_tile.Add(m_GLTM->get("objects/red-light1"));
 	m_objects_name.Add(new Symbol("red-light"));
 
+	m_objects_tile.Add(m_GLTM->get("objects/red-light1-snow"));
+	m_objects_name.Add(new Symbol("red-light-snow"));
+
 	m_objects_tile.Add(m_GLTM->get("objects/pipe-vertical-screen1"));
 	m_objects_name.Add(new Symbol("pipe-vertical-screen"));
 
@@ -236,6 +239,18 @@ TGLmapeditor::TGLmapeditor(void)
 
 	m_objects_tile.Add(m_GLTM->get("objects/button-purple-up1"));
 	m_objects_name.Add(new Symbol("button-purple-up"));
+
+	m_objects_tile.Add(m_GLTM->get("objects/button-blue-left1"));
+	m_objects_name.Add(new Symbol("button-blue-left"));
+
+	m_objects_tile.Add(m_GLTM->get("objects/button-blue-right1"));
+	m_objects_name.Add(new Symbol("button-blue-right"));
+
+	m_objects_tile.Add(m_GLTM->get("objects/button-blue-down1"));
+	m_objects_name.Add(new Symbol("button-blue-down"));
+
+	m_objects_tile.Add(m_GLTM->get("objects/button-blue-up1"));
+	m_objects_name.Add(new Symbol("button-blue-up"));
 
 	m_tiles.Rewind();
 	m_objects_tile.Rewind();
@@ -490,8 +505,8 @@ bool TGLmapeditor::cycle(KEYBOARDSTATE *k)
 				while(!k->keyevents.EmptyP()) {
 					ke=k->keyevents.ExtractIni();
 					if (ke->unicode>=0x20 && ke->unicode<=0x7E && strlen(m_editing_text)<32) {
-						if (m_editing_position<strlen(m_editing_text)) {
-							for(int i=strlen(m_editing_text)+1;i>m_editing_position;i--) m_editing_text[i]=m_editing_text[i-1];
+						if (m_editing_position<int(strlen(m_editing_text))) {
+							for(int i=int(strlen(m_editing_text))+1;i>m_editing_position;i--) m_editing_text[i]=m_editing_text[i-1];
 							m_editing_text[m_editing_position]=ke->unicode;
 							m_editing_position++;
 						} else {

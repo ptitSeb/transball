@@ -359,12 +359,64 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 				 break;
 		case 116:// laser
 				break;
+		case 117:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-snow1");	
+				 {
+					ObjectPlaceHolder *o;
+					o=new ObjectPlaceHolder(get_object_by_name("button-blue-down"),
+										    get_object_symbol_by_name("button-blue-down"),x,y);
+					o->m_nparameters=1;
+					o->m_parameters[0]=n_buttons;
+					n_buttons++;
+					m_map->m_fg_objects.Add(o);			
+				 }
+				 break;
+		case 118:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ceiling-snow");				 
+				 {
+					ObjectPlaceHolder *o;
+					o=new ObjectPlaceHolder(get_object_by_name("button-blue-up"),
+										    get_object_symbol_by_name("button-blue-up"),x,y);
+					o->m_nparameters=1;
+					o->m_parameters[0]=n_buttons;
+					n_buttons++;
+					m_map->m_fg_objects.Add(o);			
+				 }
+				 break;
+		case 119:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-left-snow");				 
+				 {
+					ObjectPlaceHolder *o;
+					o=new ObjectPlaceHolder(get_object_by_name("button-blue-left"),
+										    get_object_symbol_by_name("button-blue-left"),x,y);
+					o->m_nparameters=1;
+					o->m_parameters[0]=n_buttons;
+					n_buttons++;
+					m_map->m_fg_objects.Add(o);			
+				 }
+				 break;
+		case 120:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-right-snow");				 
+				 {
+					ObjectPlaceHolder *o;
+					o=new ObjectPlaceHolder(get_object_by_name("button-blue-right"),
+										    get_object_symbol_by_name("button-blue-right"),x,y);
+					o->m_nparameters=1;
+					o->m_parameters[0]=n_buttons;
+					n_buttons++;
+					m_map->m_fg_objects.Add(o);			
+				 }
+				 break;
 
 		// LINE 7:
 		// ...
 		case 121:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ceiling-wall-rightcorner-snow");
 				break;
 		case 122:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-wall-rightcorner-snow1");
+				break;
+		case 123:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ramp-left1-snow");
+				break;
+		case 124:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ramp-left2-snow");
+				break;
+		case 125:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ramp-right2-snow");
+				break;
+		case 126:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ramp-right1-snow");
 				break;
 
 		case 127:
@@ -387,8 +439,12 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 					} // if 
 				}
 				break;
+		case 129:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-snow-bush");
+				break;
 
 		case 131:// vertical laser
+				 break;
+		case 132:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/pipe-horizontal-snow");
 				 break;
 		case 133:
 				m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("fuel-recharge"),
@@ -445,7 +501,13 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 
 
 		// LINE 8:
-		// ...
+
+		case 148:
+		case 149:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-snow1");
+				m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("red-light-snow"),
+															  get_object_symbol_by_name("red-light-snow"),x,y));
+				break;
+				
 		case 151:
 		case 152:
 		case 153:
@@ -524,6 +586,15 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 		case 187:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/big-rock-grass3");
 				break;
 		case 188:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/big-rock-grass4");
+				break;
+		
+		case 193:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/pipe-ground-snow");
+				break;
+		case 194:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/pipe-ceiling-snow");
+				break;
+		case 195:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/pipe-wall-left-snow");
+				break;
+		case 196:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/pipe-wall-right-snow");
 				break;
 		case 197:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-cannon-techno");				 
 				 m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("fastcannon-techno-down"),

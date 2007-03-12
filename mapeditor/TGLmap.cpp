@@ -135,6 +135,10 @@ void TGLmap::draw(int startx,int starty,int dx,int dy,GLTManager *GLTM)
 				local_cycle=m_cycle%48;
 				if (local_cycle<24) GLTM->get("objects/red-light1")->draw((o->m_x-startx)*32,(o->m_y-starty)*32,0,0,1);
 							   else GLTM->get("objects/red-light2")->draw((o->m_x-startx)*32,(o->m_y-starty)*32,0,0,1);
+			} else if (o->m_name->cmp("red-light-snow")) {
+				local_cycle=m_cycle%48;
+				if (local_cycle<24) GLTM->get("objects/red-light1-snow")->draw((o->m_x-startx)*32,(o->m_y-starty)*32,0,0,1);
+							   else GLTM->get("objects/red-light2-snow")->draw((o->m_x-startx)*32,(o->m_y-starty)*32,0,0,1);
 			} else if (o->m_name->cmp("pipe-vertical-screen")) {
 				local_cycle=(m_cycle%120)/8;
 				if (local_cycle==0) GLTM->get("objects/pipe-vertical-screen1")->draw((o->m_x-startx)*32,(o->m_y-starty)*32,0,0,1);
