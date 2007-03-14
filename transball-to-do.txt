@@ -1,5 +1,14 @@
 To do in "Transball GL": --------------------------------------------------------
 
+*** - draw mising tiles:
+    - snow fisherman  (this will complete map6.map -> level7.tgl)
+    - snow pipe
+    - snow dinosaur
+    - snow ice block
+    - connection rock-techno
+*** - import all levels in ST2 / sample pack / second assault
+*** - background of rocks is REALLY bad
+*** - color de la bola con las naves
 - execute replays:
     - state
 - check again for memory leaks
@@ -12,9 +21,6 @@ To do in "Transball GL": -------------------------------------------------------
     - quit
     - select ship -> ship selection screen (with demos of each ship and an explanation)
     - a button to start, 
-- background of rocks is REALLY bad
-- draw snow tiles
-- color de la bola con las naves
 - graphic effects:
 	- glow of the starts when the ship is up (as in thrust extreme) and stars disappear as you go down
     - snow falling in snow levels
@@ -25,7 +31,9 @@ To do in "Transball GL": -------------------------------------------------------
     - in snow levels, there's wind.
     - wind affects the snow that falls and the ship and ball
     - wind is always the same, so it's direction is precomputed when a map is loaded
+    - wind direction and strength specified in the map editor
 - bugs:
+    - se cuelga a veces (me pasó una vez al estrellarme teniendo la bola con HARPOON)
 	- high accuracy cannons on up and right don't work properly
 	- some times tanks hit themselves! (this is weird!) [necesito replays para debugar correctamente!!!]
 - nice highscore matrix: levels x ships, showing the top three players (the game saves the best replays automatically):

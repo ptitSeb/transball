@@ -608,6 +608,14 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 															  get_object_symbol_by_name("laser-up"),x,y));
 				break;
 
+		case 169:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/spike-wall-left-snow");
+ 				 m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("spike-left"),
+					 										   get_object_symbol_by_name("spike-left"),x,y));
+				 break;
+		case 170:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/spike-wall-right-snow");
+ 				 m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("spike-right"),
+					 										   get_object_symbol_by_name("spike-right"),x-1,y));
+				 break;
 
 		case 171:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-cannon-snow1");
 				 break;
