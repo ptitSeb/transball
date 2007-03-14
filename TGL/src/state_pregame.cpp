@@ -59,11 +59,12 @@ int TGLapp::pregame_cycle(KEYBOARDSTATE *k)
 //		m_game_replay_mode=0;
 		
 		// SAVE REPLAY:
-//		m_game_replay_mode=1;
-//		if (m_game_replay!=0) delete m_game_replay;
-//		m_game_replay=new TGLreplay(m_game->get_map_name());
+		m_game_replay_mode=1;
+		if (m_game_replay!=0) delete m_game_replay;
+		m_game_replay=new TGLreplay(m_game->get_map_name());
 
 		// LOAD REPLAY:
+/*
 		m_game_replay_mode=2;
 		{
 			FILE *fp;
@@ -72,7 +73,7 @@ int TGLapp::pregame_cycle(KEYBOARDSTATE *k)
 			m_game_replay->rewind();
 			fclose(fp);
 		}
-
+*/
 		m_game_state=0;
 		m_game_state_cycle=0;
 

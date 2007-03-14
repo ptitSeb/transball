@@ -96,6 +96,18 @@ void TGLobject_button::draw(GLTManager *GLTM)
 	case 7: if (m_state==0) m_last_tile=GLTM->get("objects/button-purple-down1");
 					   else m_last_tile=GLTM->get("objects/button-purple-down2");
 			break;
+	case 8: if (m_state==0) m_last_tile=GLTM->get("objects/button-blue-left1");
+					   else m_last_tile=GLTM->get("objects/button-blue-left2");
+			break;
+	case 9: if (m_state==0) m_last_tile=GLTM->get("objects/button-blue-right1");
+					   else m_last_tile=GLTM->get("objects/button-blue-right2");
+			break;
+	case 10: if (m_state==0) m_last_tile=GLTM->get("objects/button-blue-up1");
+					   else m_last_tile=GLTM->get("objects/button-blue-up2");
+			break;
+	case 11: if (m_state==0) m_last_tile=GLTM->get("objects/button-blue-down1");
+					   else m_last_tile=GLTM->get("objects/button-blue-down2");
+			break;
 	} // switch
 	if (m_last_tile!=0) m_last_tile->draw(m_x,m_y,0,0,1);
 } /* TGLobject_button::draw */ 

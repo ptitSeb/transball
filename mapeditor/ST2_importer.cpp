@@ -501,7 +501,22 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 
 
 		// LINE 8:
+		case 141:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-wall-leftcorner-snow2");	
+				 break;
+		case 142:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-wall-rightcorner-snow2");	
+				 break;
+		case 143:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-leftcorner-snow2");	
+				 break;
+		case 144:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-rightcorner-snow2");	
+				 break;
 
+		case 145:
+		case 146:
+		case 147:
+				m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-snow1");
+				m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("radar"),
+															  get_object_symbol_by_name("radar"),x,y));
+				break;
 		case 148:
 		case 149:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-snow1");
 				m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("red-light-snow"),
@@ -567,7 +582,41 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 				 break;
 
 		// LINE 9:
-		// ...
+
+		case 161:
+		case 163:
+				m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-left-snow");
+				m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("laser-left"),
+															  get_object_symbol_by_name("laser-left"),x,y));
+				break;
+		case 162:
+		case 164:
+				m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-right-snow");
+				m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("laser-right"),
+															  get_object_symbol_by_name("laser-right"),x,y));
+				break;
+		case 165:
+		case 167:
+				m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-snow1");
+				m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("laser-down"),
+															  get_object_symbol_by_name("laser-down"),x,y));
+				break;
+		case 166:
+		case 168:
+				m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ceiling-snow");
+				m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("laser-up"),
+															  get_object_symbol_by_name("laser-up"),x,y));
+				break;
+
+
+		case 171:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-cannon-snow1");
+				 break;
+		case 172:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ceiling-cannon-snow");
+				 break;
+		case 173:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-left-cannon-snow");
+				 break;
+		case 174:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-right-cannon-snow");
+				 break;
 		case 175:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-left-directionalcannon-techno");				 
 				 m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("directional-cannon-left"),
 															   get_object_symbol_by_name("directional-cannon-left"),x,y));
@@ -576,7 +625,22 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 				 m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("directional-cannon-right"),
 															   get_object_symbol_by_name("directional-cannon-right"),x,y));
 				 break;
-
+		case 177:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-cannon-snow1");
+				 m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("cannon-rock-down"),
+															   get_object_symbol_by_name("cannon-rock-down"),x,y));
+				 break;
+		case 178:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ceiling-cannon-snow");
+				 m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("cannon-rock-up"),
+															   get_object_symbol_by_name("cannon-rock-up"),x,y));
+				 break;
+		case 179:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-left-cannon-snow");
+				 m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("cannon-rock-left"),
+															   get_object_symbol_by_name("cannon-rock-left"),x,y));
+				 break;
+		case 180:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-right-cannon-snow");
+				 m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("cannon-rock-right"),
+															   get_object_symbol_by_name("cannon-rock-right"),x,y));
+				 break;
 		// LINE 10:
 		// ...
 		case 185:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/big-rock-grass1");

@@ -20,7 +20,7 @@ OK - map2.map
 OK - map3.map
 OK - map4.map
 OK - cannons.map
-- map5.map
+OK - map5.map
 - map6.map
 - map7.map
 - map8.map

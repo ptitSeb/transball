@@ -17,9 +17,14 @@ To do in "Transball GL": -------------------------------------------------------
 - color de la bola con las naves
 - graphic effects:
 	- glow of the starts when the ship is up (as in thrust extreme) and stars disappear as you go down
+    - snow falling in snow levels
 - SFX:
 	- fuel recharge
 	- attractor
+- WIND:
+    - in snow levels, there's wind.
+    - wind affects the snow that falls and the ship and ball
+    - wind is always the same, so it's direction is precomputed when a map is loaded
 - bugs:
 	- high accuracy cannons on up and right don't work properly
 	- some times tanks hit themselves! (this is weird!) [necesito replays para debugar correctamente!!!]

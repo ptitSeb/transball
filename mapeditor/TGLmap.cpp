@@ -122,6 +122,19 @@ void TGLmap::draw(int startx,int starty,int dx,int dy,GLTManager *GLTM)
 				} // for					
 			}
 			break;
+	case 4:
+			{
+				for(y=0;y<dy && starty+y<m_dy;y++) {
+					for(x=0;x<dx && startx+x<m_dx;x++) {
+						if (startx+x>=0 && starty+y>=0 && (startx+x)%2==0) {
+							if (starty+y==0 && (startx+x%4)==0) GLTM->get("background/top-snow")->draw(x*32,y*32,0,0,1);
+							if (starty+y>=4 && ((starty+y)%2)==0) GLTM->get("background/bottom-snow")->draw(x*32,y*32,0,0,1);
+						} // if
+					} // for
+				} // for					
+			}
+			break;
+
 	} // switch
 
 	m_fg_objects.Rewind();

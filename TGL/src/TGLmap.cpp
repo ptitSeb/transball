@@ -147,6 +147,21 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 		} // for
 	} // if 
 
+	if (strcmp(tmp,"snow")==0) {
+		// Create a snow backgorund:
+		m_bg_dx=(m_fg_dx+1)/2;
+		m_bg_dy=(m_fg_dy+1)/2;
+		m_bg_cell_size=64;
+
+		m_bg=new GLTile *[m_bg_dx*m_bg_dy];
+		for(i=0;i<m_bg_dx;i++) m_bg[i]=0;
+		for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx]=0;
+		for(i=0;i<m_bg_dx;i+=2) m_bg[i]=GLTM->get("background/top-snow");
+		for(j=2;j<m_bg_dy;j++) {
+			for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx*j]=GLTM->get("background/bottom-snow");
+		} // for
+	} // if 
+
 	m_fg=new GLTile *[m_fg_dx*m_fg_dy];
 	m_fg_cell_size=32;
 	for(i=0;i<m_fg_dx*m_fg_dy;i++) {
@@ -315,6 +330,26 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 				int p1;
 				if (1!=fscanf(fp,"%i",&p1)) return;
 				m_fg_objects.Add(new TGLobject_button(x,y,p1,7));
+			} // if 
+			if (strcmp(tmp,"button-blue-left")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,8));
+			} // if 
+			if (strcmp(tmp,"button-blue-right")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,9));
+			} // if 
+			if (strcmp(tmp,"button-blue-up")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,10));
+			} // if 
+			if (strcmp(tmp,"button-blue-down")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,11));
 			} // if 
 		} // for 
 

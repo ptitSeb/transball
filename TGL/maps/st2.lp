@@ -31,5 +31,10 @@
             <name>More cannons for you</name>
             <description>Have fun in these initial levels destroying cannons/now that it's easy...</description>
         </level>
+        <level>
+            <map>maps/st2/level6.tgl</map>
+            <name>Doors and switches</name>
+            <description>Some levels have doors that can be open and closed/Find the proper switch and trigger it with the ball.</description>
+        </level>
     </levels>
 </levelpack>
