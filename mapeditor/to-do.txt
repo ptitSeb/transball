@@ -13,27 +13,13 @@ V3:
 - pack everything and encode it so that the game can read it
 
 
-
-Import ST2 maps:
-OK - map1.map
-OK - map2.map
-OK - map3.map
-OK - map4.map
-OK - cannons.map
-OK - map5.map
-OK - map6.map
-OK - map7.map
-OK - map8.map
-OK - map9.map
-Ok - map10.map
-OK - map11.map (yuhtyn)
-- map12.map
-- map13.map
-- map14.map
-
 Second assault:
-...
+4
 
 Sample pack:
-...
+1
+2
+3
+4
+
 

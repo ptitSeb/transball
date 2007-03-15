@@ -465,7 +465,7 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 					m_map->m_fg_objects.Add(o);			
 				 }
 				 break;
-		case 138:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ceiling-techno");				 
+		case 138:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/ceiling-techno1");				 
 				 {
 					ObjectPlaceHolder *o;
 					o=new ObjectPlaceHolder(get_object_by_name("button-purple-up"),
@@ -522,7 +522,8 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 				m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("red-light-snow"),
 															  get_object_symbol_by_name("red-light-snow"),x,y));
 				break;
-				
+		case 150:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/pipe-top-snow");	
+				 break;				
 		case 151:
 		case 152:
 		case 153:
@@ -659,6 +660,14 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 				break;
 		case 188:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/big-rock-grass4");
 				break;
+		case 189:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-iceblock1");
+				break;
+		case 190:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-iceblock2");
+				break;
+		case 191:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-iceblock3");
+				break;
+		case 192:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-iceblock4");
+				break;
 		
 		case 193:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/pipe-ground-snow");
 				break;
@@ -684,6 +693,10 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 				 m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("fastcannon-techno-right"),
 															   get_object_symbol_by_name("fastcannon-techno-right"),x,y));
 				 break;
+		case 205:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/skeleton-snow1");
+				 break;			
+		case 206:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/skeleton-snow2");
+				 break;	
 		case 207:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-pool1");
 				 break;			
 		case 208:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-pool2");
@@ -732,6 +745,10 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 				 break;			
 		case 224:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/tower-techno2");
 				 break;	
+		case 225:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/skeleton-snow3");
+				 break;			
+		case 226:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/skeleton-snow4");
+				 break;	
 		case 227:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-pool3");
 				 break;			
 		case 228:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-pool4");
@@ -769,6 +786,13 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 				 m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("cannon-rock-right"),
 															   get_object_symbol_by_name("cannon-rock-right"),x,y));
 				 break;
+
+		case 346:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-rock-techno");
+				 break;	
+		case 366:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-rock-techno-right");
+				 break;	
+		case 386:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/wall-rock-techno-left");
+				 break;	
 
 		case 387:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/floor-directionalcannon-techno");				 
 				 m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("ha-directional-cannon-down"),
