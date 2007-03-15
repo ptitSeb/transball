@@ -1,11 +1,5 @@
 To do in "Transball GL": --------------------------------------------------------
 
-*** - draw mising tiles:
-    - snow pipe
-    - snow dinosaur
-    - snow ice block
-    - connection rock-techno
-*** - import all levels in ST2 / sample pack / second assault
 *** - background of rocks is REALLY bad
 *** - color de la bola con las naves
 *** - initial fuel (en "fuel recharge" debe ser poco)
