@@ -66,5 +66,20 @@
             <name>Things begin to be difficult</name>
             <description>Little to say, just be careful and refuel when needed...</description>
         </level>
+        <level>
+            <map>maps/st2/level13.tgl</map>
+            <name>Death in the snow</name>
+            <description>If you don't like to see your ship destroyed/be careful and play slowly in this one./You will have to pass through some narrow passages...</description>
+        </level>
+        <level>
+            <map>maps/st2/level14.tgl</map>
+            <name>Choices</name>
+            <description>What do you prefer? lasers? tanks? cannons?</description>
+        </level>
+        <level>
+            <map>maps/st2/level15.tgl</map>
+            <name>The headquarters</name>
+            <description>Finally you have made it. This is your final/test. Complete it... if you can!</description>
+        </level>
     </levels>
 </levelpack>
