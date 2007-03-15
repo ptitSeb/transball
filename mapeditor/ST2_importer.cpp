@@ -687,6 +687,11 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 		case 207:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-pool1");
 				 break;			
 		case 208:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-pool2");
+				 break;	
+				 
+		case 209:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/bigradar1");
+				 break;			
+		case 210:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/bigradar2");
 				 break;			
 
 		// LINE 11:
@@ -730,8 +735,11 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 		case 227:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-pool3");
 				 break;			
 		case 228:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-pool4");
+				 break;	
+		case 229:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/bigradar3");
 				 break;			
-
+		case 230:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/bigradar4");
+				 break;							 
 		// LINE 12:			 
 		case 231:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/rock-heads3");
 				 break;			

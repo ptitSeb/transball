@@ -22,11 +22,11 @@ OK - map4.map
 OK - cannons.map
 OK - map5.map
 OK - map6.map
-- map7.map
-- map8.map
-- map9.map
+OK - map7.map
+OK - map8.map
+OK - map9.map
 Ok - map10.map
-OK - map11.map
+OK - map11.map (yuhtyn)
 - map12.map
 - map13.map
 - map14.map

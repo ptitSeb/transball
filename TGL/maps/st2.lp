@@ -18,7 +18,7 @@
         </level>
         <level>
             <map>maps/st2/level3.tgl</map>
-            <name>Introducing: lasers</name>
+            <name>Introducing lasers</name>
             <description>In addition to gravity and the walls, you will find defenses/in the several planets and asteroids you will visit./Try to prevent them from killing you.</description>
         </level>
         <level>
@@ -40,6 +40,31 @@
             <map>maps/st2/level7.tgl</map>
             <name>The first ability challenge</name>
             <description>You will need to increase your skills on controlling/the ship if you want to navigate through narrow passages./Just go slowly and try to control the ship at all time.</description>
+        </level>
+        <level>
+            <map>maps/st2/level8.tgl</map>
+            <name>The tanks, your knightmare...</name>
+            <description>Tanks are tough enemies. You will have to hit them/several times to destroy them.</description>
+        </level>
+        <level>
+            <map>maps/st2/level9.tgl</map>
+            <name>Fuel recharge</name>
+            <description>Have you noticed that your ship is low on fuel?/There are special places where it can be replenished!</description>
+        </level>
+        <level>
+            <map>maps/st2/level10.tgl</map>
+            <name>Directional cannons</name>
+            <description>Pay attention to these guys,,,/They can track you and fire exactly at where you are</description>
+        </level>
+        <level>
+            <map>maps/st2/level11.tgl</map>
+            <name>The first big level</name>
+            <description>Now that you have practiced the basics of transball/let's start with the real challenge!</description>
+        </level>
+        <level>
+            <map>maps/st2/level12.tgl</map>
+            <name>Things begin to be difficult</name>
+            <description>Little to say, just be careful and refuel when needed...</description>
         </level>
     </levels>
 </levelpack>

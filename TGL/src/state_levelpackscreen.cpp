@@ -43,8 +43,8 @@
 
 int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 {
-	m_selected_level=5;
-	m_selected_ship=4;
+	m_selected_level=8;
+	m_selected_ship=10;
 
 	// ...
 

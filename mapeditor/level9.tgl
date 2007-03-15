@@ -1,5 +1,17 @@
 32 24
-rock
+techno-red
+foreground/tower-techno1
+-
+-
+-
+-
+-
+-
+-
+-
+-
+foreground/bigradar1
+foreground/bigradar2
 -
 -
 -
@@ -20,19 +32,7 @@ rock
 -
 -
 -
--
--
--
--
--
--
--
--
--
--
--
--
--
+foreground/tower-techno2
 foreground/floor-leftcorner-techno
 -
 -
@@ -42,8 +42,8 @@ foreground/floor-cannon-techno
 foreground/floor-techno1
 foreground/floor-techno2
 foreground/floor-techno3
--
--
+foreground/bigradar3
+foreground/bigradar4
 foreground/floor-techno3
 foreground/floor-techno1
 foreground/floor-leftcorner-techno
@@ -216,7 +216,7 @@ foreground/wall-left-techno
 -
 -
 -
--
+foreground/tower-techno1
 -
 -
 -
@@ -248,7 +248,7 @@ foreground/floor-techno2
 foreground/floor-techno3
 foreground/floor-techno1
 foreground/floor-techno2
--
+foreground/tower-techno2
 foreground/floor-techno1
 foreground/floor-techno2
 foreground/floor-leftcorner-techno
@@ -768,7 +768,7 @@ foreground/wall-techno1
 foreground/wall-techno1
 foreground/wall-techno1
 foreground/wall-techno1
-54
+55
 fastcannon-techno-down 6 1
 wall-techno-computer 0 2
 wall-techno-computer 10 2
@@ -823,3 +823,4 @@ wall-techno-computer 31 22
 wall-techno-computer 5 23
 wall-techno-computer 15 23
 wall-techno-computer 20 23
+grey-tank 18 18
