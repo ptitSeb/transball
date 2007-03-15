@@ -684,6 +684,10 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 				 m_map->m_fg_objects.Add(new ObjectPlaceHolder(get_object_by_name("fastcannon-techno-right"),
 															   get_object_symbol_by_name("fastcannon-techno-right"),x,y));
 				 break;
+		case 207:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-pool1");
+				 break;			
+		case 208:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-pool2");
+				 break;			
 
 		// LINE 11:
 		// ...
@@ -719,12 +723,16 @@ void TGLmapeditor::import_ST2_map(FILE *fp)
 				 break;			
 		case 222:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/crashed-tank-2");
 				 break;			
-
-		// LINE 12:
 		case 223:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/tower-techno1");
 				 break;			
 		case 224:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/tower-techno2");
+				 break;	
+		case 227:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-pool3");
 				 break;			
+		case 228:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/snow-pool4");
+				 break;			
+
+		// LINE 12:			 
 		case 231:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/rock-heads3");
 				 break;			
 		case 232:m_map->m_fg_tiles[i]=get_tile_by_name("foreground/rock-heads4");

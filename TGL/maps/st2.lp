@@ -36,5 +36,10 @@
             <name>Doors and switches</name>
             <description>Some levels have doors that can be open and closed/Find the proper switch and trigger it with the ball.</description>
         </level>
+        <level>
+            <map>maps/st2/level7.tgl</map>
+            <name>The first ability challenge</name>
+            <description>You will need to increase your skills on controlling/the ship if you want to navigate through narrow passages./Just go slowly and try to control the ship at all time.</description>
+        </level>
     </levels>
 </levelpack>

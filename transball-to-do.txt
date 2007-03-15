@@ -1,7 +1,7 @@
 To do in "Transball GL": --------------------------------------------------------
 
 *** - draw mising tiles:
-    - snow fisherman  (this will complete map6.map -> level7.tgl)
+    - big techno radar
     - snow pipe
     - snow dinosaur
     - snow ice block
