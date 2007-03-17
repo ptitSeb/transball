@@ -14,7 +14,7 @@ public:
 	virtual void draw(GLTManager *GLTM);
 
 	bool attractor(void);
-	void capture(int m_type);	// m_type = 1 -> blue, 2 -> red, 3 -> purple
+	void capture(int m_type);	// m_type = 1 -> blue, 2 -> red, 3 -> purple, 4 -> green, 5 -> yellow, 6 -> darkblue
 
 	float get_speed_x(void);
 	float get_speed_y(void);

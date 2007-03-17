@@ -353,7 +353,38 @@ bool TGLmapeditor::cycle(KEYBOARDSTATE *k)
 								o->m_nparameters=1;
 								o->m_parameters[0]=0;
 							} // if 
-							m_map->m_fg_objects.Add(o);
+							if (o->m_name->cmp("button-purple-left")) {
+								o->m_nparameters=1;
+								o->m_parameters[0]=0;
+							} // if 
+							if (o->m_name->cmp("button-purple-right")) {
+								o->m_nparameters=1;
+								o->m_parameters[0]=0;
+							} // if 
+							if (o->m_name->cmp("button-purple-up")) {
+								o->m_nparameters=1;
+								o->m_parameters[0]=0;
+							} // if 
+							if (o->m_name->cmp("button-purple-down")) {
+								o->m_nparameters=1;
+								o->m_parameters[0]=0;
+							} // if 
+							if (o->m_name->cmp("button-blue-left")) {
+								o->m_nparameters=1;
+								o->m_parameters[0]=0;
+							} // if 
+							if (o->m_name->cmp("button-blue-right")) {
+								o->m_nparameters=1;
+								o->m_parameters[0]=0;
+							} // if 
+							if (o->m_name->cmp("button-blue-up")) {
+								o->m_nparameters=1;
+								o->m_parameters[0]=0;
+							} // if 
+							if (o->m_name->cmp("button-blue-down")) {
+								o->m_nparameters=1;
+								o->m_parameters[0]=0;
+							} // if 							m_map->m_fg_objects.Add(o);
 						} // if
 
 						if (k->key_press(SDLK_BACKSPACE) || k->key_press(SDLK_DELETE)) {
@@ -383,7 +414,15 @@ bool TGLmapeditor::cycle(KEYBOARDSTATE *k)
 									if (o->m_name->cmp("button-red-left") ||
 										o->m_name->cmp("button-red-right") ||
 										o->m_name->cmp("button-red-down") ||
-										o->m_name->cmp("button-red-up")) {
+										o->m_name->cmp("button-red-up") ||
+										o->m_name->cmp("button-purple-left") ||
+										o->m_name->cmp("button-purple-right") ||
+										o->m_name->cmp("button-purple-down") ||
+										o->m_name->cmp("button-purple-up") ||
+										o->m_name->cmp("button-blue-left") ||
+										o->m_name->cmp("button-blue-right") ||
+										o->m_name->cmp("button-blue-down") ||
+										o->m_name->cmp("button-blue-up")) {
 										o->m_parameters[0]++;
 										if (o->m_parameters[0]>=8) o->m_parameters[0]=0;
 									} // if 
@@ -598,7 +637,15 @@ bool TGLmapeditor::cycle(KEYBOARDSTATE *k)
 										if (strcmp(tmp,"button-red-left")==0 ||
 											strcmp(tmp,"button-red-right")==0 ||
 											strcmp(tmp,"button-red-up")==0 ||
-											strcmp(tmp,"button-red-down")==0) {
+											strcmp(tmp,"button-red-down")==0 ||
+											strcmp(tmp,"button-purple-left")==0 ||
+											strcmp(tmp,"button-purple-right")==0 ||
+											strcmp(tmp,"button-purple-up")==0 ||
+											strcmp(tmp,"button-purple-down")==0 ||
+											strcmp(tmp,"button-blue-left")==0 ||
+											strcmp(tmp,"button-blue-right")==0 ||
+											strcmp(tmp,"button-blue-up")==0 ||
+											strcmp(tmp,"button-blue-down")==0) {
 											fscanf(fp,"%i",&p1);
 											o->m_nparameters=1;
 											o->m_parameters[0]=p1;

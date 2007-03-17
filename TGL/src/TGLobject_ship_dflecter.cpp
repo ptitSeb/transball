@@ -104,7 +104,7 @@ bool TGLobject_ship_dflecter::cycle(VirtualController *k,TGLmap *map,GLTManager 
 		if (ball!=0 && m_ball==0) {
 			if (ball->attractor()) {
 				if (ball->get_state()==0) map->action(0);
-				ball->capture(1);
+				ball->capture(3);
 				m_ball=ball;
 				Sound_play(SFXM->get("sfx/takeball"),sfx_volume);
 			} // if 

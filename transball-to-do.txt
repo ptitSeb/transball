@@ -1,11 +1,11 @@
 To do in "Transball GL": --------------------------------------------------------
 
+*** - check again for memory leaks:
+    - there are no memory leaks, but the system slows down anyway. find out why!
 *** - background of rocks is REALLY bad
-*** - color de la bola con las naves
 *** - initial fuel (en "fuel recharge" debe ser poco)
 - execute replays:
     - state
-- check again for memory leaks
 - ZLIB to compress/uncompress replay files, level packs and player profile
 - Player profile (substitutes configuration (in XML))
     - add which levels and records each player has in each level (create a complete folder per player)

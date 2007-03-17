@@ -88,7 +88,7 @@ bool TGLobject_ship_dodger::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 		if (ball!=0 && m_ball==0) {
 			if (ball->attractor()) {
 				if (ball->get_state()==0) map->action(0);
-				ball->capture(3);
+				ball->capture(4);
 				m_ball=ball;
 				Sound_play(SFXM->get("sfx/takeball"),sfx_volume);
 			} // if 

@@ -51,6 +51,8 @@ TGLobject_ship_shield::TGLobject_ship_shield(float x,float y) : TGLobject(x,y)
 
 TGLobject_ship_shield::~TGLobject_ship_shield()
 {
+	delete []m_shield_frames;
+	
 } /* TGLobject_ship_shield::~TGLobject_ship_shield */ 
 
 
