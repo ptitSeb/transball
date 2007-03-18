@@ -118,6 +118,8 @@ protected:
 	TGLInterfaceElement *m_lp_level_time[3];
 	TGLInterfaceElement *m_lp_play_buttons[3];
 	TGLInterfaceElement *m_lp_viewreplay_buttons[3];
+	TGLInterfaceElement *m_lp_ship_leftarrow;
+	TGLInterfaceElement *m_lp_ship_rightarrow;
 };
 
 #endif

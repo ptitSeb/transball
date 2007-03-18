@@ -118,6 +118,10 @@ PlayerProfile::PlayerProfile(char *name)
 	m_keys_configuration[0][KEY_ATTRACTOR]=SDLK_RETURN;
 	m_keys_configuration[0][KEY_PAUSE]=SDLK_F1;
 	m_keys_configuration[0][KEY_QUIT]=SDLK_ESCAPE;
+
+	m_ships.Add(new int(0));
+	m_ships.Add(new int(1));
+	m_ships.Add(new int(2));
 } /* PlayerProfile::PlayerProfile */ 
 
 
@@ -141,13 +145,14 @@ PlayerProfile::PlayerProfile(FILE *fp)
 	m_keys_configuration[0][KEY_QUIT]=SDLK_ESCAPE;
 
 	XMLNode *node=XMLNode::from_file(fp);
-	XMLNode *name,*video,*audio,*input,*progress;
+	XMLNode *name,*video,*audio,*input,*ships,*progress;
 	XMLNode *tmp;
 
 	name=node->get_children("name");
 	video=node->get_children("video");
 	audio=node->get_children("audio");
 	input=node->get_children("input");
+	ships=node->get_children("ships");
 	progress=node->get_children("progress");
 
 	if (name!=0) {
@@ -163,11 +168,11 @@ PlayerProfile::PlayerProfile(FILE *fp)
 		} // if 
 		tmp = video->get_children("resolutionx");
 		if (tmp!=0) {
-			// ...
+			m_resolution_x=atoi(tmp->get_value()->get());
 		} // if 
 		tmp = video->get_children("resolutiony");
 		if (tmp!=0) {
-			// ...
+			m_resolution_y=atoi(tmp->get_value()->get());
 		} // if 
 	} // if 
 
@@ -206,6 +211,17 @@ PlayerProfile::PlayerProfile(FILE *fp)
 
 			m_n_players++;
 		} // while 
+		delete l;
+	} // if 
+
+	if (ships!=0) {
+		List<XMLNode> *l=ships->get_children();
+		XMLNode *ship;
+
+		l->Rewind();
+		while(l->Iterate(ship)) {
+			m_ships.Add(new int(atoi(ship->get_value()->get())));
+		} // while
 		delete l;
 	} // if 
 
@@ -274,7 +290,7 @@ PlayerProfile::~PlayerProfile()
 
 bool PlayerProfile::save(FILE *fp)
 {
-	int i;
+	int i,*ip;
 	PlayerProfileLPProgress *lpp;
 	PlayerProfileLevelResult *lr;
 
@@ -303,6 +319,12 @@ bool PlayerProfile::save(FILE *fp)
 		fprintf(fp,"    </keyboard>\n");
 	} // for
 	fprintf(fp,"  </input>\n");
+	fprintf(fp,"  <ships>\n");
+	m_ships.Rewind();
+	while(m_ships.Iterate(ip)) {
+		fprintf(fp,"    <ship>%i</ship>\n",*ip);
+	} // while
+	fprintf(fp,"  </ships>\n");
 	fprintf(fp,"  <progress>\n");
 	m_progress.Rewind();
 	while(m_progress.Iterate(lpp)) {

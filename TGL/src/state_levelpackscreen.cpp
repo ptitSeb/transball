@@ -45,14 +45,20 @@
 
 int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 {
+	bool m_recheck_interface=false;
+
 	if (SDL_ShowCursor(SDL_QUERY)!=SDL_ENABLE) SDL_ShowCursor(SDL_ENABLE);
 	if (m_state_cycle==0) {
 		TGLInterfaceElement *e;
 		m_selected_level=0;
-		m_selected_ship=0;
+
+		// Make sure that the current player has the selected ship unlocked:
+		if (!m_player_profile->m_ships.MemberP(&m_selected_ship)) {
+			m_selected_ship=*(m_player_profile->m_ships[0]);
+		} // if 
 
 		TGLinterface::reset();
-		TGLinterface::add_element(new TGLbutton("Quit",m_font32,70,10,180,60,0));
+		TGLinterface::add_element(new TGLbutton("Back",m_font32,70,10,180,60,0));
 		e=new TGLbutton("Change Level Pack",m_font32,270,10,320,60,1);
 		e->m_enabled=false;
 		TGLinterface::add_element(e);
@@ -113,6 +119,19 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 				
 			} // for
 		}
+
+		// Add the ships to the interface:
+		{
+			m_lp_ship_leftarrow=new TGLbutton(m_GLTM->get("interface/leftarrow"),380,140,40,40,4);
+			TGLinterface::add_element(m_lp_ship_leftarrow);
+			if (m_player_profile->m_ships.Position(&m_selected_ship)==0) m_lp_ship_leftarrow->m_enabled=false;
+																    else m_lp_ship_leftarrow->m_enabled=true;
+			m_lp_ship_rightarrow=new TGLbutton(m_GLTM->get("interface/rightarrow"),570,140,40,40,5);
+			TGLinterface::add_element(m_lp_ship_rightarrow);
+			if (m_player_profile->m_ships.Position(&m_selected_ship)==m_player_profile->m_ships.Length()-1) m_lp_ship_rightarrow->m_enabled=false;
+																									   else m_lp_ship_rightarrow->m_enabled=true;
+		}
+
 	} // if 
 
 	if (m_state_fading==1) {
@@ -148,97 +167,31 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 			case 2:
 					// levels up
 					{
-						int i;
-						LevelPack_Level *level;
-						TGLInterfaceElement *old;
-						char tmp[128];
-
 						m_lp_first_level--;
-
-						if (m_lp_first_level==0) m_lp_level_uparrow->m_enabled=false;
-											else m_lp_level_uparrow->m_enabled=true;
-						if (m_lp_first_level+3>=m_current_levelpack->m_levels.Length()) m_lp_level_downarrow->m_enabled=false;
-																				   else m_lp_level_downarrow->m_enabled=true;
-
-						for(i=0;i<3 && i<m_current_levelpack->m_levels.Length();i++) {
-							level=m_current_levelpack->m_levels[i+m_lp_first_level];
-
-							sprintf(tmp,"Level %i: %s",i+m_lp_first_level+1,level->m_name);
-							old=m_lp_level_name[i];
-							m_lp_level_name[i]=new TGLText(tmp,m_font16,30,float(200+i*90),false);
-							TGLinterface::substitute_element(old,m_lp_level_name[i]);
-							delete old;
-							{
-								int time=m_player_profile->get_besttime(m_current_levelpack->m_id,i+m_lp_first_level,m_selected_ship);
-								if (time==-1) {
-									sprintf(tmp,"Best Time:: --:--:--");
-								} else {
-									int hunds=time%100;
-									int secs=(time/100)%60;
-									int mins=time/6000;
-									sprintf(tmp,"Best Time:: %i:%.2i:%.2i",mins,secs,hunds);
-								} // if 
-							}
-							old=m_lp_level_time[i];
-							m_lp_level_time[i]=new TGLText(tmp,m_font16,30,float(220+i*90),false);
-							TGLinterface::substitute_element(old,m_lp_level_time[i]);
-							delete old;
-							m_lp_viewreplay_buttons[i]->m_enabled=false;
-							if (m_player_profile->progress_in_levelpack(m_current_levelpack->m_id)<i+m_lp_first_level) {
-								m_lp_play_buttons[i]->m_enabled=false;
-							} else {
-								m_lp_play_buttons[i]->m_enabled=true;
-							} // if 
-							
-						} // for
+						m_recheck_interface=true;
 					}
 					break;
 			case 3:
 					// levels down
 					{
-						int i;
-						LevelPack_Level *level;
-						TGLInterfaceElement *old;
-						char tmp[128];
-
 						m_lp_first_level++;
-
-						if (m_lp_first_level==0) m_lp_level_uparrow->m_enabled=false;
-											else m_lp_level_uparrow->m_enabled=true;
-						if (m_lp_first_level+3>=m_current_levelpack->m_levels.Length()) m_lp_level_downarrow->m_enabled=false;
-																				   else m_lp_level_downarrow->m_enabled=true;
-
-						for(i=0;i<3 && i<m_current_levelpack->m_levels.Length();i++) {
-							level=m_current_levelpack->m_levels[i+m_lp_first_level];
-
-							sprintf(tmp,"Level %i: %s",i+m_lp_first_level+1,level->m_name);
-							old=m_lp_level_name[i];
-							m_lp_level_name[i]=new TGLText(tmp,m_font16,30,float(200+i*90),false);
-							TGLinterface::substitute_element(old,m_lp_level_name[i]);
-							delete old;
-							{
-								int time=m_player_profile->get_besttime(m_current_levelpack->m_id,i+m_lp_first_level,m_selected_ship);
-								if (time==-1) {
-									sprintf(tmp,"Best Time:: --:--:--");
-								} else {
-									int hunds=time%100;
-									int secs=(time/100)%60;
-									int mins=time/6000;
-									sprintf(tmp,"Best Time:: %i:%.2i:%.2i",mins,secs,hunds);
-								} // if 
-							}
-							old=m_lp_level_time[i];
-							m_lp_level_time[i]=new TGLText(tmp,m_font16,30,float(220+i*90),false);
-							TGLinterface::substitute_element(old,m_lp_level_time[i]);
-							delete old;
-							m_lp_viewreplay_buttons[i]->m_enabled=false;
-							if (m_player_profile->progress_in_levelpack(m_current_levelpack->m_id)<i+m_lp_first_level) {
-								m_lp_play_buttons[i]->m_enabled=false;
-							} else {
-								m_lp_play_buttons[i]->m_enabled=true;
-							} // if 
-							
-						} // for
+						m_recheck_interface=true;
+					}
+					break;
+			case 4:
+					{
+						int pos=m_player_profile->m_ships.Position(&m_selected_ship);
+						pos--;
+						m_selected_ship=*(m_player_profile->m_ships[pos]);
+						m_recheck_interface=true;
+					}
+					break;
+			case 5:
+					{
+						int pos=m_player_profile->m_ships.Position(&m_selected_ship);
+						pos++;
+						m_selected_ship=*(m_player_profile->m_ships[pos]);
+						m_recheck_interface=true;
 					}
 					break;
 			case 10:
@@ -260,6 +213,55 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 			} // switch
 		} // if 
 	}
+
+	if (m_recheck_interface) {
+		int i;
+		LevelPack_Level *level;
+		TGLInterfaceElement *old;
+		char tmp[128];
+
+		if (m_lp_first_level==0) m_lp_level_uparrow->m_enabled=false;
+							else m_lp_level_uparrow->m_enabled=true;
+		if (m_lp_first_level+3>=m_current_levelpack->m_levels.Length()) m_lp_level_downarrow->m_enabled=false;
+																   else m_lp_level_downarrow->m_enabled=true;
+
+		for(i=0;i<3 && i<m_current_levelpack->m_levels.Length();i++) {
+			level=m_current_levelpack->m_levels[i+m_lp_first_level];
+
+			sprintf(tmp,"Level %i: %s",i+m_lp_first_level+1,level->m_name);
+			old=m_lp_level_name[i];
+			m_lp_level_name[i]=new TGLText(tmp,m_font16,30,float(200+i*90),false);
+			TGLinterface::substitute_element(old,m_lp_level_name[i]);
+			delete old;
+			{
+				int time=m_player_profile->get_besttime(m_current_levelpack->m_id,i+m_lp_first_level,m_selected_ship);
+				if (time==-1) {
+					sprintf(tmp,"Best Time:: --:--:--");
+				} else {
+					int hunds=time%100;
+					int secs=(time/100)%60;
+					int mins=time/6000;
+					sprintf(tmp,"Best Time:: %i:%.2i:%.2i",mins,secs,hunds);
+				} // if 
+			}
+			old=m_lp_level_time[i];
+			m_lp_level_time[i]=new TGLText(tmp,m_font16,30,float(220+i*90),false);
+			TGLinterface::substitute_element(old,m_lp_level_time[i]);
+			delete old;
+			m_lp_viewreplay_buttons[i]->m_enabled=false;
+			if (m_player_profile->progress_in_levelpack(m_current_levelpack->m_id)<i+m_lp_first_level) {
+				m_lp_play_buttons[i]->m_enabled=false;
+			} else {
+				m_lp_play_buttons[i]->m_enabled=true;
+			} // if 
+		} // for
+
+		int pos=m_player_profile->m_ships.Position(&m_selected_ship);
+		if (pos==0) m_lp_ship_leftarrow->m_enabled=false;
+			   else m_lp_ship_leftarrow->m_enabled=true;
+		if (pos==m_player_profile->m_ships.Length()-1) m_lp_ship_rightarrow->m_enabled=false;
+												  else m_lp_ship_rightarrow->m_enabled=true;		
+	} // if 
 
 	if (m_state_fading==2 && m_state_fading_cycle>25) {
 		SDL_ShowCursor(SDL_DISABLE);
@@ -302,6 +304,52 @@ void TGLapp::levelpackscreen_draw(void)
     glClear(GL_COLOR_BUFFER_BIT);
 
 	TGLinterface::draw();
+	
+	// Draw Selected ship:
+	{
+		char *ship_tiles[]={"objects/ship-vpanther-1",
+							"objects/ship-xterminator-1",
+							"objects/ship-srunner-1",
+							"objects/ship-nblaster-1",
+							"objects/ship-vbeam-1",
+							"objects/ship-dodger-1",
+							"objects/ship-gravis-1",
+							"objects/ship-accura-1",
+							"objects/ship-gyrus",
+							"objects/ship-dflecter-1",
+							"objects/ship-harpoon",
+							};
+		char *ship_names[]={"V-Panther",
+							"X-Terminator",
+							"Shadow Runner",
+							"Nitro Blaster",
+							"Vipper Beam",
+							"Dodger K7",
+							"Gravis T8",
+							"Accura T5",
+							"Gyrus-P",
+							"D-Flecter",
+							"C-Harpoon",
+							};
+		int i,s;
+		GLTile *t;
+
+		for(i=-1;i<2;i++) {
+			s=m_player_profile->m_ships.Position(&m_selected_ship)+i;
+			if (s>=0 && s<m_player_profile->m_ships.Length()) {
+				t=m_GLTM->get(ship_tiles[*(m_player_profile->m_ships[s])]);
+
+				if (i==0) {
+					t->draw(495,160,0,0,1);
+				} else {
+					t->draw(1,1,1,0.33f,float(495+i*48),160,0,0,0.66f);
+				} // if 
+
+			} // if
+		} // for
+
+		TGLinterface::print_center(ship_names[*(m_player_profile->m_ships[m_selected_ship])],m_font32,495,220);
+	}
 
 	switch(m_state_fading) {
 	case 0:	

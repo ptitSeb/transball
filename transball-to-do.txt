@@ -1,17 +1,16 @@
 To do in "Transball GL": --------------------------------------------------------
 
-- check again for memory leaks:
-    - there are no memory leaks, but the system slows down anyway. find out why!
-- background of rocks is REALLY bad
 - execute replays:
     - state
 - ZLIB to compress/uncompress replay files, level packs and player profile:
 - Level Pack screen: 
     - view best replays
-    - select ship -> ship selection screen (with demos of each ship and an explanation)
-- graphic effects:
+    - with demos of each ship and an explanation
+- graphics:
 	- glow of the starts when the ship is up (as in thrust extreme) and stars disappear as you go down
     - snow falling in snow levels
+    - background of rocks is REALLY bad
+    - snow background too bright
 - SFX:
 	- fuel recharge
 	- attractor
@@ -23,7 +22,7 @@ To do in "Transball GL": -------------------------------------------------------
 - bugs:
     - se cuelga a veces (me pasó una vez al estrellarme teniendo la bola con HARPOON)
 	- high accuracy cannons on up and right don't work properly
-	- some times tanks hit themselves! (this is weird!) [necesito replays para debugar correctamente!!!]
+	- some times tanks hit themselves! (this is weird!)
 - nice highscore matrix: levels x ships, showing the top three players (the game saves the best replays automatically):
     - the game stores much more information, and can generate an HTML page with all the details (statistics of each game, etc.).
 - Más tiles

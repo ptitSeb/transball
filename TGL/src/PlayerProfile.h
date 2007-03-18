@@ -35,6 +35,7 @@ public:
 	int m_n_players;
 	int m_keys_configuration[MAXLOCAL_PLAYERS][8];
 	List<PlayerProfileLPProgress> m_progress;
+	List<int> m_ships;
 
 	int progress_in_levelpack(char *id);
 	void level_completed(char *levelpack_id,int level,TGLreplay *replay);
