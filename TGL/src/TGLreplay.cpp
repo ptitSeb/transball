@@ -58,12 +58,25 @@ TGLreplay_object_position::~TGLreplay_object_position()
 } /* TGLreplay_object_position::~TGLreplay_object_position */ 
 
 
+TGLreplay_node::TGLreplay_node()
+{
+	m_keyframe=false;
+	m_text=0;
+} /* TGLreplay_node::TGLreplay_node */  
+
+
+TGLreplay_node::~TGLreplay_node()
+{
+	if (m_text!=0) delete m_text;
+	m_text=0;
+} /* TGLreplay_node::~TGLreplay_node */  
+
 
 TGLreplay::TGLreplay(FILE *fp)
 {
 	// Load a replay:
 	XMLNode *node=XMLNode::from_file(fp);
-	XMLNode *version,*date,*map,*players,*cycles;
+	XMLNode *version,*date,*map,*players,*cycles,*fuel;
 
 	m_version=0;
 	m_map=0;
@@ -73,10 +86,14 @@ TGLreplay::TGLreplay(FILE *fp)
 	m_hour=0;
 	m_minute=0;
 	m_second=0;
+	m_initial_fuel=100;
+
+	m_text=0;
 
 	version=node->get_children("version");
 	date=node->get_children("date");
 	map=node->get_children("map");
+	fuel=node->get_children("initial-fuel");
 	players=node->get_children("players");
 	cycles=node->get_children("cycles");
 
@@ -107,6 +124,10 @@ TGLreplay::TGLreplay(FILE *fp)
 		strcpy(m_map,map->get_value()->get());
 	} // if 
 
+	if (fuel!=0) {
+		m_initial_fuel=atoi(fuel->get_value()->get());
+	} // if 
+
 	// players
 	if (players!=0) {
 		List<XMLNode> *l;
@@ -132,7 +153,7 @@ TGLreplay::TGLreplay(FILE *fp)
 	// cycles
 	if (cycles!=0) {
 		List<XMLNode> *l;
-		XMLNode *cycle,*input,*state;
+		XMLNode *cycle,*input,*state,*text;
 		TGLreplay_node *node;
 		VirtualController *vc;
 		char stmp1[16],stmp2[16],stmp3[16],stmp4[16],stmp5[16],stmp6[16],stmp7[16],stmp8[16];
@@ -144,6 +165,7 @@ TGLreplay::TGLreplay(FILE *fp)
 			node=new TGLreplay_node();
 
 			input=cycle->get_children("input");
+			text=cycle->get_children("text");
 			state=cycle->get_children("state");
 
 			if (input!=0) {
@@ -236,6 +258,16 @@ TGLreplay::TGLreplay(FILE *fp)
 
 			} else {
 				node->m_keyframe=false;
+			} // if 
+
+			if (text!=0) {
+				if (text->get_value()!=0) {
+					node->m_text=new char[strlen(text->get_value()->get())+1];
+					strcpy(node->m_text,text->get_value()->get());
+				} else {
+					node->m_text=new char[1];
+					node->m_text[0]=0;
+				} // if 
 			} // if 
 			
 			m_replay.Add(node);
@@ -470,6 +502,12 @@ bool TGLreplay::execute_cycle(List<VirtualController> *m_input,List<TGLobject> *
 	node->m_input.Rewind();
 	while(m_input->Iterate(vc1) && node->m_input.Iterate(vc2)) vc1->copy(vc2);
 
+	if (node->m_text!=0) {
+		if (m_text!=0) delete m_text;
+		m_text=new char[strlen(node->m_text)+1];
+		strcpy(m_text,node->m_text);
+	} // if 
+
 	if (node->m_keyframe) {
 		
 		// ...
@@ -494,3 +532,22 @@ int TGLreplay::get_playership(char *player_name)
 
 	return -1;
 } /* TGLreplay::get_playership */ 
+
+
+char *TGLreplay::get_map(void)
+{
+	return m_map;
+} /* TGLreplay::get_map */ 
+
+
+int TGLreplay::get_initial_fuel(void)
+{
+	return m_initial_fuel;
+} /* TGLreplay::get_initial_fuel */ 
+
+
+char *TGLreplay::get_text(void)
+{
+	return m_text;
+} /* TGLreplay::get_text */ 
+

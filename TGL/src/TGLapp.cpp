@@ -61,6 +61,8 @@ TGLapp::TGLapp()
 	m_current_levelpack=0;
 	m_selected_level=0;
 	m_selected_ship=0;
+	m_lp_tutorial_game=0;
+	m_lp_tutorial_replay=0;
 
 	m_state=TGL_STATE_MAINMENU;
 	m_state_cycle=0;
@@ -114,6 +116,15 @@ TGLapp::~TGLapp()
 
 	if (m_game!=0) delete m_game;
 	m_game=0;
+
+	if (m_lp_tutorial_game!=0) {
+		delete m_lp_tutorial_game;
+		m_lp_tutorial_game=0;
+	} // if 
+	if (m_lp_tutorial_replay!=0) {
+		delete m_lp_tutorial_replay;
+		m_lp_tutorial_replay=0;
+	} // if 
 
 	if (m_game_replay!=0) delete m_game_replay;
 	m_game_replay=0;

@@ -408,40 +408,40 @@ void TGLinterface::print_center(char *text,TTF_Font *font,float x,float y)
 } /* TGLinterface::print_center */ 
 
 
-void TGLinterface::print_left(char *text,TTF_Font *font,float x,float y,float r,float g,float b)
+void TGLinterface::print_left(char *text,TTF_Font *font,float x,float y,float r,float g,float b,float a)
 {
 	GLTile *tile;
 	SDL_Surface *sfc;
 	SDL_Color c;
-	c.r=(unsigned char)(r*255);
-	c.g=(unsigned char)(g*255);
-	c.b=(unsigned char)(b*255);
+	c.r=255;
+	c.g=255;
+	c.b=255;
 
 	sfc=TTF_RenderText_Blended(font,text,c);
 	tile=new GLTile(sfc);
 	tile->set_smooth();
 	glNormal3f(0,0,1);
 	tile->set_hotspot(0,tile->get_dy());
-	tile->draw(x,y,0,0,1);
+	tile->draw(r,g,b,a,x,y,0,0,1);
 	delete tile;
 } /* TGLinterface::print_left */ 
 
 
-void TGLinterface::print_center(char *text,TTF_Font *font,float x,float y,float r,float g,float b)
+void TGLinterface::print_center(char *text,TTF_Font *font,float x,float y,float r,float g,float b,float a)
 {
 	GLTile *tile;
 	SDL_Surface *sfc;
 	SDL_Color c;
-	c.r=(unsigned char)(r*255);
-	c.g=(unsigned char)(g*255);
-	c.b=(unsigned char)(b*255);
+	c.r=255;
+	c.g=255;
+	c.b=255;
 
 	sfc=TTF_RenderText_Blended(font,text,c);
 	tile=new GLTile(sfc);
 	tile->set_smooth();
 	glNormal3f(0,0,1);
 	tile->set_hotspot(tile->get_dx()/2,tile->get_dy());
-	tile->draw(x,y,0,0,1);
+	tile->draw(r,g,b,a,x,y,0,0,1);
 	delete tile;
 } /* TGLinterface::print_center */ 
 

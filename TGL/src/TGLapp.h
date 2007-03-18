@@ -120,6 +120,10 @@ protected:
 	TGLInterfaceElement *m_lp_viewreplay_buttons[3];
 	TGLInterfaceElement *m_lp_ship_leftarrow;
 	TGLInterfaceElement *m_lp_ship_rightarrow;
+	TGL *m_lp_tutorial_game;
+	TGLreplay *m_lp_tutorial_replay;
+	int m_lp_replay_mode;
+	int m_lp_replay_timmer;
 };
 
 #endif

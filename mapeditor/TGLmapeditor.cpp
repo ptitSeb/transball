@@ -384,7 +384,8 @@ bool TGLmapeditor::cycle(KEYBOARDSTATE *k)
 							if (o->m_name->cmp("button-blue-down")) {
 								o->m_nparameters=1;
 								o->m_parameters[0]=0;
-							} // if 							m_map->m_fg_objects.Add(o);
+							} // if 							
+							m_map->m_fg_objects.Add(o);
 						} // if
 
 						if (k->key_press(SDLK_BACKSPACE) || k->key_press(SDLK_DELETE)) {

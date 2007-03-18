@@ -46,11 +46,23 @@
 int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 {
 	bool m_recheck_interface=false;
+	bool m_reload_tutorial=false;
 
 	if (SDL_ShowCursor(SDL_QUERY)!=SDL_ENABLE) SDL_ShowCursor(SDL_ENABLE);
 	if (m_state_cycle==0) {
 		TGLInterfaceElement *e;
 		m_selected_level=0;
+		m_lp_replay_mode=0;
+		m_lp_replay_timmer=0;
+
+		if (m_lp_tutorial_game!=0) {
+			delete m_lp_tutorial_game;
+			m_lp_tutorial_game=0;
+		} // if 
+		if (m_lp_tutorial_replay!=0) {
+			delete m_lp_tutorial_replay;
+			m_lp_tutorial_replay=0;
+		} // if 
 
 		// Make sure that the current player has the selected ship unlocked:
 		if (!m_player_profile->m_ships.MemberP(&m_selected_ship)) {
@@ -154,7 +166,8 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 
 		if (k->key_press(SDLK_SPACE) || k->key_press(SDLK_RETURN)) button=1;
 
-		ID=TGLinterface::update_state(mouse_x,mouse_y,button);
+		if (m_lp_replay_mode==0) ID=TGLinterface::update_state(mouse_x,mouse_y,button);
+					        else ID=-1;
 
 		if (ID!=-1) {
 			switch(ID) {
@@ -184,6 +197,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 						pos--;
 						m_selected_ship=*(m_player_profile->m_ships[pos]);
 						m_recheck_interface=true;
+						m_reload_tutorial=true;
 					}
 					break;
 			case 5:
@@ -192,6 +206,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 						pos++;
 						m_selected_ship=*(m_player_profile->m_ships[pos]);
 						m_recheck_interface=true;
+						m_reload_tutorial=true;
 					}
 					break;
 			case 10:
@@ -219,6 +234,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 		LevelPack_Level *level;
 		TGLInterfaceElement *old;
 		char tmp[128];
+
 
 		if (m_lp_first_level==0) m_lp_level_uparrow->m_enabled=false;
 							else m_lp_level_uparrow->m_enabled=true;
@@ -260,7 +276,109 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 		if (pos==0) m_lp_ship_leftarrow->m_enabled=false;
 			   else m_lp_ship_leftarrow->m_enabled=true;
 		if (pos==m_player_profile->m_ships.Length()-1) m_lp_ship_rightarrow->m_enabled=false;
-												  else m_lp_ship_rightarrow->m_enabled=true;		
+												  else m_lp_ship_rightarrow->m_enabled=true;											
+	} // if 
+
+	if (m_reload_tutorial || m_lp_tutorial_game==0) {
+		char *ship_tutorial[]={"tutorial1-vp",
+							   "tutorial1-xt",
+							   "tutorial1-sr",
+							   "tutorial1-nb",
+							   "tutorial1-vb",
+							   "tutorial1-dodg",
+							   "tutorial1-gravis",
+							   "tutorial1-acc",
+							   "tutorial1-gyr",
+							   "tutorial1-def",
+							   "tutorial1-harp",
+								};
+		char tmp[128];
+
+		if (m_lp_tutorial_game!=0) {
+			delete m_lp_tutorial_game;
+			m_lp_tutorial_game=0;
+		} // if 
+		if (m_lp_tutorial_replay!=0) {
+			delete m_lp_tutorial_replay;
+			m_lp_tutorial_replay=0;
+		} // if 
+
+		if (ship_tutorial[m_selected_ship]!=0) {
+			FILE *fp;
+
+			sprintf(tmp,"tutorials/%s.rpl",ship_tutorial[m_selected_ship]);
+			fp=fopen(tmp,"r");
+			if (fp!=0) {
+				m_lp_tutorial_replay=new TGLreplay(fp);
+				m_lp_tutorial_replay->rewind();
+				fclose(fp);
+
+				m_lp_tutorial_game=new TGL(m_lp_tutorial_replay->get_map(),
+										   m_lp_tutorial_replay->get_playership("default"),
+										   m_lp_tutorial_replay->get_initial_fuel(),
+										   0,
+										   0,m_GLTM);
+			} // if 
+
+		} // if 
+	
+		
+	} // if 
+
+	if (m_lp_tutorial_game!=0) {
+		List<TGLobject> *l=m_lp_tutorial_game->get_map()->get_objects("TGLobject");
+		List<TGLobject> to_delete,to_add;
+		TGLobject *o;
+		bool retval;
+		retval = m_lp_tutorial_replay->execute_cycle(&m_lvc,l,&to_delete,&to_add);
+		l->ExtractAll();
+		delete l;
+
+		while(!to_delete.EmptyP()) {
+			o=to_delete.ExtractIni();
+			m_lp_tutorial_game->get_map()->remove_object(o);
+			delete o;
+		} // while 
+
+		while(!to_add.EmptyP()) {
+			o=to_add.ExtractIni();
+			m_lp_tutorial_game->get_map()->add_object(o);
+			delete o;
+		} // while 
+
+		if (!m_lp_tutorial_game->cycle(&m_lvc,m_GLTM,m_SFXM,0)) retval=false;
+
+		if (!retval) {
+			delete m_lp_tutorial_game;
+			m_lp_tutorial_game=0;
+			delete m_lp_tutorial_replay;
+			m_lp_tutorial_replay=0;
+		} // if  
+	} // if 
+
+	if (k->key_press(SDLK_f)) {
+		if (m_lp_replay_mode==0) {
+			m_lp_replay_mode=1;
+			m_lp_replay_timmer=0;
+		} else if (m_lp_replay_mode==2) {
+			m_lp_replay_mode=3;
+			m_lp_replay_timmer=0;
+		} // if 
+	} // if 
+
+	if (m_lp_replay_mode==1) {
+		m_lp_replay_timmer++;
+		if (m_lp_replay_timmer>=25) {
+			m_lp_replay_mode=2;
+			m_lp_replay_timmer=0;
+		} // if 
+	} // if 
+	if (m_lp_replay_mode==3) {
+		m_lp_replay_timmer++;
+		if (m_lp_replay_timmer>=25) {
+			m_lp_replay_mode=0;
+			m_lp_replay_timmer=0;
+		} // if 
 	} // if 
 
 	if (m_state_fading==2 && m_state_fading_cycle>25) {
@@ -300,6 +418,8 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 
 void TGLapp::levelpackscreen_draw(void)
 {
+	float replay_full_factor=0;
+
 	glClearColor(0,0,0,1);
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -331,6 +451,7 @@ void TGLapp::levelpackscreen_draw(void)
 							"D-Flecter",
 							"C-Harpoon",
 							};
+
 		int i,s;
 		GLTile *t;
 
@@ -348,7 +469,70 @@ void TGLapp::levelpackscreen_draw(void)
 			} // if
 		} // for
 
-		TGLinterface::print_center(ship_names[*(m_player_profile->m_ships[m_selected_ship])],m_font32,495,220);
+		TGLinterface::print_center(ship_names[m_selected_ship],m_font32,495,220);
+	}
+
+	switch(m_lp_replay_mode) {
+	case 0:
+			replay_full_factor=0;
+			break;
+	case 1:
+			{
+				float f=0;
+				f=abs(m_lp_replay_timmer)/25.0F;
+				fade_in_alpha(f);
+				replay_full_factor=f;
+			}
+			break;
+	case 2: fade_in_alpha(1);
+			replay_full_factor=1;
+			break;
+	case 3:
+			{
+				float f=0;
+				f=abs(25-m_lp_replay_timmer)/25.0F;
+				fade_in_alpha(f);
+				replay_full_factor=f;
+			}
+			break;
+	} // switch
+
+	// Draw tutorial:
+	if (m_lp_tutorial_game!=0) {
+		int old[4];
+
+		glGetIntegerv(GL_VIEWPORT,old);
+        glViewport(380*(1-replay_full_factor),80*(1-replay_full_factor), 640*replay_full_factor+230*(1-replay_full_factor),480*replay_full_factor+172*(1-replay_full_factor));
+		m_lp_tutorial_game->draw(m_GLTM);
+        glViewport(old[0],old[1],old[2],old[3]);
+
+		{
+			float f=0.6f+0.4f*float(sin(m_state_cycle*0.1));
+
+			if (m_lp_replay_mode==0 || m_lp_replay_mode==1) TGLinterface::print_center("Press F for fullscreen",m_font16,320*replay_full_factor+495*(1-replay_full_factor),20*replay_full_factor+250*(1-replay_full_factor),1,1,1,f);
+			if (m_lp_replay_mode==2 || m_lp_replay_mode==3) TGLinterface::print_center("Press F for windowed",m_font16,320*replay_full_factor+495*(1-replay_full_factor),20*replay_full_factor+250*(1-replay_full_factor),1,1,1,f);
+		}
+
+		{
+			int i,j;
+			float y;
+			char buffer[128];
+			char *tmp=m_lp_tutorial_replay->get_text();
+			if (tmp!=0) {
+				i=0;
+				y=445*replay_full_factor+425*(1-replay_full_factor);
+				while(tmp[i]!=0) {
+					for(j=0;tmp[i]!=0 && tmp[i]!='/';i++,j++) buffer[j]=tmp[i];
+					buffer[j]=0;
+					if (tmp[i]=='/') i++;
+					TGLinterface::print_center(buffer,m_font16,320*replay_full_factor+495*(1-replay_full_factor),y);
+					y+=20;
+				} // while
+
+			} // if 
+		} 
+	} else {
+		TGLinterface::print_center("No tutorial available",m_font16,320*replay_full_factor+495*(1-replay_full_factor),240*replay_full_factor+300*(1-replay_full_factor));
 	}
 
 	switch(m_state_fading) {

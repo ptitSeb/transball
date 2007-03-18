@@ -47,6 +47,9 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 	{
 		FILE *fp;
 		fp=fopen("maps/st2.lp","r+");
+//		fp=fopen("maps/sa.lp","r+");
+//		fp=fopen("maps/expert.lp","r+");
+//		fp=fopen("maps/tutorial.lp","r+");
 		if (fp!=0) {
 			m_current_levelpack=new LevelPack(fp);
 			fclose(fp);

@@ -16,9 +16,13 @@ public:
 
 class TGLreplay_node {
 public:
+	TGLreplay_node(void);
+	~TGLreplay_node();
+
 	bool m_keyframe;				// If "true", then the "m_objects" array contains a dump of all the objects in the game
 	List<VirtualController> m_input;
 	List<TGLreplay_object_position> m_objects;
+	char *m_text;
 };
 
 
@@ -38,6 +42,9 @@ public:
 
 	int get_length(void);
 	int get_playership(char *player_name);
+	char *get_map(void);
+	int get_initial_fuel(void);
+	char *get_text(void);
 
 private:
 	// Version of TRANSBALL with which it was saved:
@@ -49,6 +56,7 @@ private:
 
 	// Map:
 	char *m_map;
+	int m_initial_fuel;
 
 	// Who played the game:
 	List<char> m_players;
@@ -58,6 +66,9 @@ private:
 
 	// One node per game cycle (thus, the time is m_replay.Length()*18 miliseconds)
 	List<TGLreplay_node> m_replay;
+
+	// text:
+	char *m_text;
 };
 
 #endif
