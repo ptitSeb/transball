@@ -1,6 +1,5 @@
 To do in "Transball GL": --------------------------------------------------------
 
-- remove the "game start state" (makes no sense)
 - check again for memory leaks:
     - there are no memory leaks, but the system slows down anyway. find out why!
 - background of rocks is REALLY bad

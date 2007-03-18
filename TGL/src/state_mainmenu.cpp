@@ -41,7 +41,7 @@
 #include "LevelPack.h"
 
 
-int TGLapp::gamestart_cycle(KEYBOARDSTATE *k)
+int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 {
 	if (m_current_levelpack!=0) delete m_current_levelpack;
 	{
@@ -57,11 +57,11 @@ int TGLapp::gamestart_cycle(KEYBOARDSTATE *k)
 		} // if 
 	} 
 
-} /* TGLapp::gamestart_cycle */ 
+} /* TGLapp::mainmenu_cycle */ 
 
-void TGLapp::gamestart_draw(void)
+void TGLapp::mainmenu_draw(void)
 {
 	glClearColor(0,0,0,1);
     glClear(GL_COLOR_BUFFER_BIT);
-} /* TGLapp::gamestart_draw */ 
+} /* TGLapp::mainmenu_draw */ 
 

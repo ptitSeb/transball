@@ -8,18 +8,14 @@
 #define MAXLOCAL_PLAYERS	4
 
 #define TGL_STATE_NONE	-1
-#define TGL_STATE_INTRO			1
-#define TGL_STATE_TITLE			2
+#define TGL_STATE_PLAERPROFILE	1
+#define TGL_STATE_INTRO			2
 #define TGL_STATE_LEVELPACKSCREEN	3
-#define TGL_STATE_GAMESTART		4
+#define TGL_STATE_MAINMENU		4
 #define TGL_STATE_PREGAME		5
 #define TGL_STATE_GAME			6
 #define TGL_STATE_POSTGAME		7
 #define TGL_STATE_SAVEREPLAY	8
-#define TGL_STATE_ENDSEQUENCE	9
-#define TGL_STATE_INTERLEVEL	10
-#define TGL_STATE_HOWTOPLAY		11
-#define TGL_STATE_CREDITS		12
 
 #define KEY_THRUST		0
 #define KEY_SPECIAL		1
@@ -47,7 +43,7 @@ protected:
 //	int intro_cycle(KEYBOARDSTATE *k);
 //	int title_cycle(KEYBOARDSTATE *k);
 	int levelpackscreen_cycle(KEYBOARDSTATE *k);
-	int gamestart_cycle(KEYBOARDSTATE *k);
+	int mainmenu_cycle(KEYBOARDSTATE *k);
 	int game_cycle(KEYBOARDSTATE *k);
 	int pregame_cycle(KEYBOARDSTATE *k);
 	int postgame_cycle(KEYBOARDSTATE *k);
@@ -59,7 +55,7 @@ protected:
 //	void intro_draw(void);
 //	void title_draw(void);
 	void levelpackscreen_draw(void);
-	void gamestart_draw(void);
+	void mainmenu_draw(void);
 	void game_draw(void);
 	void pregame_draw(void);
 	void postgame_draw(void);

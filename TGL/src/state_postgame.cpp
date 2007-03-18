@@ -98,7 +98,7 @@ int TGLapp::postgame_cycle(KEYBOARDSTATE *k)
 				m_selected_level++;
 				if (m_selected_level>=m_current_levelpack->m_levels.Length()) {
 					// ... level pack complete
-					return TGL_STATE_GAMESTART;
+					return TGL_STATE_MAINMENU;
 				} else {
 					return TGL_STATE_PREGAME;
 				} // if 

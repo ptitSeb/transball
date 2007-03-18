@@ -62,7 +62,7 @@ TGLapp::TGLapp()
 	m_selected_level=0;
 	m_selected_ship=0;
 
-	m_state=TGL_STATE_GAMESTART;
+	m_state=TGL_STATE_MAINMENU;
 	m_state_cycle=0;
 	m_state_fading=0;
 	m_state_fading_cycle=0;
@@ -132,11 +132,11 @@ bool TGLapp::cycle(KEYBOARDSTATE *k)
 #endif
 
 	switch(m_state) {
+//	case TGL_STATE_PLAYERPROFILE:m_state=playerprofile_cycle(k);
+//								break;
 //	case TGL_STATE_INTRO:m_state=intro_cycle(k);
 //								break;
-//	case TGL_STATE_TITLE:m_state=title_cycle(k);
-//								break;
-	case TGL_STATE_GAMESTART:m_state=gamestart_cycle(k);
+	case TGL_STATE_MAINMENU:m_state=mainmenu_cycle(k);
 									break;
 	case TGL_STATE_LEVELPACKSCREEN:m_state=levelpackscreen_cycle(k);
 									break;
@@ -148,16 +148,6 @@ bool TGLapp::cycle(KEYBOARDSTATE *k)
 							   break;
 	case TGL_STATE_SAVEREPLAY: m_state=savereplay_cycle(k);
 							   break;
-//	case TGL_STATE_GAMEOVER:m_state=gameover_cycle(k);
-//								   break;
-//	case TGL_STATE_ENDSEQUENCE:m_state=endsequence_cycle(k);
-//								      break;
-//	case TGL_STATE_INTERLEVEL:m_state=interlevel_cycle(k);
-//									 break;
-//	case TGL_STATE_HOWTOPLAY:m_state=howtoplay_cycle(k);
-//									break;
-//	case TGL_STATE_CREDITS  :m_state=credits_cycle(k);
-//									break;
 	default:return false;
 	} /* switch */ 
 
@@ -228,11 +218,11 @@ void TGLapp::draw(int SCREEN_X,int SCREEN_Y)
 	glEnable(GL_BLEND);
 
 	switch(m_state) {
+//	case TGL_STATE_PLAYERPROFILE:playerprofile_draw();
+//								 break;
 //	case TGL_STATE_INTRO:intro_draw();
 //								break;
-//	case TGL_STATE_TITLE:title_draw();
-//								break;
-	case TGL_STATE_GAMESTART:gamestart_draw();
+	case TGL_STATE_MAINMENU:mainmenu_draw();
 									break;
 	case TGL_STATE_LEVELPACKSCREEN:levelpackscreen_draw();
 									break;
@@ -244,16 +234,6 @@ void TGLapp::draw(int SCREEN_X,int SCREEN_Y)
 							   break;
 	case TGL_STATE_SAVEREPLAY: savereplay_draw();
 							   break;
-//	case TGL_STATE_GAMEOVER:gameover_draw();
-//								   break;
-//	case TGL_STATE_ENDSEQUENCE:endsequence_draw();
-//								      break;
-//	case TGL_STATE_INTERLEVEL:interlevel_draw();
-//									 break;
-//	case TGL_STATE_HOWTOPLAY: howtoplay_draw();
-//									 break;
-//	case TGL_STATE_CREDITS:   credits_draw();
-//									 break;
 	} // switch 
  	
 
