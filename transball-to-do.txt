@@ -7,11 +7,8 @@ To do in "Transball GL": -------------------------------------------------------
     - state
 - ZLIB to compress/uncompress replay files, level packs and player profile:
 - Level Pack screen: 
-    - displays the list of levels (locked and unlocked)
-    - view best replays & high scores
-    - quit
+    - view best replays
     - select ship -> ship selection screen (with demos of each ship and an explanation)
-    - a button to start, 
 - graphic effects:
 	- glow of the starts when the ship is up (as in thrust extreme) and stars disappear as you go down
     - snow falling in snow levels
