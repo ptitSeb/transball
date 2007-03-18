@@ -875,11 +875,11 @@ SOURCE=.\src\state_game.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\state_gamestart.cpp
+SOURCE=.\src\state_levelpackscreen.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\src\state_levelpackscreen.cpp
+SOURCE=.\src\state_mainmenu.cpp
 # End Source File
 # Begin Source File
 
