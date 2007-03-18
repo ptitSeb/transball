@@ -28,7 +28,7 @@ public:
 	TGLreplay(char *map);	// create a blank replay
 	~TGLreplay();
 
-	void add_player(char *player_name);
+	void add_player(char *player_name,int ship);
 
 	void store_cycle(List<VirtualController> *m_input,List<TGLobject> *m_objects);
 	bool execute_cycle(List<VirtualController> *m_input,List<TGLobject> *m_objects,List<TGLobject> *m_todelete,List<TGLobject> *m_toadd);
@@ -37,6 +37,7 @@ public:
 	bool save(FILE *fp);
 
 	int get_length(void);
+	int get_playership(char *player_name);
 
 private:
 	// Version of TRANSBALL with which it was saved:
@@ -51,6 +52,9 @@ private:
 
 	// Who played the game:
 	List<char> m_players;
+
+	// ships:
+	List<int> m_ships;
 
 	// One node per game cycle (thus, the time is m_replay.Length()*18 miliseconds)
 	List<TGLreplay_node> m_replay;

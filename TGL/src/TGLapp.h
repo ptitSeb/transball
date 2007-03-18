@@ -99,7 +99,7 @@ protected:
 	int m_game_state;
 	int m_game_state_cycle;
 	int m_game_fade_effect;
-	int m_game_replay_mode;	// 0 : no replay, 1 : saving replay, 2 : replaying replay
+	int m_game_replay_mode;	//  1 : saving replay, 2 : replaying replay
 	class TGLreplay *m_game_replay;
 	class LevelPack *m_current_levelpack;
 	int m_selected_level;
@@ -110,28 +110,14 @@ protected:
 	unsigned int m_replay_editing_position;
 	class TGLInterfaceElement *m_replay_save_button;
 
-	// Game over:
-//	int m_gameover_state;
-
-	// Inter level:
-//	int m_interlevel_state;
-//	int m_interlevel_cycle;
-
-	// How to play:
-//	int m_howtoplay_state;
-//	int m_howtoplay_cycle;
-	TGL *m_test_game;
-
-	// Credits:
-//	int m_credits_state;
-//	int m_credits_cycle;
-	
-	// end sequence:
-//	int m_endsequence_state;
-//	int m_endsequence_cycle;
-	
-	// Hiscores
-//  ...	
+	// LevelPack screen:
+	int m_lp_first_level;
+	TGLInterfaceElement *m_lp_level_uparrow;
+	TGLInterfaceElement *m_lp_level_downarrow;
+	TGLInterfaceElement *m_lp_level_name[3];
+	TGLInterfaceElement *m_lp_level_time[3];
+	TGLInterfaceElement *m_lp_play_buttons[3];
+	TGLInterfaceElement *m_lp_viewreplay_buttons[3];
 };
 
 #endif

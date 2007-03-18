@@ -56,13 +56,12 @@ int TGLapp::pregame_cycle(KEYBOARDSTATE *k)
 			m_game=new TGL(map_name,m_selected_ship,m_current_levelpack->m_levels[m_selected_level]->m_initial_fuel,m_player_profile->m_sfx_volume,m_player_profile->m_music_volume,m_GLTM);
 		}
 
-		// NO REPLAY:
-//		m_game_replay_mode=0;
 		
 		// SAVE REPLAY:
 		m_game_replay_mode=1;
 		if (m_game_replay!=0) delete m_game_replay;
 		m_game_replay=new TGLreplay(m_game->get_map_name());
+		m_game_replay->add_player(m_player_profile->m_name,m_selected_ship);
 
 		// LOAD REPLAY:
 /*

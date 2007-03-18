@@ -4,6 +4,7 @@
 class PlayerProfileLevelResult {
 public:
 	int m_level;
+	int m_ship;
 	int m_best_time;
 	int m_fuel_used;
 	int m_shots;
@@ -34,6 +35,10 @@ public:
 	int m_n_players;
 	int m_keys_configuration[MAXLOCAL_PLAYERS][8];
 	List<PlayerProfileLPProgress> m_progress;
+
+	int progress_in_levelpack(char *id);
+	void level_completed(char *levelpack_id,int level,TGLreplay *replay);
+	int get_besttime(char *levelpack_id,int level,int ship);
 
 	PlayerProfile(char *name);
 	PlayerProfile(FILE *fp);

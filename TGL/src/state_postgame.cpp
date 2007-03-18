@@ -50,7 +50,8 @@ int TGLapp::postgame_cycle(KEYBOARDSTATE *k)
 		TGLInterfaceElement *e;
 
 		TGLinterface::reset();
-		SDL_WarpMouse(210,352);
+		if (m_game->get_game_result()!=1) SDL_WarpMouse(210,352);
+									 else SDL_WarpMouse(430,352);
 		TGLinterface::add_element(new TGLbutton("Retry",m_font32,110,320,200,64,0));
 		e=new TGLbutton("Continue",m_font32,330,320,200,64,1);
 		if (m_game->get_game_result()!=1) e->m_enabled=false;

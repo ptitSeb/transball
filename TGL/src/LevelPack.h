@@ -23,6 +23,7 @@ public:
 
 	void load(XMLNode *node);
 
+	char *m_id;
 	char *m_name;
 	char *m_description;
 	char *m_creator_name;

@@ -507,6 +507,7 @@ void GLTile::set_repeat(void)
 	last_texture_check=required_texture_check;
 
 	for(i=0;i<nparts;i++) {
+	   glDeleteTextures(1,&(tex[i]));
 	   tex[i]=createTexture(tile[i],&(tex_coord_x[i]),&(tex_coord_y[i]));
 	} /* for */ 
 
@@ -523,7 +524,8 @@ void GLTile::set_clamp(void)
 	last_texture_check=required_texture_check;
 
 	for(i=0;i<nparts;i++) {
-	   tex[i]=createTextureClamp(tile[i],&(tex_coord_x[i]),&(tex_coord_y[i]));
+		glDeleteTextures(1,&(tex[i]));
+		tex[i]=createTextureClamp(tile[i],&(tex_coord_x[i]),&(tex_coord_y[i]));
 	} /* for */ 
 
 } /* GLTile::set_clamp */ 
@@ -539,7 +541,8 @@ void GLTile::set_smooth(void)
 	last_texture_check=required_texture_check;
 
 	for(i=0;i<nparts;i++) {
-	   tex[i]=createTextureSmooth(tile[i],&(tex_coord_x[i]),&(tex_coord_y[i]));
+		glDeleteTextures(1,&(tex[i]));
+	    tex[i]=createTextureSmooth(tile[i],&(tex_coord_x[i]),&(tex_coord_y[i]));
 	} /* for */ 
 
 } /* GLTile::set_smooth */ 

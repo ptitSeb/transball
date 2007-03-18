@@ -46,7 +46,7 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 	if (m_current_levelpack!=0) delete m_current_levelpack;
 	{
 		FILE *fp;
-		fp=fopen("maps/sa.lp","r+");
+		fp=fopen("maps/st2.lp","r+");
 		if (fp!=0) {
 			m_current_levelpack=new LevelPack(fp);
 			fclose(fp);

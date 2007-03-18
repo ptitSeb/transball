@@ -4,6 +4,7 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#include "direct.h"
 #else
 #include <sys/time.h>
 #endif
@@ -41,6 +42,7 @@
 #include "TGL.h"
 #include "TGLapp.h"
 #include "XMLparser.h"
+#include "TGLreplay.h"
 
 #include "debug.h"
 
@@ -208,11 +210,10 @@ PlayerProfile::PlayerProfile(FILE *fp)
 	} // if 
 
 	if (progress!=0) {
-		List<XMLNode> *l=input->get_children();
+		List<XMLNode> *l=progress->get_children();
 		XMLNode *levelpack,*tmp,*results,*result;
 		PlayerProfileLPProgress *lpp;
 		PlayerProfileLevelResult *lr;
-		Symbol *stmp;
 
 		l->Rewind();
 		while(l->Iterate(levelpack)) {
@@ -228,14 +229,16 @@ PlayerProfile::PlayerProfile(FILE *fp)
 
 			results=levelpack->get_children("results");
 			if (results!=0) {
-				List<XMLNode> *l2=input->get_children();
+				List<XMLNode> *l2=results->get_children();
 
 				l2->Rewind();
 				while(l2->Iterate(result)) {
 					lr=new PlayerProfileLevelResult();
 
-					stmp=result->get_attribute("num");
-					if (stmp!=0) lr->m_level=atoi(stmp->get());
+					tmp=result->get_children("level");
+					if (tmp!=0) lr->m_level=atoi(tmp->get_value()->get());
+					tmp=result->get_children("ship");
+					if (tmp!=0) lr->m_ship=atoi(tmp->get_value()->get());
 					tmp=result->get_children("time");
 					if (tmp!=0) lr->m_best_time=atoi(tmp->get_value()->get());
 					tmp=result->get_children("fuelused");
@@ -264,7 +267,7 @@ PlayerProfile::PlayerProfile(FILE *fp)
 
 PlayerProfile::~PlayerProfile()
 {
-	if (m_name!=0) delete m_name;
+	if (m_name!=0) delete []m_name;
 	m_name=0;
 } /* PlayerProfile::~PlayerProfile */ 
 
@@ -305,17 +308,19 @@ bool PlayerProfile::save(FILE *fp)
 	while(m_progress.Iterate(lpp)) {
 		fprintf(fp,"    <levelpack>\n");
 		fprintf(fp,"      <id>%s</id>\n",lpp->m_levelpack_id);
-		fprintf(fp,"      <levels-completed>%i</levels-completed>",lpp->m_levels_completed);
+		fprintf(fp,"      <levels-completed>%i</levels-completed>\n",lpp->m_levels_completed);
 		fprintf(fp,"      <results>\n");
 		lpp->m_results.Rewind();
 		while(lpp->m_results.Iterate(lr)) {
-			fprintf(fp,"        <level num=\"%i\">\n",lr->m_level);
+			fprintf(fp,"        <result>\n");
+			fprintf(fp,"          <level>%i</level>\n",lr->m_level);
+			fprintf(fp,"          <ship>%i</ship>\n",lr->m_ship);
 			fprintf(fp,"          <time>%i</time>\n",lr->m_best_time);
 			fprintf(fp,"          <fuelused>%i</fuelused>\n",lr->m_fuel_used);
 			fprintf(fp,"          <shots>%i</shots>\n",lr->m_shots);
 			fprintf(fp,"          <impacts>%i</impacts>\n",lr->m_impacts);
 			fprintf(fp,"          <kills>%i</kills>\n",lr->m_kills);
-			fprintf(fp,"        </level>\n");
+			fprintf(fp,"        </result>\n");
 		} // while
 		fprintf(fp,"      </results>\n");
 		fprintf(fp,"    </levelpack>\n");
@@ -326,4 +331,109 @@ bool PlayerProfile::save(FILE *fp)
 	return true;
 } /* PlayerProfile::save */ 
 
+
+int PlayerProfile::progress_in_levelpack(char *id)
+{
+	PlayerProfileLPProgress *lpp;
+
+	m_progress.Rewind();
+	while(m_progress.Iterate(lpp)) {
+		if (strcmp(id,lpp->m_levelpack_id)==0) return lpp->m_levels_completed;
+	} // while 
+	return 0;
+} /* PlayerProfile::progress_in_levelpack */ 
+
+
+
+void PlayerProfile::level_completed(char *levelpack_id,int level,TGLreplay *replay)
+{
+	PlayerProfileLPProgress *lpp,*selected=0;
+	PlayerProfileLevelResult *lr,*selected_l=0;
+
+	m_progress.Rewind();
+	while(m_progress.Iterate(lpp)) {
+		if (strcmp(levelpack_id,lpp->m_levelpack_id)==0) selected=lpp;
+	} // while 
+
+	if (selected==0) {
+		selected=new PlayerProfileLPProgress();
+		m_progress.Add(selected);
+		selected->m_levelpack_id=new char[strlen(levelpack_id)+1];
+		strcpy(selected->m_levelpack_id,levelpack_id);
+	} // if 
+
+	if (level+1>selected->m_levels_completed) selected->m_levels_completed=level+1;
+
+	selected->m_results.Rewind();
+	while(selected->m_results.Iterate(lr)) {
+		if (lr->m_level==level && lr->m_ship==replay->get_playership(m_name)) selected_l=lr;
+	} // while 
+
+	if (selected_l==0) {
+		selected_l=new PlayerProfileLevelResult();
+		selected_l->m_level=level;
+		selected_l->m_ship=replay->get_playership(m_name);
+		selected_l->m_best_time=-1;
+		selected_l->m_fuel_used=0;
+		selected_l->m_shots=0;
+		selected_l->m_impacts=0;
+		selected_l->m_kills=0;
+		selected->m_results.Add(selected_l);
+	} // if 
+
+	if (selected_l->m_best_time==-1 || selected_l->m_best_time>replay->get_length()) {
+		selected_l->m_best_time=replay->get_length();
+		selected_l->m_fuel_used=0;
+		selected_l->m_shots=0;
+		selected_l->m_impacts=0;
+		selected_l->m_kills=0;
+
+		// Save replay:
+		{
+			FILE *fp;
+			char tmp[256];
+
+			sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",m_name,levelpack_id,level,replay->get_playership(m_name));
+
+			fp=fopen(tmp,"w+");
+			if (fp==0) {
+				// assume the folder does not exist:
+				char tmp2[256];
+				sprintf(tmp2,"players/%s",m_name);
+				_mkdir(tmp2);
+
+				fp=fopen(tmp,"w+");
+			} // if 
+
+			if (fp!=0) {
+				replay->save(fp);
+				fclose(fp);
+			} // if 
+		}
+	} // if 
+
+} /* PlayerProfile::level_completed */ 
+
+
+int PlayerProfile::get_besttime(char *levelpack_id,int level,int ship)
+{
+	PlayerProfileLPProgress *lpp,*selected=0;
+	PlayerProfileLevelResult *lr,*selected_l=0;
+
+	m_progress.Rewind();
+	while(m_progress.Iterate(lpp)) {
+		if (strcmp(levelpack_id,lpp->m_levelpack_id)==0) selected=lpp;
+	} // while 
+
+	if (selected==0) return -1;
+
+	selected->m_results.Rewind();
+	while(selected->m_results.Iterate(lr)) {
+		if (lr->m_level==level && lr->m_ship==ship) selected_l=lr;
+	} // while 
+
+	if (selected_l==0) return -1;
+
+	return selected_l->m_best_time;
+} /* PlayerProfile::get_besttime */ 
 

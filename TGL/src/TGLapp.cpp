@@ -86,6 +86,7 @@ TGLapp::TGLapp()
 	m_SFXM->cache("sfx");
 
 	load_playerprofile("default");
+	fullscreen=m_player_profile->m_fullscreen;
 
 	m_game=0;
 
@@ -94,7 +95,6 @@ TGLapp::TGLapp()
 		vc->reset();
 		m_lvc.Add(vc);
 	} // for 
-	m_test_game=0;
 	
 } /* TGLapp::TGLapp */ 
 
@@ -103,6 +103,11 @@ TGLapp::~TGLapp()
 {
 	TTF_CloseFont(m_font32);
 	TTF_CloseFont(m_font16);
+
+	save_playerprofile();
+
+	if (m_player_profile!=0) delete m_player_profile;
+	m_player_profile=0;
 
 	if (m_current_levelpack!=0) delete m_current_levelpack;
 	m_current_levelpack=0;
@@ -116,7 +121,6 @@ TGLapp::~TGLapp()
 	delete m_GLTM;
 	delete m_SFXM;
 
-	save_playerprofile();
 } /* TGLapp::TGLapp */ 
 
 

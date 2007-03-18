@@ -83,6 +83,7 @@ LevelPack_Level::~LevelPack_Level()
 
 LevelPack::LevelPack(FILE *fp)
 {
+	m_id=0;
 	m_name=0;
 	m_description=0;
 	m_creator_name=0;
@@ -106,6 +107,10 @@ void LevelPack::load(XMLNode *node)
 	children=node->get_children();
 	children->Rewind();
 	while(children->Iterate(n)) {
+		if (n->get_type()->cmp("id")) {
+			m_id=new char[strlen(n->get_value()->get())+1];
+			strcpy(m_id,n->get_value()->get());
+		} // if 
 		if (n->get_type()->cmp("name")) {
 			m_name=new char[strlen(n->get_value()->get())+1];
 			strcpy(m_name,n->get_value()->get());
@@ -152,6 +157,8 @@ void LevelPack::load(XMLNode *node)
 
 LevelPack::~LevelPack()
 {
+	if (m_id!=0) delete []m_id;
+	m_id=0;
 	if (m_name!=0) delete []m_name;
 	m_name=0;
 	if (m_description!=0) delete []m_description;

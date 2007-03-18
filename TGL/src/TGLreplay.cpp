@@ -121,6 +121,10 @@ TGLreplay::TGLreplay(FILE *fp)
 				strcpy(name,tmp->get_value()->get());
 				m_players.Add(name);
 			} // if 
+			tmp=player->get_children("ship");
+			if (tmp!=0) {
+				m_ships.Add(new int(atoi(tmp->get_value()->get())));
+			} // if 
 		} // while 
 		delete l;
 	} // if 
@@ -296,11 +300,12 @@ int TGLreplay::get_length(void)
 } /* TGLreplay::get_length */ 
 
 
-void TGLreplay::add_player(char *player_name)
+void TGLreplay::add_player(char *player_name,int ship)
 {
 	char *tmp=new char[strlen(player_name)+1];
 	strcpy(tmp,player_name);
 	m_players.Add(tmp);
+	m_ships.Add(new int(ship));
 } /* TGLreplay::add_player */ 
 
 
@@ -310,7 +315,7 @@ bool TGLreplay::save(FILE *fp)
 	TGLreplay_node *node;
 	VirtualController *vc;
 	TGLreplay_object_position *op;
-	int i;
+	int i,*itmp;
 
 	fprintf(fp,"<replay>\n");
 	fprintf(fp,"  <version>%s</version>\n",m_version);
@@ -326,8 +331,12 @@ bool TGLreplay::save(FILE *fp)
 	
 	fprintf(fp,"  <players>\n");
 	m_players.Rewind();
-	while(m_players.Iterate(tmp)) {
-		fprintf(fp,"    <player>%i</player>\n",tmp);
+	m_ships.Rewind();
+	while(m_players.Iterate(tmp) && m_ships.Iterate(itmp)) {
+		fprintf(fp,"    <player>\n");
+		fprintf(fp,"      <name>%s</name>\n",tmp);
+		fprintf(fp,"      <ship>%i</ship>\n",*itmp);
+		fprintf(fp,"    </player>\n",tmp);
 	} // while 
 	fprintf(fp,"  </players>\n");
 
@@ -476,3 +485,12 @@ void TGLreplay::rewind(void)
 	m_replay.Rewind();
 } /* TGLreplay::rewind */ 
 
+
+int TGLreplay::get_playership(char *player_name)
+{
+	int pos=m_players.Position(player_name);
+
+	if (pos>=0) return *(m_ships[pos]);
+
+	return -1;
+} /* TGLreplay::get_playership */ 

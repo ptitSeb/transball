@@ -38,6 +38,7 @@
 #include "TGLapp.h"
 #include "TGLreplay.h"
 
+#include "LevelPack.h"
 #include "PlayerProfile.h"
 
 
@@ -50,30 +51,6 @@ int TGLapp::game_cycle(KEYBOARDSTATE *k)
 
 
 	switch(m_game_replay_mode) {
-	case 0:
-			i=0;
-			m_lvc.Rewind();
-			while(m_lvc.Iterate(m_vc)) {
-				m_vc->new_cycle();
-				if (k->keyboard[m_player_profile->m_keys_configuration[i][KEY_THRUST]]) m_vc->m_joystick[VC_UP]=true;
-																 else m_vc->m_joystick[VC_UP]=false;
-				if (k->keyboard[m_player_profile->m_keys_configuration[i][KEY_SPECIAL]]) m_vc->m_joystick[VC_DOWN]=true;
-																  else m_vc->m_joystick[VC_DOWN]=false;
-				if (k->keyboard[m_player_profile->m_keys_configuration[i][KEY_LEFT]]) m_vc->m_joystick[VC_LEFT]=true;
-															   else m_vc->m_joystick[VC_LEFT]=false;
-				if (k->keyboard[m_player_profile->m_keys_configuration[i][KEY_RIGHT]]) m_vc->m_joystick[VC_RIGHT]=true;
-																else m_vc->m_joystick[VC_RIGHT]=false;
-				if (k->keyboard[m_player_profile->m_keys_configuration[i][KEY_FIRE]]) m_vc->m_button[0]=true;
-															   else m_vc->m_button[0]=false;
-				if (k->keyboard[m_player_profile->m_keys_configuration[i][KEY_ATTRACTOR]]) m_vc->m_button[1]=true;
-																	else m_vc->m_button[1]=false;
-				if (k->keyboard[m_player_profile->m_keys_configuration[i][KEY_PAUSE]]) m_vc->m_pause=true;
-																 else m_vc->m_pause=false;
-				if (k->keyboard[m_player_profile->m_keys_configuration[i][KEY_QUIT]]) m_vc->m_quit=true;
-																else m_vc->m_quit=false;
-				i=0;
-			} // while 
-			break;
 	case 1:
 			i=0;
 			m_lvc.Rewind();
@@ -175,6 +152,10 @@ int TGLapp::game_cycle(KEYBOARDSTATE *k)
 			m_game->cycle(&m_lvc,m_GLTM,m_SFXM,m_player_profile->m_sfx_volume);
 			m_game_state_cycle++;
 			if (m_game_state_cycle>50) {
+				if (m_game_replay_mode==1 && m_game->get_game_result()==1) {
+					// Update player profile!
+					m_player_profile->level_completed(m_current_levelpack->m_id,m_selected_level,m_game_replay);
+				} // if 
 				return TGL_STATE_POSTGAME;
 			} // if 
 			break;
