@@ -17,6 +17,7 @@ LevelPack_Level::LevelPack_Level(FILE *fp)
 	m_map=0;
 	m_name=0;
 	m_description=0;
+	m_initial_fuel=100;
 
 	// Load it from a file:
 	XMLNode *node;
@@ -33,6 +34,7 @@ LevelPack_Level::LevelPack_Level(XMLNode *node)
 	m_map=0;
 	m_name=0;
 	m_description=0;
+	m_initial_fuel=100;
 
 	load(node);
 
@@ -59,6 +61,9 @@ void LevelPack_Level::load(XMLNode *node)
 		if (n->get_type()->cmp("description")) {
 			m_description=new char[strlen(n->get_value()->get())+1];
 			strcpy(m_description,n->get_value()->get());
+		} // if 
+		if (n->get_type()->cmp("initial-fuel")) {
+			m_initial_fuel=atoi(n->get_value()->get());
 		} // if 
 	} // while 
 	delete children;

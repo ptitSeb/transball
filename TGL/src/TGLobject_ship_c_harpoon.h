@@ -14,7 +14,7 @@
 
 class TGLobject_ship_c_harpoon : public TGLobject_ship {
 public:
-	TGLobject_ship_c_harpoon(float x,float y);
+	TGLobject_ship_c_harpoon(float x,float y,int initial_fuel);
 	virtual ~TGLobject_ship_c_harpoon();
 
 	virtual bool is_a(char *n);

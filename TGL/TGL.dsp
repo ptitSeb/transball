@@ -183,6 +183,10 @@ SOURCE=.\src\main.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\PlayerProfile.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\ranrotb.cpp
 # End Source File
 # Begin Source File
@@ -288,6 +292,10 @@ SOURCE=.\src\LevelPack.h
 # Begin Source File
 
 SOURCE=.\src\List.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\PlayerProfile.h
 # End Source File
 # Begin Source File
 

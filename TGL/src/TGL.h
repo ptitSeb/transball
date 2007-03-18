@@ -4,7 +4,7 @@
 
 class TGL {
 public:
-	TGL(char *map, int ship,int sfx_volume, int music_volume, GLTManager *GLTM);
+	TGL(char *map, int ship,int initial_fuel,int sfx_volume, int music_volume, GLTManager *GLTM);
 	~TGL();
 
 	bool cycle(List<class VirtualController> *lk,GLTManager *GLTM,SFXManager *SFXM,int sfx_volume);

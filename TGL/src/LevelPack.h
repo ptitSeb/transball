@@ -12,6 +12,7 @@ public:
 	char *m_map;
 	char *m_name;
 	char *m_description;
+	int m_initial_fuel;
 };
 
 

@@ -302,7 +302,7 @@ int main(int argc, char** argv)
 						if ((modifiers&KMOD_ALT)!=0) {
 							fullscreen=(fullscreen ? false : true);
 							screen_sfc=toogle_video_mode(fullscreen);
-							app->save_configuration();
+							app->save_playerprofile();
 						} // if
 					} // if 
 #endif

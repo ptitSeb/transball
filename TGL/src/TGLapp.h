@@ -38,8 +38,8 @@ public:
 	bool cycle(KEYBOARDSTATE *k);
 	void draw(int SCREEN_X,int SCREEN_Y);
 
-	void save_configuration(void);
-	void load_configuration(void);
+	void save_playerprofile(void);
+	void load_playerprofile(char *name);
 
 	void MouseClick(int mx,int my);
 
@@ -94,13 +94,11 @@ protected:
 	int m_state_selection;
 	TGL *m_game;
 
-	int m_n_players;
 	List<VirtualController> m_lvc;
 
 	// configuration:
-	int m_keys_configuration[MAXLOCAL_PLAYERS][8];
-	int m_sfx_volume,m_music_volume;
-	
+	class PlayerProfile *m_player_profile;
+
 	// Game state:
 	int m_game_state;
 	int m_game_state_cycle;

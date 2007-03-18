@@ -47,12 +47,12 @@
 
 
 
-TGLobject_ship_gyrus::TGLobject_ship_gyrus(float x,float y) : TGLobject_ship(x,y)
+TGLobject_ship_gyrus::TGLobject_ship_gyrus(float x,float y,int initial_fuel) : TGLobject_ship(x,y,initial_fuel)
 {
 	m_scale=0.45f;
 	m_thrusting=false;
 	m_ball=0;
-	m_fuel=m_max_fuel=50*64;
+	m_fuel=m_max_fuel=(initial_fuel/2)*64;
 	m_cannon_angle=0;
 	m_cannon=0;
 } /* TGLobject_ship_gyrus::TGLobject_ship */ 

@@ -3,7 +3,7 @@
 
 class TGLobject_ship : public TGLobject {
 public:
-	TGLobject_ship(float x,float y);
+	TGLobject_ship(float x,float y,int initial_fuel);
 	virtual ~TGLobject_ship();
 
 	virtual bool is_a(char *n);

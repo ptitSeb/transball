@@ -57,7 +57,7 @@
 
 #define MAPPAUSE_TIME	25
 
-TGL::TGL(char *map, int ship,int sfx_volume, int music_volume, GLTManager *GLTM)
+TGL::TGL(char *map, int ship,int initial_fuel,int sfx_volume, int music_volume, GLTManager *GLTM)
 {	
 	m_font=TTF_OpenFont("fonts/arial.ttf",12);
 
@@ -85,27 +85,27 @@ TGL::TGL(char *map, int ship,int sfx_volume, int music_volume, GLTManager *GLTM)
 	if (m_map!=0) {
 		m_ball=m_map->object_exists("TGLobject_ball");
 		switch(ship) {
-		case 0:	m_ship=new TGLobject_ship_vpanther(float(m_map->get_dx()/2),32);
+		case 0:	m_ship=new TGLobject_ship_vpanther(float(m_map->get_dx()/2),32,initial_fuel);
 				break;
-		case 1:	m_ship=new TGLobject_ship_xterminator(float(m_map->get_dx()/2),32);
+		case 1:	m_ship=new TGLobject_ship_xterminator(float(m_map->get_dx()/2),32,initial_fuel);
 				break;
-		case 2:	m_ship=new TGLobject_ship_shadowrunner(float(m_map->get_dx()/2),32);
+		case 2:	m_ship=new TGLobject_ship_shadowrunner(float(m_map->get_dx()/2),32,initial_fuel);
 				break;
-		case 3:	m_ship=new TGLobject_ship_nitroblaster(float(m_map->get_dx()/2),32);
+		case 3:	m_ship=new TGLobject_ship_nitroblaster(float(m_map->get_dx()/2),32,initial_fuel);
 				break;
-		case 4:	m_ship=new TGLobject_ship_vipperbeam(float(m_map->get_dx()/2),32);
+		case 4:	m_ship=new TGLobject_ship_vipperbeam(float(m_map->get_dx()/2),32,initial_fuel);
 				break;
-		case 5:	m_ship=new TGLobject_ship_dodger(float(m_map->get_dx()/2),32);
+		case 5:	m_ship=new TGLobject_ship_dodger(float(m_map->get_dx()/2),32,initial_fuel);
 				break;
-		case 6:	m_ship=new TGLobject_ship_gravis(float(m_map->get_dx()/2),32);
+		case 6:	m_ship=new TGLobject_ship_gravis(float(m_map->get_dx()/2),32,initial_fuel);
 				break;
-		case 7:	m_ship=new TGLobject_ship_accura(float(m_map->get_dx()/2),32);
+		case 7:	m_ship=new TGLobject_ship_accura(float(m_map->get_dx()/2),32,initial_fuel);
 				break;
-		case 8:	m_ship=new TGLobject_ship_gyrus(float(m_map->get_dx()/2),32);
+		case 8:	m_ship=new TGLobject_ship_gyrus(float(m_map->get_dx()/2),32,initial_fuel);
 				break;
-		case 9:	m_ship=new TGLobject_ship_dflecter(float(m_map->get_dx()/2),32);
+		case 9:	m_ship=new TGLobject_ship_dflecter(float(m_map->get_dx()/2),32,initial_fuel);
 				break;
-		case 10:m_ship=new TGLobject_ship_c_harpoon(float(m_map->get_dx()/2),32);
+		case 10:m_ship=new TGLobject_ship_c_harpoon(float(m_map->get_dx()/2),32,initial_fuel);
 				break;
 		} // switch
 		m_map->add_object(m_ship);

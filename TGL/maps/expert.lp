@@ -1,4 +1,5 @@
 <levelpack>
+    <id>expert</id>
     <name>Expert Pack</name>
     <description>Set of levels just for experts</description>
     <creator>

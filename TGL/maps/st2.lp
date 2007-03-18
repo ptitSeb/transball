@@ -1,4 +1,5 @@
 <levelpack>
+    <id>st2</id>
     <name>Super Transball 2</name>
     <description>Maps included with Super Transball 2</description>
     <creator>
@@ -50,6 +51,7 @@
             <map>maps/st2/level9.tgl</map>
             <name>Fuel recharge</name>
             <description>Have you noticed that your ship is low on fuel?/There are special places where it can be replenished!</description>
+            <initial-fuel>20</initial-fuel>
         </level>
         <level>
             <map>maps/st2/level10.tgl</map>

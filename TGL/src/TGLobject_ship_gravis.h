@@ -3,7 +3,7 @@
 
 class TGLobject_ship_gravis : public TGLobject_ship {
 public:
-	TGLobject_ship_gravis(float x,float y);
+	TGLobject_ship_gravis(float x,float y,int initial_fuel);
 	virtual ~TGLobject_ship_gravis();
 
 	virtual bool is_a(char *n);

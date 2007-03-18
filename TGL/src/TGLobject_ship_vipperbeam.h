@@ -3,7 +3,7 @@
 
 class TGLobject_ship_vipperbeam : public TGLobject_ship {
 public:
-	TGLobject_ship_vipperbeam(float x,float y);
+	TGLobject_ship_vipperbeam(float x,float y,int initial_fuel);
 	virtual ~TGLobject_ship_vipperbeam();
 
 	virtual bool is_a(char *n);

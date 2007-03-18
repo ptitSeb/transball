@@ -3,7 +3,7 @@
 
 class TGLobject_ship_shadowrunner : public TGLobject_ship {
 public:
-	TGLobject_ship_shadowrunner(float x,float y);
+	TGLobject_ship_shadowrunner(float x,float y,int initial_fuel);
 	virtual ~TGLobject_ship_shadowrunner();
 
 	virtual bool is_a(char *n);

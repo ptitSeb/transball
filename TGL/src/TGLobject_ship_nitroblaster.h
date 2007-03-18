@@ -3,7 +3,7 @@
 
 class TGLobject_ship_nitroblaster : public TGLobject_ship {
 public:
-	TGLobject_ship_nitroblaster(float x,float y);
+	TGLobject_ship_nitroblaster(float x,float y,int initial_fuel);
 	virtual ~TGLobject_ship_nitroblaster();
 
 	virtual bool is_a(char *n);

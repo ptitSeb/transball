@@ -39,6 +39,7 @@
 #include "TGLreplay.h"
 
 #include "LevelPack.h"
+#include "PlayerProfile.h"
 
 
 
@@ -84,27 +85,17 @@ TGLapp::TGLapp()
 	m_SFXM=new SFXManager();
 	m_SFXM->cache("sfx");
 
-	m_n_players=1;
-	m_keys_configuration[0][KEY_THRUST]=SDLK_q;
-	m_keys_configuration[0][KEY_SPECIAL]=SDLK_a;
-	m_keys_configuration[0][KEY_LEFT]=SDLK_o;
-	m_keys_configuration[0][KEY_RIGHT]=SDLK_p;
-	m_keys_configuration[0][KEY_FIRE]=SDLK_SPACE;
-	m_keys_configuration[0][KEY_ATTRACTOR]=SDLK_RETURN;
-	m_keys_configuration[0][KEY_PAUSE]=SDLK_F1;
-	m_keys_configuration[0][KEY_QUIT]=SDLK_ESCAPE;
-	
-	m_sfx_volume=MIX_MAX_VOLUME;
-	m_music_volume=96;
+	load_playerprofile("default");
+
 	m_game=0;
 
-	for(i=0;i<m_n_players;i++) {
+	for(i=0;i<m_player_profile->m_n_players;i++) {
 		VirtualController *vc = new VirtualController();
 		vc->reset();
 		m_lvc.Add(vc);
 	} // for 
 	m_test_game=0;
-	load_configuration();
+	
 } /* TGLapp::TGLapp */ 
 
 
@@ -125,7 +116,7 @@ TGLapp::~TGLapp()
 	delete m_GLTM;
 	delete m_SFXM;
 
-	save_configuration();
+	save_playerprofile();
 } /* TGLapp::TGLapp */ 
 
 
@@ -291,55 +282,32 @@ int TGLapp::screen_y(int y)
 } /* TGLapp::screen_y */ 
 
 
-void TGLapp::save_configuration(void)
-{
-	int i;
-	FILE *fp;
-	char cfg[255];
-#ifdef _WIN32
-	sprintf(cfg, "TGL.cfg");
-#else
-	snprintf(cfg, 255, "%s/.TGL.cfg", getenv("HOME"));
-#endif //_WIN32
-
-	fp=fopen(cfg,"w");
-	if (fullscreen) fprintf(fp,"fullscreen\n");
-			   else fprintf(fp,"windowed\n");
-	fprintf(fp,"%i %i\n",m_sfx_volume,m_music_volume);
-	for(i=0;i<8;i++) fprintf(fp,"%i ",m_keys_configuration[0][i]);
-	fprintf(fp,"\n");
-	fclose(fp);
-} /* TGLapp::save_configuration */ 
-
-
-void TGLapp::load_configuration(void)
+void TGLapp::save_playerprofile(void)
 {
 	FILE *fp;
-	char cfg[255];
-#ifdef _WIN32
-	sprintf(cfg, "TGL.cfg");
-#else
-	snprintf(cfg, 255, "%s/.TGL.cfg", getenv("HOME"));
-#endif //_WIN32
+	char tmp[256];
 
-	fp=fopen(cfg,"r");
-	if (fp==0) {
-		save_configuration();
-	} else {
-		char tmp_s[80];
-		int i;
-
-		// fullscreen / windowed
-		fscanf(fp,"%s",tmp_s);
-		if (strcmp(tmp_s,"fullscreen")==0) fullscreen=true;
-									  else fullscreen=false;
-		// volumes
-		fscanf(fp,"%i %i",&m_sfx_volume,&m_music_volume);
-
-		// keyboard
-		for(i=0;i<8;i++) fscanf(fp,"%i",&(m_keys_configuration[0][i]));
-
+	sprintf(tmp,"players/%s.pp",m_player_profile->m_name);
+	fp=fopen(tmp,"w+");
+	if (fp!=0) {
+		m_player_profile->save(fp);
 		fclose(fp);
+	} // if 
+} /* TGLapp::save_playerprofile */ 
+
+
+void TGLapp::load_playerprofile(char *name) 
+{
+	FILE *fp;
+	char tmp[256];
+
+	sprintf(tmp,"players/%s.pp",name);
+	fp=fopen(tmp,"r+");
+	if (fp!=0) {
+		m_player_profile=new PlayerProfile(fp);
+		fclose(fp);
+	} else {
+		m_player_profile=new PlayerProfile("default");
 	} // if 
 } /* TGLapp::load_configuration */ 
 

@@ -1,14 +1,12 @@
 To do in "Transball GL": --------------------------------------------------------
 
-*** - check again for memory leaks:
+- remove the "game start state" (makes no sense)
+- check again for memory leaks:
     - there are no memory leaks, but the system slows down anyway. find out why!
-*** - background of rocks is REALLY bad
-*** - initial fuel (en "fuel recharge" debe ser poco)
+- background of rocks is REALLY bad
 - execute replays:
     - state
-- ZLIB to compress/uncompress replay files, level packs and player profile
-- Player profile (substitutes configuration (in XML))
-    - add which levels and records each player has in each level (create a complete folder per player)
+- ZLIB to compress/uncompress replay files, level packs and player profile:
 - Level Pack screen: 
     - displays the list of levels (locked and unlocked)
     - view best replays & high scores
@@ -54,6 +52,14 @@ To do in "Transball GL": -------------------------------------------------------
         - los disparos de el adversario/colaborador te quitan fuel y te desplazan un poco
     - En red
 - Editor de mapas + creador de niveles incorporado en el juego
+- estados:
+    - load/create/select player profile (always iin windowed mode)
+    - intro
+    - menu
+    - config
+    - replays
+    - highscores
+    - help (?)
 - Música en el menu principal
 - Música/loop de sonido durante el juego 
   

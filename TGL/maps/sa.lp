@@ -1,4 +1,5 @@
 <levelpack>
+    <id>sa</id>
     <name>Second Assault</name>
     <description>Maps included with Super Transball 2: Second Assault</description>
     <creator>
@@ -45,6 +46,7 @@
             <map>maps/secondassault/sa-level8.tgl</map>
             <name>Headquarters revisited</name>
             <description>Well, you made it again! But this time,/they are better prepared!</description>
+            <initial-fuel>50</initial-fuel>
         </level>
     </levels>
 </levelpack>
