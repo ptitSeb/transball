@@ -75,8 +75,7 @@ TGLapp::TGLapp()
 	m_game_replay_mode=0;	
 	m_game_replay=0;
 
-	m_replay_name[0]=0;
-	m_replay_editing_position=0;
+	m_replay_name_inputframe=0;
 	m_replay_save_button=0;
 
 	m_screen_dx=640;

@@ -1,5 +1,13 @@
 To do in "Transball GL": --------------------------------------------------------
 
+- la bola choca con la barrera de deflecter!! (evitarlo)
+- separate thread that loads replay and level for:
+    - define a queue of replays to be load and their destination
+    - use several threads (constant, that might be set to 4)
+    - define a way to cancel the threads (take into account in the load code that it can be cancelled at any moment)
+    - levelpack screen (tutorials) (show loading message)
+    - save replay/replay manager for reading the data of each replay
+- save replay screen shows all the replays saved
 - execute replays:
     - state
 - ZLIB to compress/uncompress replay files, level packs and player profile:

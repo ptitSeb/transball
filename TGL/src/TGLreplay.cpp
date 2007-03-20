@@ -75,8 +75,16 @@ TGLreplay_node::~TGLreplay_node()
 TGLreplay::TGLreplay(FILE *fp)
 {
 	// Load a replay:
-	XMLNode *node=XMLNode::from_file(fp);
+	XMLNode *node;
 	XMLNode *version,*date,*map,*players,*cycles,*fuel;
+
+
+#ifdef __DEBUG_MESSAGES
+	int start_time=SDL_GetTicks();
+	output_debug_message("TGLreplay: Loading replay...\n");
+#endif
+
+	node=XMLNode::from_file(fp);
 
 	m_version=0;
 	m_map=0;
@@ -276,6 +284,11 @@ TGLreplay::TGLreplay(FILE *fp)
 	} // if 
 
 	delete node;
+
+#ifdef __DEBUG_MESSAGES
+	output_debug_message("TGLreplay: Finished. (%i ms)\n",SDL_GetTicks()-start_time);
+#endif
+
 } /* TGLreplay::TGLreplay */ 
 
 

@@ -103,7 +103,7 @@ int TGLapp::pregame_cycle(KEYBOARDSTATE *k)
 
 		if (k->key_press(SDLK_SPACE) || k->key_press(SDLK_RETURN)) button=1;
 
-		ID=TGLinterface::update_state(mouse_x,mouse_y,button);
+		ID=TGLinterface::update_state(mouse_x,mouse_y,button,k);
 
 		if (ID==0) {
 			m_state_fading=2;

@@ -28,9 +28,10 @@ XMLNode *XMLNode::from_file(FILE *fp)
 	XMLNode *node,*first_node=0;
 	bool open;
 	char c;
+	bool look_for_first_character=true;
 
 	do {
-		node=read_tag_from_file(fp,&open);
+		node=read_tag_from_file(fp,&open,look_for_first_character);
 
 		if (first_node==0) first_node=node;
 
@@ -42,10 +43,8 @@ XMLNode *XMLNode::from_file(FILE *fp)
 				// get the value of the XML node:
 				{
 					int i=0;
-					long pos;
 
 					do{
-						pos=ftell(fp);
 						buffer[i++]=c=fgetc(fp);
 					}while(c!='<' && !feof(fp));
 
@@ -53,7 +52,8 @@ XMLNode *XMLNode::from_file(FILE *fp)
 					buffer[i]=0;
 					Symbol::arrange_string(buffer);
 					if (strlen(buffer)>0) node->m_value=new Symbol(buffer);
-					fseek(fp,pos,SEEK_SET);
+					if (c=='<') look_for_first_character=false;
+						   else look_for_first_character=true;
 				}
 			
 			} else {
@@ -62,6 +62,7 @@ XMLNode *XMLNode::from_file(FILE *fp)
 																node->m_type->get());
 				stack.ExtractIni();
 				delete node;
+				look_for_first_character=true;
 			} // if 
 		
 		} // if 
@@ -72,7 +73,7 @@ XMLNode *XMLNode::from_file(FILE *fp)
 } /* XMLNode::from_file */ 
 
 
-XMLNode *XMLNode::read_tag_from_file(FILE *fp,bool *open)
+XMLNode *XMLNode::read_tag_from_file(FILE *fp,bool *open,bool look_for_first_character)
 {
 	XMLNode *tmp;
 	char buffer[1024];
@@ -82,12 +83,14 @@ XMLNode *XMLNode::read_tag_from_file(FILE *fp,bool *open)
 
 	*open=true;
 
-	// Look for the '<':
-	do{
-		c=fgetc(fp);
-	}while(c!='<' && !feof(fp));
-	if (feof(fp)) return 0;
-
+	if (look_for_first_character) {
+		// Look for the '<':
+		do{
+			c=fgetc(fp);
+		}while(c!='<' && !feof(fp));
+		if (feof(fp)) return 0;
+	} // if 
+	
 	i=0;
 	c=fgetc(fp);
 	if (c=='/') {

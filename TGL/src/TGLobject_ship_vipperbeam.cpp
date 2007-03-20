@@ -53,7 +53,8 @@ TGLobject_ship_vipperbeam::TGLobject_ship_vipperbeam(float x,float y,int initial
 	m_scale=0.45f;
 	m_thrusting=false;
 	m_ball=0;
-	m_fuel=m_max_fuel=(initial_fuel/2)*64;
+	m_max_fuel=50*96;
+	m_fuel=(initial_fuel/2)*96;
 	m_laser_channel=-1;
 } /* TGLobject_ship_vipperbeam::TGLobject_ship */ 
 

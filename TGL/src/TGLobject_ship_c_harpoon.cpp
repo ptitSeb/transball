@@ -55,7 +55,8 @@ TGLobject_ship_c_harpoon::TGLobject_ship_c_harpoon(float x,float y,int initial_f
 	m_scale=0.45f;
 	m_thrusting=false;
 	m_ball=0;
-	m_fuel=m_max_fuel=(initial_fuel/2)*64;
+	m_max_fuel=50*64;
+	m_fuel=(initial_fuel/2)*64;
 
 	m_grabber=0;
 	

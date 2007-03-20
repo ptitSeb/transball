@@ -49,8 +49,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 	if (m_state_cycle==0) {
 		TGLinterface::reset();
 		SDL_WarpMouse(210,352);
-		TGLinterface::add_element(new TGLframe(100,32,440,276));
-		TGLinterface::add_element(new TGLframe(100,340,440,32));
+		TGLinterface::add_element(new TGLframe(100,32,440,276));		
 		m_replay_save_button=new TGLbutton("Save",m_font32,110,404,200,64,0);
 		TGLinterface::add_element(m_replay_save_button);
 		TGLinterface::add_element(new TGLbutton("Cancel",m_font32,330,404,200,64,1));
@@ -59,17 +58,17 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 		{
 			int i=0;
 			FILE *fp;
-			char tmp[255];
+			char tmp[255],tmp2[255];
 			bool found=false;
 
 			do {
 				if (i==0) {
-					sprintf(m_replay_name,"replay.rpl");
+					sprintf(tmp2,"replay.rpl");
 				} else {
-					sprintf(m_replay_name,"replay_%i.rpl",i);
+					sprintf(tmp2,"replay_%i.rpl",i);
 				} // if 
 
-				sprintf(tmp,"replays/%s",m_replay_name);
+				sprintf(tmp,"replays/%s",tmp2);
 				fp=fopen(tmp,"r+");
 				if (fp!=0) {
 					fclose(fp);
@@ -79,8 +78,11 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 				} // if 
 				i++;
 			} while(found);
+
+			m_replay_name_inputframe=new TGLTextInputFrame(tmp2,32,m_font16,100,340,440,32,0);
+			TGLinterface::add_element(m_replay_name_inputframe);
+			m_replay_name_inputframe->m_focus=true;
 		}
-		m_replay_editing_position=strlen(m_replay_name);
 	} // if 
 
 	if (m_state_fading==1) {
@@ -103,7 +105,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 
 		if (k->key_press(SDLK_SPACE) || k->key_press(SDLK_RETURN)) button=1;
 
-		ID=TGLinterface::update_state(mouse_x,mouse_y,button);
+		ID=TGLinterface::update_state(mouse_x,mouse_y,button,k);
 
 		if (ID!=-1) {
 			m_state_fading=2;
@@ -111,17 +113,13 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 			m_state_selection=ID;
 		} // if 
 
-		// Edit the string:
-		string_editor_cycle(m_replay_name,&m_replay_editing_position,32,k);
-
-
 		// Check if the name is a valid file:
 		{
 			FILE *fp;
 			bool valid_replay_name=true;
 			char tmp[256];
 
-			sprintf(tmp,"replays/%s",m_replay_name);
+			sprintf(tmp,"replays/%s",m_replay_name_inputframe->m_editing);
 
             fp=fopen(tmp,"r");
             if (fp!=0) {
@@ -152,7 +150,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 					FILE *fp;
 					char tmp[256];
 
-					sprintf(tmp,"replays/%s",m_replay_name);
+					sprintf(tmp,"replays/%s",m_replay_name_inputframe->m_editing);
 
 					fp=fopen(tmp,"w");
 					if (fp!=0) {
@@ -186,33 +184,6 @@ void TGLapp::savereplay_draw(void)
 
 	// show the list of files:
 	// ...
-
-	// File name:
-	{
-		TGLinterface::print_left(m_replay_name,m_font16,108,366);
-		// draw the cursor:
-		{
-			char tmp[255];
-			int tdx=0,tdy=0;
-
-			strcpy(tmp,m_replay_name);
-			tmp[m_replay_editing_position]=0;
-			TTF_SizeText(m_font16,tmp,&tdx,&tdy);
-
-			{
-				float f;
-				f=float(0.5+0.3*sin((m_state_cycle)*0.3F));
-				glColor4f(1,0,0,f);
-				glBegin(GL_POLYGON);
-				glVertex3f(float(108+tdx),348,0);
-				glVertex3f(float(108+tdx+4),348,0);
-				glVertex3f(float(108+tdx+4),364,0);
-				glVertex3f(float(108+tdx),364,0);
-				glEnd();
-
-			}
-		}
-	}
 
 	switch(m_state_fading) {
 	case 0:	

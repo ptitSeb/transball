@@ -91,13 +91,6 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 			if (m_lp_first_level+3>m_current_levelpack->m_levels.Length()) m_lp_first_level=m_current_levelpack->m_levels.Length()-3;
 			if (m_lp_first_level<0) m_lp_first_level=0;
 
-			m_lp_level_uparrow=new TGLbutton(m_GLTM->get("interface/uparrow"),310,200,30,100,2);
-			TGLinterface::add_element(m_lp_level_uparrow);
-			if (m_lp_first_level==0) m_lp_level_uparrow->m_enabled=false;
-			m_lp_level_downarrow=new TGLbutton(m_GLTM->get("interface/downarrow"),310,320,30,100,3);
-			TGLinterface::add_element(m_lp_level_downarrow);
-			if (m_lp_first_level+3>=m_current_levelpack->m_levels.Length()) m_lp_level_downarrow->m_enabled=false;
-
 			for(i=0;i<3 && i<m_current_levelpack->m_levels.Length();i++) {
 				level=m_current_levelpack->m_levels[i+m_lp_first_level];
 
@@ -130,6 +123,14 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 				} // if 
 				
 			} // for
+
+			m_lp_level_uparrow=new TGLbutton(m_GLTM->get("interface/uparrow"),310,200,30,100,2);
+			TGLinterface::add_element(m_lp_level_uparrow);
+			if (m_lp_first_level==0) m_lp_level_uparrow->m_enabled=false;
+			m_lp_level_downarrow=new TGLbutton(m_GLTM->get("interface/downarrow"),310,320,30,100,3);
+			TGLinterface::add_element(m_lp_level_downarrow);
+			if (m_lp_first_level+3>=m_current_levelpack->m_levels.Length()) m_lp_level_downarrow->m_enabled=false;
+
 		}
 
 		// Add the ships to the interface:
@@ -166,7 +167,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 
 		if (k->key_press(SDLK_SPACE) || k->key_press(SDLK_RETURN)) button=1;
 
-		if (m_lp_replay_mode==0) ID=TGLinterface::update_state(mouse_x,mouse_y,button);
+		if (m_lp_replay_mode==0) ID=TGLinterface::update_state(mouse_x,mouse_y,button,k);
 					        else ID=-1;
 
 		if (ID!=-1) {
@@ -502,7 +503,8 @@ void TGLapp::levelpackscreen_draw(void)
 		int old[4];
 
 		glGetIntegerv(GL_VIEWPORT,old);
-        glViewport(380*(1-replay_full_factor),80*(1-replay_full_factor), 640*replay_full_factor+230*(1-replay_full_factor),480*replay_full_factor+172*(1-replay_full_factor));
+        glViewport(int(380*(1-replay_full_factor)),int(80*(1-replay_full_factor)), 
+				   int(640*replay_full_factor+230*(1-replay_full_factor)),int(480*replay_full_factor+172*(1-replay_full_factor)));
 		m_lp_tutorial_game->draw(m_GLTM);
         glViewport(old[0],old[1],old[2],old[3]);
 

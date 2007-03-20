@@ -5,11 +5,14 @@ class TGLInterfaceElement {
 public:
 	virtual ~TGLInterfaceElement();
 
-	virtual bool check_status(int mousex,int mousey,int button);
+	virtual bool check_status(int mousex,int mousey,int button,class KEYBOARDSTATE *k);
 	virtual void draw(void);
 
 	int m_ID;
 	bool m_enabled;
+	bool m_active;	/* This indictes wether the component is active or passive, */ 
+					/* e.g.: TGLText and TGLframe are passive					*/ 
+	float m_x,m_y,m_dx,m_dy;
 };
 
 
@@ -24,7 +27,6 @@ public:
 	bool m_centered;
 	char *m_text;
 	TTF_Font *m_font;
-	float m_x,m_y;
 	GLTile *m_tile;
 };
 
@@ -36,12 +38,11 @@ public:
 	TGLbutton(GLTile *icon,float x,float y,float dx,float dy,int ID);
 	virtual ~TGLbutton();
 
-	virtual bool check_status(int mousex,int mousey,int button);
+	virtual bool check_status(int mousex,int mousey,int button,KEYBOARDSTATE *k);
 	virtual void draw(void);
 
 	char *m_text;
 	TTF_Font *m_font;
-	float m_x,m_y,m_dx,m_dy;
 	int m_status;
 	GLTile *m_tile;
 };
@@ -55,8 +56,26 @@ public:
 
 	virtual void draw(void);
 
-	float m_x,m_y,m_dx,m_dy;
 };
+
+
+class TGLTextInputFrame : public TGLframe {
+public:
+
+	TGLTextInputFrame(char *initial_text,int max_characters,TTF_Font *font,float x,float y,float dx,float dy,int ID);
+	virtual ~TGLTextInputFrame();
+
+	virtual bool check_status(int mousex,int mousey,int button,KEYBOARDSTATE *k);
+	virtual void draw(void);
+
+	TTF_Font *m_font;
+	char *m_editing;
+	int m_max_characters;
+	unsigned int m_editing_position;
+	bool m_focus;
+	int m_cycle;
+};
+
 
 
 
@@ -69,7 +88,7 @@ public:
 	static void remove_element(TGLInterfaceElement *b);
 	static void substitute_element(TGLInterfaceElement *old,TGLInterfaceElement *n);
 	static void reset(void);
-	static int update_state(int mousex,int mousey,int button);
+	static int update_state(int mousex,int mousey,int button,KEYBOARDSTATE *k);
 	static void draw(void);
 
 	static void print_left(char *text,TTF_Font *font,float x,float y);

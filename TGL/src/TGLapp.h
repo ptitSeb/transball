@@ -31,13 +31,16 @@ public:
 	TGLapp();
 	~TGLapp();
 
-	bool cycle(KEYBOARDSTATE *k);
+	bool cycle(class KEYBOARDSTATE *k);
 	void draw(int SCREEN_X,int SCREEN_Y);
 
 	void save_playerprofile(void);
 	void load_playerprofile(char *name);
 
 	void MouseClick(int mx,int my);
+
+	static void string_editor_cycle(char *editing_text,unsigned int *editing_position,unsigned int max_length,KEYBOARDSTATE *k);
+
 
 protected:
 //	int intro_cycle(KEYBOARDSTATE *k);
@@ -72,8 +75,6 @@ protected:
 	void fade_in_squares(float f,float size);
 	void fade_in_triangles(float f,float size);
 
-	void string_editor_cycle(char *editing_text,unsigned int *editing_position,unsigned int max_length,KEYBOARDSTATE *k);
-
 	class GLTManager *m_GLTM;
 	class SFXManager *m_SFXM;
 
@@ -88,9 +89,9 @@ protected:
 	int m_state_fading;
 	int m_state_fading_cycle;
 	int m_state_selection;
-	TGL *m_game;
+	class TGL *m_game;
 
-	List<VirtualController> m_lvc;
+	List<class VirtualController> m_lvc;
 
 	// configuration:
 	class PlayerProfile *m_player_profile;
@@ -106,8 +107,7 @@ protected:
 	int m_selected_ship;
 
 	// Save Replay
-	char m_replay_name[64];
-	unsigned int m_replay_editing_position;
+	class TGLTextInputFrame *m_replay_name_inputframe;
 	class TGLInterfaceElement *m_replay_save_button;
 
 	// LevelPack screen:

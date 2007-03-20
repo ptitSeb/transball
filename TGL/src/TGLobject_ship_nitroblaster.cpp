@@ -52,7 +52,8 @@ TGLobject_ship_nitroblaster::TGLobject_ship_nitroblaster(float x,float y,int ini
 	m_thrusting=false;
 	m_nitrothrusting=false;
 	m_ball=0;
-	m_fuel=m_max_fuel=(initial_fuel/2)*64;
+	m_max_fuel=50*64;
+	m_fuel=(initial_fuel/2)*64;
 } /* TGLobject_ship_nitroblaster::TGLobject_ship */ 
 
 

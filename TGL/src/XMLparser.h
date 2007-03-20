@@ -21,7 +21,7 @@ public:
 private:
 	XMLNode(void);
 
-	static XMLNode *read_tag_from_file(FILE *fp,bool *open);
+	static XMLNode *read_tag_from_file(FILE *fp,bool *open,bool look_for_first_character);
 
 	Symbol *m_type;
 	Symbol *m_value;

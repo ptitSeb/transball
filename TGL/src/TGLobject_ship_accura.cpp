@@ -51,7 +51,8 @@ TGLobject_ship_accura::TGLobject_ship_accura(float x,float y,int initial_fuel) :
 	m_scale=0.45f;
 	m_thrusting=false;
 	m_ball=0;
-	m_fuel=m_max_fuel=(initial_fuel/2)*96;
+	m_max_fuel=50*96;
+	m_fuel=(initial_fuel/2)*96;
 
 	m_missile_side=0;
 } /* TGLobject_ship_accura::TGLobject_ship */ 
