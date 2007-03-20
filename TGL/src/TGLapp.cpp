@@ -16,6 +16,7 @@
 #include "SDL.h"
 #include "SDL_mixer.h"
 #include "SDL_ttf.h"
+#include "pthread.h"
 
 #include "List.h"
 #include "Symbol.h"
@@ -40,6 +41,7 @@
 
 #include "LevelPack.h"
 #include "PlayerProfile.h"
+#include "TGLreplayLoader.h"
 
 
 
@@ -63,6 +65,7 @@ TGLapp::TGLapp()
 	m_selected_ship=0;
 	m_lp_tutorial_game=0;
 	m_lp_tutorial_replay=0;
+	m_lp_tutorial_loading=false;
 
 	m_state=TGL_STATE_MAINMENU;
 	m_state_cycle=0;
@@ -85,6 +88,8 @@ TGLapp::TGLapp()
 	m_GLTM=new GLTManager();
 	m_SFXM=new SFXManager();
 	m_SFXM->cache("sfx");
+	
+	m_RL=new TGLreplayLoader();
 
 	load_playerprofile("default");
 	fullscreen=m_player_profile->m_fullscreen;
@@ -128,6 +133,7 @@ TGLapp::~TGLapp()
 	if (m_game_replay!=0) delete m_game_replay;
 	m_game_replay=0;
 
+	delete m_RL;
 	delete m_GLTM;
 	delete m_SFXM;
 

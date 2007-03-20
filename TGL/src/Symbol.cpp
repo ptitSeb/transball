@@ -6,7 +6,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include "math.h"
-//#include "pthread.h"
+#include "pthread.h"
 #include "assert.h"
 
 #include "List.h"
@@ -16,7 +16,7 @@
 
 
 List<SymbolContainer> *symbol_hash=0;
-//pthread_mutex_t symbol_hash_mutex=PTHREAD_MUTEX_INITIALIZER; 
+pthread_mutex_t symbol_hash_mutex=PTHREAD_MUTEX_INITIALIZER; 
 
 
 #ifndef WIN32
@@ -39,10 +39,10 @@ char *strlwr(char *s)
 
 void Symbol::reset(void)
 {
-//	pthread_mutex_lock(&symbol_hash_mutex);
+	pthread_mutex_lock(&symbol_hash_mutex);
 	delete []symbol_hash;
 	symbol_hash=0;
-//	pthread_mutex_unlock(&symbol_hash_mutex);
+	pthread_mutex_unlock(&symbol_hash_mutex);
 } /* Symbol::reset */ 
 
 
@@ -52,7 +52,7 @@ Symbol::Symbol()
 	List<SymbolContainer> l;
 	SymbolContainer *s;
 
-//	pthread_mutex_lock(&symbol_hash_mutex);
+	pthread_mutex_lock(&symbol_hash_mutex);
 	if (symbol_hash==0) symbol_hash=new List<SymbolContainer>[SYMBOL_HASH_SIZE];		
 	l.Instance(symbol_hash[hv]);
 	l.Rewind();
@@ -61,7 +61,7 @@ Symbol::Symbol()
 			s->m_reference_count++;
 //			assert(s->m_reference_count<32768);
 			sym=s;
-//			pthread_mutex_unlock(&symbol_hash_mutex);
+			pthread_mutex_unlock(&symbol_hash_mutex);
 			return;
 		} /* if */ 
 	} /* while */ 
@@ -69,7 +69,7 @@ Symbol::Symbol()
 	sym=new SymbolContainer(0);
 	sym->m_reference_count++;
 	symbol_hash[hv].Add(sym);
-//	pthread_mutex_unlock(&symbol_hash_mutex);
+	pthread_mutex_unlock(&symbol_hash_mutex);
 } /* Symbol::Symbol */ 
 
 
@@ -79,7 +79,7 @@ Symbol::Symbol(char *str)
 	List<SymbolContainer> l;
 	SymbolContainer *s;
 
-//	pthread_mutex_lock(&symbol_hash_mutex);
+	pthread_mutex_lock(&symbol_hash_mutex);
 	if (symbol_hash==0) symbol_hash=new List<SymbolContainer>[SYMBOL_HASH_SIZE];
 	l.Instance(symbol_hash[hv]);
 	l.Rewind();
@@ -88,7 +88,7 @@ Symbol::Symbol(char *str)
 			s->m_reference_count++;
 //			assert(s->m_reference_count<32768);
 			sym=s;
-//			pthread_mutex_unlock(&symbol_hash_mutex);
+			pthread_mutex_unlock(&symbol_hash_mutex);
 			return;
 		} /* if */ 
 	} /* while */ 
@@ -96,7 +96,7 @@ Symbol::Symbol(char *str)
 	sym=new SymbolContainer(str);
 	sym->m_reference_count++;
 	symbol_hash[hv].Add(sym);
-//	pthread_mutex_unlock(&symbol_hash_mutex);
+	pthread_mutex_unlock(&symbol_hash_mutex);
 } /* Symbol::Symbol */ 
 
 
@@ -128,9 +128,9 @@ Symbol::~Symbol()
 		assert(sym->m_reference_count>0);
 		sym->m_reference_count--;
 		if (sym->m_reference_count<=0) {
-//			pthread_mutex_lock(&symbol_hash_mutex);
+			pthread_mutex_lock(&symbol_hash_mutex);
 			symbol_hash[SymbolContainer::hash_function(sym->m_name)].DeleteElement(sym);
-//			pthread_mutex_unlock(&symbol_hash_mutex);
+			pthread_mutex_unlock(&symbol_hash_mutex);
 			delete sym;
 		} /* if */ 
 	} /* if */ 
@@ -154,14 +154,14 @@ void Symbol::set(char *str)
 	if (sym!=0) {
 		sym->m_reference_count--;
 		if (sym->m_reference_count<=0) {
-//			pthread_mutex_lock(&symbol_hash_mutex);
+			pthread_mutex_lock(&symbol_hash_mutex);
 			symbol_hash[SymbolContainer::hash_function(sym->m_name)].DeleteElement(sym);
-//			pthread_mutex_unlock(&symbol_hash_mutex);
+			pthread_mutex_unlock(&symbol_hash_mutex);
 			delete sym;
 		} /* if */ 
 	} /* if */ 
 
-//	pthread_mutex_lock(&symbol_hash_mutex);
+	pthread_mutex_lock(&symbol_hash_mutex);
 	if (symbol_hash==0) symbol_hash=new List<SymbolContainer>[SYMBOL_HASH_SIZE];		
 	l.Instance(symbol_hash[hv]);
 	l.Rewind();
@@ -169,7 +169,7 @@ void Symbol::set(char *str)
 		if (s->cmp(str)) {
 			s->m_reference_count++;
 			sym=s;
-//			pthread_mutex_unlock(&symbol_hash_mutex);
+			pthread_mutex_unlock(&symbol_hash_mutex);
 			return;
 		} /* if */ 
 	} /* while */ 
@@ -177,7 +177,7 @@ void Symbol::set(char *str)
 	sym=new SymbolContainer(str);
 	sym->m_reference_count++;
 	symbol_hash[hv].Add(sym);
-//	pthread_mutex_unlock(&symbol_hash_mutex);
+	pthread_mutex_unlock(&symbol_hash_mutex);
 } /* Symbol::set */ 
 
 
@@ -233,9 +233,9 @@ bool Symbol::load(FILE *fp)
 	if (sym!=0) {
 		sym->m_reference_count--;
 		if (sym->m_reference_count<=0) {
-//			pthread_mutex_lock(&symbol_hash_mutex);
+			pthread_mutex_lock(&symbol_hash_mutex);
 			symbol_hash[SymbolContainer::hash_function(sym->m_name)].DeleteElement(sym);
-//			pthread_mutex_unlock(&symbol_hash_mutex);
+			pthread_mutex_unlock(&symbol_hash_mutex);
 			delete sym;
 		} /* if */ 
 	} /* if */ 
@@ -263,7 +263,7 @@ bool Symbol::load(FILE *fp)
 
 		hv=SymbolContainer::hash_function(str);
 
-//		pthread_mutex_lock(&symbol_hash_mutex);
+		pthread_mutex_lock(&symbol_hash_mutex);
 		if (symbol_hash==0) symbol_hash=new List<SymbolContainer>[SYMBOL_HASH_SIZE];		
 		l.Instance(symbol_hash[hv]);
 		l.Rewind();
@@ -271,7 +271,7 @@ bool Symbol::load(FILE *fp)
 			if (s->cmp(str)) {
 				s->m_reference_count++;
 				sym=s;
-//				pthread_mutex_unlock(&symbol_hash_mutex);
+				pthread_mutex_unlock(&symbol_hash_mutex);
 				return true;
 			} /* if */ 
 		} /* while */ 
@@ -279,7 +279,7 @@ bool Symbol::load(FILE *fp)
 		sym=new SymbolContainer(str);
 		sym->m_reference_count++;
 		symbol_hash[hv].Add(sym);
-//		pthread_mutex_unlock(&symbol_hash_mutex);
+		pthread_mutex_unlock(&symbol_hash_mutex);
 		return true;
 	} /* if */ 
 
@@ -331,9 +331,9 @@ int Symbol::fromString(char *str)
 	if (sym!=0) {
 		sym->m_reference_count--;
 		if (sym->m_reference_count<=0) {
-//			pthread_mutex_lock(&symbol_hash_mutex);
+			pthread_mutex_lock(&symbol_hash_mutex);
 			symbol_hash[SymbolContainer::hash_function(sym->m_name)].DeleteElement(sym);
-//			pthread_mutex_unlock(&symbol_hash_mutex);
+			pthread_mutex_unlock(&symbol_hash_mutex);
 			delete sym;
 		} /* if */ 
 	} /* if */ 
@@ -366,7 +366,7 @@ int Symbol::fromString(char *str)
 
 		hv=SymbolContainer::hash_function(res);
 
-//		pthread_mutex_lock(&symbol_hash_mutex);
+		pthread_mutex_lock(&symbol_hash_mutex);
 		if (symbol_hash==0) symbol_hash=new List<SymbolContainer>[SYMBOL_HASH_SIZE];		
 		l.Instance(symbol_hash[hv]);
 		l.Rewind();
@@ -374,7 +374,7 @@ int Symbol::fromString(char *str)
 			if (s->cmp(res)) {
 				s->m_reference_count++;
 				sym=s;
-//				pthread_mutex_unlock(&symbol_hash_mutex);
+				pthread_mutex_unlock(&symbol_hash_mutex);
 				return pos;
 			} /* if */ 
 		} /* while */ 
@@ -382,7 +382,7 @@ int Symbol::fromString(char *str)
 		sym=new SymbolContainer(res);
 		sym->m_reference_count++;
 		symbol_hash[hv].Add(sym);
-//		pthread_mutex_unlock(&symbol_hash_mutex);
+		pthread_mutex_unlock(&symbol_hash_mutex);
 		return pos;
 	} /* if */ 
 
@@ -400,11 +400,11 @@ int Symbol::stats_nSymbols(void)
 	int i;
 	int c=0;
 
-//	pthread_mutex_lock(&symbol_hash_mutex);
+	pthread_mutex_lock(&symbol_hash_mutex);
 	for(i=0;i<SYMBOL_HASH_SIZE;i++) {
 		c+=symbol_hash[i].Length();
 	} /* for */ 
-//	pthread_mutex_unlock(&symbol_hash_mutex);
+	pthread_mutex_unlock(&symbol_hash_mutex);
 
 	return c;
 } /* Symbol::stats_nSymbols */ 
@@ -417,14 +417,14 @@ int Symbol::stats_nSymbolReferences(void)
 	List<SymbolContainer> l;
 	SymbolContainer *s;
 
-//	pthread_mutex_lock(&symbol_hash_mutex);
+	pthread_mutex_lock(&symbol_hash_mutex);
 	for(i=0;i<SYMBOL_HASH_SIZE;i++) {
 		l.Instance(symbol_hash[i]);
 		while(l.Iterate(s)) {
 			c+=s->m_reference_count;
 		} /* while */ 
 	} /* for */ 
-//	pthread_mutex_unlock(&symbol_hash_mutex);
+	pthread_mutex_unlock(&symbol_hash_mutex);
 
 	return c;
 } /* Symbol::stats_nSymbolReferences */ 
@@ -437,7 +437,7 @@ void Symbol::stats_printSymbolStats(void)
 	List<SymbolContainer> l;
 	SymbolContainer *s;
 
-//	pthread_mutex_lock(&symbol_hash_mutex);
+	pthread_mutex_lock(&symbol_hash_mutex);
 	for(i=0;i<SYMBOL_HASH_SIZE;i++) {
 		l.Instance(symbol_hash[i]);
 		while(l.Iterate(s)) {
@@ -445,7 +445,7 @@ void Symbol::stats_printSymbolStats(void)
 			c+=s->m_reference_count;
 		} /* while */ 
 	} /* for */ 
-//	pthread_mutex_unlock(&symbol_hash_mutex);
+	pthread_mutex_unlock(&symbol_hash_mutex);
 
 	printf("Total: %i\n",c);
 } /* Symbol::stats_printSymbolStats */ 

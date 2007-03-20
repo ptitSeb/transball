@@ -108,6 +108,7 @@ bool TGLobject_ship_dflecter::cycle(VirtualController *k,TGLmap *map,GLTManager 
 				ball->capture(3);
 				m_ball=ball;
 				Sound_play(SFXM->get("sfx/takeball"),sfx_volume);
+				ball->exclude_for_collision(m_shield);
 			} // if 
 		} // if 
 

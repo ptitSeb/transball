@@ -1,20 +1,13 @@
 To do in "Transball GL": --------------------------------------------------------
 
-- la bola choca con la barrera de deflecter!! (evitarlo)
-- separate thread that loads replay and level for:
-    - define a queue of replays to be load and their destination
-    - use several threads (constant, that might be set to 4)
-    - define a way to cancel the threads (take into account in the load code that it can be cancelled at any moment)
-    - levelpack screen (tutorials) (show loading message)
-    - save replay/replay manager for reading the data of each replay
-- save replay screen shows all the replays saved
+- save replay screen shows all the replays saved (loads them in separate threads to get the data)
 - execute replays:
-    - state
+    - state (to test this, try adding some random noise to the gravity and see if the replay is still properly played)
 - ZLIB to compress/uncompress replay files, level packs and player profile:
 - Level Pack screen: 
     - view best replays
 - graphics:
-	- glow of the starts when the ship is up (as in thrust extreme) and stars disappear as you go down
+	- glow of the stars when the ship is up (as in thrust extreme) and stars disappear as you go down
     - snow falling in snow levels
     - background of rocks is REALLY bad
     - snow background too bright
@@ -61,7 +54,6 @@ To do in "Transball GL": -------------------------------------------------------
     - config
     - replays
     - highscores
-    - help (?)
 - Música en el menu principal
 - Música/loop de sonido durante el juego 
   
@@ -72,6 +64,7 @@ To do in "Transball GL": -------------------------------------------------------
     - Harpoon:
         - A + O/P alarga o acorta chain (consume fuel)
         - para coger/soltar la bola ENTER
+    - Como utilizar los especiales de cada nave
 
 : ------------------------------------------------------------------------------------------
 

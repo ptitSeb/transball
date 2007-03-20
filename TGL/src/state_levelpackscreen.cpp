@@ -16,6 +16,7 @@
 #include "SDL.h"
 #include "SDL_mixer.h"
 #include "SDL_ttf.h"
+#include "pthread.h"
 
 #include "List.h"
 #include "Symbol.h"
@@ -41,6 +42,7 @@
 
 #include "LevelPack.h"
 #include "PlayerProfile.h"
+#include "TGLreplayLoader.h"
 
 
 int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
@@ -54,6 +56,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 		m_selected_level=0;
 		m_lp_replay_mode=0;
 		m_lp_replay_timmer=0;
+		m_lp_tutorial_loading=false;
 
 		if (m_lp_tutorial_game!=0) {
 			delete m_lp_tutorial_game;
@@ -199,6 +202,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 						m_selected_ship=*(m_player_profile->m_ships[pos]);
 						m_recheck_interface=true;
 						m_reload_tutorial=true;
+						m_RL->cancel_all();
 					}
 					break;
 			case 5:
@@ -208,6 +212,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 						m_selected_ship=*(m_player_profile->m_ships[pos]);
 						m_recheck_interface=true;
 						m_reload_tutorial=true;
+						m_RL->cancel_all();
 					}
 					break;
 			case 10:
@@ -217,6 +222,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 					m_state_fading=2;
 					m_state_fading_cycle=0;
 					m_state_selection=ID;
+					m_RL->cancel_all();
 					break;
 			case 11:
 			case 13:
@@ -225,6 +231,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 					m_state_fading=2;
 					m_state_fading_cycle=0;
 					m_state_selection=ID;					
+					m_RL->cancel_all();
 					break;
 			} // switch
 		} // if 
@@ -280,7 +287,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 												  else m_lp_ship_rightarrow->m_enabled=true;											
 	} // if 
 
-	if (m_reload_tutorial || m_lp_tutorial_game==0) {
+	if (m_reload_tutorial || (m_lp_tutorial_game==0 && !m_lp_tutorial_loading)) {
 		char *ship_tutorial[]={"tutorial1-vp",
 							   "tutorial1-xt",
 							   "tutorial1-sr",
@@ -310,15 +317,8 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 			sprintf(tmp,"tutorials/%s.rpl",ship_tutorial[m_selected_ship]);
 			fp=fopen(tmp,"r");
 			if (fp!=0) {
-				m_lp_tutorial_replay=new TGLreplay(fp);
-				m_lp_tutorial_replay->rewind();
-				fclose(fp);
-
-				m_lp_tutorial_game=new TGL(m_lp_tutorial_replay->get_map(),
-										   m_lp_tutorial_replay->get_playership("default"),
-										   m_lp_tutorial_replay->get_initial_fuel(),
-										   0,
-										   0,m_GLTM);
+				m_lp_tutorial_loading=true;
+				m_RL->load_replay(fp,&m_lp_tutorial_replay);
 			} // if 
 
 		} // if 
@@ -326,7 +326,16 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 		
 	} // if 
 
-	if (m_lp_tutorial_game!=0) {
+	if (m_lp_tutorial_replay!=0) {
+		m_lp_tutorial_loading=false;
+		if (m_lp_tutorial_game==0) {
+			m_lp_tutorial_game=new TGL(m_lp_tutorial_replay->get_map(),
+									   m_lp_tutorial_replay->get_playership("default"),
+									   m_lp_tutorial_replay->get_initial_fuel(),
+									   0,
+									   0,m_GLTM);
+		} // if 
+
 		List<TGLobject> *l=m_lp_tutorial_game->get_map()->get_objects("TGLobject");
 		List<TGLobject> to_delete,to_add;
 		TGLobject *o;
@@ -499,43 +508,47 @@ void TGLapp::levelpackscreen_draw(void)
 	} // switch
 
 	// Draw tutorial:
-	if (m_lp_tutorial_game!=0) {
-		int old[4];
-
-		glGetIntegerv(GL_VIEWPORT,old);
-        glViewport(int(380*(1-replay_full_factor)),int(80*(1-replay_full_factor)), 
-				   int(640*replay_full_factor+230*(1-replay_full_factor)),int(480*replay_full_factor+172*(1-replay_full_factor)));
-		m_lp_tutorial_game->draw(m_GLTM);
-        glViewport(old[0],old[1],old[2],old[3]);
-
-		{
-			float f=0.6f+0.4f*float(sin(m_state_cycle*0.1));
-
-			if (m_lp_replay_mode==0 || m_lp_replay_mode==1) TGLinterface::print_center("Press F for fullscreen",m_font16,320*replay_full_factor+495*(1-replay_full_factor),20*replay_full_factor+250*(1-replay_full_factor),1,1,1,f);
-			if (m_lp_replay_mode==2 || m_lp_replay_mode==3) TGLinterface::print_center("Press F for windowed",m_font16,320*replay_full_factor+495*(1-replay_full_factor),20*replay_full_factor+250*(1-replay_full_factor),1,1,1,f);
-		}
-
-		{
-			int i,j;
-			float y;
-			char buffer[128];
-			char *tmp=m_lp_tutorial_replay->get_text();
-			if (tmp!=0) {
-				i=0;
-				y=445*replay_full_factor+425*(1-replay_full_factor);
-				while(tmp[i]!=0) {
-					for(j=0;tmp[i]!=0 && tmp[i]!='/';i++,j++) buffer[j]=tmp[i];
-					buffer[j]=0;
-					if (tmp[i]=='/') i++;
-					TGLinterface::print_center(buffer,m_font16,320*replay_full_factor+495*(1-replay_full_factor),y);
-					y+=20;
-				} // while
-
-			} // if 
-		} 
+	if (m_lp_tutorial_loading) {
+		TGLinterface::print_center("Loading Tutorial...",m_font16,320*replay_full_factor+495*(1-replay_full_factor),240*replay_full_factor+300*(1-replay_full_factor));
 	} else {
-		TGLinterface::print_center("No tutorial available",m_font16,320*replay_full_factor+495*(1-replay_full_factor),240*replay_full_factor+300*(1-replay_full_factor));
-	}
+		if (m_lp_tutorial_game!=0) {
+			int old[4];
+
+			glGetIntegerv(GL_VIEWPORT,old);
+			glViewport(int(380*(1-replay_full_factor)),int(80*(1-replay_full_factor)), 
+					   int(640*replay_full_factor+230*(1-replay_full_factor)),int(480*replay_full_factor+172*(1-replay_full_factor)));
+			m_lp_tutorial_game->draw(m_GLTM);
+			glViewport(old[0],old[1],old[2],old[3]);
+
+			{
+				float f=0.6f+0.4f*float(sin(m_state_cycle*0.1));
+
+				if (m_lp_replay_mode==0 || m_lp_replay_mode==1) TGLinterface::print_center("Press F for fullscreen",m_font16,320*replay_full_factor+495*(1-replay_full_factor),20*replay_full_factor+250*(1-replay_full_factor),1,1,1,f);
+				if (m_lp_replay_mode==2 || m_lp_replay_mode==3) TGLinterface::print_center("Press F for windowed",m_font16,320*replay_full_factor+495*(1-replay_full_factor),20*replay_full_factor+250*(1-replay_full_factor),1,1,1,f);
+			}
+
+			{
+				int i,j;
+				float y;
+				char buffer[128];
+				char *tmp=m_lp_tutorial_replay->get_text();
+				if (tmp!=0) {
+					i=0;
+					y=445*replay_full_factor+425*(1-replay_full_factor);
+					while(tmp[i]!=0) {
+						for(j=0;tmp[i]!=0 && tmp[i]!='/';i++,j++) buffer[j]=tmp[i];
+						buffer[j]=0;
+						if (tmp[i]=='/') i++;
+						TGLinterface::print_center(buffer,m_font16,320*replay_full_factor+495*(1-replay_full_factor),y);
+						y+=20;
+					} // while
+
+				} // if 
+			} 
+		} else {
+			TGLinterface::print_center("No tutorial available",m_font16,320*replay_full_factor+495*(1-replay_full_factor),240*replay_full_factor+300*(1-replay_full_factor));
+		} // if 
+	} // if
 
 	switch(m_state_fading) {
 	case 0:	

@@ -77,6 +77,7 @@ protected:
 
 	class GLTManager *m_GLTM;
 	class SFXManager *m_SFXM;
+	class TGLreplayLoader *m_RL;
 
 	TTF_Font *m_font32,*m_font16;
 
@@ -122,6 +123,7 @@ protected:
 	TGLInterfaceElement *m_lp_ship_rightarrow;
 	TGL *m_lp_tutorial_game;
 	TGLreplay *m_lp_tutorial_replay;
+	bool m_lp_tutorial_loading;
 	int m_lp_replay_mode;
 	int m_lp_replay_timmer;
 };
