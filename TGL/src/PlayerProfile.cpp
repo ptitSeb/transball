@@ -404,7 +404,7 @@ void PlayerProfile::level_completed(char *levelpack_id,int level,TGLreplay *repl
 	} // if 
 
 	if (selected_l->m_best_time==-1 || selected_l->m_best_time>replay->get_length()) {
-		selected_l->m_best_time=replay->get_length();
+		selected_l->m_best_time=replay->get_length()*18;
 		selected_l->m_fuel_used=0;
 		selected_l->m_shots=0;
 		selected_l->m_impacts=0;

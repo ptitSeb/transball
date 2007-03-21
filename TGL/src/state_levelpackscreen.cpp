@@ -105,9 +105,9 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 					if (time==-1) {
 						sprintf(tmp,"Best Time:: --:--:--");
 					} else {
-						int hunds=time%100;
-						int secs=(time/100)%60;
-						int mins=time/6000;
+						int hunds=(time/10)%100;
+						int secs=(time/1000)%60;
+						int mins=time/60000;
 						sprintf(tmp,"Best Time:: %i:%.2i:%.2i",mins,secs,hunds);
 					} // if 
 				}
@@ -300,7 +300,6 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 							   "tutorial1-def",
 							   "tutorial1-harp",
 								};
-		char tmp[128];
 
 		if (m_lp_tutorial_game!=0) {
 			delete m_lp_tutorial_game;
@@ -312,18 +311,23 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 		} // if 
 
 		if (ship_tutorial[m_selected_ship]!=0) {
-			FILE *fp;
-
-			sprintf(tmp,"tutorials/%s.rpl",ship_tutorial[m_selected_ship]);
-			fp=fopen(tmp,"r");
-			if (fp!=0) {
-				m_lp_tutorial_loading=true;
-				m_RL->load_replay(fp,&m_lp_tutorial_replay);
-			} // if 
-
+			if (m_lp_replay_name!=0) delete []m_lp_replay_name;
+			m_lp_replay_name=0;
+			m_lp_replay_name=new char[strlen(ship_tutorial[m_selected_ship])+15];
+			sprintf(m_lp_replay_name,"tutorials/%s.rpl",ship_tutorial[m_selected_ship]);
+			m_lp_tutorial_loading=true;
+			m_RL->load_replay(m_lp_replay_name);
 		} // if 
 	
 		
+	} // if 
+
+	if (m_lp_tutorial_replay==0 && m_lp_replay_name!=0) {
+		m_lp_tutorial_replay=m_RL->is_loaded(m_lp_replay_name);
+		if (m_lp_tutorial_replay!=0) {
+			delete []m_lp_replay_name;
+			m_lp_replay_name=0;
+		} // if 
 	} // if 
 
 	if (m_lp_tutorial_replay!=0) {

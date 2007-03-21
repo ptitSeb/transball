@@ -1,6 +1,5 @@
 To do in "Transball GL": --------------------------------------------------------
 
-- save replay screen shows all the replays saved (loads them in separate threads to get the data)
 - execute replays:
     - state (to test this, try adding some random noise to the gravity and see if the replay is still properly played)
 - ZLIB to compress/uncompress replay files, level packs and player profile:

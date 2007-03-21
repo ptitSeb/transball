@@ -16,6 +16,7 @@
 #include "SDL.h"
 #include "SDL_mixer.h"
 #include "SDL_ttf.h"
+#include "pthread.h"
 
 #include "List.h"
 #include "Symbol.h"
@@ -38,6 +39,7 @@
 #include "TGLapp.h"
 #include "TGLreplay.h"
 #include "TGLinterface.h"
+#include "TGLreplayLoader.h"
 
 #include "LevelPack.h"
 
@@ -45,11 +47,13 @@
 
 int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 {
+	bool check_for_replays_to_load=false;
+
 	if (SDL_ShowCursor(SDL_QUERY)!=SDL_ENABLE) SDL_ShowCursor(SDL_ENABLE);
 	if (m_state_cycle==0) {
 		TGLinterface::reset();
 		SDL_WarpMouse(210,352);
-		TGLinterface::add_element(new TGLframe(100,32,440,276));		
+		TGLinterface::add_element(new TGLframe(10,32,580,276));		
 		m_replay_save_button=new TGLbutton("Save",m_font32,110,404,200,64,0);
 		TGLinterface::add_element(m_replay_save_button);
 		TGLinterface::add_element(new TGLbutton("Cancel",m_font32,330,404,200,64,1));
@@ -83,6 +87,78 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 			TGLinterface::add_element(m_replay_name_inputframe);
 			m_replay_name_inputframe->m_focus=true;
 		}
+
+		// Load the replay filenames:
+		{
+			char *tmp;
+			int i;
+
+			m_sr_first_replay=0;
+			m_sr_replay_fullnames.Delete();
+			m_sr_replay_names.Delete();
+			m_sr_replay_info.Delete();
+
+
+#ifdef _WIN32
+			/* Find files: */
+			WIN32_FIND_DATA finfo;
+			HANDLE h;
+
+			h = FindFirstFile("replays/*.rpl", &finfo);
+			if (h != INVALID_HANDLE_VALUE) {
+				tmp=new char[strlen(finfo.cFileName)+1];
+				strcpy(tmp,finfo.cFileName);
+				m_sr_replay_names.Add(tmp);
+
+				while (FindNextFile(h, &finfo) == TRUE) {
+					tmp=new char[strlen(finfo.cFileName)+1];
+					strcpy(tmp,finfo.cFileName);
+					m_sr_replay_names.Add(tmp);
+				} /* while */
+			} /* if */
+#else
+			DIR *dp;
+			struct dirent *ep;
+
+			dp = opendir ("replays");
+			if (dp != NULL) {
+				while (ep = readdir (dp)) {
+					if (strlen(ep->d_name) > 4 &&
+							ep->d_name[strlen(ep->d_name) - 4] == '.' &&
+							ep->d_name[strlen(ep->d_name) - 3] == 'r' &&
+							ep->d_name[strlen(ep->d_name) - 2] == 'p' &&
+							ep->d_name[strlen(ep->d_name) - 1] == 'l') {
+
+						tmp=new char[strlen(ep->d_name)+1];
+						strcpy(tmp,ep->d_name);
+						m_sr_replay_names.Add(tmp);
+					} /* if */
+
+				} /* while */
+				(void) closedir (dp);
+			} /* if */
+#endif
+
+			for(i=0;i<m_sr_replay_names.Length();i++) {
+				char *tmp;
+
+				tmp=new char[strlen(m_sr_replay_names[i])+9];
+				sprintf(tmp,"replays/%s",m_sr_replay_names[i]);
+				m_sr_replay_fullnames.Add(tmp);
+				m_sr_replay_info.Add(0);
+			} // for
+			check_for_replays_to_load=true;
+		}
+
+		m_sr_replay_uparrow=new TGLbutton(m_GLTM->get("interface/uparrow"),600,32,30,100,2);
+		TGLinterface::add_element(m_sr_replay_uparrow);
+		if (m_sr_first_replay==0) m_sr_replay_uparrow->m_enabled=false;
+							 else m_sr_replay_uparrow->m_enabled=true;
+		m_sr_replay_downarrow=new TGLbutton(m_GLTM->get("interface/downarrow"),600,100+32+76,30,100,3);
+		TGLinterface::add_element(m_sr_replay_downarrow);
+		if (m_sr_replay_names.Length()>SAVEREPLAY_REPLAYSPERPAGE) m_sr_replay_downarrow->m_enabled=true;
+														     else m_sr_replay_downarrow->m_enabled=false;
+
 	} // if 
 
 	if (m_state_fading==1) {
@@ -107,10 +183,28 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 
 		ID=TGLinterface::update_state(mouse_x,mouse_y,button,k);
 
-		if (ID!=-1) {
+		if (ID==0 || ID==1) {
 			m_state_fading=2;
 			m_state_fading_cycle=0;
 			m_state_selection=ID;
+		} // if 
+
+		if (ID==2) {
+			m_sr_first_replay--;
+			if (m_sr_first_replay==0) m_sr_replay_uparrow->m_enabled=false;
+								 else m_sr_replay_uparrow->m_enabled=true;
+			if (m_sr_replay_names.Length()>m_sr_first_replay+SAVEREPLAY_REPLAYSPERPAGE) m_sr_replay_downarrow->m_enabled=true;
+																			  	   else m_sr_replay_downarrow->m_enabled=false;	
+			check_for_replays_to_load=true;
+		} // if 
+
+		if (ID==3) {
+			m_sr_first_replay++;
+			if (m_sr_first_replay==0) m_sr_replay_uparrow->m_enabled=false;
+								 else m_sr_replay_uparrow->m_enabled=true;
+			if (m_sr_replay_names.Length()>m_sr_first_replay+SAVEREPLAY_REPLAYSPERPAGE) m_sr_replay_downarrow->m_enabled=true;
+																			  	   else m_sr_replay_downarrow->m_enabled=false;
+			check_for_replays_to_load=true;
 		} // if 
 
 		// Check if the name is a valid file:
@@ -159,9 +253,11 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 					} /* if */
 				}
 
+				m_RL->cancel_all();
 				return TGL_STATE_POSTGAME;
 				break;
 		case 1:
+				m_RL->cancel_all();
 				return TGL_STATE_POSTGAME;
 				break;
 		} // switch
@@ -169,6 +265,64 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 
 	if (m_state_fading==0 || m_state_fading==2) m_state_fading_cycle++;
 	if (m_state_fading==0 && m_state_fading_cycle>25) m_state_fading=1;
+
+
+	if (check_for_replays_to_load) {
+		int i,j;
+		char *info,*name;
+
+		for(j=0,i=m_sr_first_replay;i<m_sr_first_replay+SAVEREPLAY_REPLAYSPERPAGE && i<m_sr_replay_names.Length();i++,j++) {
+			name=m_sr_replay_names[i];
+			info=m_sr_replay_info[i];
+
+			if (info==0 && !m_RL->is_loading(m_sr_replay_fullnames[i])) {
+				m_RL->load_replay(m_sr_replay_fullnames[i]);
+			} // if 
+		} // for
+	} // if 
+	
+	// Check to see if the replays have been loaded:
+	{
+		int i,j;
+		char *info,*tmp;
+		TGLreplay *rpl;
+
+		for(j=0,i=m_sr_first_replay;i<m_sr_first_replay+SAVEREPLAY_REPLAYSPERPAGE && i<m_sr_replay_names.Length();i++,j++) {
+			info=m_sr_replay_info[i];
+
+			if (info==0) {
+				rpl=m_RL->is_loaded(m_sr_replay_fullnames[i]);
+				if (rpl!=0) {
+					char *ship_names[]={"V-Panther",
+										"X-Terminator",
+										"Shadow Runner",
+										"Nitro Blaster",
+										"Vipper Beam",
+										"Dodger K7",
+										"Gravis T8",
+										"Accura T5",
+										"Gyrus-P",
+										"D-Flecter",
+										"C-Harpoon",
+										};
+					
+					tmp=new char[256];
+					{
+						int milis=rpl->get_length()*18;
+						int hunds=(milis/10)%100;
+						int secs=(milis/1000)%60;
+						int mins=(milis/60000);
+
+						sprintf(tmp,"%s - %i:%i:%i",ship_names[rpl->get_playership(rpl->get_playername(0))],mins,secs,hunds);
+					}
+
+					m_sr_replay_info.SetObj(i,tmp);
+					
+					delete rpl;
+				} // if 
+			} // if 
+		} // for
+	}
 
 	return TGL_STATE_SAVEREPLAY;
 } /* TGLapp::savereplay_cycle */ 
@@ -183,7 +337,34 @@ void TGLapp::savereplay_draw(void)
 	TGLinterface::draw();
 
 	// show the list of files:
-	// ...
+	{
+		int i,j;
+		char *info;		
+
+		for(j=0,i=m_sr_first_replay;i<m_sr_first_replay+SAVEREPLAY_REPLAYSPERPAGE && i<m_sr_replay_names.Length();i++,j++) {
+			{
+				int old[4];
+				bool old_scissor=false;
+
+				glGetIntegerv(GL_SCISSOR_BOX,old);
+				if (glIsEnabled(GL_SCISSOR_TEST)) old_scissor=true;
+				glEnable(GL_SCISSOR_TEST);
+				glScissor(10,0,200,480);
+				TGLinterface::print_left(m_sr_replay_names[i],m_font16,20,float(60+j*22));
+				glScissor(old[0],old[1],old[2],old[3]);
+				if (!old_scissor) glDisable(GL_SCISSOR_TEST);
+			}
+
+			TGLinterface::print_left("-",m_font16,220,float(60+j*22));			
+
+			info=m_sr_replay_info[i];
+			if (info!=0) {
+
+				TGLinterface::print_left(info,m_font16,250,float(60+j*22));
+
+			} // if 
+		} // for
+	} 
 
 	switch(m_state_fading) {
 	case 0:	

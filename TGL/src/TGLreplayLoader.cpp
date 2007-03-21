@@ -57,8 +57,9 @@ TGLreplayLoaderTask::~TGLreplayLoaderTask()
 	} // if 
 	if (m_fp!=0) fclose(m_fp);
 	m_fp=0;
+	if (m_replay!=0) delete m_replay;
+	m_replay=0;
 	m_father=0;
-	m_destination=0;
 	m_running=false;
 } /* TGLreplayLoaderTask::~TGLreplayLoaderTask */ 
 
@@ -69,23 +70,26 @@ void *TGLreplayLoaderTask::thread(void *task)
 	TGLreplayLoader *father=t->m_father;
 
 	{
-		TGLreplay *r=new TGLreplay(t->m_fp);
-		fclose(t->m_fp);
-		t->m_fp=0;
-		r->rewind();
+		t->m_fp=fopen(t->m_name,"r+");
+		if (t->m_fp!=0) {
+			t->m_replay=new TGLreplay(t->m_fp);
+			fclose(t->m_fp);
+			t->m_fp=0;
+			t->m_replay->rewind();
+		} else {
+			t->m_replay=0;
+		} // if 
 		if (t->m_stopsignal) {
-			delete r;
+			delete t->m_replay;
+			t->m_replay=0;
 			return 0;
 		} // if 
-		*t->m_destination=r;
 	}
-
 	t->m_running=false;
 	pthread_mutex_lock(&father->m_mutex);
 	father->m_executing_tasks.DeleteElement(t);
-	delete t;
+	father->m_finished_tasks.Add(t);
 	pthread_mutex_unlock(&father->m_mutex);
-
 	father->launch_threads();
 
 	return 0;
@@ -111,16 +115,17 @@ TGLreplayLoader::~TGLreplayLoader()
 } /* TGLreplayLoader::~TGLreplayLoader */ 
 
 
-void TGLreplayLoader::load_replay(FILE *fp,TGLreplay **destination)
+void TGLreplayLoader::load_replay(char *name)
 {
 	TGLreplayLoaderTask *t;
 
 	t=new TGLreplayLoaderTask();
-	t->m_fp=fp;
+	t->m_name=name;
+	t->m_fp=0;
 	t->m_father=this;
-	t->m_destination=destination;
 	t->m_running=false;
 	t->m_stopsignal=false;
+	t->m_replay=0;
 	pthread_mutex_lock(&m_mutex);
 	m_pending_tasks.Add(t);
 	pthread_mutex_unlock(&m_mutex);
@@ -128,6 +133,52 @@ void TGLreplayLoader::load_replay(FILE *fp,TGLreplay **destination)
 	launch_threads();
 
 } /* TGLreplayLoader::load_replay */ 
+
+
+TGLreplay *TGLreplayLoader::is_loaded(char *name) 
+{
+	TGLreplayLoaderTask *t,*found=0;
+	TGLreplay *retval=0;
+
+	pthread_mutex_lock(&m_mutex);
+	m_finished_tasks.Rewind();
+	while(m_finished_tasks.Iterate(t) && found==0) {
+		if (t->m_name==name) found=t;
+	} // while 
+	if (found!=0) {
+		m_finished_tasks.DeleteElement(found);
+		retval=found->m_replay;
+		found->m_replay=0;
+		delete found;
+	} // if 
+	pthread_mutex_unlock(&m_mutex);
+
+	return retval;
+} /* TGLreplayLoader::is_loaded */ 
+
+
+bool TGLreplayLoader::is_loading(char *name)
+{
+	TGLreplayLoaderTask *t,*found=0;
+
+	pthread_mutex_lock(&m_mutex);
+	m_pending_tasks.Rewind();
+	while(m_pending_tasks.Iterate(t) && found==0) {
+		if (t->m_name==name) found=t;
+	} // while 
+	m_executing_tasks.Rewind();
+	while(m_executing_tasks.Iterate(t) && found==0) {
+		if (t->m_name==name) found=t;
+	} // while 
+	m_finished_tasks.Rewind();
+	while(m_finished_tasks.Iterate(t) && found==0) {
+		if (t->m_name==name) found=t;
+	} // while 
+	pthread_mutex_unlock(&m_mutex);
+
+	if (found!=0) return true;
+	return false;
+} /* TGLreplayLoader::is_loaded */ 
 
 
 void TGLreplayLoader::launch_threads(void)
@@ -154,6 +205,12 @@ void TGLreplayLoader::cancel_all(void)
 	TGLreplayLoaderTask *t;
 
 	pthread_mutex_lock(&m_mutex);
+	while(!m_finished_tasks.EmptyP()) {
+		t=m_finished_tasks.ExtractIni();
+		t->stop();
+		delete t;
+	} // while 
+
 	while(!m_pending_tasks.EmptyP()) {
 		t=m_pending_tasks.ExtractIni();
 		t->stop();

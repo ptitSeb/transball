@@ -42,6 +42,7 @@ public:
 
 	int get_length(void);
 	int get_playership(char *player_name);
+	char *get_playername(int player);
 	char *get_map(void);
 	int get_initial_fuel(void);
 	char *get_text(void);

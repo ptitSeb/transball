@@ -26,6 +26,8 @@
 #define KEY_PAUSE		6
 #define KEY_QUIT		7
 
+#define SAVEREPLAY_REPLAYSPERPAGE	12
+
 class TGLapp {
 public:
 	TGLapp();
@@ -110,6 +112,12 @@ protected:
 	// Save Replay
 	class TGLTextInputFrame *m_replay_name_inputframe;
 	class TGLInterfaceElement *m_replay_save_button;
+	TGLInterfaceElement *m_sr_replay_uparrow;
+	TGLInterfaceElement *m_sr_replay_downarrow;
+	List<char> m_sr_replay_fullnames;
+	List<char> m_sr_replay_names;
+	List<char> m_sr_replay_info;
+	int m_sr_first_replay;
 
 	// LevelPack screen:
 	int m_lp_first_level;
@@ -126,6 +134,7 @@ protected:
 	bool m_lp_tutorial_loading;
 	int m_lp_replay_mode;
 	int m_lp_replay_timmer;
+	char  *m_lp_replay_name;
 };
 
 #endif

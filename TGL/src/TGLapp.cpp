@@ -66,6 +66,7 @@ TGLapp::TGLapp()
 	m_lp_tutorial_game=0;
 	m_lp_tutorial_replay=0;
 	m_lp_tutorial_loading=false;
+	m_lp_replay_name=0;
 
 	m_state=TGL_STATE_MAINMENU;
 	m_state_cycle=0;
@@ -80,6 +81,7 @@ TGLapp::TGLapp()
 
 	m_replay_name_inputframe=0;
 	m_replay_save_button=0;
+	m_sr_first_replay=0;
 
 	m_screen_dx=640;
 	m_screen_dy=480;
@@ -132,6 +134,9 @@ TGLapp::~TGLapp()
 
 	if (m_game_replay!=0) delete m_game_replay;
 	m_game_replay=0;
+
+	if (m_lp_replay_name!=0) delete []m_lp_replay_name;
+	m_lp_replay_name=0;
 
 	delete m_RL;
 	delete m_GLTM;

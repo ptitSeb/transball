@@ -98,12 +98,14 @@ TGLreplay::TGLreplay(FILE *fp)
 
 	m_text=0;
 
-	version=node->get_children("version");
-	date=node->get_children("date");
-	map=node->get_children("map");
-	fuel=node->get_children("initial-fuel");
-	players=node->get_children("players");
-	cycles=node->get_children("cycles");
+	if (node!=0) {
+		version=node->get_children("version");
+		date=node->get_children("date");
+		map=node->get_children("map");
+		fuel=node->get_children("initial-fuel");
+		players=node->get_children("players");
+		cycles=node->get_children("cycles");
+	} // if 
 
 	if (version!=0) {
 		m_version=new char[strlen(version->get_value()->get())+1];
@@ -563,4 +565,11 @@ char *TGLreplay::get_text(void)
 {
 	return m_text;
 } /* TGLreplay::get_text */ 
+
+
+char *TGLreplay::get_playername(int player)
+{
+	return m_players[player];
+} /* TGLreplay::get_playername */ 
+
 
