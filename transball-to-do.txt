@@ -1,10 +1,6 @@
 To do in "Transball GL": --------------------------------------------------------
 
-- execute replays:
-    - state (to test this, try adding some random noise to the gravity and see if the replay is still properly played)
 - ZLIB to compress/uncompress replay files, level packs and player profile:
-- Level Pack screen: 
-    - view best replays
 - graphics:
 	- glow of the stars when the ship is up (as in thrust extreme) and stars disappear as you go down
     - snow falling in snow levels

@@ -48,6 +48,11 @@ public:
 	char *get_text(void);
 
 private:
+
+	static bool replay_ignored_object(TGLobject *o);
+	static void save_float(float v,FILE *fp);
+	static float load_float(char *str);
+
 	// Version of TRANSBALL with which it was saved:
 	char *m_version;
 

@@ -108,6 +108,14 @@ int TGLapp::game_cycle(KEYBOARDSTATE *k)
 					m_game_state=3;
 					m_game_state_cycle=0;
 				} // if  
+				i=0;
+				m_lvc.Rewind();
+				while(m_lvc.Iterate(m_vc)) {
+					m_vc->new_cycle();
+					if (k->keyboard[m_player_profile->m_keys_configuration[i][KEY_QUIT]]) m_vc->m_quit=true;
+																	else m_vc->m_quit=false;
+				} // while
+
 			}
 			break;
 	} // switch 
@@ -156,7 +164,7 @@ int TGLapp::game_cycle(KEYBOARDSTATE *k)
 					// Update player profile!
 					m_player_profile->level_completed(m_current_levelpack->m_id,m_selected_level,m_game_replay);
 				} // if 
-				return TGL_STATE_POSTGAME;
+				return m_game_previous_state;
 			} // if 
 			break;
 	} // switch

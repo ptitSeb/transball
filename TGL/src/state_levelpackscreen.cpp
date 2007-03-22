@@ -50,6 +50,11 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 	bool m_recheck_interface=false;
 	bool m_reload_tutorial=false;
 
+	if (m_game!=0) {
+		delete m_game;
+		m_game=0;
+	} // if 
+
 	if (SDL_ShowCursor(SDL_QUERY)!=SDL_ENABLE) SDL_ShowCursor(SDL_ENABLE);
 	if (m_state_cycle==0) {
 		TGLInterfaceElement *e;
@@ -95,27 +100,29 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 			if (m_lp_first_level<0) m_lp_first_level=0;
 
 			for(i=0;i<3 && i<m_current_levelpack->m_levels.Length();i++) {
+				int time;
+
 				level=m_current_levelpack->m_levels[i+m_lp_first_level];
 
 				sprintf(tmp,"Level %i: %s",i+m_lp_first_level+1,level->m_name);
 				m_lp_level_name[i]=new TGLText(tmp,m_font16,30,float(200+i*90),false);
 				TGLinterface::add_element(m_lp_level_name[i]);
-				{
-					int time=m_player_profile->get_besttime(m_current_levelpack->m_id,i+m_lp_first_level,m_selected_ship);
-					if (time==-1) {
-						sprintf(tmp,"Best Time:: --:--:--");
-					} else {
-						int hunds=(time/10)%100;
-						int secs=(time/1000)%60;
-						int mins=time/60000;
-						sprintf(tmp,"Best Time:: %i:%.2i:%.2i",mins,secs,hunds);
-					} // if 
-				}
+
+				time=m_player_profile->get_besttime(m_current_levelpack->m_id,i+m_lp_first_level,m_selected_ship);
+				if (time==-1) {
+					sprintf(tmp,"Best Time:: --:--:--");
+				} else {
+					int hunds=(time/10)%100;
+					int secs=(time/1000)%60;
+					int mins=time/60000;
+					sprintf(tmp,"Best Time:: %i:%.2i:%.2i",mins,secs,hunds);
+				} // if 
 				m_lp_level_time[i]=new TGLText(tmp,m_font16,30,float(220+i*90),false);
 				TGLinterface::add_element(m_lp_level_time[i]);
 				m_lp_viewreplay_buttons[i]=new TGLbutton("View Replay",m_font16,180,float(210+i*90),120,20,10+i*2);
 				TGLinterface::add_element(m_lp_viewreplay_buttons[i]);
-				m_lp_viewreplay_buttons[i]->m_enabled=false;
+				if (time==-1) m_lp_viewreplay_buttons[i]->m_enabled=false;
+					     else m_lp_viewreplay_buttons[i]->m_enabled=true;
 				m_lp_play_buttons[i]=new TGLbutton("Play",m_font16,180,float(235+i*90),120,20,11+i*2);
 				TGLinterface::add_element(m_lp_play_buttons[i]);
 				if (m_player_profile->progress_in_levelpack(m_current_levelpack->m_id)<i+m_lp_first_level) {
@@ -250,6 +257,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 																   else m_lp_level_downarrow->m_enabled=true;
 
 		for(i=0;i<3 && i<m_current_levelpack->m_levels.Length();i++) {
+			int time;
 			level=m_current_levelpack->m_levels[i+m_lp_first_level];
 
 			sprintf(tmp,"Level %i: %s",i+m_lp_first_level+1,level->m_name);
@@ -257,22 +265,21 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 			m_lp_level_name[i]=new TGLText(tmp,m_font16,30,float(200+i*90),false);
 			TGLinterface::substitute_element(old,m_lp_level_name[i]);
 			delete old;
-			{
-				int time=m_player_profile->get_besttime(m_current_levelpack->m_id,i+m_lp_first_level,m_selected_ship);
-				if (time==-1) {
-					sprintf(tmp,"Best Time:: --:--:--");
-				} else {
-					int hunds=time%100;
-					int secs=(time/100)%60;
-					int mins=time/6000;
-					sprintf(tmp,"Best Time:: %i:%.2i:%.2i",mins,secs,hunds);
-				} // if 
-			}
+			time=m_player_profile->get_besttime(m_current_levelpack->m_id,i+m_lp_first_level,m_selected_ship);
+			if (time==-1) {
+				sprintf(tmp,"Best Time:: --:--:--");
+			} else {
+				int hunds=time%100;
+				int secs=(time/100)%60;
+				int mins=time/6000;
+				sprintf(tmp,"Best Time:: %i:%.2i:%.2i",mins,secs,hunds);
+			} // if 
 			old=m_lp_level_time[i];
 			m_lp_level_time[i]=new TGLText(tmp,m_font16,30,float(220+i*90),false);
 			TGLinterface::substitute_element(old,m_lp_level_time[i]);
 			delete old;
-			m_lp_viewreplay_buttons[i]->m_enabled=false;
+			if (time==-1) m_lp_viewreplay_buttons[i]->m_enabled=false;
+				     else m_lp_viewreplay_buttons[i]->m_enabled=true;
 			if (m_player_profile->progress_in_levelpack(m_current_levelpack->m_id)<i+m_lp_first_level) {
 				m_lp_play_buttons[i]->m_enabled=false;
 			} else {
@@ -403,10 +410,88 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 		case 1: // return TGL_STATE_CHANGELEVELPACK
 				break;
 			case 10:
+					// View replay:
+					{
+						// m_lp_first_level
+
+						m_game_replay_mode=2;
+						{
+							FILE *fp;
+							char tmp[256];
+							sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",
+										m_player_profile->m_name,m_current_levelpack->m_id,m_lp_first_level,
+										m_selected_ship);
+							fp=fopen(tmp,"r");
+							m_game_replay=new TGLreplay(fp);
+							m_game_replay->rewind();
+							fclose(fp);
+						}
+						char *map_name=m_current_levelpack->m_levels[m_lp_first_level]->m_map;
+						m_game=new TGL(map_name,m_selected_ship,m_current_levelpack->m_levels[m_lp_first_level]->m_initial_fuel,m_player_profile->m_sfx_volume,m_player_profile->m_music_volume,m_GLTM);
+
+						m_game_state=0;
+						m_game_state_cycle=0;
+
+						m_game_previous_state=TGL_STATE_LEVELPACKSCREEN;
+						m_game_reinit_previous_state=false;
+						return TGL_STATE_GAME;
+					}
+					break;
 			case 12:
+					// View replay:
+					{
+						// m_lp_first_level
+
+						m_game_replay_mode=2;
+						{
+							FILE *fp;
+							char tmp[256];
+							sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",
+										m_player_profile->m_name,m_current_levelpack->m_id,m_lp_first_level+1,
+										m_selected_ship);
+							fp=fopen(tmp,"r");
+							m_game_replay=new TGLreplay(fp);
+							m_game_replay->rewind();
+							fclose(fp);
+						}
+						char *map_name=m_current_levelpack->m_levels[m_lp_first_level+1]->m_map;
+						m_game=new TGL(map_name,m_selected_ship,m_current_levelpack->m_levels[m_lp_first_level+1]->m_initial_fuel,m_player_profile->m_sfx_volume,m_player_profile->m_music_volume,m_GLTM);
+
+						m_game_state=0;
+						m_game_state_cycle=0;
+
+						m_game_previous_state=TGL_STATE_LEVELPACKSCREEN;
+						m_game_reinit_previous_state=false;
+						return TGL_STATE_GAME;
+					}
+					break;
 			case 14:
 					// View replay:
-					// ...
+					{
+						// m_lp_first_level
+
+						m_game_replay_mode=2;
+						{
+							FILE *fp;
+							char tmp[256];
+							sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",
+										m_player_profile->m_name,m_current_levelpack->m_id,m_lp_first_level+2,
+										m_selected_ship);
+							fp=fopen(tmp,"r");
+							m_game_replay=new TGLreplay(fp);
+							m_game_replay->rewind();
+							fclose(fp);
+						}
+						char *map_name=m_current_levelpack->m_levels[m_lp_first_level+2]->m_map;
+						m_game=new TGL(map_name,m_selected_ship,m_current_levelpack->m_levels[m_lp_first_level+2]->m_initial_fuel,m_player_profile->m_sfx_volume,m_player_profile->m_music_volume,m_GLTM);
+
+						m_game_state=0;
+						m_game_state_cycle=0;
+
+						m_game_previous_state=TGL_STATE_LEVELPACKSCREEN;
+						m_game_reinit_previous_state=false;
+						return TGL_STATE_GAME;
+					}
 					break;
 			case 11:
 					// Play:

@@ -49,6 +49,16 @@
 extern char *application_version;
 
 
+char *objects_to_ignore[]={"TGLobject_ballstand",
+						   "TGLobject_button",
+						   "TGLobject_fuelrecharge",
+						   "TGLobject_pipescreeen",
+						   "TGLobject_pipevscreeen",
+						   "TGLobject_radar",
+						   "TGLobject_redlight",
+						   "TGLobject_techno_computer",
+						   0};
+
 TGLreplay_object_position::~TGLreplay_object_position()
 {
 	if (m_name!=0) {
@@ -191,27 +201,27 @@ TGLreplay::TGLreplay(FILE *fp)
 					tmp=vc_node->get_children("current");
 					if (tmp!=0) {
 						sscanf(tmp->get_value()->get(),"%s %s %s %s %s %s %s %s",stmp1,stmp2,stmp3,stmp4,stmp5,stmp6,stmp7,stmp8);
-						vc->m_joystick[0]=(strcmp(stmp1,"true")==0 ? true:false);
-						vc->m_joystick[1]=(strcmp(stmp2,"true")==0 ? true:false);
-						vc->m_joystick[2]=(strcmp(stmp3,"true")==0 ? true:false);
-						vc->m_joystick[3]=(strcmp(stmp4,"true")==0 ? true:false);
-						vc->m_button[0]=(strcmp(stmp5,"true")==0 ? true:false);
-						vc->m_button[1]=(strcmp(stmp6,"true")==0 ? true:false);
-						vc->m_pause=(strcmp(stmp7,"true")==0 ? true:false);
-						vc->m_quit=(strcmp(stmp8,"true")==0 ? true:false);								    
+						vc->m_joystick[0]=(stmp1[0]=='t' ? true:false);
+						vc->m_joystick[1]=(stmp2[0]=='t' ? true:false);
+						vc->m_joystick[2]=(stmp3[0]=='t' ? true:false);
+						vc->m_joystick[3]=(stmp4[0]=='t' ? true:false);
+						vc->m_button[0]=(stmp5[0]=='t' ? true:false);
+						vc->m_button[1]=(stmp6[0]=='t' ? true:false);
+						vc->m_pause=(stmp7[0]=='t' ? true:false);
+						vc->m_quit=(stmp8[0]=='t' ? true:false);								    
 					} // if 
 
 					tmp=vc_node->get_children("old");
 					if (tmp!=0) {
 						sscanf(tmp->get_value()->get(),"%s %s %s %s %s %s %s %s",stmp1,stmp2,stmp3,stmp4,stmp5,stmp6,stmp7,stmp8);
-						vc->m_old_joystick[0]=(strcmp(stmp1,"true")==0 ? true:false);
-						vc->m_old_joystick[1]=(strcmp(stmp2,"true")==0 ? true:false);
-						vc->m_old_joystick[2]=(strcmp(stmp3,"true")==0 ? true:false);
-						vc->m_old_joystick[3]=(strcmp(stmp4,"true")==0 ? true:false);
-						vc->m_old_button[0]=(strcmp(stmp5,"true")==0 ? true:false);
-						vc->m_old_button[1]=(strcmp(stmp6,"true")==0 ? true:false);
-						vc->m_old_pause=(strcmp(stmp7,"true")==0 ? true:false);
-						vc->m_old_quit=(strcmp(stmp8,"true")==0 ? true:false);								    
+						vc->m_old_joystick[0]=(stmp1[0]=='t' ? true:false);
+						vc->m_old_joystick[1]=(stmp2[0]=='t' ? true:false);
+						vc->m_old_joystick[2]=(stmp3[0]=='t' ? true:false);
+						vc->m_old_joystick[3]=(stmp4[0]=='t' ? true:false);
+						vc->m_old_button[0]=(stmp5[0]=='t' ? true:false);
+						vc->m_old_button[1]=(stmp6[0]=='t' ? true:false);
+						vc->m_old_pause=(stmp7[0]=='t' ? true:false);
+						vc->m_old_quit=(stmp8[0]=='t' ? true:false);								    
 					} // if 
 
 					node->m_input.Add(vc);
@@ -240,22 +250,22 @@ TGLreplay::TGLreplay(FILE *fp)
 
 					tmp=object->get_children("x");
 					if (tmp!=0) {
-						op->m_x=float(atof(tmp->get_value()->get()));
+						op->m_x=load_float(tmp->get_value()->get());
 					} // if 
 
 					tmp=object->get_children("y");
 					if (tmp!=0) {
-						op->m_y=float(atof(tmp->get_value()->get()));
+						op->m_y=load_float(tmp->get_value()->get());
 					} // if 
 
 					tmp=object->get_children("speedx");
 					if (tmp!=0) {
-						op->m_speed_x=float(atof(tmp->get_value()->get()));
+						op->m_speed_x=load_float(tmp->get_value()->get());
 					} // if 
 
 					tmp=object->get_children("speedy");
 					if (tmp!=0) {
-						op->m_speed_y=float(atof(tmp->get_value()->get()));
+						op->m_speed_y=load_float(tmp->get_value()->get());
 					} // if 
 
 					tmp=object->get_children("angle");
@@ -395,26 +405,26 @@ bool TGLreplay::save(FILE *fp)
 		fprintf(fp,"      <input>\n");
 		node->m_input.Rewind();
 		while(node->m_input.Iterate(vc)) {
-			fprintf(fp,"        <vc>\n");
-			fprintf(fp,"          <current>%s %s %s %s %s %s %s %s</current>\n",
-				(vc->m_joystick[0] ? "true":"false"),
-				(vc->m_joystick[1] ? "true":"false"),
-				(vc->m_joystick[2] ? "true":"false"),
-				(vc->m_joystick[3] ? "true":"false"),
-				(vc->m_button[0] ? "true":"false"),
-				(vc->m_button[1] ? "true":"false"),
-				(vc->m_pause ? "true":"false"),
-				(vc->m_quit ? "true":"false"));
-			fprintf(fp,"          <old>%s %s %s %s %s %s %s %s</old>\n",
-				(vc->m_old_joystick[0] ? "true":"false"),
-				(vc->m_old_joystick[1] ? "true":"false"),
-				(vc->m_old_joystick[2] ? "true":"false"),
-				(vc->m_old_joystick[3] ? "true":"false"),
-				(vc->m_old_button[0] ? "true":"false"),
-				(vc->m_old_button[1] ? "true":"false"),
-				(vc->m_old_pause ? "true":"false"),
-				(vc->m_old_quit ? "true":"false"));
-			fprintf(fp,"        </vc>\n");
+			fprintf(fp,"        <vc>");
+			fprintf(fp,"<current>%s %s %s %s %s %s %s %s</current>",
+				(vc->m_joystick[0] ? "t":"f"),
+				(vc->m_joystick[1] ? "t":"f"),
+				(vc->m_joystick[2] ? "t":"f"),
+				(vc->m_joystick[3] ? "t":"f"),
+				(vc->m_button[0] ? "t":"f"),
+				(vc->m_button[1] ? "t":"f"),
+				(vc->m_pause ? "t":"f"),
+				(vc->m_quit ? "t":"f"));
+			fprintf(fp,"<old>%s %s %s %s %s %s %s %s</old>",
+				(vc->m_old_joystick[0] ? "t":"f"),
+				(vc->m_old_joystick[1] ? "t":"f"),
+				(vc->m_old_joystick[2] ? "t":"f"),
+				(vc->m_old_joystick[3] ? "t":"f"),
+				(vc->m_old_button[0] ? "t":"f"),
+				(vc->m_old_button[1] ? "t":"f"),
+				(vc->m_old_pause ? "t":"f"),
+				(vc->m_old_quit ? "t":"f"));
+			fprintf(fp,"</vc>\n");
 		} // while 
 		fprintf(fp,"      </input>\n");
 
@@ -424,10 +434,19 @@ bool TGLreplay::save(FILE *fp)
 			while(node->m_objects.Iterate(op)) {
 				fprintf(fp,"        <object>\n");
 				fprintf(fp,"          <name>%s</name>\n",op->m_name);
-				fprintf(fp,"          <x>%.20f</x>\n",op->m_x);
-				fprintf(fp,"          <y>%.20f</y>\n",op->m_y);
-				fprintf(fp,"          <speedx>%.20f</speedx>\n",op->m_speed_x);
-				fprintf(fp,"          <speedy>%.20f</speedx>\n",op->m_speed_y);
+
+				fprintf(fp,"          <x>");
+				save_float(op->m_x,fp);
+				fprintf(fp,"</x>\n");
+				fprintf(fp,"          <y>");
+				save_float(op->m_y,fp);
+				fprintf(fp,"</y>\n");
+				fprintf(fp,"          <speedx>");
+				save_float(op->m_speed_x,fp);
+				fprintf(fp,"</speedx>\n");
+				fprintf(fp,"          <speedy>");
+				save_float(op->m_speed_y,fp);
+				fprintf(fp,"</speedy>\n");
 				fprintf(fp,"          <angle>%i</angle>\n",op->m_a);
 				fprintf(fp,"        </object>\n");
 			} // while 
@@ -464,27 +483,30 @@ void TGLreplay::store_cycle(List<VirtualController> *m_input,List<TGLobject> *m_
 
 		m_objects->Rewind();
 		while(m_objects->Iterate(o)) {
-			ro=new TGLreplay_object_position();
+			
+			if (!replay_ignored_object(o)) {
+				ro=new TGLreplay_object_position();
 
-			name=o->get_class();
-			ro->m_name=new char[strlen(name)+1];
-			strcpy(ro->m_name,name);
-			ro->m_x=o->get_x();
-			ro->m_y=o->get_y();
-			ro->m_a=o->get_angle();
+				name=o->get_class();
+				ro->m_name=new char[strlen(name)+1];
+				strcpy(ro->m_name,name);
+				ro->m_x=o->get_x();
+				ro->m_y=o->get_y();
+				ro->m_a=o->get_angle();
 
-			if (o->is_a("TGLobject_ship")) {
-				ro->m_speed_x=((TGLobject_ship *)o)->get_speedx();
-				ro->m_speed_y=((TGLobject_ship *)o)->get_speedy();
-			} else if (o->is_a("TGLobject_ball")) {
-				ro->m_speed_x=((TGLobject_ball *)o)->get_speed_x();
-				ro->m_speed_y=((TGLobject_ball *)o)->get_speed_y();
-			} else {
-				ro->m_speed_x=0;
-				ro->m_speed_y=0;
+				if (o->is_a("TGLobject_ship")) {
+					ro->m_speed_x=((TGLobject_ship *)o)->get_speedx();
+					ro->m_speed_y=((TGLobject_ship *)o)->get_speedy();
+				} else if (o->is_a("TGLobject_ball")) {
+					ro->m_speed_x=((TGLobject_ball *)o)->get_speed_x();
+					ro->m_speed_y=((TGLobject_ball *)o)->get_speed_y();
+				} else {
+					ro->m_speed_x=0;
+					ro->m_speed_y=0;
+				} // if
+
+				node->m_objects.Add(ro);
 			} // if
-
-			node->m_objects.Add(ro);
 		} // while
 
 		m_replay.Add(node);
@@ -510,6 +532,8 @@ bool TGLreplay::execute_cycle(List<VirtualController> *m_input,List<TGLobject> *
 	TGLreplay_node *node;
 	bool retval;
 	VirtualController *vc1,*vc2;
+	TGLreplay_object_position *ro;
+	TGLobject *go,*go_found;
 
 	retval=m_replay.Iterate(node);
 
@@ -524,9 +548,37 @@ bool TGLreplay::execute_cycle(List<VirtualController> *m_input,List<TGLobject> *
 	} // if 
 
 	if (node->m_keyframe) {
-		
-		// ...
+		node->m_objects.Rewind();
+		while(node->m_objects.Iterate(ro)) {
+			float closest=0,d;
+			go_found=0;
+			m_objects->Rewind();
+			while(m_objects->Iterate(go) && go_found==0) {
+				if (strcmp(go->get_class(),ro->m_name)==0) { 
+					d=(go->get_x()-ro->m_x)*(go->get_x()-ro->m_x)+(go->get_y()-ro->m_y)*(go->get_y()-ro->m_y);
+					if (go_found==0 || d<closest) {
+						go_found=go;
+						closest=d;
+					} // if
+				} // if 
+			} // while 
 
+			if (go_found!=0) {
+				m_objects->DeleteElement(go_found);
+				go_found->set_x(ro->m_x);
+				go_found->set_y(ro->m_y);
+			} else {
+				// Create a new object:
+				// ...
+//				m_toadd->Add(ro);
+			} // if 
+		} // while 
+
+		while(!m_objects->EmptyP()) {
+			go=m_objects->ExtractIni();
+			if (!replay_ignored_object(go)) m_todelete->Add(go);
+		} // while
+		
 	} // if 
 
 	return retval;
@@ -573,3 +625,76 @@ char *TGLreplay::get_playername(int player)
 } /* TGLreplay::get_playername */ 
 
 
+bool TGLreplay::replay_ignored_object(TGLobject *o)
+{
+	int i;
+
+	for(i=0;objects_to_ignore[i]!=0;i++) {
+		if (strcmp(o->get_class(),objects_to_ignore[i])==0) return true;
+	} // if 
+
+	return false;
+} /* TGLreplay::replay_ignored_object */ 
+
+
+void TGLreplay::save_float(float v,FILE *fp)
+{
+	char tmp[9];
+	char *ptr=(char *)&v;
+
+#if SDL_BYTEORDER == SDL_LITTLE_ENDIAN
+	tmp[0]='a'+(ptr[0]&0xf);
+	tmp[1]='a'+((ptr[0]>>4)&0xf);
+	tmp[2]='a'+(ptr[1]&0xf);
+	tmp[3]='a'+((ptr[1]>>4)&0xf);
+	tmp[4]='a'+(ptr[2]&0xf);
+	tmp[5]='a'+((ptr[2]>>4)&0xf);
+	tmp[6]='a'+(ptr[3]&0xf);
+	tmp[7]='a'+((ptr[3]>>4)&0xf);
+#else
+	tmp[0]='a'+(ptr[3]&0xf);
+	tmp[1]='a'+((ptr[3]>>4)&0xf);
+	tmp[2]='a'+(ptr[2]&0xf);
+	tmp[3]='a'+((ptr[2]>>4)&0xf);
+	tmp[4]='a'+(ptr[1]&0xf);
+	tmp[5]='a'+((ptr[1]>>4)&0xf);
+	tmp[6]='a'+(ptr[0]&0xf);
+	tmp[7]='a'+((ptr[0]>>4)&0xf);
+#endif
+	tmp[8]=0;
+
+	fprintf(fp,tmp);
+} /* TGLreplay::save_float */ 
+
+
+float TGLreplay::load_float(char *str)
+{
+	float tmp=0;
+	char *ptr=(char *)&tmp;
+
+	if (str[0]>='0' && str[0]<='9') {
+		tmp=float(atof(str));
+	} else {
+#if SDL_BYTEORDER == SDL_LITTLE_ENDIAN
+		ptr[0]|=(str[0]-'a');
+		ptr[0]|=(str[1]-'a')<<4;
+		ptr[1]|=(str[2]-'a');
+		ptr[1]|=(str[3]-'a')<<4;
+		ptr[2]|=(str[4]-'a');
+		ptr[2]|=(str[5]-'a')<<4;
+		ptr[3]|=(str[6]-'a');
+		ptr[3]|=(str[7]-'a')<<4;
+#else
+		ptr[3]|=(str[0]-'a');
+		ptr[3]|=(str[1]-'a')<<4;
+		ptr[2]|=(str[2]-'a');
+		ptr[2]|=(str[3]-'a')<<4;
+		ptr[1]|=(str[4]-'a');
+		ptr[1]|=(str[5]-'a')<<4;
+		ptr[0]|=(str[6]-'a');
+		ptr[0]|=(str[7]-'a')<<4;
+#endif
+	} // if 
+
+	return tmp;
+} /* TGLreplay::load_float */ 

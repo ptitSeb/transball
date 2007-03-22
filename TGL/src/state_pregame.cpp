@@ -63,17 +63,6 @@ int TGLapp::pregame_cycle(KEYBOARDSTATE *k)
 		m_game_replay=new TGLreplay(m_game->get_map_name());
 		m_game_replay->add_player(m_player_profile->m_name,m_selected_ship);
 
-		// LOAD REPLAY:
-/*
-		m_game_replay_mode=2;
-		{
-			FILE *fp;
-			fp=fopen("replays/replay_1.rpl","r");
-			m_game_replay=new TGLreplay(fp);
-			m_game_replay->rewind();
-			fclose(fp);
-		}
-*/
 		m_game_state=0;
 		m_game_state_cycle=0;
 
@@ -113,6 +102,8 @@ int TGLapp::pregame_cycle(KEYBOARDSTATE *k)
 
 	if (m_state_fading==2 && m_state_fading_cycle>25) {
 		SDL_ShowCursor(SDL_DISABLE);
+		m_game_previous_state=TGL_STATE_POSTGAME;
+		m_game_reinit_previous_state=true;
 		return TGL_STATE_GAME;
 	} // if 
 

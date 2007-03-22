@@ -78,6 +78,8 @@ TGLapp::TGLapp()
 	m_game_fade_effect=-1;
 	m_game_replay_mode=0;	
 	m_game_replay=0;
+	m_game_previous_state=-1;
+	m_game_reinit_previous_state=true;
 
 	m_replay_name_inputframe=0;
 	m_replay_save_button=0;
@@ -179,7 +181,17 @@ bool TGLapp::cycle(KEYBOARDSTATE *k)
 	if (old_state==m_state) {
 		m_state_cycle++;
 	} else {
-		m_state_cycle=0;
+		if (old_state==TGL_STATE_GAME) {
+			if (m_game_reinit_previous_state) {
+				m_state_cycle=0;
+			} else {
+				m_state_cycle=1;
+			} // if 
+			m_game_reinit_previous_state=true;
+		} else {
+			m_state_cycle=0;
+		} // if 
+
 		m_state_fading=0;
 		m_state_fading_cycle=0;
 

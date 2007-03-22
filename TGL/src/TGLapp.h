@@ -108,6 +108,8 @@ protected:
 	class LevelPack *m_current_levelpack;
 	int m_selected_level;
 	int m_selected_ship;
+	int m_game_previous_state;
+	bool m_game_reinit_previous_state;
 
 	// Save Replay
 	class TGLTextInputFrame *m_replay_name_inputframe;
