@@ -367,8 +367,12 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 			delete o;
 		} // while 
 
-		if (!m_lp_tutorial_game->cycle(&m_lvc,m_GLTM,m_SFXM,0)) retval=false;
-
+		if (m_lp_replay_mode==2) {
+			if (!m_lp_tutorial_game->cycle(&m_lvc,m_GLTM,m_SFXM,m_player_profile->m_sfx_volume)) retval=false;
+		} else {
+			if (!m_lp_tutorial_game->cycle(&m_lvc,m_GLTM,m_SFXM,0)) retval=false;
+		} // if
+		
 		if (!retval) {
 			delete m_lp_tutorial_game;
 			m_lp_tutorial_game=0;

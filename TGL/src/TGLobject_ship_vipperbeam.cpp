@@ -61,10 +61,6 @@ TGLobject_ship_vipperbeam::TGLobject_ship_vipperbeam(float x,float y,int initial
 
 TGLobject_ship_vipperbeam::~TGLobject_ship_vipperbeam()
 {
-	if (m_thrust_channel!=-1) {
-		Mix_HaltChannel(m_thrust_channel);
-		m_thrust_channel=-1;
-	} // if 
 	if (m_laser_channel!=-1) {
 		Mix_HaltChannel(m_laser_channel);
 		m_laser_channel=-1;
@@ -84,6 +80,16 @@ bool TGLobject_ship_vipperbeam::cycle(VirtualController *k,TGLmap *map,GLTManage
 	} // if 
 
 	m_thrusting=false;
+
+	if (m_fuel_recharging_timmer>0) {
+		m_fuel_recharging_timmer--;
+		if (m_fuel_recharging_timmer==0) {
+			if (m_fuel_channel!=-1) {
+				Mix_HaltChannel(m_fuel_channel);
+				m_fuel_channel=-1;
+			} // if 
+		} // if 
+	} // if 
 
 	if (k->m_button[1] && (fabs(m_speed_x)+fabs(m_speed_y))<1) {
 		TGLobject_ball *ball;

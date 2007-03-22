@@ -57,7 +57,7 @@ bool TGLobject_fuelrecharge::cycle(VirtualController *k,class TGLmap *map,GLTMan
 	m_cycle++;
 
 	o=(TGLobject_ship *)map->object_exists("TGLobject_ship",get_x(),get_y(),get_x()+64,get_y()+64);
-	if (o!=0) o->recharge_fuel();
+	if (o!=0) o->recharge_fuel(SFXM,sfx_volume);
 			
 	return true;
 } /* TGLobject_fuelrecharge::cycle */ 

@@ -1,14 +1,11 @@
 To do in "Transball GL": --------------------------------------------------------
 
-- ZLIB to compress/uncompress replay files, level packs and player profile:
+- ZLIB to compress/uncompress replay files, level packs and player profile
 - graphics:
 	- glow of the stars when the ship is up (as in thrust extreme) and stars disappear as you go down
     - snow falling in snow levels
     - background of rocks is REALLY bad
     - snow background too bright
-- SFX:
-	- fuel recharge
-	- attractor
 - WIND:
     - in snow levels, there's wind.
     - wind affects the snow that falls and the ship and ball

@@ -45,7 +45,7 @@
 
 
 
-int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
+int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 {
 	bool check_for_replays_to_load=false;
 
@@ -54,39 +54,21 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 		TGLinterface::reset();
 		SDL_WarpMouse(210,352);
 		TGLinterface::add_element(new TGLframe(10,32,580,276));		
-		m_replay_save_button=new TGLbutton("Save",m_font32,110,404,200,64,0);
-		TGLinterface::add_element(m_replay_save_button);
-		TGLinterface::add_element(new TGLbutton("Cancel",m_font32,330,404,200,64,1));
+		TGLinterface::add_element(new TGLbutton("Back",m_font32,40,404,160,64,1));
+		m_replay_play_button=new TGLbutton("View",m_font32,240,404,160,64,3);
+		TGLinterface::add_element(m_replay_play_button);		
+		m_replay_play_button->m_enabled=false;
+		m_replay_rename_button=new TGLbutton("Rename",m_font16,430,340,200,32,0);
+		TGLinterface::add_element(m_replay_rename_button);		
+		m_replay_rename_button->m_enabled=false;
+		m_replay_delete_button=new TGLbutton("Delete",m_font16,430,380,200,32,4);
+		TGLinterface::add_element(m_replay_delete_button);		
+		m_replay_delete_button->m_enabled=false;
 
-		// Find an initial name for the replay:
-		{
-			int i=0;
-			FILE *fp;
-			char tmp[255],tmp2[255];
-			bool found=false;
-
-			do {
-				if (i==0) {
-					sprintf(tmp2,"replay.rpl");
-				} else {
-					sprintf(tmp2,"replay_%i.rpl",i);
-				} // if 
-
-				sprintf(tmp,"replays/%s",tmp2);
-				fp=fopen(tmp,"r+");
-				if (fp!=0) {
-					fclose(fp);
-					found=true;
-				} else {
-					found=false;
-				} // if 
-				i++;
-			} while(found);
-
-			m_replay_name_inputframe=new TGLTextInputFrame(tmp2,32,m_font16,100,340,440,32,0);
-			TGLinterface::add_element(m_replay_name_inputframe);
-			m_replay_name_inputframe->m_focus=true;
-		}
+		m_replay_name_inputframe=new TGLTextInputFrame("",32,m_font16,10,340,400,32,0);
+		TGLinterface::add_element(m_replay_name_inputframe);
+		m_replay_name_inputframe->m_focus=false;
+		m_replay_name_inputframe->m_enabled=false;
 
 		// Load the replay filenames:
 		{
@@ -183,7 +165,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 
 		ID=TGLinterface::update_state(mouse_x,mouse_y,button,k);
 
-		if ((ID==0 && m_replay_save_button->m_enabled) || ID==1) {
+		if (ID==1) {
 			m_state_fading=2;
 			m_state_fading_cycle=0;
 			m_state_selection=ID;
@@ -231,34 +213,21 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 				} /* if */
 			} // if 
 
-			if (valid_replay_name) m_replay_save_button->m_enabled=true;
-							  else m_replay_save_button->m_enabled=false;
+			if (valid_replay_name) m_replay_rename_button->m_enabled=true;
+							  else m_replay_rename_button->m_enabled=false;
 
 		}
 	}
 
 	if (m_state_fading==2 && m_state_fading_cycle>25) {
 		switch(m_state_selection) {
-		case 0:
-				{
-					FILE *fp;
-					char tmp[256];
-
-					sprintf(tmp,"replays/%s",m_replay_name_inputframe->m_editing);
-
-					fp=fopen(tmp,"w");
-					if (fp!=0) {
-						m_game_replay->save(fp);
-						fclose(fp);
-					} /* if */
-				}
-
-				m_RL->cancel_all();
-				return TGL_STATE_POSTGAME;
-				break;
 		case 1:
 				m_RL->cancel_all();
-				return TGL_STATE_POSTGAME;
+				return TGL_STATE_MAINMENU;
+				break;
+		case 2:
+				// View replay:
+				// ... 
 				break;
 		} // switch
 	} // if 
@@ -324,10 +293,10 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 		} // for
 	}
 
-	return TGL_STATE_SAVEREPLAY;
-} /* TGLapp::savereplay_cycle */ 
+	return TGL_STATE_REPLAYBROWSER;
+} /* TGLapp::replaybrowser_cycle */ 
 
-void TGLapp::savereplay_draw(void)
+void TGLapp::replaybrowser_draw(void)
 {
 //	char buffer[255];
 
@@ -386,5 +355,5 @@ void TGLapp::savereplay_draw(void)
 			}
 			break;
 	} // switch
-} /* TGLapp::savereplay_draw */ 
+} /* TGLapp::replaybrowser_draw */ 
 

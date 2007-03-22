@@ -71,11 +71,6 @@ TGLobject_ship_c_harpoon::TGLobject_ship_c_harpoon(float x,float y,int initial_f
 TGLobject_ship_c_harpoon::~TGLobject_ship_c_harpoon()
 {
 	m_chain.ExtractAll();
-
-	if (m_thrust_channel!=-1) {
-		Mix_HaltChannel(m_thrust_channel);
-		m_thrust_channel=-1;
-	} // if 
 } /* TGLobject_ship_c_harpoon::~TGLobject_ship */ 
 
 
@@ -174,6 +169,16 @@ bool TGLobject_ship_c_harpoon::cycle(VirtualController *k,TGLmap *map,GLTManager
 	} // if 
 
 	m_thrusting=false;
+
+	if (m_fuel_recharging_timmer>0) {
+		m_fuel_recharging_timmer--;
+		if (m_fuel_recharging_timmer==0) {
+			if (m_fuel_channel!=-1) {
+				Mix_HaltChannel(m_fuel_channel);
+				m_fuel_channel=-1;
+			} // if 
+		} // if 
+	} // if 
 
 	if (k->m_button[0] && !k->m_old_button[0] && m_fuel>32) {
 		TGLobject *bullet;

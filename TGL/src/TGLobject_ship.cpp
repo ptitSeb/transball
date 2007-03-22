@@ -44,12 +44,22 @@ TGLobject_ship::TGLobject_ship(float x,float y,int initial_fuel) : TGLobject(x,y
 	m_speed_x=0;
 	m_speed_y=0;
 	m_thrust_channel=-1;
+	m_fuel_channel=-1;
 	m_fuel=(initial_fuel/2)*64;
+	m_fuel_recharging_timmer=0;
 } /* TGLobject_ship::TGLobject_ship */ 
 
 
 TGLobject_ship::~TGLobject_ship()
 {
+	if (m_thrust_channel!=-1) {
+		Mix_HaltChannel(m_thrust_channel);
+		m_thrust_channel=-1;
+	} // if 
+	if (m_fuel_channel!=-1) {
+		Mix_HaltChannel(m_fuel_channel);
+		m_fuel_channel=-1;
+	} // if 
 } /* TGLobject_ship::~TGLobject_ship */ 
 
 
@@ -92,11 +102,17 @@ int TGLobject_ship::get_fuel(void)
 } /* TGLobject_ship::get_fuel */ 
 
 
-void TGLobject_ship::recharge_fuel(void)
+void TGLobject_ship::recharge_fuel(SFXManager *SFXM,int sfx_volume)
 {
 	if (m_fuel<m_max_fuel) {
 		m_fuel+=8;
 		if (m_fuel>m_max_fuel) m_fuel=m_max_fuel;
+
+		if (m_fuel_channel==-1) {
+			m_fuel_channel=Sound_play_continuous(SFXM->get("sfx/fuel"),sfx_volume);
+		} // if 
+
+		m_fuel_recharging_timmer=2;
 	} // if 
 } /* TGLobject_ship::recharge_fuel */ 
 

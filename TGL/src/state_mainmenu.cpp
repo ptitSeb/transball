@@ -46,15 +46,16 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 	if (m_current_levelpack!=0) delete m_current_levelpack;
 	{
 		FILE *fp;
-		fp=fopen("maps/st2.lp","r+");
-//		fp=fopen("maps/sa.lp","r+");
+//		fp=fopen("maps/st2.lp","r+");
+		fp=fopen("maps/sa.lp","r+");
 //		fp=fopen("maps/expert.lp","r+");
 //		fp=fopen("maps/tutorial.lp","r+");
 		if (fp!=0) {
 			m_current_levelpack=new LevelPack(fp);
 			fclose(fp);
 
-			return TGL_STATE_LEVELPACKSCREEN;
+			return TGL_STATE_REPLAYBROWSER;
+//			return TGL_STATE_LEVELPACKSCREEN;
 		} else {
 			return TGL_STATE_NONE;
 		} // if 

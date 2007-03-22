@@ -60,11 +60,6 @@ TGLobject_ship_accura::TGLobject_ship_accura(float x,float y,int initial_fuel) :
 
 TGLobject_ship_accura::~TGLobject_ship_accura()
 {
-	if (m_thrust_channel!=-1) {
-		Mix_HaltChannel(m_thrust_channel);
-		m_thrust_channel=-1;
-	} // if 
-
 } /* TGLobject_ship_accura::~TGLobject_ship */ 
 
 
@@ -80,6 +75,16 @@ bool TGLobject_ship_accura::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 	} // if 
 
 	m_thrusting=false;
+
+	if (m_fuel_recharging_timmer>0) {
+		m_fuel_recharging_timmer--;
+		if (m_fuel_recharging_timmer==0) {
+			if (m_fuel_channel!=-1) {
+				Mix_HaltChannel(m_fuel_channel);
+				m_fuel_channel=-1;
+			} // if 
+		} // if 
+	} // if 
 
 	if (k->m_button[1] && (fabs(m_speed_x)+fabs(m_speed_y))<1) {
 		TGLobject_ball *ball;

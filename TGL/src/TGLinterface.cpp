@@ -573,10 +573,10 @@ void TGLTextInputFrame::draw(void)
 			f=float(0.5+0.3*sin((m_cycle)*0.3F));
 			glColor4f(1,0,0,f);
 			glBegin(GL_POLYGON);
-			glVertex3f(float(108+tdx),348,0);
-			glVertex3f(float(108+tdx+4),348,0);
-			glVertex3f(float(108+tdx+4),364,0);
-			glVertex3f(float(108+tdx),364,0);
+			glVertex3f(float(m_x+8+tdx),348,0);
+			glVertex3f(float(m_x+8+tdx+4),348,0);
+			glVertex3f(float(m_x+8+tdx+4),364,0);
+			glVertex3f(float(m_x+8+tdx),364,0);
 			glEnd();
 		}
 	} // if
@@ -588,16 +588,18 @@ bool TGLTextInputFrame::check_status(int mousex,int mousey,int button,KEYBOARDST
 {
 	m_cycle++;
 
-	if (button!=0) {
-		if (mousex>=m_x && mousex<m_x+m_dx &&
-			mousey>=m_y && mousey<m_y+m_dy) m_focus=true;
-									   else m_focus=false;
-	} // if 
+	if (m_enabled) {
+		if (button!=0) {
+			if (mousex>=m_x && mousex<m_x+m_dx &&
+				mousey>=m_y && mousey<m_y+m_dy) m_focus=true;
+										   else m_focus=false;
+		} // if 
 
-	if (m_focus) {
-		TGLapp::string_editor_cycle(m_editing,&m_editing_position,m_max_characters,k);
-		if (k->key_press(SDLK_RETURN)) return true;
-	} // if 
+		if (m_focus) {
+			TGLapp::string_editor_cycle(m_editing,&m_editing_position,m_max_characters,k);
+			if (k->key_press(SDLK_RETURN)) return true;
+		} // if 
+	} // if
 
 	return false;
 } /* TGLTextInputFrame::check_status */ 

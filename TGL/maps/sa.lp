@@ -9,7 +9,7 @@
     <levels>
         <level>
             <map>maps/secondassault/sa-level1.tgl</map>
-            <name>Well come back!</name>
+            <name>Wellcome back!</name>
             <description>This level is just to warm up again...</description>
         </level>
         <level>

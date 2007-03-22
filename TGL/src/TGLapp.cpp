@@ -84,6 +84,9 @@ TGLapp::TGLapp()
 	m_replay_name_inputframe=0;
 	m_replay_save_button=0;
 	m_sr_first_replay=0;
+	m_replay_rename_button=0;
+	m_replay_play_button=0;
+	m_replay_delete_button=0;
 
 	m_screen_dx=640;
 	m_screen_dy=480;
@@ -174,6 +177,8 @@ bool TGLapp::cycle(KEYBOARDSTATE *k)
 	case TGL_STATE_POSTGAME:m_state=postgame_cycle(k);
 							   break;
 	case TGL_STATE_SAVEREPLAY: m_state=savereplay_cycle(k);
+							   break;
+	case TGL_STATE_REPLAYBROWSER: m_state=replaybrowser_cycle(k);
 							   break;
 	default:return false;
 	} /* switch */ 
@@ -270,6 +275,8 @@ void TGLapp::draw(int SCREEN_X,int SCREEN_Y)
 	case TGL_STATE_POSTGAME:postgame_draw();
 							   break;
 	case TGL_STATE_SAVEREPLAY: savereplay_draw();
+							   break;
+	case TGL_STATE_REPLAYBROWSER: replaybrowser_draw();
 							   break;
 	} // switch 
  	

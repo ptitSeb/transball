@@ -16,6 +16,7 @@
 #define TGL_STATE_GAME			6
 #define TGL_STATE_POSTGAME		7
 #define TGL_STATE_SAVEREPLAY	8
+#define TGL_STATE_REPLAYBROWSER	9
 
 #define KEY_THRUST		0
 #define KEY_SPECIAL		1
@@ -53,6 +54,7 @@ protected:
 	int pregame_cycle(KEYBOARDSTATE *k);
 	int postgame_cycle(KEYBOARDSTATE *k);
 	int savereplay_cycle(KEYBOARDSTATE *k);
+	int replaybrowser_cycle(KEYBOARDSTATE *k);
 //	int endsequence_cycle(KEYBOARDSTATE *k);
 //	int howtoplay_cycle(KEYBOARDSTATE *k);
 //	int credits_cycle(KEYBOARDSTATE *k);
@@ -65,6 +67,7 @@ protected:
 	void pregame_draw(void);
 	void postgame_draw(void);
 	void savereplay_draw(void);
+	void replaybrowser_draw(void);
 //	void endsequence_draw(void);
 //	void howtoplay_draw(void);
 //	void credits_draw(void);
@@ -120,6 +123,11 @@ protected:
 	List<char> m_sr_replay_names;
 	List<char> m_sr_replay_info;
 	int m_sr_first_replay;
+
+	// Replay Browser:
+	TGLInterfaceElement *m_replay_rename_button;
+	TGLInterfaceElement *m_replay_play_button;
+	TGLInterfaceElement *m_replay_delete_button;
 
 	// LevelPack screen:
 	int m_lp_first_level;

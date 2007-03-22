@@ -13,7 +13,7 @@ public:
 	virtual void draw(GLTManager *GLTM);
 
 	int get_fuel(void);
-	void recharge_fuel(void);
+	void recharge_fuel(SFXManager *SFXM,int sfx_volume);
 
 	float get_speedx(void);
 	float get_speedy(void);
@@ -25,7 +25,8 @@ protected:
 	class TGLobject_ball *m_ball;
 	float m_speed_x,m_speed_y;
 	int m_fuel,m_max_fuel;
-	int m_thrust_channel;
+	int m_thrust_channel,m_fuel_channel;
+	int m_fuel_recharging_timmer;	// controls the last time fuel was recharged (to stop the SFX)
 };
 
 #endif
