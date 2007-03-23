@@ -84,7 +84,7 @@ bool TGLobject_ha_directionalcannon_left::cycle(VirtualController *k,class TGLma
 			float ls,lb;
 			float error,min_error=10000;
 
-			int min=190,max=350;
+			int min=-80,max=80;
 			/* Copute the error given an angle "alpha": */ 
 			for(a=min;a<max;a+=1) {
 				b_sx=float(2*cos_table[a]);

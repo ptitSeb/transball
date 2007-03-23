@@ -565,8 +565,21 @@ bool TGLreplay::execute_cycle(List<VirtualController> *m_input,List<TGLobject> *
 
 			if (go_found!=0) {
 				m_objects->DeleteElement(go_found);
+#ifdef __DEBUG_MESSAGES
+				if (go_found->get_x()!=ro->m_x ||
+					go_found->get_y()!=ro->m_y) {
+					output_debug_message("TGLreplay: [%i] Adjustment in object '%s' (%g,%g) -> (%g,%g)\n",m_replay.PositionRef(node),ro->m_name,go_found->get_x(),go_found->get_y(),ro->m_x,ro->m_y);
+				} // if 
+#endif
 				go_found->set_x(ro->m_x);
 				go_found->set_y(ro->m_y);
+				if (go_found->is_a("TGLobject_ship")) {
+					((TGLobject_ship *)go_found)->set_speedx(ro->m_speed_x);
+					((TGLobject_ship *)go_found)->set_speedy(ro->m_speed_y);
+				} else if (go_found->is_a("TGLobject_ball")) {
+					((TGLobject_ball *)go_found)->set_speed_x(ro->m_speed_x);
+					((TGLobject_ball *)go_found)->set_speed_y(ro->m_speed_y);
+				} // if
 			} else {
 				// Create a new object:
 				// ...

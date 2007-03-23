@@ -13,7 +13,6 @@ To do in "Transball GL": -------------------------------------------------------
     - wind direction and strength specified in the map editor
 - bugs:
     - se cuelga a veces (me pasó una vez al estrellarme teniendo la bola con HARPOON)
-	- high accuracy cannons on up and right don't work properly
 	- some times tanks hit themselves! (this is weird!)
 - nice highscore matrix: levels x ships, showing the top three players (the game saves the best replays automatically):
     - the game stores much more information, and can generate an HTML page with all the details (statistics of each game, etc.).

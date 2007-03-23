@@ -83,7 +83,7 @@ bool TGLobject_ha_directionalcannon_up::cycle(VirtualController *k,class TGLmap 
 			float ls,lb;
 			float error,min_error=10000;
 
-			int min=190,max=350;
+			int min=10,max=170;
 			/* Copute the error given an angle "alpha": */ 
 			for(a=min;a<max;a+=1) {
 				b_sx=float(2*cos_table[a]);
@@ -121,6 +121,7 @@ bool TGLobject_ha_directionalcannon_up::cycle(VirtualController *k,class TGLmap 
 			} /* if */ 
 
 			angle=best_a;
+		
 		}
 
 		if (angle>=10 && angle<=170) {
