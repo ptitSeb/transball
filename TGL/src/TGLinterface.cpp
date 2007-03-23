@@ -116,119 +116,6 @@ void TGLinterface::draw(void)
 } /* TGLinterface::draw */ 
 
 
-void TGLinterface::print_left(char *text,TTF_Font *font,float x,float y)
-{
-	GLTile *tile;
-	SDL_Surface *sfc;
-	SDL_Color c;
-	c.r=255;
-	c.g=255;
-	c.b=255;
-
-	sfc=TTF_RenderText_Blended(font,text,c);
-	tile=new GLTile(sfc);
-	tile->set_smooth();
-	glNormal3f(0,0,1);
-	tile->set_hotspot(0,tile->get_dy());
-	tile->draw(x,y,0,0,1);
-	delete tile;
-} /* TGLinterface::print_left */ 
-
-
-void TGLinterface::print_center(char *text,TTF_Font *font,float x,float y)
-{
-	GLTile *tile;
-	SDL_Surface *sfc;
-	SDL_Color c;
-	c.r=255;
-	c.g=255;
-	c.b=255;
-
-	sfc=TTF_RenderText_Blended(font,text,c);
-	tile=new GLTile(sfc);
-	tile->set_smooth();
-	glNormal3f(0,0,1);
-	tile->set_hotspot(tile->get_dx()/2,tile->get_dy());
-	tile->draw(x,y,0,0,1);
-	delete tile;
-} /* TGLinterface::print_center */ 
-
-
-void TGLinterface::print_left(char *text,TTF_Font *font,float x,float y,float r,float g,float b,float a)
-{
-	GLTile *tile;
-	SDL_Surface *sfc;
-	SDL_Color c;
-	c.r=255;
-	c.g=255;
-	c.b=255;
-
-	sfc=TTF_RenderText_Blended(font,text,c);
-	tile=new GLTile(sfc);
-	tile->set_smooth();
-	glNormal3f(0,0,1);
-	tile->set_hotspot(0,tile->get_dy());
-	tile->draw(r,g,b,a,x,y,0,0,1);
-	delete tile;
-} /* TGLinterface::print_left */ 
-
-
-void TGLinterface::print_center(char *text,TTF_Font *font,float x,float y,float r,float g,float b,float a)
-{
-	GLTile *tile;
-	SDL_Surface *sfc;
-	SDL_Color c;
-	c.r=255;
-	c.g=255;
-	c.b=255;
-
-	sfc=TTF_RenderText_Blended(font,text,c);
-	tile=new GLTile(sfc);
-	tile->set_smooth();
-	glNormal3f(0,0,1);
-	tile->set_hotspot(tile->get_dx()/2,tile->get_dy());
-	tile->draw(r,g,b,a,x,y,0,0,1);
-	delete tile;
-} /* TGLinterface::print_center */ 
-
-
-GLTile *TGLinterface::tile_print_left(char *text,TTF_Font *font)
-{
-	GLTile *tile;
-	SDL_Surface *sfc;
-	SDL_Color c;
-	c.r=255;
-	c.g=255;
-	c.b=255;
-
-	sfc=TTF_RenderText_Blended(font,text,c);
-	tile=new GLTile(sfc);
-	tile->set_smooth();
-	tile->set_hotspot(0,tile->get_dy());
-
-	return tile;
-} /* TGLinterface::tile_print_left */ 
-
-
-GLTile *TGLinterface::tile_print_center(char *text,TTF_Font *font)
-{
-	GLTile *tile;
-	SDL_Surface *sfc;
-	SDL_Color c;
-	c.r=255;
-	c.g=255;
-	c.b=255;
-
-	sfc=TTF_RenderText_Blended(font,text,c);
-	tile=new GLTile(sfc);
-	tile->set_smooth();
-	tile->set_hotspot(tile->get_dx()/2,tile->get_dy());
-
-	return tile;
-} /* TGLinterface::tile_print_center */ 
-
-
-
 /* ------------------------------------------------------------------------------------------------------ */ 
 
 
@@ -263,7 +150,6 @@ TGLText::TGLText(char *text,TTF_Font *font,float x,float y,bool centered)
 	m_x=x;
 	m_y=y;
 	m_enabled=true;
-	m_tile=0;
 	m_active=false;
 } /* TGLText::TGLText */ 
 
@@ -273,20 +159,19 @@ TGLText::~TGLText()
 	delete []m_text;
 	m_text=0;
 
-	if (m_tile!=0) delete m_tile;
-	m_tile=0;
 } /* TGLText::~TGLText */ 
 
 
 void TGLText::draw(void)
 {
-	if (m_tile==0) {
-		if (m_centered) m_tile=TGLinterface::tile_print_center(m_text,m_font);
-				   else m_tile=TGLinterface::tile_print_left(m_text,m_font);
+	if (m_centered) {
+		if (m_enabled) TGLinterface::print_center(m_text,m_font,m_x,m_y+TTF_FontHeight(m_font)/2);
+				  else TGLinterface::print_center(m_text,m_font,m_x,m_y+TTF_FontHeight(m_font)/2,0.33f,0.33f,0.33f,1);
+	} else {
+		if (m_enabled) TGLinterface::print_left(m_text,m_font,m_x,m_y+TTF_FontHeight(m_font)/2);
+				  else TGLinterface::print_left(m_text,m_font,m_x,m_y+TTF_FontHeight(m_font)/2,0.33f,0.33f,0.33f,1);
 	} // if 
 
-	if (m_enabled) m_tile->draw(m_x,m_y+TTF_FontHeight(m_font)/2,0,0,1);
-			  else m_tile->draw(0.33f,0.33f,0.33f,1,m_x,m_y+TTF_FontHeight(m_font)/2,0,0,1);
 } /* TGLText::draw */ 
 
 
@@ -401,12 +286,8 @@ void TGLbutton::draw(void)
 	m_dy+=2;
 
 	if (m_tile==0) {
-		m_tile=TGLinterface::tile_print_center(m_text,m_font);
-	} // if 
-
-	if (m_font!=0) {
-		if (m_enabled) m_tile->draw(m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2,0,0,1);
-				  else m_tile->draw(0.33f,0.33f,0.33f,1,m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2,0,0,1);
+		if (m_enabled) TGLinterface::print_center(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2);
+				  else TGLinterface::print_center(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2,0.33f,0.33f,0.33f,1);
 	} else {
 		if (m_enabled) m_tile->draw(m_x+m_dx/2,m_y+m_dy/2,0,0,1);
 				  else m_tile->draw(0.33f,0.33f,0.33f,1,m_x+m_dx/2,m_y+m_dy/2,0,0,1);
@@ -544,6 +425,7 @@ TGLTextInputFrame::TGLTextInputFrame(char *initial_text,int max_characters,TTF_F
 	m_max_characters=max_characters;
 	m_ID=ID;
 	m_active=true;
+	m_change_in_last_cycle=false;
 } /* TGLTextInputFrame::TGLTextInputFrame */ 
 
 
@@ -588,6 +470,8 @@ bool TGLTextInputFrame::check_status(int mousex,int mousey,int button,KEYBOARDST
 {
 	m_cycle++;
 
+	m_change_in_last_cycle=false;
+
 	if (m_enabled) {
 		if (button!=0) {
 			if (mousex>=m_x && mousex<m_x+m_dx &&
@@ -596,7 +480,12 @@ bool TGLTextInputFrame::check_status(int mousex,int mousey,int button,KEYBOARDST
 		} // if 
 
 		if (m_focus) {
+			unsigned int pep=m_editing_position,el=strlen(m_editing);
+
 			TGLapp::string_editor_cycle(m_editing,&m_editing_position,m_max_characters,k);
+
+			if (m_editing_position!=pep || strlen(m_editing)!=el) m_change_in_last_cycle=true;
+
 			if (k->key_press(SDLK_RETURN)) return true;
 		} // if 
 	} // if

@@ -87,6 +87,8 @@ TGLapp::TGLapp()
 	m_replay_rename_button=0;
 	m_replay_play_button=0;
 	m_replay_delete_button=0;
+	m_rb_mouse_over_replay=-1;
+	m_rb_replay_selected=-1;
 
 	m_screen_dx=640;
 	m_screen_dy=480;

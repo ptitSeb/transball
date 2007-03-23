@@ -128,6 +128,8 @@ protected:
 	TGLInterfaceElement *m_replay_rename_button;
 	TGLInterfaceElement *m_replay_play_button;
 	TGLInterfaceElement *m_replay_delete_button;
+	int m_rb_mouse_over_replay;
+	int m_rb_replay_selected;
 
 	// LevelPack screen:
 	int m_lp_first_level;

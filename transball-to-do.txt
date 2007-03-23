@@ -44,7 +44,6 @@ To do in "Transball GL": -------------------------------------------------------
     - intro
     - menu
     - config
-    - replays
     - highscores
 - Música en el menu principal
 - Música/loop de sonido durante el juego 

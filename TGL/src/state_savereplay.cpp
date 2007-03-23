@@ -58,6 +58,9 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 		TGLinterface::add_element(m_replay_save_button);
 		TGLinterface::add_element(new TGLbutton("Cancel",m_font32,330,404,200,64,1));
 
+		m_rb_mouse_over_replay=-1;
+		m_rb_replay_selected=-1;
+
 		// Find an initial name for the replay:
 		{
 			int i=0;
@@ -207,6 +210,22 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 			check_for_replays_to_load=true;
 		} // if 
 
+		// Check to see if the mouse is over a replay:
+		m_rb_mouse_over_replay=-1;
+		if (mouse_x>=20 && mouse_x<600) {
+			if (mouse_y>=40) {
+				int selected=(mouse_y-40)/22;
+
+				if (selected>=0 && selected<(m_sr_replay_names.Length()-m_sr_first_replay)) {
+					m_rb_mouse_over_replay=selected;
+
+					strcpy(m_replay_name_inputframe->m_editing,m_sr_replay_names[m_rb_replay_selected]);
+					m_replay_name_inputframe->m_editing_position=strlen(m_replay_name_inputframe->m_editing);
+					m_replay_name_inputframe->m_enabled=true;
+				} // if 
+			} // if
+		} // if 
+
 		// Check if the name is a valid file:
 		{
 			FILE *fp;
@@ -235,6 +254,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 							  else m_replay_save_button->m_enabled=false;
 
 		}
+
 	}
 
 	if (m_state_fading==2 && m_state_fading_cycle>25) {
@@ -335,6 +355,18 @@ void TGLapp::savereplay_draw(void)
     glClear(GL_COLOR_BUFFER_BIT);
 
 	TGLinterface::draw();
+
+	if (m_rb_mouse_over_replay!=-1) {
+		float f;
+		f=float(0.7+0.2*sin((m_state_cycle)*0.3F));
+		glColor4f(0.5f,1,0.5f,f);
+		glBegin(GL_POLYGON);
+		glVertex3f(15,float(40+m_rb_mouse_over_replay*22),0);
+		glVertex3f(585,float(40+m_rb_mouse_over_replay*22),0);
+		glVertex3f(585,float(60+m_rb_mouse_over_replay*22),0);
+		glVertex3f(15,float(60+m_rb_mouse_over_replay*22),0);
+		glEnd();
+	} // if 
 
 	// show the list of files:
 	{

@@ -27,7 +27,6 @@ public:
 	bool m_centered;
 	char *m_text;
 	TTF_Font *m_font;
-	GLTile *m_tile;
 };
 
 
@@ -74,6 +73,7 @@ public:
 	unsigned int m_editing_position;
 	bool m_focus;
 	int m_cycle;
+	bool m_change_in_last_cycle;
 };
 
 
@@ -95,10 +95,6 @@ public:
 	static void print_center(char *text,TTF_Font *font,float x,float y);
 	static void print_left(char *text,TTF_Font *font,float x,float y,float r,float g,float b,float a);
 	static void print_center(char *text,TTF_Font *font,float x,float y,float r,float g,float b,float a);
-
-	static GLTile *tile_print_left(char *text,TTF_Font *font);
-	static GLTile *tile_print_center(char *text,TTF_Font *font);
-
 };
 
 #endif

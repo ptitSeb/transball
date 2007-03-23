@@ -42,20 +42,31 @@
 #include "TGLreplayLoader.h"
 
 #include "LevelPack.h"
+#include "PlayerProfile.h"
 
 
 
 int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 {
 	bool check_for_replays_to_load=false;
+	bool name_changed=false;
+
+	if (m_game!=0) {
+		delete m_game;
+		m_game=0;
+	} // if 
 
 	if (SDL_ShowCursor(SDL_QUERY)!=SDL_ENABLE) SDL_ShowCursor(SDL_ENABLE);
 	if (m_state_cycle==0) {
+
+		m_rb_mouse_over_replay=-1;
+		m_rb_replay_selected=-1;
+
 		TGLinterface::reset();
 		SDL_WarpMouse(210,352);
 		TGLinterface::add_element(new TGLframe(10,32,580,276));		
 		TGLinterface::add_element(new TGLbutton("Back",m_font32,40,404,160,64,1));
-		m_replay_play_button=new TGLbutton("View",m_font32,240,404,160,64,3);
+		m_replay_play_button=new TGLbutton("View",m_font32,240,404,160,64,5);
 		TGLinterface::add_element(m_replay_play_button);		
 		m_replay_play_button->m_enabled=false;
 		m_replay_rename_button=new TGLbutton("Rename",m_font16,430,340,200,32,0);
@@ -165,7 +176,31 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 
 		ID=TGLinterface::update_state(mouse_x,mouse_y,button,k);
 
-		if (ID==1) {
+		if (ID==0) {
+			// Rename
+			char tmp[256],*cp1,*cp2,*tmp2;
+
+			cp1=m_sr_replay_fullnames[m_rb_replay_selected];
+			cp2=m_sr_replay_names[m_rb_replay_selected];
+
+			sprintf(tmp,"replays/%s",m_replay_name_inputframe->m_editing);
+			tmp2=new char[strlen(tmp)+1];
+			strcpy(tmp2,tmp);
+			
+			rename(cp1,tmp);
+			delete cp1;
+
+			m_sr_replay_fullnames.SetObj(m_rb_replay_selected,tmp2);
+			sprintf(tmp,"%s",m_replay_name_inputframe->m_editing);
+			tmp2=new char[strlen(tmp)+1];
+			strcpy(tmp2,tmp);
+			delete cp2;
+			m_sr_replay_names.SetObj(m_rb_replay_selected,tmp2);
+
+
+		} // if 
+
+		if (ID==1 || ID==5) {
 			m_state_fading=2;
 			m_state_fading_cycle=0;
 			m_state_selection=ID;
@@ -189,8 +224,66 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 			check_for_replays_to_load=true;
 		} // if 
 
-		// Check if the name is a valid file:
-		{
+		if (ID==4) {
+			// Delete
+			char tmp[256],*cp1,*cp2,*cp3;
+
+			m_RL->cancel_all();
+
+			cp1=m_sr_replay_fullnames[m_rb_replay_selected];
+			cp2=m_sr_replay_names[m_rb_replay_selected];
+			cp3=m_sr_replay_info[m_rb_replay_selected];
+
+			m_sr_replay_fullnames.DeleteElement(cp1);
+			m_sr_replay_names.DeleteElement(cp2);
+			m_sr_replay_info.DeleteElement(cp3);
+
+			sprintf(tmp,"replays/%s",cp2);
+			remove(tmp);
+
+			check_for_replays_to_load=true;
+
+			delete []cp1;
+			delete []cp2;
+			delete []cp3;
+
+			m_rb_replay_selected=-1;
+
+			if (m_sr_first_replay>=m_sr_replay_names.Length() && m_sr_first_replay>0) m_sr_first_replay--;
+
+			m_replay_name_inputframe->m_editing[0]=0;
+			m_replay_name_inputframe->m_editing_position=0;
+			m_replay_name_inputframe->m_enabled=false;
+			name_changed=true;
+
+		} // if 
+
+		// Check to see if the mouse is over a replay:
+		m_rb_mouse_over_replay=-1;
+		if (mouse_x>=20 && mouse_x<600) {
+			if (mouse_y>=40) {
+				int selected=(mouse_y-40)/22;
+
+				if (selected>=0 && selected<(m_sr_replay_names.Length()-m_sr_first_replay)) {
+					m_rb_mouse_over_replay=selected;
+
+					if (button==1) {
+						m_rb_replay_selected=m_sr_first_replay+selected;
+
+						strcpy(m_replay_name_inputframe->m_editing,m_sr_replay_names[m_rb_replay_selected]);
+						m_replay_name_inputframe->m_editing_position=strlen(m_replay_name_inputframe->m_editing);
+						m_replay_name_inputframe->m_enabled=true;
+
+						name_changed=true;
+					} // if 
+				} // if 
+			} // if
+		} // if 
+
+		if (m_replay_name_inputframe->m_change_in_last_cycle) name_changed=true;
+
+		// Check if the name is a valid file to rename:
+		if (name_changed) {
 			FILE *fp;
 			bool valid_replay_name=true;
 			char tmp[256];
@@ -215,9 +308,32 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 
 			if (valid_replay_name) m_replay_rename_button->m_enabled=true;
 							  else m_replay_rename_button->m_enabled=false;
+		} // if 
 
-		}
+		// Check if the name is a valid file fo telede:
+		if (name_changed) {
+			FILE *fp;
+			bool valid_to_delete=false;
+			char tmp[256];
+
+			sprintf(tmp,"replays/%s",m_replay_name_inputframe->m_editing);
+
+            fp=fopen(tmp,"r");
+            if (fp!=0) {
+                valid_to_delete=true;
+                fclose(fp);
+            } /* if */
+
+
+			if (valid_to_delete) m_replay_delete_button->m_enabled=true;
+							else m_replay_delete_button->m_enabled=false;
+
+		} // if 
+
 	}
+
+	if (m_rb_replay_selected==-1) m_replay_play_button->m_enabled=false;
+							 else m_replay_play_button->m_enabled=true;
 
 	if (m_state_fading==2 && m_state_fading_cycle>25) {
 		switch(m_state_selection) {
@@ -225,9 +341,35 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 				m_RL->cancel_all();
 				return TGL_STATE_MAINMENU;
 				break;
-		case 2:
+		case 5:
 				// View replay:
-				// ... 
+				{
+
+					m_game_replay_mode=2;
+					{
+						FILE *fp;
+						char tmp[256];
+						sprintf(tmp,"replays/%s",m_sr_replay_names[m_rb_replay_selected]);
+						fp=fopen(tmp,"r");
+						m_game_replay=new TGLreplay(fp);
+						m_game_replay->rewind();
+						fclose(fp);
+					}
+					char *map_name=m_game_replay->get_map();
+					m_game=new TGL(map_name,
+								   m_game_replay->get_playership(m_game_replay->get_playername(0)),
+								   m_game_replay->get_initial_fuel(),
+								   m_player_profile->m_sfx_volume,
+								   m_player_profile->m_music_volume,
+								   m_GLTM);
+
+					m_game_state=0;
+					m_game_state_cycle=0;
+
+					m_game_previous_state=TGL_STATE_REPLAYBROWSER;
+					m_game_reinit_previous_state=false;
+					return TGL_STATE_GAME;
+				}
 				break;
 		} // switch
 	} // if 
@@ -296,6 +438,7 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 	return TGL_STATE_REPLAYBROWSER;
 } /* TGLapp::replaybrowser_cycle */ 
 
+
 void TGLapp::replaybrowser_draw(void)
 {
 //	char buffer[255];
@@ -304,6 +447,31 @@ void TGLapp::replaybrowser_draw(void)
     glClear(GL_COLOR_BUFFER_BIT);
 
 	TGLinterface::draw();
+
+	if (m_rb_replay_selected!=-1) {
+		int i=m_rb_replay_selected-m_sr_first_replay;
+		if (i>=0 && i<SAVEREPLAY_REPLAYSPERPAGE) {
+			glColor4f(0.5f,0.5f,1,0.7f);
+			glBegin(GL_POLYGON);
+			glVertex3f(15,float(40+i*22),0);
+			glVertex3f(585,float(40+i*22),0);
+			glVertex3f(585,float(60+i*22),0);
+			glVertex3f(15,float(60+i*22),0);
+			glEnd();
+		} // if
+	} // if 
+
+	if (m_rb_mouse_over_replay!=-1) {
+		float f;
+		f=float(0.7+0.2*sin((m_state_cycle)*0.3F));
+		glColor4f(0.5f,1,0.5f,f);
+		glBegin(GL_POLYGON);
+		glVertex3f(15,float(40+m_rb_mouse_over_replay*22),0);
+		glVertex3f(585,float(40+m_rb_mouse_over_replay*22),0);
+		glVertex3f(585,float(60+m_rb_mouse_over_replay*22),0);
+		glVertex3f(15,float(60+m_rb_mouse_over_replay*22),0);
+		glEnd();
+	} // if 
 
 	// show the list of files:
 	{
