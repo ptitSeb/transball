@@ -415,7 +415,8 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 		for(i=0;i<m_nstars;i++) {
 			m_star_x[i]=rand()%(m_fg_dx*m_fg_cell_size);
 			m_star_y[i]=rand()%(STARFIELD+32);
-			m_star_color[i]=((rand()%10)+1)*0.125f;
+			m_star_color[i]=((rand()%1000)+1)*0.001f;
+			m_star_color[i]*=m_star_color[i];
 		} // for
 	}
 
@@ -509,12 +510,22 @@ void TGLmap::draw(int focus_x,int focus_y,int dx,int dy,GLTManager *GLTM)
 		int i;
 		glPushMatrix();
 		glTranslatef(float(-(offsx/4)),float(-(offsy/4)),0);
+
 		glBegin(GL_POINTS);
 		for(i=0;i<m_nstars;i++) {
 			glColor3f(m_star_color[i],m_star_color[i],m_star_color[i]);
 			glVertex3f(float(m_star_x[i]),float(m_star_y[i]),0);
 		} // for
 		glEnd();
+
+
+		for(i=0;i<m_nstars;i++) {
+			glPushMatrix();
+			glTranslatef(float(m_star_x[i]),float(m_star_y[i]),0);
+			draw_glow(8,m_star_color[i]*6,m_star_color[i],m_star_color[i],m_star_color[i],0.125f);
+			glPopMatrix();
+		} // for
+		
 		glPopMatrix();
 	}
 
@@ -1034,3 +1045,32 @@ void TGLmap::action(int action)
 } /* TGLmap::action */ 
 
 
+void TGLmap::draw_glow(int triangles,float radius,float r,float g,float b,float a)
+{
+	int i;
+	float x1,y1,x2,y2,angle,inc;
+
+	if (triangles<3) triangles=3;
+	if (triangles>1024) triangles=1024;
+	angle=0;
+	inc=(M_PI*2)/triangles;
+
+	angle=0;
+	x2=cos(angle)*radius;
+	y2=sin(angle)*radius;
+	angle+=inc;
+	for(i=0;i<triangles;i++,angle+=inc) {
+		x1=x2;
+		y1=y2;
+		x2=cos(angle)*radius;
+		y2=sin(angle)*radius;
+		glBegin(GL_TRIANGLES);
+		glColor4f(r,g,b,a);
+		glVertex3f(0,0,0);
+		glColor4f(r,g,b,0);
+		glVertex3f(x1,y1,0);
+		glVertex3f(x2,y2,0);
+		glEnd();
+	} // for
+
+} /* TGLmap::draw_glow */ 

@@ -41,6 +41,8 @@ public:
 protected:
 	int m_cycle;
 
+	static void draw_glow(int triangles,float radius,float r,float g,float b,float a);
+
 	// starfield:
 	int m_nstars;
 	int *m_star_x,*m_star_y;

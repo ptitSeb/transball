@@ -168,6 +168,7 @@ bool TGLobject_big_tank_cannon::cycle(VirtualController *k,class TGLmap *map,GLT
 				while(a<0) a+=360;
 				while(a>=360) a-=360;
 				bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*14)),float(get_y()+(sin_table[a]*14)),m_angle+90,2,1,GLTM->get("objects/bullet-grey"),this);
+				bullet->exclude_for_collision(m_tank);
 				map->add_object_back(bullet);
 				m_state=128;
 				Sound_play(SFXM->get("sfx/shot"),sfx_volume);

@@ -1,28 +1,25 @@
 To do in "Transball GL": --------------------------------------------------------
 
+- estados:
+    - load/create/select player profile (always iin windowed mode)
+    - intro
+    - menu
+    - config
+    - highscores
+    - mapeditor / level packager
 - ZLIB to compress/uncompress replay files, level packs and player profile
-- graphics:
-	- glow of the stars when the ship is up (as in thrust extreme) and stars disappear as you go down
-    - snow falling in snow levels
-    - background of rocks is REALLY bad
-    - snow background too bright
-- WIND:
-    - in snow levels, there's wind.
-    - wind affects the snow that falls and the ship and ball
-    - wind is always the same, so it's direction is precomputed when a map is loaded
-    - wind direction and strength specified in the map editor
 - bugs:
+    - hay que esperar a que todos los threads acaben para cerrar la aplicación
     - se cuelga a veces (me pasó una vez al estrellarme teniendo la bola con HARPOON)
-	- some times tanks hit themselves! (this is weird!)
 - nice highscore matrix: levels x ships, showing the top three players (the game saves the best replays automatically):
     - the game stores much more information, and can generate an HTML page with all the details (statistics of each game, etc.).
 - Más tiles
 - Modo shadow. Que muestre la mejor replay de fondo (la nave + bola) (no se, no se...)
 - Nuevos elementos:
-	- Torretas de misiles (mega explosión con onda expansiva)
+	- Torretas de misiles (mega explosión con onda expansiva y además te siguen un poco (como ACCURA))
 	- Cañones direccionales rápidos (metralletas, con balas pequeñas y azules que te quitan fuel y
 					 te desplazan un poco)
-	- Tanques blindados
+	- Mega Tanques: te siguen, disparan misiles, son inmensos y requieren un huevo de toques
 	- ascensores (debes meterte en ellos, y moverte con ellos, tanto horizontales como verticales)
     - Agua? (viscosa, frena la nave, etc. puedo definir corrientes de agua, cascadas, etc.)
 - Modos 2 jugadores:
@@ -37,13 +34,6 @@ To do in "Transball GL": -------------------------------------------------------
         - hay 2 bolas (cualquiera puede coger cualquiera de las dos), pero solo una a la vez.
         - los disparos de el adversario/colaborador te quitan fuel y te desplazan un poco
     - En red
-- Editor de mapas + creador de niveles incorporado en el juego
-- estados:
-    - load/create/select player profile (always iin windowed mode)
-    - intro
-    - menu
-    - config
-    - highscores
 - Música en el menu principal
 - Música/loop de sonido durante el juego 
   

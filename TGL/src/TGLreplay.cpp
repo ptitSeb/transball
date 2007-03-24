@@ -685,7 +685,7 @@ float TGLreplay::load_float(char *str)
 	float tmp=0;
 	char *ptr=(char *)&tmp;
 
-	if (str[0]>='0' && str[0]<='9') {
+	if ((str[0]>='0' && str[0]<='9') || str[0]=='-') {
 		tmp=float(atof(str));
 	} else {
 #if SDL_BYTEORDER == SDL_LITTLE_ENDIAN

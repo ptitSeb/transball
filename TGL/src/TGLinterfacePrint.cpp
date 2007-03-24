@@ -60,6 +60,10 @@ GLTile *get_text_tile(char *text,TTF_Font *font)
 		} // if 
 	} // if 
 
+#ifdef __DEBUG_MESSAGES
+		output_debug_message("New text message '%s', current number ot text tiles: %i",text,text_tile_buffer.Length());
+#endif
+
 	while(text_tile_buffer.Length()>=TEXT_TILE_BUFFER_SIZE) {
 		pb=text_tile_buffer.Extract();
 		delete pb;
