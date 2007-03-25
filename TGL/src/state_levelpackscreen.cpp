@@ -42,7 +42,6 @@
 
 #include "LevelPack.h"
 #include "PlayerProfile.h"
-#include "TGLreplayLoader.h"
 
 
 int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
@@ -66,7 +65,6 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 		m_selected_level=0;
 		m_lp_replay_mode=0;
 		m_lp_replay_timmer=0;
-		m_lp_tutorial_loading=false;
 
 		if (m_lp_tutorial_game!=0) {
 			delete m_lp_tutorial_game;
@@ -213,7 +211,6 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 						m_selected_ship=*(m_player_profile->m_ships[pos]);
 						m_recheck_interface=true;
 						m_reload_tutorial=true;
-						m_RL->cancel_all();
 					}
 					break;
 			case 5:
@@ -223,7 +220,6 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 						m_selected_ship=*(m_player_profile->m_ships[pos]);
 						m_recheck_interface=true;
 						m_reload_tutorial=true;
-						m_RL->cancel_all();
 					}
 					break;
 			case 10:
@@ -233,7 +229,6 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 					m_state_fading=2;
 					m_state_fading_cycle=0;
 					m_state_selection=ID;
-					m_RL->cancel_all();
 					break;
 			case 11:
 			case 13:
@@ -242,7 +237,6 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 					m_state_fading=2;
 					m_state_fading_cycle=0;
 					m_state_selection=ID;					
-					m_RL->cancel_all();
 					break;
 			} // switch
 		} // if 
@@ -273,9 +267,9 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 			if (time==-1) {
 				sprintf(tmp,"Best Time:: --:--:--");
 			} else {
-				int hunds=time%100;
-				int secs=(time/100)%60;
-				int mins=time/6000;
+				int hunds=(time/10)%100;
+				int secs=(time/1000)%60;
+				int mins=time/60000;
 				sprintf(tmp,"Best Time:: %i:%.2i:%.2i",mins,secs,hunds);
 			} // if 
 			old=m_lp_level_time[i];
@@ -298,7 +292,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 												  else m_lp_ship_rightarrow->m_enabled=true;											
 	} // if 
 
-	if (m_reload_tutorial || (m_lp_tutorial_game==0 && !m_lp_tutorial_loading)) {
+	if (m_reload_tutorial || m_lp_tutorial_game==0) {
 		char *ship_tutorial[]={"tutorial1-vp",
 							   "tutorial1-xt",
 							   "tutorial1-sr",
@@ -322,27 +316,23 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 		} // if 
 
 		if (ship_tutorial[m_selected_ship]!=0) {
-			if (m_lp_replay_name!=0) delete []m_lp_replay_name;
-			m_lp_replay_name=0;
+			char *m_lp_replay_name=0;
 			m_lp_replay_name=new char[strlen(ship_tutorial[m_selected_ship])+15];
 			sprintf(m_lp_replay_name,"tutorials/%s.rpl",ship_tutorial[m_selected_ship]);
-			m_lp_tutorial_loading=true;
-			m_RL->load_replay(m_lp_replay_name);
+
+			FILE *fp=fopen(m_lp_replay_name,"rb");
+			if (fp!=0) {
+				m_lp_tutorial_replay=new TGLreplay(fp);
+				fclose(fp);
+			} // if 
+			delete []m_lp_replay_name;
 		} // if 
 	
 		
 	} // if 
 
-	if (m_lp_tutorial_replay==0 && m_lp_replay_name!=0) {
-		m_lp_tutorial_replay=m_RL->is_loaded(m_lp_replay_name);
-		if (m_lp_tutorial_replay!=0) {
-			delete []m_lp_replay_name;
-			m_lp_replay_name=0;
-		} // if 
-	} // if 
 
 	if (m_lp_tutorial_replay!=0) {
-		m_lp_tutorial_loading=false;
 		if (m_lp_tutorial_game==0) {
 			m_lp_tutorial_game=new TGL(m_lp_tutorial_replay->get_map(),
 									   m_lp_tutorial_replay->get_playership("default"),
@@ -431,7 +421,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 							sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",
 										m_player_profile->m_name,m_current_levelpack->m_id,m_lp_first_level,
 										m_selected_ship);
-							fp=fopen(tmp,"r");
+							fp=fopen(tmp,"rb");
 							m_game_replay=new TGLreplay(fp);
 							m_game_replay->rewind();
 							fclose(fp);
@@ -459,7 +449,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 							sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",
 										m_player_profile->m_name,m_current_levelpack->m_id,m_lp_first_level+1,
 										m_selected_ship);
-							fp=fopen(tmp,"r");
+							fp=fopen(tmp,"rb");
 							m_game_replay=new TGLreplay(fp);
 							m_game_replay->rewind();
 							fclose(fp);
@@ -487,7 +477,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 							sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",
 										m_player_profile->m_name,m_current_levelpack->m_id,m_lp_first_level+2,
 										m_selected_ship);
-							fp=fopen(tmp,"r");
+							fp=fopen(tmp,"rb");
 							m_game_replay=new TGLreplay(fp);
 							m_game_replay->rewind();
 							fclose(fp);
@@ -617,9 +607,7 @@ void TGLapp::levelpackscreen_draw(void)
 	} // switch
 
 	// Draw tutorial:
-	if (m_lp_tutorial_loading) {
-		TGLinterface::print_center("Loading Tutorial...",m_font16,320*replay_full_factor+495*(1-replay_full_factor),240*replay_full_factor+300*(1-replay_full_factor));
-	} else {
+	{
 		if (m_lp_tutorial_game!=0) {
 			int old[4];
 
@@ -657,7 +645,7 @@ void TGLapp::levelpackscreen_draw(void)
 		} else {
 			TGLinterface::print_center("No tutorial available",m_font16,320*replay_full_factor+495*(1-replay_full_factor),240*replay_full_factor+300*(1-replay_full_factor));
 		} // if 
-	} // if
+	} 
 
 	switch(m_state_fading) {
 	case 0:	

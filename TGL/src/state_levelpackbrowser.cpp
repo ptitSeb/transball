@@ -121,7 +121,7 @@ int TGLapp::levelpackbrowser_cycle(KEYBOARDSTATE *k)
 					LevelPack *lp;
 
 					FILE *fp;
-					fp=fopen(tmp,"r+");
+					fp=fopen(tmp,"rb");
 					if (fp!=0) {
 						lp=new LevelPack(fp);
 						fclose(fp);
@@ -211,7 +211,7 @@ int TGLapp::levelpackbrowser_cycle(KEYBOARDSTATE *k)
 			if (mouse_y>=40) {
 				int selected=(mouse_y-40)/22;
 
-				if (selected>=0 && selected<(m_lpb_lp_names.Length()-m_lpb_first_lp) && selected<(m_lpb_first_lp+LEVELPACKBROWSER_LPPERPAGE)) {
+				if (selected>=0 && selected<(m_lpb_lp_names.Length()-m_lpb_first_lp) && selected<LEVELPACKBROWSER_LPPERPAGE) {
 					m_lpb_mouse_over_lp=selected;
 
 					if (button==1) m_lpb_lp_selected=m_lpb_first_lp+selected;
@@ -232,7 +232,7 @@ int TGLapp::levelpackbrowser_cycle(KEYBOARDSTATE *k)
 					LevelPack *lp;
 
 					FILE *fp;
-					fp=fopen(m_lpb_lp_fullnames[m_lpb_lp_selected],"r+");
+					fp=fopen(m_lpb_lp_fullnames[m_lpb_lp_selected],"rb");
 					if (fp!=0) {
 						lp=new LevelPack(fp);
 						fclose(fp);

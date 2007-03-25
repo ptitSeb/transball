@@ -39,7 +39,6 @@
 #include "TGLapp.h"
 #include "TGLreplay.h"
 #include "TGLinterface.h"
-#include "TGLreplayLoader.h"
 
 #include "LevelPack.h"
 
@@ -76,7 +75,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 				} // if 
 
 				sprintf(tmp,"replays/%s",tmp2);
-				fp=fopen(tmp,"r+");
+				fp=fopen(tmp,"rb");
 				if (fp!=0) {
 					fclose(fp);
 					found=true;
@@ -216,7 +215,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 			if (mouse_y>=40) {
 				int selected=(mouse_y-40)/22;
 
-				if (selected>=0 && selected<(m_sr_replay_names.Length()-m_sr_first_replay) && selected<(m_sr_first_replay+SAVEREPLAY_REPLAYSPERPAGE)) {
+				if (selected>=0 && selected<(m_sr_replay_names.Length()-m_sr_first_replay) && selected<SAVEREPLAY_REPLAYSPERPAGE) {
 					m_rb_mouse_over_replay=selected;
 
 					strcpy(m_replay_name_inputframe->m_editing,m_sr_replay_names[m_rb_replay_selected]);
@@ -234,14 +233,14 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 
 			sprintf(tmp,"replays/%s",m_replay_name_inputframe->m_editing);
 
-            fp=fopen(tmp,"r");
+            fp=fopen(tmp,"rb");
             if (fp!=0) {
                 valid_replay_name=false;
                 fclose(fp);
             } /* if */
 
 			if (valid_replay_name) {
-				fp=fopen(tmp,"w");
+				fp=fopen(tmp,"wb");
 				if (fp!=0) {					
 					fclose(fp);
 					remove(tmp);
@@ -266,18 +265,16 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 
 					sprintf(tmp,"replays/%s",m_replay_name_inputframe->m_editing);
 
-					fp=fopen(tmp,"w");
+					fp=fopen(tmp,"wb");
 					if (fp!=0) {
 						m_game_replay->save(fp);
 						fclose(fp);
 					} /* if */
 				}
 
-				m_RL->cancel_all();
 				return TGL_STATE_POSTGAME;
 				break;
 		case 1:
-				m_RL->cancel_all();
 				return TGL_STATE_POSTGAME;
 				break;
 		} // switch
@@ -285,7 +282,6 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 
 	if (m_state_fading==0 || m_state_fading==2) m_state_fading_cycle++;
 	if (m_state_fading==0 && m_state_fading_cycle>25) m_state_fading=1;
-
 
 	if (check_for_replays_to_load) {
 		int i,j;
@@ -295,24 +291,12 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 			name=m_sr_replay_names[i];
 			info=m_sr_replay_info[i];
 
-			if (info==0 && !m_RL->is_loading(m_sr_replay_fullnames[i])) {
-				m_RL->load_replay(m_sr_replay_fullnames[i]);
-			} // if 
-		} // for
-	} // if 
-	
-	// Check to see if the replays have been loaded:
-	{
-		int i,j;
-		char *info,*tmp;
-		TGLreplay *rpl;
-
-		for(j=0,i=m_sr_first_replay;i<m_sr_first_replay+SAVEREPLAY_REPLAYSPERPAGE && i<m_sr_replay_names.Length();i++,j++) {
-			info=m_sr_replay_info[i];
-
 			if (info==0) {
-				rpl=m_RL->is_loaded(m_sr_replay_fullnames[i]);
-				if (rpl!=0) {
+				FILE *fp=fopen(m_sr_replay_fullnames[i],"rb");
+				if (fp!=0) {
+					TGLreplay *rpl=new TGLreplay(fp);
+					fclose(fp);
+
 					char *ship_names[]={"V-Panther",
 										"X-Terminator",
 										"Shadow Runner",
@@ -326,7 +310,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 										"C-Harpoon",
 										};
 					
-					tmp=new char[256];
+					char *tmp=new char[256];
 					{
 						int milis=rpl->get_length()*18;
 						int hunds=(milis/10)%100;
@@ -338,11 +322,27 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 
 					m_sr_replay_info.SetObj(i,tmp);
 					
+/*
+					{
+						FILE *fp;
+						char tmp2[256];
+
+						sprintf(tmp2,"replays/update-%s",m_sr_replay_names[i]);
+						fp=fopen(tmp2,"wb+");
+
+						while(rpl->read_one_cycle());
+						rpl->save(fp);
+						fclose(fp);
+					}
+*/
+
 					delete rpl;
 				} // if 
 			} // if 
 		} // for
-	}
+	} // if 
+
+
 
 	return TGL_STATE_SAVEREPLAY;
 } /* TGLapp::savereplay_cycle */ 

@@ -39,7 +39,6 @@
 #include "TGLapp.h"
 #include "TGLreplay.h"
 #include "TGLinterface.h"
-#include "TGLreplayLoader.h"
 
 #include "LevelPack.h"
 
@@ -55,7 +54,7 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 		m_mm_demo_timmer=0;
 
 		TGLinterface::reset();
-		SDL_WarpMouse(210,240);
+		SDL_WarpMouse(210,315);
 		TGLinterface::add_element(new TGLbutton("SOLO PLAY",m_font16,150,300,160,30,0));
 		e=new TGLbutton("NET PLAY",m_font16,330,300,160,30,1);
 		e->m_enabled=false;
@@ -107,10 +106,10 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 				if (m_current_levelpack!=0) delete m_current_levelpack;
 				{
 					FILE *fp;
-					fp=fopen("maps/st2.lp","r+");
-			//		fp=fopen("maps/sa.lp","r+");
-			//		fp=fopen("maps/expert.lp","r+");
-			//		fp=fopen("maps/tutorial.lp","r+");
+					fp=fopen("maps/st2.lp","rb");
+			//		fp=fopen("maps/sa.lp","rb");
+			//		fp=fopen("maps/expert.lp","rb");
+			//		fp=fopen("maps/tutorial.lp","rb");
 					if (fp!=0) {
 						m_current_levelpack=new LevelPack(fp);
 						fclose(fp);
@@ -141,36 +140,32 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 		// load demo
 		char tmp[256];
 
-		if (m_mm_demo_name!=0) delete m_mm_demo_name;
-		m_mm_demo_name=0;
 		if (m_mm_game!=0) delete m_mm_game;
 		m_mm_game=0;
 		if (m_mm_replay!=0) delete m_mm_replay;
 		m_mm_replay=0;
 
 		sprintf(tmp,"tutorials/demo%i.rpl",rand()%5);
-		m_mm_demo_name=new char[strlen(tmp)+1];
+		char *m_mm_demo_name=new char[strlen(tmp)+1];
 		strcpy(m_mm_demo_name,tmp);
-		m_RL->load_replay(m_mm_demo_name);
+
+		FILE *fp;
+		fp=fopen(m_mm_demo_name,"rb");
+		if (fp!=0) {
+			m_mm_replay=new TGLreplay(fp);
+			fclose(fp);
+			m_mm_game=new TGL(m_mm_replay->get_map(),
+						  	  m_mm_replay->get_playership("default"),
+							  m_mm_replay->get_initial_fuel(),
+							  0,
+							  0,m_GLTM);
+		} // if 
 
 		m_mm_demo_state=1;
 		m_mm_demo_timmer=0;
 	} // if 
 
 	if (m_mm_demo_state==1 || m_mm_demo_state==2 || m_mm_demo_state==3) {
-		if (m_mm_replay==0) {
-			TGLreplay *r;
-			r=m_RL->is_loaded(m_mm_demo_name);
-			if (r!=0) {
-				m_mm_replay=r;
-				m_mm_game=new TGL(m_mm_replay->get_map(),
-						  	      m_mm_replay->get_playership("default"),
-								  m_mm_replay->get_initial_fuel(),
-								  0,
-								  0,m_GLTM);
-			} // if 
-		} // if 
-
 		if (m_mm_replay!=0) {
 	
 			m_mm_demo_timmer++;
@@ -199,7 +194,6 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 			
 			if (!retval) {
 				delete m_mm_game;
-				m_mm_demo_name=0;
 				delete m_mm_replay;
 				m_mm_replay=0;
 

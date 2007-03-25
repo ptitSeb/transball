@@ -97,6 +97,7 @@ public:
 	static void draw(float alpha);
 	static void draw(void);
 
+	static void clear_print_cache(void);
 	static void print_left(char *text,TTF_Font *font,float x,float y);
 	static void print_center(char *text,TTF_Font *font,float x,float y);
 	static void print_left(char *text,TTF_Font *font,float x,float y,float r,float g,float b,float a);

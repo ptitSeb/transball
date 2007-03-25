@@ -16,6 +16,7 @@
 #include "stdlib.h"
 #include "string.h"
 #include "List.h"
+#include "debug.h"
 
 #include "auxiliar.h"
 #include "2DCMC.h"
@@ -48,6 +49,30 @@ GLTManager::~GLTManager()
 	delete []m_hash_smooth;
 	m_hash_smooth=0;
 } /* GLTManager::~GLTManager */ 
+
+
+void GLTManager::clear(void)
+{
+	GLTManagerNode *n;
+	int h;
+
+#ifdef __DEBUG_MESSAGES
+	output_debug_message("GLTManager: Clearing tile cache... showing textures used:\n");
+	for(h=0;h<SYMBOL_HASH_SIZE;h++) {
+		m_hash[h].Rewind();
+		while(m_hash[h].Iterate(n)) {
+			output_debug_message("%i -> '%s'\n",n->m_tile->get_texture(0),n->m_name->get());
+		} // if 
+		m_hash_smooth[h].Rewind();
+		while(m_hash_smooth[h].Iterate(n)) {
+			output_debug_message("%i -> '%s' [smooth]\n",n->m_tile->get_texture(0),n->m_name->get());
+		} // if 
+	} // for
+#endif
+
+	m_hash->Delete();
+	m_hash_smooth->Delete();
+} /* GLTManager::clear */ 
 
 
 GLTile *GLTManager::get(char *name)
@@ -88,7 +113,7 @@ GLTile *GLTManager::get(Symbol *name)
 		sprintf(filename,"graphics/%s.nfo",name->get());
 		{
 			FILE *fp;
-			fp=fopen(filename,"r");
+			fp=fopen(filename,"rb");
 			if (fp!=0) {
 				char tmp[80],tmp2[80];
 				while(!feof(fp)) {
@@ -155,7 +180,7 @@ GLTile *GLTManager::get_smooth(Symbol *name)
 		{
 			float fx=1.0f,fy=1.0f;
 			FILE *fp;
-			fp=fopen(filename,"r");
+			fp=fopen(filename,"rb");
 			if (fp!=0) {
 				char tmp[80],tmp2[80];
 				while(!feof(fp)) {

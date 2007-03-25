@@ -161,7 +161,7 @@ int file_check(char *fname)
 {
 	FILE *fp;
 
-	if ((fp=fopen(fname,"r"))!=NULL) {
+	if ((fp=fopen(fname,"rb"))!=NULL) {
 		if (fseek(fp,0L, SEEK_END)==0 && ftell(fp)>0) {
   			fclose(fp);
 			return true;

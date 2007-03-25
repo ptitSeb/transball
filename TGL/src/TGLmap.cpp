@@ -1053,17 +1053,17 @@ void TGLmap::draw_glow(int triangles,float radius,float r,float g,float b,float 
 	if (triangles<3) triangles=3;
 	if (triangles>1024) triangles=1024;
 	angle=0;
-	inc=(M_PI*2)/triangles;
+	inc=float((M_PI*2)/triangles);
 
 	angle=0;
-	x2=cos(angle)*radius;
-	y2=sin(angle)*radius;
+	x2=float(cos(angle)*radius);
+	y2=float(sin(angle)*radius);
 	angle+=inc;
 	for(i=0;i<triangles;i++,angle+=inc) {
 		x1=x2;
 		y1=y2;
-		x2=cos(angle)*radius;
-		y2=sin(angle)*radius;
+		x2=float(cos(angle)*radius);
+		y2=float(sin(angle)*radius);
 		glBegin(GL_TRIANGLES);
 		glColor4f(r,g,b,a);
 		glVertex3f(0,0,0);

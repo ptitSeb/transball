@@ -1222,10 +1222,32 @@ Uint32 GLTile::get_pixel(int ax,int ay)
 } // GLTile::get_pixel
 
 
-GLuint GLTile::get_texture(int i) 
+GLuint GLTile::get_texture(int num) 
 {
-	if (last_texture_check!=required_texture_check) load_textures();
-	return tex[i];
+	if (m_drawn && last_texture_check!=required_texture_check) {
+		bool reload=false;
+		int res=0;
+		int i;
+
+		if (last_texture_check<required_texture_reload) reload=true;
+		
+		for(i=0;i<nparts && !reload;i++) {
+			glBindTexture(GL_TEXTURE_2D,tex[i]);
+			glGetTexParameteriv(GL_TEXTURE_2D,GL_TEXTURE_RESIDENT,&res);
+			if (res==GL_FALSE) {
+				reload=true;
+#ifdef __DEBUG_MESSAGES
+//			output_debug_message("Texture not loaded: %i, tex %i, res %i (GL_TRUE = %i, GL_FALSE = %i)\n",i,tex[i],res,GL_TRUE,GL_FALSE);
+			output_debug_message("Out of texture memory (at cycle %i)! reloading textures...\n",current_cycle);
+#endif
+			} // if
+		} // for
+
+		last_texture_check=required_texture_check;
+		if (reload) load_textures();
+	} // if 
+	if (tex!=0) return tex[num];
+	return -1;
 } /* GLTile::get_texture */ 
 
 

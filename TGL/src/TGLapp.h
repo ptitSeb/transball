@@ -80,7 +80,6 @@ protected:
 
 	class GLTManager *m_GLTM;
 	class SFXManager *m_SFXM;
-	class TGLreplayLoader *m_RL;
 
 	TTF_Font *m_font32,*m_font16;
 
@@ -113,7 +112,6 @@ protected:
 	bool m_game_reinit_previous_state;
 
 	// Main menu:
-	char *m_mm_demo_name;
 	int m_mm_demo_state;
 	int m_mm_demo_timmer;
 	TGL *m_mm_game;
@@ -149,10 +147,8 @@ protected:
 	TGLInterfaceElement *m_lp_ship_rightarrow;
 	TGL *m_lp_tutorial_game;
 	TGLreplay *m_lp_tutorial_replay;
-	bool m_lp_tutorial_loading;
 	int m_lp_replay_mode;
 	int m_lp_replay_timmer;
-	char  *m_lp_replay_name;
 
 	// Levelpack Browser
 	TGLInterfaceElement *m_lpb_select_button;

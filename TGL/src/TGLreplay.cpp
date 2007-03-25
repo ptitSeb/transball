@@ -30,6 +30,7 @@
 #include "keyboardstate.h"
 #include "randomc.h"
 #include "VirtualController.h"
+#include "compression.h"
 
 #include "GLTManager.h"
 #include "SFXManager.h"
@@ -88,15 +89,33 @@ TGLreplay::TGLreplay(FILE *fp)
 {
 	// Load a replay:
 	XMLNode *node;
-	XMLNode *version,*date,*map,*players,*cycles,*fuel;
+	XMLNode *version=0,*date=0,*map=0,*players=0,*cycles=0,*fuel=0,*length=0;
+
+	m_buffer=0;
+	m_buffer_position=0;
+
+	// Warning: This code assumes that 'fp' was open in binary mode!!!
+/*
+	{
+		long l;
+
+		fseek(fp,0, SEEK_END);
+		l = ftell(fp);
+		fseek(fp,0, SEEK_SET);
+
+		m_buffer=new char[l];
+		fread(m_buffer,l,1,fp);
+	}
+*/
+
+	// Decompress the file:
+	{
+		unsigned l;
+		m_buffer=decompress(fp,&l);
+	}
 
 
-#ifdef __DEBUG_MESSAGES
-	int start_time=SDL_GetTicks();
-	output_debug_message("TGLreplay: Loading replay...\n");
-#endif
-
-	node=XMLNode::from_file(fp);
+	node=XMLNode::from_string(m_buffer,&m_buffer_position);
 
 	m_version=0;
 	m_map=0;
@@ -107,6 +126,7 @@ TGLreplay::TGLreplay(FILE *fp)
 	m_minute=0;
 	m_second=0;
 	m_initial_fuel=100;
+	m_length=0;
 
 	m_text=0;
 
@@ -117,6 +137,7 @@ TGLreplay::TGLreplay(FILE *fp)
 		fuel=node->get_children("initial-fuel");
 		players=node->get_children("players");
 		cycles=node->get_children("cycles");
+		length=node->get_children("length");
 	} // if 
 
 	if (version!=0) {
@@ -172,140 +193,11 @@ TGLreplay::TGLreplay(FILE *fp)
 		delete l;
 	} // if 
 
-	// cycles
-	if (cycles!=0) {
-		List<XMLNode> *l;
-		XMLNode *cycle,*input,*state,*text;
-		TGLreplay_node *node;
-		VirtualController *vc;
-		char stmp1[16],stmp2[16],stmp3[16],stmp4[16],stmp5[16],stmp6[16],stmp7[16],stmp8[16];
-
-		l=cycles->get_children();
-		l->Rewind();
-		while(l->Iterate(cycle)) {
-		
-			node=new TGLreplay_node();
-
-			input=cycle->get_children("input");
-			text=cycle->get_children("text");
-			state=cycle->get_children("state");
-
-			if (input!=0) {
-				List<XMLNode> *l2;
-				XMLNode *vc_node,*tmp;
-
-				l2=input->get_children();
-				l2->Rewind();
-				while(l2->Iterate(vc_node)) {
-
-					vc=new VirtualController();
-
-					tmp=vc_node->get_children("current");
-					if (tmp!=0) {
-						sscanf(tmp->get_value()->get(),"%s %s %s %s %s %s %s %s",stmp1,stmp2,stmp3,stmp4,stmp5,stmp6,stmp7,stmp8);
-						vc->m_joystick[0]=(stmp1[0]=='t' ? true:false);
-						vc->m_joystick[1]=(stmp2[0]=='t' ? true:false);
-						vc->m_joystick[2]=(stmp3[0]=='t' ? true:false);
-						vc->m_joystick[3]=(stmp4[0]=='t' ? true:false);
-						vc->m_button[0]=(stmp5[0]=='t' ? true:false);
-						vc->m_button[1]=(stmp6[0]=='t' ? true:false);
-						vc->m_pause=(stmp7[0]=='t' ? true:false);
-						vc->m_quit=(stmp8[0]=='t' ? true:false);								    
-					} // if 
-
-					tmp=vc_node->get_children("old");
-					if (tmp!=0) {
-						sscanf(tmp->get_value()->get(),"%s %s %s %s %s %s %s %s",stmp1,stmp2,stmp3,stmp4,stmp5,stmp6,stmp7,stmp8);
-						vc->m_old_joystick[0]=(stmp1[0]=='t' ? true:false);
-						vc->m_old_joystick[1]=(stmp2[0]=='t' ? true:false);
-						vc->m_old_joystick[2]=(stmp3[0]=='t' ? true:false);
-						vc->m_old_joystick[3]=(stmp4[0]=='t' ? true:false);
-						vc->m_old_button[0]=(stmp5[0]=='t' ? true:false);
-						vc->m_old_button[1]=(stmp6[0]=='t' ? true:false);
-						vc->m_old_pause=(stmp7[0]=='t' ? true:false);
-						vc->m_old_quit=(stmp8[0]=='t' ? true:false);								    
-					} // if 
-
-					node->m_input.Add(vc);
-
-				} // while 
-			} // if 
-
-			if (state!=0) {
-				node->m_keyframe=true;
-				List<XMLNode> *l2;
-				XMLNode *object,*tmp;
-				TGLreplay_object_position *op;
-
-				l2=state->get_children();
-				l2->Rewind();
-				while(l2->Iterate(object)) {
-					op=new TGLreplay_object_position();
-
-					tmp=object->get_children("name");
-					if (tmp!=0) {
-						op->m_name=new char[strlen(tmp->get_value()->get())+1];
-						strcpy(op->m_name,tmp->get_value()->get());
-					} else {
-						op->m_name=0;
-					} // if 
-
-					tmp=object->get_children("x");
-					if (tmp!=0) {
-						op->m_x=load_float(tmp->get_value()->get());
-					} // if 
-
-					tmp=object->get_children("y");
-					if (tmp!=0) {
-						op->m_y=load_float(tmp->get_value()->get());
-					} // if 
-
-					tmp=object->get_children("speedx");
-					if (tmp!=0) {
-						op->m_speed_x=load_float(tmp->get_value()->get());
-					} // if 
-
-					tmp=object->get_children("speedy");
-					if (tmp!=0) {
-						op->m_speed_y=load_float(tmp->get_value()->get());
-					} // if 
-
-					tmp=object->get_children("angle");
-					if (tmp!=0) {
-						op->m_a=atoi(tmp->get_value()->get());
-					} // if 
-
-					if (!replay_ignored_object(op)) {
-						node->m_objects.Add(op);
-					} else {
-						delete op;
-					} // if 
-				} // while 
-
-			} else {
-				node->m_keyframe=false;
-			} // if 
-
-			if (text!=0) {
-				if (text->get_value()!=0) {
-					node->m_text=new char[strlen(text->get_value()->get())+1];
-					strcpy(node->m_text,text->get_value()->get());
-				} else {
-					node->m_text=new char[1];
-					node->m_text[0]=0;
-				} // if 
-			} // if 
-			
-			m_replay.Add(node);
-		} // while 
-		delete l;
+	if (length!=0) {
+		m_length=atoi(length->get_value()->get());
 	} // if 
 
 	delete node;
-
-#ifdef __DEBUG_MESSAGES
-	output_debug_message("TGLreplay: Finished. (%i ms)\n",SDL_GetTicks()-start_time);
-#endif
 
 } /* TGLreplay::TGLreplay */ 
 
@@ -314,6 +206,9 @@ TGLreplay::TGLreplay(char *map)
 {
 	m_version=new char[strlen(application_version)+1];
 	strcpy(m_version,application_version);
+
+	m_buffer=0;
+	m_buffer_position=-1;
 
 #ifdef _WIN32
     struct tm today;
@@ -349,6 +244,9 @@ TGLreplay::TGLreplay(char *map)
 
 TGLreplay::~TGLreplay()
 {
+	if (m_buffer!=0) delete []m_buffer;
+	m_buffer=0;
+
 	if (m_version!=0) delete []m_version;
 	m_version=0;
 
@@ -357,9 +255,125 @@ TGLreplay::~TGLreplay()
 } /* TGLreplay::~TGLreplay */ 
 
 
+bool TGLreplay::read_one_cycle(void)
+{
+	XMLNode *cycle;
+
+	cycle=XMLNode::from_string(m_buffer,&m_buffer_position);
+
+	if (cycle!=0) {
+		XMLNode *input,*state,*text;
+		TGLreplay_node *node;
+		VirtualController *vc;
+		char stmp1[16],stmp2[16],stmp3[16],stmp4[16],stmp5[16],stmp6[16],stmp7[16],stmp8[16];
+	
+		node=new TGLreplay_node();
+
+		input=cycle->get_children("input");
+		text=cycle->get_children("text");
+		state=cycle->get_children("state");
+
+		if (input!=0) {
+			List<XMLNode> *l2;
+			XMLNode *vc_node;
+
+			l2=input->get_children();
+			l2->Rewind();
+			while(l2->Iterate(vc_node)) {
+
+				vc=new VirtualController();
+
+				sscanf(vc_node->get_value()->get(),"%s %s %s %s %s %s %s %s",stmp1,stmp2,stmp3,stmp4,stmp5,stmp6,stmp7,stmp8);
+				vc->m_joystick[0]=(stmp1[0]=='t' ? true:false);
+				vc->m_joystick[1]=(stmp2[0]=='t' ? true:false);
+				vc->m_joystick[2]=(stmp3[0]=='t' ? true:false);
+				vc->m_joystick[3]=(stmp4[0]=='t' ? true:false);
+				vc->m_button[0]=(stmp5[0]=='t' ? true:false);
+				vc->m_button[1]=(stmp6[0]=='t' ? true:false);
+				vc->m_pause=(stmp7[0]=='t' ? true:false);
+				vc->m_quit=(stmp8[0]=='t' ? true:false);								    
+
+				node->m_input.Add(vc);
+
+			} // while 
+		} // if 
+
+		if (state!=0) {
+			node->m_keyframe=true;
+			List<XMLNode> *l2;
+			XMLNode *object,*tmp;
+			TGLreplay_object_position *op;
+
+			l2=state->get_children();
+			l2->Rewind();
+			while(l2->Iterate(object)) {
+				op=new TGLreplay_object_position();
+
+				tmp=object->get_children("name");
+				if (tmp!=0) {
+					op->m_name=new char[strlen(tmp->get_value()->get())+1];
+					strcpy(op->m_name,tmp->get_value()->get());
+				} else {
+					op->m_name=0;
+				} // if 
+
+				tmp=object->get_children("x");
+				if (tmp!=0) {
+					op->m_x=load_float(tmp->get_value()->get());
+				} // if 
+
+				tmp=object->get_children("y");
+				if (tmp!=0) {
+					op->m_y=load_float(tmp->get_value()->get());
+				} // if 
+
+				tmp=object->get_children("speedx");
+				if (tmp!=0) {
+					op->m_speed_x=load_float(tmp->get_value()->get());
+				} // if 
+
+				tmp=object->get_children("speedy");
+				if (tmp!=0) {
+					op->m_speed_y=load_float(tmp->get_value()->get());
+				} // if 
+
+				tmp=object->get_children("angle");
+				if (tmp!=0) {
+					op->m_a=atoi(tmp->get_value()->get());
+				} // if 
+
+				if (!replay_ignored_object(op)) {
+					node->m_objects.Add(op);
+				} else {
+					delete op;
+				} // if 
+			} // while 
+
+		} else {
+			node->m_keyframe=false;
+		} // if 
+
+		if (text!=0) {
+			if (text->get_value()!=0) {
+				node->m_text=new char[strlen(text->get_value()->get())+1];
+				strcpy(node->m_text,text->get_value()->get());
+			} else {
+				node->m_text=new char[1];
+				node->m_text[0]=0;
+			} // if 
+		} // if 
+		
+		m_replay.Add(node);
+		return true;
+	} // if 
+
+	return false;
+} /* TGLreplay::read_one_cycle */ 
+
+
 int TGLreplay::get_length(void)
 {
-	return m_replay.Length();
+	return m_length;
 } /* TGLreplay::get_length */ 
 
 
@@ -372,47 +386,102 @@ void TGLreplay::add_player(char *player_name,int ship)
 } /* TGLreplay::add_player */ 
 
 
-bool TGLreplay::save(FILE *fp)
+bool TGLreplay::save(FILE *fp_out)
 {
 	char *tmp;
 	TGLreplay_node *node;
 	VirtualController *vc;
 	TGLreplay_object_position *op;
 	int i,*itmp;
+	char buff[256],*buff2;
+	List<char> elements;
 
-	fprintf(fp,"<replay>\n");
-	fprintf(fp,"<version>%s</version>\n",m_version);
-	fprintf(fp,"<date>\n");
-	fprintf(fp,"<day>%i</day>\n",m_day);
-	fprintf(fp,"<month>%i</month>\n",m_month);
-	fprintf(fp,"<year>%i</year>\n",m_year);
-	fprintf(fp,"<hour>%i</hour>\n",m_hour);
-	fprintf(fp,"<minute>%i</minute>\n",m_minute);
-	fprintf(fp,"<second>%i</second>\n",m_second);
-	fprintf(fp,"</date>\n");
-	fprintf(fp,"<map>%s</map>\n",m_map);
-	
-	fprintf(fp,"<players>\n");
+
+	sprintf(buff,"<replay-info>\n");
+	buff2=new char[strlen(buff)+1];
+	strcpy(buff2,buff);
+	elements.Add(buff2);
+	sprintf(buff,"<version>%s</version>\n",m_version);
+	buff2=new char[strlen(buff)+1];
+	strcpy(buff2,buff);
+	elements.Add(buff2);
+	sprintf(buff,"<date>\n");
+	buff2=new char[strlen(buff)+1];
+	strcpy(buff2,buff);
+	elements.Add(buff2);
+	sprintf(buff,"<day>%i</day>\n",m_day);
+	buff2=new char[strlen(buff)+1];
+	strcpy(buff2,buff);
+	elements.Add(buff2);
+	sprintf(buff,"<month>%i</month>\n",m_month);
+	buff2=new char[strlen(buff)+1];
+	strcpy(buff2,buff);
+	elements.Add(buff2);
+	sprintf(buff,"<year>%i</year>\n",m_year);
+	buff2=new char[strlen(buff)+1];
+	strcpy(buff2,buff);
+	elements.Add(buff2);
+	sprintf(buff,"<hour>%i</hour>\n",m_hour);
+	buff2=new char[strlen(buff)+1];
+	strcpy(buff2,buff);
+	elements.Add(buff2);
+	sprintf(buff,"<minute>%i</minute>\n",m_minute);
+	buff2=new char[strlen(buff)+1];
+	strcpy(buff2,buff);
+	elements.Add(buff2);
+	sprintf(buff,"<second>%i</second>\n",m_second);
+	buff2=new char[strlen(buff)+1];
+	strcpy(buff2,buff);
+	elements.Add(buff2);
+	sprintf(buff,"</date>\n");
+	buff2=new char[strlen(buff)+1];
+	strcpy(buff2,buff);
+	elements.Add(buff2);
+	sprintf(buff,"<map>%s</map>\n",m_map);
+	buff2=new char[strlen(buff)+1];
+	strcpy(buff2,buff);
+	elements.Add(buff2);
+	sprintf(buff,"<players>\n");
+	buff2=new char[strlen(buff)+1];
+	strcpy(buff2,buff);
+	elements.Add(buff2);
+
 	m_players.Rewind();
 	m_ships.Rewind();
 	while(m_players.Iterate(tmp) && m_ships.Iterate(itmp)) {
-		fprintf(fp,"<player>\n");
-		fprintf(fp,"<name>%s</name>\n",tmp);
-		fprintf(fp,"<ship>%i</ship>\n",*itmp);
-		fprintf(fp,"</player>\n",tmp);
+		sprintf(buff,"<player><name>%s</name><ship>%i</ship></player>\n",tmp,*itmp);
+		buff2=new char[strlen(buff)+1];
+		strcpy(buff2,buff);
+		elements.Add(buff2);
 	} // while 
-	fprintf(fp,"</players>\n");
+	
+	sprintf(buff,"</players>\n");
+	buff2=new char[strlen(buff)+1];
+	strcpy(buff2,buff);
+	elements.Add(buff2);
 
-	fprintf(fp,"<cycles>\n");
+	sprintf(buff,"<length>%i</length>\n",m_replay.Length());
+	buff2=new char[strlen(buff)+1];
+	strcpy(buff2,buff);
+	elements.Add(buff2);
+
+	sprintf(buff,"</replay-info>\n");
+	buff2=new char[strlen(buff)+1];
+	strcpy(buff2,buff);
+	elements.Add(buff2);	
+
 	i=0;
 	m_replay.Rewind();
 	while(m_replay.Iterate(node)) {
-		fprintf(fp,"<cycle num=\"%i\">\n",i++);
-		fprintf(fp,"<input>\n");
+
+		sprintf(buff,"<cycle num=\"%i\">\n<input>\n",i++);
+		buff2=new char[strlen(buff)+1];
+		strcpy(buff2,buff);
+		elements.Add(buff2);
+
 		node->m_input.Rewind();
 		while(node->m_input.Iterate(vc)) {
-			fprintf(fp,"<vc>");
-			fprintf(fp,"<current>%s %s %s %s %s %s %s %s</current>",
+			sprintf(buff,"<vc>%s %s %s %s %s %s %s %s</vc>",
 				(vc->m_joystick[0] ? "t":"f"),
 				(vc->m_joystick[1] ? "t":"f"),
 				(vc->m_joystick[2] ? "t":"f"),
@@ -421,48 +490,107 @@ bool TGLreplay::save(FILE *fp)
 				(vc->m_button[1] ? "t":"f"),
 				(vc->m_pause ? "t":"f"),
 				(vc->m_quit ? "t":"f"));
-			fprintf(fp,"<old>%s %s %s %s %s %s %s %s</old>",
-				(vc->m_old_joystick[0] ? "t":"f"),
-				(vc->m_old_joystick[1] ? "t":"f"),
-				(vc->m_old_joystick[2] ? "t":"f"),
-				(vc->m_old_joystick[3] ? "t":"f"),
-				(vc->m_old_button[0] ? "t":"f"),
-				(vc->m_old_button[1] ? "t":"f"),
-				(vc->m_old_pause ? "t":"f"),
-				(vc->m_old_quit ? "t":"f"));
-			fprintf(fp,"</vc>\n");
+			buff2=new char[strlen(buff)+1];
+			strcpy(buff2,buff);
+			elements.Add(buff2);
 		} // while 
-		fprintf(fp,"</input>\n");
+		sprintf(buff,"</input>\n");
+		buff2=new char[strlen(buff)+1];
+		strcpy(buff2,buff);
+		elements.Add(buff2);
 
 		if (node->m_keyframe) {
-			fprintf(fp,"<state>\n");
+			sprintf(buff,"<state>\n");
+			buff2=new char[strlen(buff)+1];
+			strcpy(buff2,buff);
+			elements.Add(buff2);
+
 			node->m_objects.Rewind();
 			while(node->m_objects.Iterate(op)) {
-				fprintf(fp,"<object>\n");
-				fprintf(fp,"<name>%s</name>\n",op->m_name);
 
-				fprintf(fp,"<x>");
-				save_float(op->m_x,fp);
-				fprintf(fp,"</x>\n");
-				fprintf(fp,"<y>");
-				save_float(op->m_y,fp);
-				fprintf(fp,"</y>\n");
-				fprintf(fp,"<speedx>");
-				save_float(op->m_speed_x,fp);
-				fprintf(fp,"</speedx>\n");
-				fprintf(fp,"<speedy>");
-				save_float(op->m_speed_y,fp);
-				fprintf(fp,"</speedy>\n");
-				fprintf(fp,"<angle>%i</angle>\n",op->m_a);
-				fprintf(fp,"</object>\n");
+				sprintf(buff,"<object>\n<name>%s</name>\n<x>",op->m_name);
+				buff2=new char[strlen(buff)+1];
+				strcpy(buff2,buff);
+				elements.Add(buff2);				
+
+				save_float(op->m_x,buff);
+				buff2=new char[strlen(buff)+1];
+				strcpy(buff2,buff);
+				elements.Add(buff2);				
+
+				sprintf(buff,"</x>\n<y>");
+				buff2=new char[strlen(buff)+1];
+				strcpy(buff2,buff);
+				elements.Add(buff2);				
+
+				save_float(op->m_y,buff);
+				buff2=new char[strlen(buff)+1];
+				strcpy(buff2,buff);
+				elements.Add(buff2);				
+				
+				sprintf(buff,"</y>\n<speedx>");
+				buff2=new char[strlen(buff)+1];
+				strcpy(buff2,buff);
+				elements.Add(buff2);				
+
+				save_float(op->m_speed_x,buff);
+				buff2=new char[strlen(buff)+1];
+				strcpy(buff2,buff);
+				elements.Add(buff2);				
+				
+				sprintf(buff,"</speedx>\n<speedy>");
+				buff2=new char[strlen(buff)+1];
+				strcpy(buff2,buff);
+				elements.Add(buff2);				
+
+				save_float(op->m_speed_y,buff);
+				buff2=new char[strlen(buff)+1];
+				strcpy(buff2,buff);
+				elements.Add(buff2);				
+
+				sprintf(buff,"</speedy>\n<angle>%i</angle>\n</object>\n",op->m_a);
+				buff2=new char[strlen(buff)+1];
+				strcpy(buff2,buff);
+				elements.Add(buff2);				
 			} // while 
-			fprintf(fp,"</state>\n");
+			sprintf(buff,"</state>\n");
+			buff2=new char[strlen(buff)+1];
+			strcpy(buff2,buff);
+			elements.Add(buff2);				
 		} // if 
-		fprintf(fp,"</cycle>\n");
+		sprintf(buff,"</cycle>\n");
+		buff2=new char[strlen(buff)+1];
+		strcpy(buff2,buff);
+		elements.Add(buff2);				
 	} // while 
-	fprintf(fp,"</cycles>\n");
+	
+	{
+		int len,pos;
+		char *token;
 
-	fprintf(fp,"</replay>\n");
+		len=0;
+		elements.Rewind();
+		while(elements.Iterate(token)) {
+			len+=strlen(token)+1;
+		} /* while */ 
+		len++;
+
+		tmp=new char[len];
+
+		pos=0;
+		elements.Rewind();
+		while(elements.Iterate(token)) {
+			sprintf(tmp+pos,"%s",token);
+			pos+=strlen(token);
+		} /* while */ 
+		tmp[pos]=0;
+
+
+//		fprintf(fp_out,"%s",tmp);
+
+		compress(tmp,len,fp_out);
+		delete []tmp;
+	}
 
 	return true;
 } /* TGLreplay::save */ 
@@ -541,11 +669,17 @@ bool TGLreplay::execute_cycle(List<VirtualController> *m_input,List<TGLobject> *
 	TGLreplay_object_position *ro;
 	TGLobject *go,*go_found;
 
-	retval=m_replay.Iterate(node);
+	retval=read_one_cycle();
+
+	m_replay.Forward();
+	node=m_replay.GetObj();
 
 	m_input->Rewind();
 	node->m_input.Rewind();
-	while(m_input->Iterate(vc1) && node->m_input.Iterate(vc2)) vc1->copy(vc2);
+	while(m_input->Iterate(vc1) && node->m_input.Iterate(vc2)) {
+		vc1->new_cycle();
+		vc1->copy_current(vc2);
+	} // while 
 
 	if (node->m_text!=0) {
 		if (m_text!=0) delete m_text;
@@ -696,6 +830,33 @@ void TGLreplay::save_float(float v,FILE *fp)
 	tmp[8]=0;
 
 	fprintf(fp,tmp);
+} /* TGLreplay::save_float */ 
+
+
+void TGLreplay::save_float(float v,char *tmp)
+{
+	char *ptr=(char *)&v;
+
+#if SDL_BYTEORDER == SDL_LITTLE_ENDIAN
+	tmp[0]='a'+(ptr[0]&0xf);
+	tmp[1]='a'+((ptr[0]>>4)&0xf);
+	tmp[2]='a'+(ptr[1]&0xf);
+	tmp[3]='a'+((ptr[1]>>4)&0xf);
+	tmp[4]='a'+(ptr[2]&0xf);
+	tmp[5]='a'+((ptr[2]>>4)&0xf);
+	tmp[6]='a'+(ptr[3]&0xf);
+	tmp[7]='a'+((ptr[3]>>4)&0xf);
+#else
+	tmp[0]='a'+(ptr[3]&0xf);
+	tmp[1]='a'+((ptr[3]>>4)&0xf);
+	tmp[2]='a'+(ptr[2]&0xf);
+	tmp[3]='a'+((ptr[2]>>4)&0xf);
+	tmp[4]='a'+(ptr[1]&0xf);
+	tmp[5]='a'+((ptr[1]>>4)&0xf);
+	tmp[6]='a'+(ptr[0]&0xf);
+	tmp[7]='a'+((ptr[0]>>4)&0xf);
+#endif
+	tmp[8]=0;
 } /* TGLreplay::save_float */ 
 
 

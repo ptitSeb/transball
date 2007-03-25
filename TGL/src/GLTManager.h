@@ -16,6 +16,8 @@ public:
 	GLTManager();
 	~GLTManager();
 
+	void clear(void);
+
 	GLTile *get(char *name);
 	GLTile *get(Symbol *name);
 

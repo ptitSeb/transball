@@ -38,10 +38,10 @@
 #include "TGL.h"
 #include "TGLapp.h"
 #include "TGLreplay.h"
+#include "TGLinterface.h"
 
 #include "LevelPack.h"
 #include "PlayerProfile.h"
-#include "TGLreplayLoader.h"
 
 
 
@@ -64,14 +64,11 @@ TGLapp::TGLapp()
 	m_selected_level=0;
 	m_selected_ship=0;
 
-	m_mm_demo_name=0;
 	m_mm_game=0;
 	m_mm_replay=0;
 
 	m_lp_tutorial_game=0;
 	m_lp_tutorial_replay=0;
-	m_lp_tutorial_loading=false;
-	m_lp_replay_name=0;
 	m_lp_music_channel=-1;
 
 	m_state=TGL_STATE_PLAYERPROFILE;
@@ -111,8 +108,6 @@ TGLapp::TGLapp()
 	m_SFXM=new SFXManager();
 	m_SFXM->cache("sfx");
 	
-	m_RL=new TGLreplayLoader();
-
 	load_playerprofile("default");
 	fullscreen=m_player_profile->m_fullscreen;
 
@@ -129,13 +124,14 @@ TGLapp::TGLapp()
 
 TGLapp::~TGLapp()
 {
+	TGLinterface::clear_print_cache();
+	m_GLTM->clear();
+
 	TTF_CloseFont(m_font32);
 	TTF_CloseFont(m_font16);
 
 	save_playerprofile();
 
-	if (m_mm_demo_name!=0) delete []m_mm_demo_name;
-	m_mm_demo_name=0;
 	if (m_mm_game!=0) delete m_mm_game;
 	m_mm_game=0;
 	if (m_mm_replay!=0) delete m_mm_replay;
@@ -164,10 +160,6 @@ TGLapp::~TGLapp()
 	if (m_game_replay!=0) delete m_game_replay;
 	m_game_replay=0;
 
-	if (m_lp_replay_name!=0) delete []m_lp_replay_name;
-	m_lp_replay_name=0;
-
-	delete m_RL;
 	delete m_GLTM;
 	delete m_SFXM;
 
@@ -312,7 +304,7 @@ void TGLapp::draw(int SCREEN_X,int SCREEN_Y)
 	if (show_fps) {
 		char tmp[80];
 		sprintf(tmp,"video mem: %.4gmb - fps: %i",float(GLTile::get_memory_used())/float(1024*1024),frames_per_sec);
-//		font_print_c(320,460,0,0,0.5f,"font",tmp,-2);
+		TGLinterface::print_center(tmp,m_font16,320,460);
 	} /* if */ 
 
 	glDisable(GL_BLEND);
@@ -354,7 +346,7 @@ void TGLapp::load_playerprofile(char *name)
 	char tmp[256];
 
 	sprintf(tmp,"players/%s.pp",name);
-	fp=fopen(tmp,"r+");
+	fp=fopen(tmp,"rb");
 	if (fp!=0) {
 		m_player_profile=new PlayerProfile(fp);
 		fclose(fp);

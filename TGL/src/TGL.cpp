@@ -70,7 +70,7 @@ TGL::TGL(char *map, int ship,int initial_fuel,int sfx_volume, int music_volume, 
 
 	{
 		FILE *fp;
-		fp=fopen(map,"r+");
+		fp=fopen(map,"rb");
 		if (fp!=0) {
 			m_map=new TGLmap(fp,GLTM);
 			fclose(fp);

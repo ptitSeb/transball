@@ -13,6 +13,7 @@ public:
 	VirtualController(VirtualController *vc);
 
 	void copy(VirtualController *vc);
+	void copy_current(VirtualController *vc);
 
 	bool m_joystick[4];
 	bool m_button[2];

@@ -31,7 +31,7 @@
 #include "TGLinterface.h"
 
 
-#define TEXT_TILE_BUFFER_SIZE	50
+#define TEXT_TILE_BUFFER_SIZE	100
 
 class PrintBuffer {
 public:
@@ -48,23 +48,52 @@ public:
 // This stores the last text messages we printed so that we are not generating new tiles all the time (and save CPU time):
 List<PrintBuffer> text_tile_buffer;
 
+void TGLinterface::clear_print_cache(void)
+{
+#ifdef __DEBUG_MESSAGES
+		output_debug_message("TGLinterface: Clearing print cache... showing textures used:\n");
+		{
+			PrintBuffer *pb;
+			text_tile_buffer.Rewind();
+			while(text_tile_buffer.Iterate(pb)) {
+				output_debug_message("%i -> '%s'\n",int(pb->tile->get_texture(0)),pb->text);
+			} // while 
+		}
+#endif
+
+	
+	text_tile_buffer.Delete();
+} /* TGLinterface::clear_print_cache */ 
+
+
+
 GLTile *get_text_tile(char *text,TTF_Font *font)
 {
 	PrintBuffer *pb;
 
 	text_tile_buffer.Rewind();
 	while(text_tile_buffer.Iterate(pb)) {
+#ifdef __DEBUG_MESSAGES
+		if (pb->tile->get_texture(0)<0) {
+				output_debug_message("TGLinterface: Weird stuff just happened!\n");
+		} // if 
+#endif
 		if (pb->font==font && strcmp(pb->text,text)==0) {
 			// Move it the text to the top of the list to indicate that it has been used:
 			text_tile_buffer.DeleteElement(pb);
 			text_tile_buffer.Insert(pb);
+#ifdef __DEBUG_MESSAGES
+			if (pb->tile->get_texture(0)<0) {
+					output_debug_message("TGLinterface: Weird stuff just happened (2)!\n");
+			} // if 
+#endif
 			return pb->tile;
 		} // if 
 	} // if 
 
-#ifdef __DEBUG_MESSAGES
-		output_debug_message("New text message '%s', current number ot text tiles: %i\n",text,text_tile_buffer.Length());
-#endif
+//#ifdef __DEBUG_MESSAGES
+//		output_debug_message("New text message '%s', current number ot text tiles: %i\n",text,text_tile_buffer.Length());
+//#endif
 
 	while(text_tile_buffer.Length()>=TEXT_TILE_BUFFER_SIZE) {
 		pb=text_tile_buffer.Extract();
@@ -89,6 +118,12 @@ GLTile *get_text_tile(char *text,TTF_Font *font)
 		strcpy(pb->text,text);
 		pb->tile=tile;
 		text_tile_buffer.Insert(pb);
+
+#ifdef __DEBUG_MESSAGES
+		if (pb->tile->get_texture(0)<0) {
+			output_debug_message("TGLinterface: Even weirdest stuff just happened!\n");
+		} // if 
+#endif
 
 		return tile;
 	}

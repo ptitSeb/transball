@@ -1,10 +1,11 @@
+#ifdef KITSCHY_DEBUG_MEMORY 
+#include "debug_memorymanager.h"
+#endif
+
 #include "math.h"
 #include "stdio.h"
 #include "Vector.h"
 
-#ifdef KITSCHY_DEBUG_MEMORY 
-#include "debug_memorymanager.h"
-#endif
 
 Vector::Vector() 
 {

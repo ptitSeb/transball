@@ -73,6 +73,58 @@ XMLNode *XMLNode::from_file(FILE *fp)
 } /* XMLNode::from_file */ 
 
 
+XMLNode *XMLNode::from_string(char *str,int *ppos)
+{
+	char buffer[1024];
+	List<XMLNode> stack;
+	XMLNode *node,*first_node=0;
+	bool open;
+	char c;
+	int pos=*ppos;
+
+	do {
+		*ppos=pos;
+		node=read_tag_from_string(str,ppos,&open);
+		pos=*ppos;
+
+		if (first_node==0) first_node=node;
+
+		if (node!=0) {
+			if (open) {
+				if (!stack.EmptyP()) stack[0]->m_children.Add(node);
+				stack.Insert(node);
+
+				// get the value of the XML node:
+				{
+					int i=0;
+
+					do{
+						buffer[i++]=c=str[pos++];
+					}while(c!='<' && str[pos]!=0);
+
+					if (i>0) i--;
+					buffer[i]=0;
+					Symbol::arrange_string(buffer);
+					if (strlen(buffer)>0) node->m_value=new Symbol(buffer);
+					if (c=='<') pos--;
+				}
+			
+			} else {
+				if (!stack[0]->m_type->cmp(node->m_type)) printf("XMLNode::from_file: Warning! XML mismatch: %s -> %s\n",
+																stack[0]->m_type->get(),
+																node->m_type->get());
+				stack.ExtractIni();
+				delete node;
+			} // if 
+		} // if 
+
+	}while(!stack.EmptyP());
+
+	*ppos=pos;
+	return first_node;
+} /* XMLNode::from_string */ 
+
+
 XMLNode *XMLNode::read_tag_from_file(FILE *fp,bool *open,bool look_for_first_character)
 {
 	XMLNode *tmp;
@@ -138,6 +190,83 @@ XMLNode *XMLNode::read_tag_from_file(FILE *fp,bool *open,bool look_for_first_cha
 
 	return tmp;
 } /* XMLNode::read_tag_from_file */ 
+
+
+
+XMLNode *XMLNode::read_tag_from_string(char *str,int *ppos,bool *open)
+{
+	XMLNode *tmp;
+	char buffer[1024];
+	int i;
+	char c;
+	bool end_of_tag=false;
+	int pos=*ppos;
+
+	*open=true;
+
+	{
+		// Look for the '<':
+		do{
+			c=str[pos++];
+		}while(c!='<' && str[pos]!=0);
+		if (str[pos]==0) {
+			*ppos=pos;
+			return 0;
+		} // if 
+	} // if 
+	
+	i=0;
+	c=str[pos++];
+	if (c=='/') {
+		*open=false; 
+	} else {
+		buffer[i++]=c;
+	} // if 
+
+	tmp=new XMLNode();
+
+	do{
+		c=str[pos++];
+		if (!end_of_tag) {
+			buffer[i++]=c;
+			if (c==' ') {
+				end_of_tag=true;
+				// look for attributes:
+
+				int j=0;
+				char buffer2[1024];				
+				while(c==' ') c=str[pos++];
+				buffer2[j++]=c;
+				while(c!=' ' && c!='=') buffer2[j++]=c=str[pos++];
+
+				if (j>0) j--;
+				buffer2[j]=0;
+				tmp->m_attribute_names.Add(new Symbol(buffer2));
+				j=0;
+
+				while(c!='\"') c=str[pos++];
+				buffer2[j++]=c=str[pos++];
+				while(c!='\"') buffer2[j++]=c=str[pos++];
+				if (j>0) j--;
+				buffer2[j]=0;
+				tmp->m_attribute_values.Add(new Symbol(buffer2));
+			} // if 
+		} else {
+		} // if 	
+	}while(c!='>' && str[pos]!=0);
+	if (str[pos]==0) {
+		*ppos=pos;
+		return 0;
+	} // if
+	if (i>0) i--;
+	buffer[i]=0;
+
+	tmp->m_type=new Symbol(buffer);
+
+	*ppos=pos;
+	return tmp;
+} /* XMLNode::read_tag_from_string */ 
+
 
 
 

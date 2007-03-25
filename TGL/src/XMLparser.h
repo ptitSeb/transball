@@ -4,6 +4,7 @@
 class XMLNode {
 public:
 	static XMLNode *from_file(FILE *fp);
+	static XMLNode *from_string(char *str,int *pos);
 	
 	~XMLNode();
 
@@ -22,6 +23,7 @@ private:
 	XMLNode(void);
 
 	static XMLNode *read_tag_from_file(FILE *fp,bool *open,bool look_for_first_character);
+	static XMLNode *read_tag_from_string(char *str,int *pos,bool *open);
 
 	Symbol *m_type;
 	Symbol *m_value;

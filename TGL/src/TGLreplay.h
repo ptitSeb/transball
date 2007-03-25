@@ -47,12 +47,16 @@ public:
 	int get_initial_fuel(void);
 	char *get_text(void);
 
+	bool read_one_cycle(void);
+
 private:
 
 	static bool replay_ignored_object(TGLobject *o);
 	static bool replay_ignored_object(TGLreplay_object_position *o);
 	static void save_float(float v,FILE *fp);
+	static void save_float(float v,char *str);
 	static float load_float(char *str);
+
 
 	// Version of TRANSBALL with which it was saved:
 	char *m_version;
@@ -73,9 +77,14 @@ private:
 
 	// One node per game cycle (thus, the time is m_replay.Length()*18 miliseconds)
 	List<TGLreplay_node> m_replay;
+	int m_length;
 
 	// text:
 	char *m_text;
+
+	// buffer:
+	char *m_buffer;		// replay loaded from a file that is being decoded
+	int m_buffer_position;
 };
 
 #endif

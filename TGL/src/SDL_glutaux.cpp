@@ -16,6 +16,7 @@
 #include "math.h"
 
 #include "auxiliar.h"
+#include "debug.h"
 
 #include "GLTile.h"
 #include "SDL_glutaux.h"
@@ -62,6 +63,11 @@ GLuint  createTexture(SDL_Surface *sfc,float *tx,float *ty)
 //		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);		 
 		glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA8,szx,szy,0,GL_RGBA,GL_UNSIGNED_BYTE,sfc2->pixels);
 		SDL_FreeSurface(sfc2);
+
+#ifdef __DEBUG_MESSAGES
+		output_debug_message("createTexture: %i [%i,%i] -> [%i,%i]\n",tname,sfc->w,sfc->h,szx,szy);
+#endif
+
 	} else {
 		return 0;
 	} /* if */ 
@@ -100,6 +106,11 @@ GLuint  createTextureClamp(SDL_Surface *sfc,float *tx,float *ty)
 //		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);		 
 		glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA8,szx,szy,0,GL_RGBA,GL_UNSIGNED_BYTE,sfc2->pixels);
 		SDL_FreeSurface(sfc2);
+
+#ifdef __DEBUG_MESSAGES
+		output_debug_message("createTextureClamp: %i [%i,%i] -> [%i,%i]\n",tname,sfc->w,sfc->h,szx,szy);
+#endif
+
 	} else {
 		return 0;
 	} /* if */ 
@@ -138,6 +149,11 @@ GLuint  createTextureSmooth(SDL_Surface *sfc,float *tx,float *ty)
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);		 
 		glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA8,szx,szy,0,GL_RGBA,GL_UNSIGNED_BYTE,sfc2->pixels);
 		SDL_FreeSurface(sfc2);
+
+#ifdef __DEBUG_MESSAGES
+		output_debug_message("createTextureSmooth: %i [%i,%i] -> [%i,%i]\n",tname,sfc->w,sfc->h,szx,szy);
+#endif
+
 	} else {
 		return 0;
 	} /* if */ 
@@ -176,6 +192,11 @@ GLuint  createTextureClampSmooth(SDL_Surface *sfc,float *tx,float *ty)
 		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);		 
 		glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA8,szx,szy,0,GL_RGBA,GL_UNSIGNED_BYTE,sfc2->pixels);
 		SDL_FreeSurface(sfc2);
+
+#ifdef __DEBUG_MESSAGES
+		output_debug_message("createTextureClampSmooth: %i [%i,%i] -> [%i,%i]\n",tname,sfc->w,sfc->h,szx,szy);
+#endif
+
 	} else {
 		return 0;
 	} /* if */ 

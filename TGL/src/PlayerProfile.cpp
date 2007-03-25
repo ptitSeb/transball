@@ -403,7 +403,7 @@ void PlayerProfile::level_completed(char *levelpack_id,int level,TGLreplay *repl
 		selected->m_results.Add(selected_l);
 	} // if 
 
-	if (selected_l->m_best_time==-1 || selected_l->m_best_time>replay->get_length()) {
+	if (selected_l->m_best_time==-1 || selected_l->m_best_time>replay->get_length()*18) {
 		selected_l->m_best_time=replay->get_length()*18;
 		selected_l->m_fuel_used=0;
 		selected_l->m_shots=0;
@@ -417,14 +417,14 @@ void PlayerProfile::level_completed(char *levelpack_id,int level,TGLreplay *repl
 
 			sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",m_name,levelpack_id,level,replay->get_playership(m_name));
 
-			fp=fopen(tmp,"w+");
+			fp=fopen(tmp,"wb");
 			if (fp==0) {
 				// assume the folder does not exist:
 				char tmp2[256];
 				sprintf(tmp2,"players/%s",m_name);
 				_mkdir(tmp2);
 
-				fp=fopen(tmp,"w+");
+				fp=fopen(tmp,"wb");
 			} // if 
 
 			if (fp!=0) {

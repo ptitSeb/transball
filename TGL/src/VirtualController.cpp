@@ -49,3 +49,17 @@ void VirtualController::copy(VirtualController *vc)
 	m_old_quit=vc->m_old_quit;
 } /* VirtualController::copy */ 
 
+
+void VirtualController::copy_current(VirtualController *vc)
+{
+	m_joystick[VC_UP]=vc->m_joystick[VC_UP];
+	m_joystick[VC_RIGHT]=vc->m_joystick[VC_RIGHT];
+	m_joystick[VC_LEFT]=vc->m_joystick[VC_LEFT];
+	m_joystick[VC_DOWN]=vc->m_joystick[VC_DOWN];
+	m_button[0]=vc->m_button[0];
+	m_button[1]=vc->m_button[1];
+	m_pause=vc->m_pause;
+	m_quit=vc->m_quit;
+} /* VirtualController::copy_current */ 
+
+
