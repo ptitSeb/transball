@@ -182,7 +182,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 			button=0;
 		} // if 
 
-		if (k->key_press(SDLK_SPACE) || k->key_press(SDLK_RETURN)) button=1;
+		if (k->key_press(SDLK_SPACE)) button=1;
 
 		ID=TGLinterface::update_state(mouse_x,mouse_y,button,k);
 
@@ -216,7 +216,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 			if (mouse_y>=40) {
 				int selected=(mouse_y-40)/22;
 
-				if (selected>=0 && selected<(m_sr_replay_names.Length()-m_sr_first_replay)) {
+				if (selected>=0 && selected<(m_sr_replay_names.Length()-m_sr_first_replay) && selected<(m_sr_first_replay+SAVEREPLAY_REPLAYSPERPAGE)) {
 					m_rb_mouse_over_replay=selected;
 
 					strcpy(m_replay_name_inputframe->m_editing,m_sr_replay_names[m_rb_replay_selected]);

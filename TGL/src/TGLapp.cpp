@@ -63,6 +63,11 @@ TGLapp::TGLapp()
 	m_current_levelpack=0;
 	m_selected_level=0;
 	m_selected_ship=0;
+
+	m_mm_demo_name=0;
+	m_mm_game=0;
+	m_mm_replay=0;
+
 	m_lp_tutorial_game=0;
 	m_lp_tutorial_replay=0;
 	m_lp_tutorial_loading=false;
@@ -128,6 +133,13 @@ TGLapp::~TGLapp()
 	TTF_CloseFont(m_font16);
 
 	save_playerprofile();
+
+	if (m_mm_demo_name!=0) delete []m_mm_demo_name;
+	m_mm_demo_name=0;
+	if (m_mm_game!=0) delete m_mm_game;
+	m_mm_game=0;
+	if (m_mm_replay!=0) delete m_mm_replay;
+	m_mm_replay=0;
 
 	if (m_lp_music_channel!=-1) Mix_HaltChannel(m_lp_music_channel);
 

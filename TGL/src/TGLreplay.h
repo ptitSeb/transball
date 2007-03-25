@@ -50,6 +50,7 @@ public:
 private:
 
 	static bool replay_ignored_object(TGLobject *o);
+	static bool replay_ignored_object(TGLreplay_object_position *o);
 	static void save_float(float v,FILE *fp);
 	static float load_float(char *str);
 

@@ -112,6 +112,13 @@ protected:
 	int m_game_previous_state;
 	bool m_game_reinit_previous_state;
 
+	// Main menu:
+	char *m_mm_demo_name;
+	int m_mm_demo_state;
+	int m_mm_demo_timmer;
+	TGL *m_mm_game;
+	TGLreplay *m_mm_replay;
+
 	// Save Replay
 	class TGLTextInputFrame *m_replay_name_inputframe;
 	class TGLInterfaceElement *m_replay_save_button;

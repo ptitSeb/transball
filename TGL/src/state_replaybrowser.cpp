@@ -264,7 +264,7 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 			if (mouse_y>=40) {
 				int selected=(mouse_y-40)/22;
 
-				if (selected>=0 && selected<(m_sr_replay_names.Length()-m_sr_first_replay)) {
+				if (selected>=0 && selected<(m_sr_replay_names.Length()-m_sr_first_replay) && selected<(m_sr_first_replay+SAVEREPLAY_REPLAYSPERPAGE)) {
 					m_rb_mouse_over_replay=selected;
 
 					if (button==1) {
@@ -352,8 +352,13 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 						sprintf(tmp,"replays/%s",m_sr_replay_names[m_rb_replay_selected]);
 						fp=fopen(tmp,"r");
 						m_game_replay=new TGLreplay(fp);
-						m_game_replay->rewind();
 						fclose(fp);
+
+//						fp=fopen("copy.rpl","w+");
+//						m_game_replay->save(fp);
+//						fclose(fp);
+
+						m_game_replay->rewind();
 					}
 					char *map_name=m_game_replay->get_map();
 					m_game=new TGL(map_name,

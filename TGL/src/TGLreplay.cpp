@@ -57,6 +57,8 @@ char *objects_to_ignore[]={"TGLobject_ballstand",
 						   "TGLobject_radar",
 						   "TGLobject_redlight",
 						   "TGLobject_techno_computer",
+						   "TGLobject_laser_horizontal",
+						   "TGLobject_laser_vertical",
 						   0};
 
 TGLreplay_object_position::~TGLreplay_object_position()
@@ -273,7 +275,11 @@ TGLreplay::TGLreplay(FILE *fp)
 						op->m_a=atoi(tmp->get_value()->get());
 					} // if 
 
-					node->m_objects.Add(op);
+					if (!replay_ignored_object(op)) {
+						node->m_objects.Add(op);
+					} else {
+						delete op;
+					} // if 
 				} // while 
 
 			} else {
@@ -375,37 +381,37 @@ bool TGLreplay::save(FILE *fp)
 	int i,*itmp;
 
 	fprintf(fp,"<replay>\n");
-	fprintf(fp,"  <version>%s</version>\n",m_version);
-	fprintf(fp,"  <date>\n");
-	fprintf(fp,"    <day>%i</day>\n",m_day);
-	fprintf(fp,"    <month>%i</month>\n",m_month);
-	fprintf(fp,"    <year>%i</year>\n",m_year);
-	fprintf(fp,"    <hour>%i</hour>\n",m_hour);
-	fprintf(fp,"    <minute>%i</minute>\n",m_minute);
-	fprintf(fp,"    <second>%i</second>\n",m_second);
-	fprintf(fp,"  </date>\n");
-	fprintf(fp,"  <map>%s</map>\n",m_map);
+	fprintf(fp,"<version>%s</version>\n",m_version);
+	fprintf(fp,"<date>\n");
+	fprintf(fp,"<day>%i</day>\n",m_day);
+	fprintf(fp,"<month>%i</month>\n",m_month);
+	fprintf(fp,"<year>%i</year>\n",m_year);
+	fprintf(fp,"<hour>%i</hour>\n",m_hour);
+	fprintf(fp,"<minute>%i</minute>\n",m_minute);
+	fprintf(fp,"<second>%i</second>\n",m_second);
+	fprintf(fp,"</date>\n");
+	fprintf(fp,"<map>%s</map>\n",m_map);
 	
-	fprintf(fp,"  <players>\n");
+	fprintf(fp,"<players>\n");
 	m_players.Rewind();
 	m_ships.Rewind();
 	while(m_players.Iterate(tmp) && m_ships.Iterate(itmp)) {
-		fprintf(fp,"    <player>\n");
-		fprintf(fp,"      <name>%s</name>\n",tmp);
-		fprintf(fp,"      <ship>%i</ship>\n",*itmp);
-		fprintf(fp,"    </player>\n",tmp);
+		fprintf(fp,"<player>\n");
+		fprintf(fp,"<name>%s</name>\n",tmp);
+		fprintf(fp,"<ship>%i</ship>\n",*itmp);
+		fprintf(fp,"</player>\n",tmp);
 	} // while 
-	fprintf(fp,"  </players>\n");
+	fprintf(fp,"</players>\n");
 
-	fprintf(fp,"  <cycles>\n");
+	fprintf(fp,"<cycles>\n");
 	i=0;
 	m_replay.Rewind();
 	while(m_replay.Iterate(node)) {
-		fprintf(fp,"    <cycle num=\"%i\">\n",i++);
-		fprintf(fp,"      <input>\n");
+		fprintf(fp,"<cycle num=\"%i\">\n",i++);
+		fprintf(fp,"<input>\n");
 		node->m_input.Rewind();
 		while(node->m_input.Iterate(vc)) {
-			fprintf(fp,"        <vc>");
+			fprintf(fp,"<vc>");
 			fprintf(fp,"<current>%s %s %s %s %s %s %s %s</current>",
 				(vc->m_joystick[0] ? "t":"f"),
 				(vc->m_joystick[1] ? "t":"f"),
@@ -426,35 +432,35 @@ bool TGLreplay::save(FILE *fp)
 				(vc->m_old_quit ? "t":"f"));
 			fprintf(fp,"</vc>\n");
 		} // while 
-		fprintf(fp,"      </input>\n");
+		fprintf(fp,"</input>\n");
 
 		if (node->m_keyframe) {
-			fprintf(fp,"      <state>\n");
+			fprintf(fp,"<state>\n");
 			node->m_objects.Rewind();
 			while(node->m_objects.Iterate(op)) {
-				fprintf(fp,"        <object>\n");
-				fprintf(fp,"          <name>%s</name>\n",op->m_name);
+				fprintf(fp,"<object>\n");
+				fprintf(fp,"<name>%s</name>\n",op->m_name);
 
-				fprintf(fp,"          <x>");
+				fprintf(fp,"<x>");
 				save_float(op->m_x,fp);
 				fprintf(fp,"</x>\n");
-				fprintf(fp,"          <y>");
+				fprintf(fp,"<y>");
 				save_float(op->m_y,fp);
 				fprintf(fp,"</y>\n");
-				fprintf(fp,"          <speedx>");
+				fprintf(fp,"<speedx>");
 				save_float(op->m_speed_x,fp);
 				fprintf(fp,"</speedx>\n");
-				fprintf(fp,"          <speedy>");
+				fprintf(fp,"<speedy>");
 				save_float(op->m_speed_y,fp);
 				fprintf(fp,"</speedy>\n");
-				fprintf(fp,"          <angle>%i</angle>\n",op->m_a);
-				fprintf(fp,"        </object>\n");
+				fprintf(fp,"<angle>%i</angle>\n",op->m_a);
+				fprintf(fp,"</object>\n");
 			} // while 
-			fprintf(fp,"      </state>\n");
+			fprintf(fp,"</state>\n");
 		} // if 
-		fprintf(fp,"    </cycle>\n");
+		fprintf(fp,"</cycle>\n");
 	} // while 
-	fprintf(fp,"  </cycles>\n");
+	fprintf(fp,"</cycles>\n");
 
 	fprintf(fp,"</replay>\n");
 
@@ -648,6 +654,19 @@ bool TGLreplay::replay_ignored_object(TGLobject *o)
 
 	return false;
 } /* TGLreplay::replay_ignored_object */ 
+
+
+bool TGLreplay::replay_ignored_object(TGLreplay_object_position *o)
+{
+	int i;
+
+	for(i=0;objects_to_ignore[i]!=0;i++) {
+		if (strcmp(o->m_name,objects_to_ignore[i])==0) return true;
+	} // if 
+
+	return false;
+} /* TGLreplay::replay_ignored_object */ 
+
 
 
 void TGLreplay::save_float(float v,FILE *fp)

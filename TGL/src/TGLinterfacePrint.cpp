@@ -31,7 +31,7 @@
 #include "TGLinterface.h"
 
 
-#define TEXT_TILE_BUFFER_SIZE	100
+#define TEXT_TILE_BUFFER_SIZE	50
 
 class PrintBuffer {
 public:

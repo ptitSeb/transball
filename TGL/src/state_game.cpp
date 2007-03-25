@@ -111,7 +111,6 @@ int TGLapp::game_cycle(KEYBOARDSTATE *k)
 				i=0;
 				m_lvc.Rewind();
 				while(m_lvc.Iterate(m_vc)) {
-					m_vc->new_cycle();
 					if (k->keyboard[m_player_profile->m_keys_configuration[i][KEY_QUIT]]) m_vc->m_quit=true;
 																	else m_vc->m_quit=false;
 				} // while
@@ -163,6 +162,7 @@ int TGLapp::game_cycle(KEYBOARDSTATE *k)
 				if (m_game_replay_mode==1 && m_game->get_game_result()==1) {
 					// Update player profile!
 					m_player_profile->level_completed(m_current_levelpack->m_id,m_selected_level,m_game_replay);
+					save_playerprofile();
 				} // if 
 				return m_game_previous_state;
 			} // if 

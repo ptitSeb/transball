@@ -6,6 +6,10 @@ To do in "Transball GL": -------------------------------------------------------
     - highscores
     - mapeditor / level packager
 - ZLIB to compress/uncompress replay files, level packs and player profile
+- ship balancing:
+    - gyrus is crap: increase it's fire power, bullet size and rotation speed
+    - harpoon is crap: modify the ship so that it's easier to aim and make the grabber stop if completely up (if ball
+      catched, the grabber does not go completely up) 
 - bugs:
     - hay que esperar a que todos los threads acaben para cerrar la aplicación
     - se cuelga a veces (me pasó una vez al estrellarme teniendo la bola con HARPOON)
