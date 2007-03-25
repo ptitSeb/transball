@@ -24,6 +24,8 @@
 #include "GLTile.h"
 #include "keyboardstate.h"
 
+#include "debug.h"
+
 #include "TGLapp.h"
 
 #include "TGLinterface.h"
@@ -61,7 +63,7 @@ GLTile *get_text_tile(char *text,TTF_Font *font)
 	} // if 
 
 #ifdef __DEBUG_MESSAGES
-		output_debug_message("New text message '%s', current number ot text tiles: %i",text,text_tile_buffer.Length());
+		output_debug_message("New text message '%s', current number ot text tiles: %i\n",text,text_tile_buffer.Length());
 #endif
 
 	while(text_tile_buffer.Length()>=TEXT_TILE_BUFFER_SIZE) {

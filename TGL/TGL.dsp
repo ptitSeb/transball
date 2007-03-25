@@ -887,11 +887,23 @@ SOURCE=.\src\state_game.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\state_intro.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\state_levelpackbrowser.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\state_levelpackscreen.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=.\src\state_mainmenu.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\state_playerprofile.cpp
 # End Source File
 # Begin Source File
 

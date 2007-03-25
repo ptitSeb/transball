@@ -6,6 +6,7 @@ public:
 	virtual ~TGLInterfaceElement();
 
 	virtual bool check_status(int mousex,int mousey,int button,class KEYBOARDSTATE *k);
+	virtual void draw(float alpha);
 	virtual void draw(void);
 
 	int m_ID;
@@ -22,6 +23,7 @@ public:
 	TGLText(char *text,TTF_Font *font,float x,float y,bool centered);
 	virtual ~TGLText();
 
+	virtual void draw(float alpha);
 	virtual void draw(void);
 
 	bool m_centered;
@@ -38,6 +40,7 @@ public:
 	virtual ~TGLbutton();
 
 	virtual bool check_status(int mousex,int mousey,int button,KEYBOARDSTATE *k);
+	virtual void draw(float alpha);
 	virtual void draw(void);
 
 	char *m_text;
@@ -53,6 +56,7 @@ public:
 	TGLframe(float x,float y,float dx,float dy);
 	virtual ~TGLframe();
 
+	virtual void draw(float alpha);
 	virtual void draw(void);
 
 };
@@ -65,6 +69,7 @@ public:
 	virtual ~TGLTextInputFrame();
 
 	virtual bool check_status(int mousex,int mousey,int button,KEYBOARDSTATE *k);
+	virtual void draw(float alpha);
 	virtual void draw(void);
 
 	TTF_Font *m_font;
@@ -89,6 +94,7 @@ public:
 	static void substitute_element(TGLInterfaceElement *old,TGLInterfaceElement *n);
 	static void reset(void);
 	static int update_state(int mousex,int mousey,int button,KEYBOARDSTATE *k);
+	static void draw(float alpha);
 	static void draw(void);
 
 	static void print_left(char *text,TTF_Font *font,float x,float y);

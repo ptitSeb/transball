@@ -29,6 +29,23 @@
 #include "TGLinterface.h"
 
 
+float color1_r=1,color1_g=1,color1_b=1;					// TEXT
+float color2_r=0.15f,color2_g=0.15f,color2_b=0.15f;		// FRAME_BG
+float color3_r=1,color3_g=1,color3_b=1;					// FRAME_FG
+
+/*
+float color4_r=0.25f,color4_g=0.25f,color4_b=0.25f;		// BUTTON STD
+float color5_r=0.5f,color5_g=0.5f,color5_b=0.5f;		// BUTTON MOUSE
+float color6_r=0.75f,color6_g=0.75f,color6_b=0.75f;		// BUTTON PRESSED
+*/
+
+
+float color4_r=0.16f,color4_g=0.16f,color4_b=0.33f;		// BUTTON STD
+float color5_r=0.33f,color5_g=0.33f,color5_b=0.66f;		// BUTTON MOUSE
+float color6_r=0.66f,color6_g=0.66f,color6_b=0.85f;		// BUTTON PRESSED
+
+
+
 List<TGLInterfaceElement> TGLinterface::m_elements;
 
 
@@ -116,6 +133,18 @@ void TGLinterface::draw(void)
 } /* TGLinterface::draw */ 
 
 
+void TGLinterface::draw(float alpha)
+{
+	TGLInterfaceElement *e;
+
+	m_elements.Rewind();
+	while(m_elements.Iterate(e)) {
+		e->draw(alpha);
+	} // while 
+
+} /* TGLinterface::draw */ 
+
+
 /* ------------------------------------------------------------------------------------------------------ */ 
 
 
@@ -139,6 +168,10 @@ void TGLInterfaceElement::draw(void)
 {
 } /* TGLInterfaceElement::draw */ 
 
+
+void TGLInterfaceElement::draw(float alpha)
+{
+} /* TGLInterfaceElement::draw */ 
 
 
 TGLText::TGLText(char *text,TTF_Font *font,float x,float y,bool centered)
@@ -165,8 +198,8 @@ TGLText::~TGLText()
 void TGLText::draw(void)
 {
 	if (m_centered) {
-		if (m_enabled) TGLinterface::print_center(m_text,m_font,m_x,m_y+TTF_FontHeight(m_font)/2);
-				  else TGLinterface::print_center(m_text,m_font,m_x,m_y+TTF_FontHeight(m_font)/2,0.33f,0.33f,0.33f,1);
+		if (m_enabled) TGLinterface::print_center(m_text,m_font,m_x,m_y+TTF_FontHeight(m_font)/2,color1_r,color1_g,color1_b,1);
+				  else TGLinterface::print_center(m_text,m_font,m_x,m_y+TTF_FontHeight(m_font)/2,0.33f*color1_r,0.33f*color1_g,0.33f*color1_b,1);
 	} else {
 		if (m_enabled) TGLinterface::print_left(m_text,m_font,m_x,m_y+TTF_FontHeight(m_font)/2);
 				  else TGLinterface::print_left(m_text,m_font,m_x,m_y+TTF_FontHeight(m_font)/2,0.33f,0.33f,0.33f,1);
@@ -174,6 +207,18 @@ void TGLText::draw(void)
 
 } /* TGLText::draw */ 
 
+
+void TGLText::draw(float alpha)
+{
+	if (m_centered) {
+		if (m_enabled) TGLinterface::print_center(m_text,m_font,m_x,m_y+TTF_FontHeight(m_font)/2,color1_r,color1_g,color1_b,alpha);
+				  else TGLinterface::print_center(m_text,m_font,m_x,m_y+TTF_FontHeight(m_font)/2,0.33f*color1_r,0.33f*color1_g,0.33f*color1_b,alpha);
+	} else {
+		if (m_enabled) TGLinterface::print_left(m_text,m_font,m_x,m_y+TTF_FontHeight(m_font)/2,color1_r,color1_g,color1_b,alpha);
+				  else TGLinterface::print_left(m_text,m_font,m_x,m_y+TTF_FontHeight(m_font)/2,0.33f*color1_r,0.33f*color1_g,0.33f*color1_b,alpha);
+	} // if 
+
+} /* TGLText::draw */ 
 
 
 TGLbutton::TGLbutton(char *text,TTF_Font *font,float x,float y,float dx,float dy,int ID)
@@ -224,18 +269,23 @@ TGLbutton::~TGLbutton()
 } /* TGLbutton::~TGLbutton */ 
 
 
-
 void TGLbutton::draw(void)
 {
+	draw(1);
+} /* TGLbutton::draw */ 
+
+
+void TGLbutton::draw(float alpha)
+{
 	switch(m_status) {
-	case 1: glColor3f(0.25f,0.25f,0.25f);
+	case 1: glColor4f(color5_r*0.5f,color6_g*0.5f,color5_b*0.5f,alpha);
 			break;
-	case 2: glColor3f(0.5f,0.5f,0.5f);
+	case 2: glColor4f(color6_r*0.5f,color5_g*0.5f,color6_b*0.5f,alpha);
 			break;
-	default:glColor3f(0.125f,0.125f,0.125f);
+	default:glColor4f(color4_r*0.5f,color4_g*0.5f,color4_b*0.5f,alpha);
 	} // switch
 
-	if (!m_enabled) glColor3f(0.075f,0.075f,0.075f);
+	if (!m_enabled) glColor4f(color4_r*0.25f,color4_g*0.25f,color4_b*0.25f,alpha);
 
 	glBegin(GL_POLYGON);
 	glVertex3f(m_x+3,m_y,0);
@@ -257,14 +307,14 @@ void TGLbutton::draw(void)
 	m_dx-=2;
 	m_dy-=2;
 	switch(m_status) {
-	case 1: glColor3f(0.5f,0.5f,0.5f);
+	case 1: glColor4f(color5_r,color5_g,color5_b,alpha);
 			break;
-	case 2: glColor3f(0.75f,0.75f,0.75f);
+	case 2: glColor4f(color6_r,color6_g,color6_b,alpha);
 			break;
-	default:glColor3f(0.25f,0.25f,0.25f);
+	default:glColor4f(color4_r,color4_g,color4_b,alpha);
 	} // switch
 
-	if (!m_enabled) glColor3f(0.125f,0.125f,0.125f);
+	if (!m_enabled) glColor4f(color4_r*0.5f,color4_g*0.5f,color4_b*0.5f,alpha);
 
 	glBegin(GL_POLYGON);
 	glVertex3f(m_x+3,m_y,0);
@@ -286,11 +336,11 @@ void TGLbutton::draw(void)
 	m_dy+=2;
 
 	if (m_tile==0) {
-		if (m_enabled) TGLinterface::print_center(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2);
-				  else TGLinterface::print_center(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2,0.33f,0.33f,0.33f,1);
+		if (m_enabled) TGLinterface::print_center(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2,color1_r,color1_g,color1_b,alpha);
+				  else TGLinterface::print_center(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2,0.33f*color1_r,0.33f*color1_g,0.33f*color1_b,alpha);
 	} else {
-		if (m_enabled) m_tile->draw(m_x+m_dx/2,m_y+m_dy/2,0,0,1);
-				  else m_tile->draw(0.33f,0.33f,0.33f,1,m_x+m_dx/2,m_y+m_dy/2,0,0,1);
+		if (m_enabled) m_tile->draw(color1_r,color1_g,color1_b,alpha,m_x+m_dx/2,m_y+m_dy/2,0,0,1);
+				  else m_tile->draw(0.33f*color1_r,0.33f*color1_g,0.33f*color1_b,alpha,m_x+m_dx/2,m_y+m_dy/2,0,0,1);
 	} // if 
 } /* TGLbutton::draw */ 
 
@@ -335,10 +385,16 @@ TGLframe::~TGLframe()
 
 void TGLframe::draw(void)
 {
+	draw(1);
+} /* TGLframe::draw */ 
+
+
+void TGLframe::draw(float alpha)
+{
 	int bar_height=6;
 	float old_y;
 
-	glColor4f(0.15f,0.15f,0.15f,0.5f);
+	glColor4f(color2_r,color2_g,color2_b,0.5f*alpha);
 	glBegin(GL_POLYGON);
 	glVertex3f(m_x+2,m_y,0);
 	glVertex3f(m_x+m_dx-2,m_y,0);
@@ -346,7 +402,7 @@ void TGLframe::draw(void)
 	glVertex3f(m_x+2,m_y+m_dy,0);
 	glEnd();
 	
-	glColor3f(0.5f,0.5f,0.5f);
+	glColor4f(color3_r*0.5f,color3_g*0.5f,color3_b*0.5f,alpha);
 	glBegin(GL_POLYGON);
 	glVertex3f(m_x+2,m_y,0);
 	glVertex3f(m_x+m_dx-1,m_y,0);
@@ -360,7 +416,7 @@ void TGLframe::draw(void)
 
 	m_x++;
 	m_dx-=2;
-	glColor3f(1,1,1);
+	glColor4f(color3_r,color3_g,color3_b,alpha);
 	glBegin(GL_POLYGON);
 	glVertex3f(m_x+2,m_y,0);
 	glVertex3f(m_x+m_dx-1,m_y,0);
@@ -376,7 +432,7 @@ void TGLframe::draw(void)
 
 	old_y=m_y;
 	m_y+=m_dy-bar_height;
-	glColor3f(0.5f,0.5f,0.f);
+	glColor4f(color3_r*0.5f,color3_g*0.5f,color3_b*0.5f,alpha);
 	glBegin(GL_POLYGON);
 	glVertex3f(m_x+2,m_y,0);
 	glVertex3f(m_x+m_dx-1,m_y,0);
@@ -390,7 +446,7 @@ void TGLframe::draw(void)
 
 	m_x++;
 	m_dx-=2;
-	glColor3f(1,1,1);
+	glColor4f(color3_r,color3_g,color3_b,alpha);
 	glBegin(GL_POLYGON);
 	glVertex3f(m_x+2,m_y,0);
 	glVertex3f(m_x+m_dx-1,m_y,0);
@@ -435,11 +491,42 @@ TGLTextInputFrame::~TGLTextInputFrame()
 	m_editing=0;
 } /* TGLTextInputFrame::~TGLTextInputFrame */ 
 
+void TGLTextInputFrame::draw(float alpha)
+{
+	TGLframe::draw(alpha);
+
+	TGLinterface::print_left(m_editing,m_font,m_x+8,m_y+(m_dy/2)+TTF_FontHeight(m_font)/2,color1_r,color1_g,color1_b,alpha);
+	
+	// draw the cursor:
+	if (m_focus) {
+		char tmp[255];
+		int tdx=0,tdy=0;
+
+		strcpy(tmp,m_editing);
+		tmp[m_editing_position]=0;
+		TTF_SizeText(m_font,tmp,&tdx,&tdy);
+
+		{
+			float f;
+			f=float(0.5+0.3*sin((m_cycle)*0.3F));
+			glColor4f(1,0,0,f*alpha);
+			glBegin(GL_POLYGON);
+			glVertex3f(float(m_x+8+tdx),348,0);
+			glVertex3f(float(m_x+8+tdx+4),348,0);
+			glVertex3f(float(m_x+8+tdx+4),364,0);
+			glVertex3f(float(m_x+8+tdx),364,0);
+			glEnd();
+		}
+	} // if
+
+} /* TGLTextInputFrame::draw */ 
+
+
 void TGLTextInputFrame::draw(void)
 {
 	TGLframe::draw();
 
-	TGLinterface::print_left(m_editing,m_font,m_x+8,m_y+(m_dy/2)+TTF_FontHeight(m_font)/2);
+	TGLinterface::print_left(m_editing,m_font,m_x+8,m_y+(m_dy/2)+TTF_FontHeight(m_font)/2,color1_r,color1_g,color1_b,1);
 	
 	// draw the cursor:
 	if (m_focus) {

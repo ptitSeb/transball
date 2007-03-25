@@ -37,35 +37,133 @@
 #include "TGL.h"
 #include "TGLapp.h"
 #include "TGLreplay.h"
+#include "TGLinterface.h"
 
 #include "LevelPack.h"
 
 
 int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 {
-	if (m_current_levelpack!=0) delete m_current_levelpack;
+	if (SDL_ShowCursor(SDL_QUERY)!=SDL_ENABLE) SDL_ShowCursor(SDL_ENABLE);
+
+	if (m_state_cycle==0) {
+		TGLInterfaceElement *e;
+
+		TGLinterface::reset();
+		SDL_WarpMouse(210,240);
+		TGLinterface::add_element(new TGLbutton("SOLO PLAY",m_font16,150,300,160,30,0));
+		e=new TGLbutton("NET PLAY",m_font16,330,300,160,30,1);
+		e->m_enabled=false;
+		TGLinterface::add_element(e);
+		e=new TGLbutton("OPTIONS",m_font16,240,335,160,30,2);
+		e->m_enabled=false;
+		TGLinterface::add_element(e);
+		e=new TGLbutton("HIGH SCORES",m_font16,240,370,160,30,3);
+		e->m_enabled=false;
+		TGLinterface::add_element(e);
+		TGLinterface::add_element(new TGLbutton("REPLAYS",m_font16,240,405,160,30,4));
+		TGLinterface::add_element(new TGLbutton("QUIT",m_font16,240,440,160,30,5));
+	} // if 
+
 	{
-		FILE *fp;
-		fp=fopen("maps/st2.lp","r+");
-//		fp=fopen("maps/sa.lp","r+");
-//		fp=fopen("maps/expert.lp","r+");
-//		fp=fopen("maps/tutorial.lp","r+");
-		if (fp!=0) {
-			m_current_levelpack=new LevelPack(fp);
-			fclose(fp);
+		int mouse_x=0,mouse_y=0,button=0;
+		int ID=-1;
+		if (!m_mouse_click_x.EmptyP()) {
+			int *tmp;
 
-//			return TGL_STATE_REPLAYBROWSER;
-			return TGL_STATE_LEVELPACKSCREEN;
+			tmp=m_mouse_click_x.ExtractIni();
+			mouse_x=*tmp;
+			delete tmp;
+			tmp=m_mouse_click_y.ExtractIni();
+			mouse_y=*tmp;
+			delete tmp;
+			button=1;
 		} else {
-			return TGL_STATE_NONE;
+			SDL_GetMouseState(&mouse_x,&mouse_y);
+			button=0;
 		} // if 
-	} 
 
+		if (k->key_press(SDLK_SPACE) || k->key_press(SDLK_RETURN)) button=1;
+	
+		ID=TGLinterface::update_state(mouse_x,mouse_y,button,k);
+
+		if (ID!=-1) {
+			m_state_fading=2;
+			m_state_fading_cycle=0;
+			m_state_selection=ID;
+		} // if 
+	} // if 
+
+
+	if (m_state_fading==2 && m_state_fading_cycle>25) {
+		SDL_ShowCursor(SDL_DISABLE);
+		switch(m_state_selection) {
+		case 0: 
+				if (m_current_levelpack!=0) delete m_current_levelpack;
+				{
+					FILE *fp;
+					fp=fopen("maps/st2.lp","r+");
+			//		fp=fopen("maps/sa.lp","r+");
+			//		fp=fopen("maps/expert.lp","r+");
+			//		fp=fopen("maps/tutorial.lp","r+");
+					if (fp!=0) {
+						m_current_levelpack=new LevelPack(fp);
+						fclose(fp);
+
+			//			return TGL_STATE_REPLAYBROWSER;
+						return TGL_STATE_LEVELPACKSCREEN;
+					} else {
+						return TGL_STATE_NONE;
+					} // if 
+				} 
+
+				return TGL_STATE_MAINMENU;
+				break;
+		case 4: 
+				return TGL_STATE_REPLAYBROWSER;
+				break;
+		case 5: 
+				return TGL_STATE_NONE;
+				break;
+		} // switch
+	} // if 
+
+	if (m_state_fading==0 || m_state_fading==2) m_state_fading_cycle++;
+	if (m_state_fading==0 && m_state_fading_cycle>25) m_state_fading=1;
+
+
+	return TGL_STATE_MAINMENU;
 } /* TGLapp::mainmenu_cycle */ 
 
 void TGLapp::mainmenu_draw(void)
 {
-	glClearColor(0,0,0,1);
+	glClearColor(40/255.0f,40/255.0f,80/255.0f,1);
     glClear(GL_COLOR_BUFFER_BIT);
+
+	{
+		m_GLTM->get_smooth("interface/gl-inverted")->draw(1,1,1,1,320,240,0,0,1);
+		m_GLTM->get_smooth("interface/transball")->draw(1,1,1,1,320,120,0,0,0.5f);
+	}
+
+	if (m_state_cycle<50) {
+		TGLinterface::draw(m_state_cycle/50.0f);
+	} else {
+		TGLinterface::draw();
+	} // if 
+
+	switch(m_state_fading) {
+	case 1:
+			break;
+	case 2:
+			{
+				float f=0;
+				f=abs(int(m_state_fading_cycle))/25.0F;
+
+				fade_in_alpha(f);
+			}
+			break;
+	} // switch
+
+
 } /* TGLapp::mainmenu_draw */ 
 

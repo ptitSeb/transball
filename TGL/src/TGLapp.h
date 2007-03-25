@@ -8,15 +8,16 @@
 #define MAXLOCAL_PLAYERS	4
 
 #define TGL_STATE_NONE	-1
-#define TGL_STATE_PLAERPROFILE	1
+#define TGL_STATE_PLAYERPROFILE	1
 #define TGL_STATE_INTRO			2
 #define TGL_STATE_LEVELPACKSCREEN	3
-#define TGL_STATE_MAINMENU		4
-#define TGL_STATE_PREGAME		5
-#define TGL_STATE_GAME			6
-#define TGL_STATE_POSTGAME		7
-#define TGL_STATE_SAVEREPLAY	8
-#define TGL_STATE_REPLAYBROWSER	9
+#define TGL_STATE_LEVELPACKBROWSER	4
+#define TGL_STATE_MAINMENU		5
+#define TGL_STATE_PREGAME		6
+#define TGL_STATE_GAME			7
+#define TGL_STATE_POSTGAME		8
+#define TGL_STATE_SAVEREPLAY	9
+#define TGL_STATE_REPLAYBROWSER	10
 
 #define KEY_THRUST		0
 #define KEY_SPECIAL		1
@@ -28,6 +29,7 @@
 #define KEY_QUIT		7
 
 #define SAVEREPLAY_REPLAYSPERPAGE	12
+#define LEVELPACKBROWSER_LPPERPAGE	10
 
 class TGLapp {
 public:
@@ -46,31 +48,27 @@ public:
 
 
 protected:
-//	int intro_cycle(KEYBOARDSTATE *k);
-//	int title_cycle(KEYBOARDSTATE *k);
+	int playerprofile_cycle(KEYBOARDSTATE *k);
+	int intro_cycle(KEYBOARDSTATE *k);
 	int levelpackscreen_cycle(KEYBOARDSTATE *k);
+	int levelpackbrowser_cycle(KEYBOARDSTATE *k);
 	int mainmenu_cycle(KEYBOARDSTATE *k);
 	int game_cycle(KEYBOARDSTATE *k);
 	int pregame_cycle(KEYBOARDSTATE *k);
 	int postgame_cycle(KEYBOARDSTATE *k);
 	int savereplay_cycle(KEYBOARDSTATE *k);
 	int replaybrowser_cycle(KEYBOARDSTATE *k);
-//	int endsequence_cycle(KEYBOARDSTATE *k);
-//	int howtoplay_cycle(KEYBOARDSTATE *k);
-//	int credits_cycle(KEYBOARDSTATE *k);
 
-//	void intro_draw(void);
-//	void title_draw(void);
+	void playerprofile_draw(void);
+	void intro_draw(void);
 	void levelpackscreen_draw(void);
+	void levelpackbrowser_draw(void);
 	void mainmenu_draw(void);
 	void game_draw(void);
 	void pregame_draw(void);
 	void postgame_draw(void);
 	void savereplay_draw(void);
 	void replaybrowser_draw(void);
-//	void endsequence_draw(void);
-//	void howtoplay_draw(void);
-//	void credits_draw(void);
 
 	int screen_x(int x);	/* given a coordinate in 640x480, returns the proper coordinate at the current resolution */ 
 	int screen_y(int y);    /* given a coordinate in 640x480, returns the proper coordinate at the current resolution */ 
@@ -132,6 +130,7 @@ protected:
 	int m_rb_replay_selected;
 
 	// LevelPack screen:
+	int m_lp_music_channel;
 	int m_lp_first_level;
 	TGLInterfaceElement *m_lp_level_uparrow;
 	TGLInterfaceElement *m_lp_level_downarrow;
@@ -147,6 +146,19 @@ protected:
 	int m_lp_replay_mode;
 	int m_lp_replay_timmer;
 	char  *m_lp_replay_name;
+
+	// Levelpack Browser
+	TGLInterfaceElement *m_lpb_select_button;
+	TGLInterfaceElement *m_lpb_lp_uparrow;
+	TGLInterfaceElement *m_lpb_lp_downarrow;
+	List<char> m_lpb_lp_fullnames;
+	List<char> m_lpb_lp_names;
+	List<char> m_lpb_lp_info;
+	List<char> m_lpb_lp_longinfo;
+	int m_lpb_first_lp;
+	int m_lpb_mouse_over_lp;
+	int m_lpb_lp_selected;
+
 };
 
 #endif

@@ -2,8 +2,6 @@ To do in "Transball GL": -------------------------------------------------------
 
 - estados:
     - load/create/select player profile (always iin windowed mode)
-    - intro
-    - menu
     - config
     - highscores
     - mapeditor / level packager
@@ -14,14 +12,14 @@ To do in "Transball GL": -------------------------------------------------------
 - nice highscore matrix: levels x ships, showing the top three players (the game saves the best replays automatically):
     - the game stores much more information, and can generate an HTML page with all the details (statistics of each game, etc.).
 - Más tiles
-- Modo shadow. Que muestre la mejor replay de fondo (la nave + bola) (no se, no se...)
 - Nuevos elementos:
+	- ascensores (debes meterte en ellos, y moverte con ellos, tanto horizontales como verticales)
 	- Torretas de misiles (mega explosión con onda expansiva y además te siguen un poco (como ACCURA))
 	- Cañones direccionales rápidos (metralletas, con balas pequeñas y azules que te quitan fuel y
 					 te desplazan un poco)
 	- Mega Tanques: te siguen, disparan misiles, son inmensos y requieren un huevo de toques
-	- ascensores (debes meterte en ellos, y moverte con ellos, tanto horizontales como verticales)
     - Agua? (viscosa, frena la nave, etc. puedo definir corrientes de agua, cascadas, etc.)
+    - Mechs?
 - Modos 2 jugadores:
     - MODOS:
         - race: los 2 juegan a la vez (la otra nave se ve como un fantasma en tu pantalla), y

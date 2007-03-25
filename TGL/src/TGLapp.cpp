@@ -67,8 +67,9 @@ TGLapp::TGLapp()
 	m_lp_tutorial_replay=0;
 	m_lp_tutorial_loading=false;
 	m_lp_replay_name=0;
+	m_lp_music_channel=-1;
 
-	m_state=TGL_STATE_MAINMENU;
+	m_state=TGL_STATE_PLAYERPROFILE;
 	m_state_cycle=0;
 	m_state_fading=0;
 	m_state_fading_cycle=0;
@@ -89,6 +90,13 @@ TGLapp::TGLapp()
 	m_replay_delete_button=0;
 	m_rb_mouse_over_replay=-1;
 	m_rb_replay_selected=-1;
+
+	m_lpb_select_button=0;
+	m_lpb_lp_uparrow=0;
+	m_lpb_lp_downarrow=0;
+	m_lpb_first_lp=0;
+	m_lpb_mouse_over_lp=-1;
+	m_lpb_lp_selected=-1;
 
 	m_screen_dx=640;
 	m_screen_dy=480;
@@ -120,6 +128,8 @@ TGLapp::~TGLapp()
 	TTF_CloseFont(m_font16);
 
 	save_playerprofile();
+
+	if (m_lp_music_channel!=-1) Mix_HaltChannel(m_lp_music_channel);
 
 	if (m_player_profile!=0) delete m_player_profile;
 	m_player_profile=0;
@@ -164,13 +174,15 @@ bool TGLapp::cycle(KEYBOARDSTATE *k)
 #endif
 
 	switch(m_state) {
-//	case TGL_STATE_PLAYERPROFILE:m_state=playerprofile_cycle(k);
-//								break;
-//	case TGL_STATE_INTRO:m_state=intro_cycle(k);
-//								break;
+	case TGL_STATE_PLAYERPROFILE:m_state=playerprofile_cycle(k);
+								break;
+	case TGL_STATE_INTRO:m_state=intro_cycle(k);
+								break;
 	case TGL_STATE_MAINMENU:m_state=mainmenu_cycle(k);
 									break;
 	case TGL_STATE_LEVELPACKSCREEN:m_state=levelpackscreen_cycle(k);
+									break;
+	case TGL_STATE_LEVELPACKBROWSER:m_state=levelpackbrowser_cycle(k);
 									break;
 	case TGL_STATE_PREGAME:m_state=pregame_cycle(k);
 							   break;
@@ -262,13 +274,15 @@ void TGLapp::draw(int SCREEN_X,int SCREEN_Y)
 	glEnable(GL_BLEND);
 
 	switch(m_state) {
-//	case TGL_STATE_PLAYERPROFILE:playerprofile_draw();
-//								 break;
-//	case TGL_STATE_INTRO:intro_draw();
-//								break;
+	case TGL_STATE_PLAYERPROFILE:playerprofile_draw();
+								 break;
+	case TGL_STATE_INTRO:intro_draw();
+								break;
 	case TGL_STATE_MAINMENU:mainmenu_draw();
 									break;
 	case TGL_STATE_LEVELPACKSCREEN:levelpackscreen_draw();
+									break;
+	case TGL_STATE_LEVELPACKBROWSER:levelpackbrowser_draw();
 									break;
 	case TGL_STATE_PREGAME:pregame_draw();
 							   break;

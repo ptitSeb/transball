@@ -49,6 +49,11 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 {
 	bool m_recheck_interface=false;
 	bool m_reload_tutorial=false;
+/*
+    if (m_lp_music_channel == -1) {
+        m_lp_music_channel = Sound_play_continuous(m_SFXM->get("levelpack"), m_player_profile->m_music_volume);
+    } // if 
+*/
 
 	if (m_game!=0) {
 		delete m_game;
@@ -80,7 +85,6 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 		TGLinterface::reset();
 		TGLinterface::add_element(new TGLbutton("Back",m_font32,70,10,180,60,0));
 		e=new TGLbutton("Change Level Pack",m_font32,270,10,320,60,1);
-		e->m_enabled=false;
 		TGLinterface::add_element(e);
 
 		TGLinterface::add_element(new TGLframe(20,120,330,340));
@@ -409,9 +413,11 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 	if (m_state_fading==2 && m_state_fading_cycle>25) {
 		SDL_ShowCursor(SDL_DISABLE);
 		switch(m_state_selection) {
-		case 0: return TGL_STATE_MAINMENU;
+		case 0: if (m_lp_music_channel!=-1) Mix_HaltChannel(m_lp_music_channel);
+				m_lp_music_channel=-1;
+				return TGL_STATE_MAINMENU;
 				break;
-		case 1: // return TGL_STATE_CHANGELEVELPACK
+		case 1: return TGL_STATE_LEVELPACKBROWSER;
 				break;
 			case 10:
 					// View replay:
@@ -500,14 +506,20 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 			case 11:
 					// Play:
 					m_selected_level = m_lp_first_level;
+					if (m_lp_music_channel!=-1) Mix_HaltChannel(m_lp_music_channel);
+					m_lp_music_channel=-1;
 					return TGL_STATE_PREGAME;					
 			case 13:
 					// Play:
 					m_selected_level = m_lp_first_level + 1;
+					if (m_lp_music_channel!=-1) Mix_HaltChannel(m_lp_music_channel);
+					m_lp_music_channel=-1;
 					return TGL_STATE_PREGAME;					
 			case 15:
 					// Play:
 					m_selected_level = m_lp_first_level + 2;
+					if (m_lp_music_channel!=-1) Mix_HaltChannel(m_lp_music_channel);
+					m_lp_music_channel=-1;
 					return TGL_STATE_PREGAME;					
 					break;
 		} // switch
@@ -515,6 +527,10 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 
 	if (m_state_fading==0 || m_state_fading==2) m_state_fading_cycle++;
 	if (m_state_fading==0 && m_state_fading_cycle>25) m_state_fading=1;
+
+	if (m_state_fading==0 && m_lp_music_channel!=-1) Mix_Volume(m_lp_music_channel, int(m_player_profile->m_music_volume*(m_state_fading_cycle/25.0f)));
+	if (m_state_fading==1 && m_lp_music_channel!=-1) Mix_Volume(m_lp_music_channel, m_player_profile->m_music_volume);
+	if (m_state_fading==2 && m_lp_music_channel!=-1) Mix_Volume(m_lp_music_channel, int(m_player_profile->m_music_volume*((25-m_state_fading_cycle)/25.0f)));
 
 	return TGL_STATE_LEVELPACKSCREEN;
 } /* TGLapp::levelpackscreen_cycle */ 
