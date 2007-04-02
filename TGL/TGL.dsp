@@ -883,6 +883,10 @@ SOURCE=.\src\TGLobject_FX_particle.h
 # PROP Default_Filter ""
 # Begin Source File
 
+SOURCE=.\src\state_configure.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\state_game.cpp
 # End Source File
 # Begin Source File

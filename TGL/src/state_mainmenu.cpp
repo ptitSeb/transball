@@ -60,7 +60,6 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 		e->m_enabled=false;
 		TGLinterface::add_element(e);
 		e=new TGLbutton("OPTIONS",m_font16,240,335,160,30,2);
-		e->m_enabled=false;
 		TGLinterface::add_element(e);
 		e=new TGLbutton("HIGH SCORES",m_font16,240,370,160,30,3);
 		e->m_enabled=false;
@@ -122,6 +121,9 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 				} 
 
 				return TGL_STATE_MAINMENU;
+				break;
+		case 2: 
+				return TGL_STATE_CONFIGURE;
 				break;
 		case 4: 
 				return TGL_STATE_REPLAYBROWSER;

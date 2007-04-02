@@ -184,6 +184,8 @@ bool TGLapp::cycle(KEYBOARDSTATE *k)
 								break;
 	case TGL_STATE_MAINMENU:m_state=mainmenu_cycle(k);
 									break;
+	case TGL_STATE_CONFIGURE:m_state=configure_cycle(k);
+							 break;
 	case TGL_STATE_LEVELPACKSCREEN:m_state=levelpackscreen_cycle(k);
 									break;
 	case TGL_STATE_LEVELPACKBROWSER:m_state=levelpackbrowser_cycle(k);
@@ -283,6 +285,8 @@ void TGLapp::draw(int SCREEN_X,int SCREEN_Y)
 	case TGL_STATE_INTRO:intro_draw();
 								break;
 	case TGL_STATE_MAINMENU:mainmenu_draw();
+									break;
+	case TGL_STATE_CONFIGURE:configure_draw();
 									break;
 	case TGL_STATE_LEVELPACKSCREEN:levelpackscreen_draw();
 									break;

@@ -1,8 +1,9 @@
 To do in "Transball GL": --------------------------------------------------------
 
+- I've lost the text in the tutorials!!! Insert it again...
+- complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
 - estados:
     - load/create/select player profile (always iin windowed mode)
-    - config
     - highscores
     - mapeditor / level packager
 - ship balancing:
@@ -32,12 +33,11 @@ To do in "Transball GL": -------------------------------------------------------
                        llevarsela
     - En los modos colaborativo y competitivo:
         - hay 2 bolas (cualquiera puede coger cualquiera de las dos), pero solo una a la vez.
-        - los disparos de el adversario/colaborador te quitan fuel y te desplazan un poco
+        - los disparos de el adversario/colaborador te quitan fuel, te desplazan un poco, y te quitan la bola
     - En red
 - Música en el menu principal
 - Música/loop de sonido durante el juego 
-  
-- Para las instrucciones:
+- Para las instrucciones (añadir a los tutoriales):
     - TODO el juego tiene que estar en inglés y en español (español por defecto)
     - Para que el atractor funcione, la nave tiene que ir lenta! (lo mismo para el grabber the harpoon)
     - "Only the ship which has captured the ball can fire through it"

@@ -13,11 +13,12 @@
 #define TGL_STATE_LEVELPACKSCREEN	3
 #define TGL_STATE_LEVELPACKBROWSER	4
 #define TGL_STATE_MAINMENU		5
-#define TGL_STATE_PREGAME		6
-#define TGL_STATE_GAME			7
-#define TGL_STATE_POSTGAME		8
-#define TGL_STATE_SAVEREPLAY	9
-#define TGL_STATE_REPLAYBROWSER	10
+#define TGL_STATE_CONFIGURE		6
+#define TGL_STATE_PREGAME		7
+#define TGL_STATE_GAME			8
+#define TGL_STATE_POSTGAME		9
+#define TGL_STATE_SAVEREPLAY	10
+#define TGL_STATE_REPLAYBROWSER	11
 
 #define KEY_THRUST		0
 #define KEY_SPECIAL		1
@@ -53,6 +54,7 @@ protected:
 	int levelpackscreen_cycle(KEYBOARDSTATE *k);
 	int levelpackbrowser_cycle(KEYBOARDSTATE *k);
 	int mainmenu_cycle(KEYBOARDSTATE *k);
+	int configure_cycle(KEYBOARDSTATE *k);
 	int game_cycle(KEYBOARDSTATE *k);
 	int pregame_cycle(KEYBOARDSTATE *k);
 	int postgame_cycle(KEYBOARDSTATE *k);
@@ -64,6 +66,7 @@ protected:
 	void levelpackscreen_draw(void);
 	void levelpackbrowser_draw(void);
 	void mainmenu_draw(void);
+	void configure_draw(void);
 	void game_draw(void);
 	void pregame_draw(void);
 	void postgame_draw(void);
@@ -161,6 +164,9 @@ protected:
 	int m_lpb_first_lp;
 	int m_lpb_mouse_over_lp;
 	int m_lpb_lp_selected;
+
+	// configure:
+	int m_configure_key_to_change;
 
 };
 
