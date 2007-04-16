@@ -164,7 +164,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 	} // if 
 
 	if (m_state_fading==1) {
-		int mouse_x=0,mouse_y=0,button=0;
+		int mouse_x=0,mouse_y=0,button=0,button_status=0;
 		int ID=-1;
 		if (!m_mouse_click_x.EmptyP()) {
 			int *tmp;
@@ -177,13 +177,13 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 			delete tmp;
 			button=1;
 		} else {
-			SDL_GetMouseState(&mouse_x,&mouse_y);
+			button_status=SDL_GetMouseState(&mouse_x,&mouse_y);
 			button=0;
 		} // if 
 
 		if (k->key_press(SDLK_SPACE)) button=1;
 
-		ID=TGLinterface::update_state(mouse_x,mouse_y,button,k);
+		ID=TGLinterface::update_state(mouse_x,mouse_y,button,button_status,k);
 
 		if ((ID==0 && m_replay_save_button->m_enabled) || ID==1) {
 			m_state_fading=2;
@@ -218,9 +218,12 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 				if (selected>=0 && selected<(m_sr_replay_names.Length()-m_sr_first_replay) && selected<SAVEREPLAY_REPLAYSPERPAGE) {
 					m_rb_mouse_over_replay=selected;
 
-					strcpy(m_replay_name_inputframe->m_editing,m_sr_replay_names[m_rb_replay_selected]);
-					m_replay_name_inputframe->m_editing_position=strlen(m_replay_name_inputframe->m_editing);
-					m_replay_name_inputframe->m_enabled=true;
+					if (button!=0) {
+						m_rb_replay_selected=selected;
+						strcpy(m_replay_name_inputframe->m_editing,m_sr_replay_names[m_rb_replay_selected]);
+						m_replay_name_inputframe->m_editing_position=strlen(m_replay_name_inputframe->m_editing);
+						m_replay_name_inputframe->m_enabled=true;
+					} // if
 				} // if 
 			} // if
 		} // if 

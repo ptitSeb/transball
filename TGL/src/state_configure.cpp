@@ -64,12 +64,34 @@ int TGLapp::configure_cycle(KEYBOARDSTATE *k)
 		TGLinterface::add_element(new TGLbutton("Attractor",m_font16,40,220,100,32,6));
 		TGLinterface::add_element(new TGLbutton("Pause",m_font16,40,260,100,32,7));
 		TGLinterface::add_element(new TGLbutton("Quit",m_font16,40,300,100,32,8));
+
+		m_configure_fullscreen=new TGLbutton("Full Screen",m_font16,440,40,160,32,10);
+		m_configure_window=new TGLbutton("Windowed",m_font16,440,80,160,32,11);
+		TGLinterface::add_element(m_configure_fullscreen);
+		TGLinterface::add_element(m_configure_window);
+
+		TGLinterface::add_element(new TGLText("Music Volume",m_font16,520,180,true));
+		TGLinterface::add_element(new TGLText("SFX Volume",m_font16,520,280,true));
+		m_configure_music_volume=new TGLslider(440,200,160,32,16,32,12);
+		((TGLslider *)m_configure_music_volume)->m_value=float(m_player_profile->m_music_volume)/float(MIX_MAX_VOLUME);
+		m_configure_sfx_volume=new TGLslider(440,300,160,32,16,32,13);
+		((TGLslider *)m_configure_sfx_volume)->m_value=float(m_player_profile->m_sfx_volume)/float(MIX_MAX_VOLUME);
+		TGLinterface::add_element(m_configure_music_volume);
+		TGLinterface::add_element(m_configure_sfx_volume);
+
+		if (m_player_profile->m_fullscreen) {
+			m_configure_fullscreen->m_enabled=false;
+			m_configure_window->m_enabled=true;
+		} else {
+			m_configure_fullscreen->m_enabled=true;
+			m_configure_window->m_enabled=false;
+		} // if 
 	
 		m_configure_key_to_change=-1;
 	} // if 
 
 	if (m_state_fading==1) {
-		int mouse_x=0,mouse_y=0,button=0;
+		int mouse_x=0,mouse_y=0,button=0,button_status=0;
 		int ID=-1;
 		if (!m_mouse_click_x.EmptyP()) {
 			int *tmp;
@@ -82,13 +104,13 @@ int TGLapp::configure_cycle(KEYBOARDSTATE *k)
 			delete tmp;
 			button=1;
 		} else {
-			SDL_GetMouseState(&mouse_x,&mouse_y);
+			button_status=SDL_GetMouseState(&mouse_x,&mouse_y);
 			button=0;
 		} // if 
 
 		if (k->key_press(SDLK_SPACE) || k->key_press(SDLK_RETURN)) button=1;
 
-		ID=TGLinterface::update_state(mouse_x,mouse_y,button,k);
+		ID=TGLinterface::update_state(mouse_x,mouse_y,button,button_status,k);
 
 		if (ID==0) {
 			m_state_fading=2;
@@ -97,6 +119,29 @@ int TGLapp::configure_cycle(KEYBOARDSTATE *k)
 		} // if 
 
 		if (ID>=1 && ID<=8) m_configure_key_to_change=ID-1;
+
+		if (ID>=10) {
+			switch(ID) {
+			case 10:m_player_profile->m_fullscreen=true;
+					break;
+			case 11:m_player_profile->m_fullscreen=false;
+					break;
+			case 12:m_player_profile->m_music_volume=int(((TGLslider *)m_configure_music_volume)->m_value*MIX_MAX_VOLUME);
+					break;
+			case 13:m_player_profile->m_sfx_volume=int(((TGLslider *)m_configure_sfx_volume)->m_value*MIX_MAX_VOLUME);
+					break;
+			} // switch 
+
+			if (m_player_profile->m_fullscreen) {
+				m_configure_fullscreen->m_enabled=false;
+				m_configure_window->m_enabled=true;
+			} else {
+				m_configure_fullscreen->m_enabled=true;
+				m_configure_window->m_enabled=false;
+			} // if 
+
+			save_playerprofile();
+		} // if 
 
 		if (m_configure_key_to_change!=-1) {
 			int i;
@@ -110,7 +155,6 @@ int TGLapp::configure_cycle(KEYBOARDSTATE *k)
 
 			save_playerprofile();
 		} // if 
-
 	}
 
 	if (m_state_fading==2 && m_state_fading_cycle>25) {

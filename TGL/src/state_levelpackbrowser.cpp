@@ -161,7 +161,7 @@ int TGLapp::levelpackbrowser_cycle(KEYBOARDSTATE *k)
 	} // if 
 
 	if (m_state_fading==1) {
-		int mouse_x=0,mouse_y=0,button=0;
+		int mouse_x=0,mouse_y=0,button=0,button_status=0;
 		int ID=-1;
 		if (!m_mouse_click_x.EmptyP()) {
 			int *tmp;
@@ -174,13 +174,13 @@ int TGLapp::levelpackbrowser_cycle(KEYBOARDSTATE *k)
 			delete tmp;
 			button=1;
 		} else {
-			SDL_GetMouseState(&mouse_x,&mouse_y);
+			button_status=SDL_GetMouseState(&mouse_x,&mouse_y);
 			button=0;
 		} // if 
 
 		if (k->key_press(SDLK_SPACE) || k->key_press(SDLK_RETURN)) button=1;
 
-		ID=TGLinterface::update_state(mouse_x,mouse_y,button,k);
+		ID=TGLinterface::update_state(mouse_x,mouse_y,button,button_status,k);
 
 		if (ID==0 || ID==1) {
 			m_state_fading=2;

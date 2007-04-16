@@ -341,6 +341,7 @@ int main(int argc, char** argv)
 		if (act_time-time>=REDRAWING_PERIOD) {
 			int max_frame_step=10;
 			do {
+				bool fs=fullscreen;
 				time+=REDRAWING_PERIOD;
 				if ((act_time-time)>10*REDRAWING_PERIOD) time=act_time;
 			
@@ -351,6 +352,8 @@ int main(int argc, char** argv)
 				need_to_redraw=true;
 
 				k->keyevents.Delete();
+
+				if (fs!=fullscreen) screen_sfc=toogle_video_mode(fullscreen);
 
 				act_time=SDL_GetTicks();
 				max_frame_step--;

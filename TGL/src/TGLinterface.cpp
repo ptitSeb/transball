@@ -76,7 +76,7 @@ void TGLinterface::reset(void)
 } /* TGLinterface::reset */ 
 
 
-int TGLinterface::update_state(int mousex,int mousey,int button,KEYBOARDSTATE *k)
+int TGLinterface::update_state(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k)
 {
 	int ret_val=-1;
 	TGLInterfaceElement *e;
@@ -114,7 +114,7 @@ int TGLinterface::update_state(int mousex,int mousey,int button,KEYBOARDSTATE *k
 
 	m_elements.Rewind();
 	while(m_elements.Iterate(e)) {
-		if (e->check_status(mousex,mousey,button,k)) ret_val=e->m_ID;
+		if (e->check_status(mousex,mousey,button,button_status,k)) ret_val=e->m_ID;
 	} // while 
 
 	return ret_val;
@@ -158,7 +158,7 @@ TGLInterfaceElement::~TGLInterfaceElement()
 } /* TGLInterfaceElement::~TGLInterfaceElement */ 
 
 
-bool TGLInterfaceElement::check_status(int mousex,int mousey,int button,KEYBOARDSTATE *k)
+bool TGLInterfaceElement::check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k)
 {
 	return false;
 } /* TGLInterfaceElement::check_status */ 
@@ -277,6 +277,7 @@ void TGLbutton::draw(void)
 
 void TGLbutton::draw(float alpha)
 {
+	if (!m_enabled) alpha/=3;
 	switch(m_status) {
 	case 1: glColor4f(color5_r*0.5f,color6_g*0.5f,color5_b*0.5f,alpha);
 			break;
@@ -284,8 +285,6 @@ void TGLbutton::draw(float alpha)
 			break;
 	default:glColor4f(color4_r*0.5f,color4_g*0.5f,color4_b*0.5f,alpha);
 	} // switch
-
-	if (!m_enabled) glColor4f(color4_r*0.25f,color4_g*0.25f,color4_b*0.25f,alpha);
 
 	glBegin(GL_POLYGON);
 	glVertex3f(m_x+3,m_y,0);
@@ -314,8 +313,6 @@ void TGLbutton::draw(float alpha)
 	default:glColor4f(color4_r,color4_g,color4_b,alpha);
 	} // switch
 
-	if (!m_enabled) glColor4f(color4_r*0.5f,color4_g*0.5f,color4_b*0.5f,alpha);
-
 	glBegin(GL_POLYGON);
 	glVertex3f(m_x+3,m_y,0);
 	glVertex3f(m_x+m_dx-3,m_y,0);
@@ -336,19 +333,24 @@ void TGLbutton::draw(float alpha)
 	m_dy+=2;
 
 	if (m_tile==0) {
-		if (m_enabled) TGLinterface::print_center(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2,color1_r,color1_g,color1_b,alpha);
-				  else TGLinterface::print_center(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2,0.33f*color1_r,0.33f*color1_g,0.33f*color1_b,alpha);
+		TGLinterface::print_center(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2,color1_r,color1_g,color1_b,alpha);
+//		if (m_enabled) TGLinterface::print_center(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2,color1_r,color1_g,color1_b,alpha);
+//				  else TGLinterface::print_center(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2+TTF_FontHeight(m_font)/2,0.33f*color1_r,0.33f*color1_g,0.33f*color1_b,alpha);
 	} else {
-		if (m_enabled) m_tile->draw(color1_r,color1_g,color1_b,alpha,m_x+m_dx/2,m_y+m_dy/2,0,0,1);
-				  else m_tile->draw(0.33f*color1_r,0.33f*color1_g,0.33f*color1_b,alpha,m_x+m_dx/2,m_y+m_dy/2,0,0,1);
+		m_tile->draw(color1_r,color1_g,color1_b,alpha,m_x+m_dx/2,m_y+m_dy/2,0,0,1);
+//		if (m_enabled) m_tile->draw(color1_r,color1_g,color1_b,alpha,m_x+m_dx/2,m_y+m_dy/2,0,0,1);
+//				  else m_tile->draw(0.33f*color1_r,0.33f*color1_g,0.33f*color1_b,alpha,m_x+m_dx/2,m_y+m_dy/2,0,0,1);
 	} // if 
 } /* TGLbutton::draw */ 
 
 
 
-bool TGLbutton::check_status(int mousex,int mousey,int button,KEYBOARDSTATE *k)
+bool TGLbutton::check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k)
 {
-	if (!m_enabled) return false;
+	if (!m_enabled) {
+		m_status=0;
+		return false;
+	} // if
 
 	if (mousex>=m_x && mousex<m_x+m_dx &&
 		mousey>=m_y && mousey<m_y+m_dy) {
@@ -553,7 +555,7 @@ void TGLTextInputFrame::draw(void)
 } /* TGLTextInputFrame::draw */ 
 
 
-bool TGLTextInputFrame::check_status(int mousex,int mousey,int button,KEYBOARDSTATE *k)
+bool TGLTextInputFrame::check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k)
 {
 	m_cycle++;
 
@@ -579,4 +581,120 @@ bool TGLTextInputFrame::check_status(int mousex,int mousey,int button,KEYBOARDST
 
 	return false;
 } /* TGLTextInputFrame::check_status */ 
+
+
+TGLslider::TGLslider(float x,float y,float dx,float dy,float slider_dx,float slider_dy,int ID)
+{
+	m_x=x;
+	m_y=y;
+	m_dx=dx;
+	m_dy=dy;
+	m_slider_dx=slider_dx;
+	m_slider_dy=slider_dy;
+	m_ID=ID;
+	m_value=0;
+	m_active=true;
+	m_enabled=true;
+
+} /* TGLslider::TGLslider */ 
+
+
+TGLslider::~TGLslider()
+{
+} /* TGLslider::~TGLslider */ 
+
+
+bool TGLslider::check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k)
+{
+	if (!m_enabled) return false;
+
+	if (button_status!=0) {
+		if (mousex>=m_x && mousex<=m_x+m_dx &&
+			mousey>=m_y && mousey<=m_y+m_dy) {
+			m_value = float(mousex-m_x)/float(m_dx);
+			return true;
+		} // if 
+	} // if 
+
+	return false;
+} /* TGLslider::check_status */ 
+
+
+void TGLslider::draw(float alpha)
+{
+	float x=m_x;
+	float y=m_y+(m_dy/2)-2;
+	float dx=m_dx;
+	float dy=4;
+
+	glColor4f(color4_r*0.8f,color4_g*0.8f,color4_b*0.8f,alpha);
+	if (!m_enabled) glColor4f(color4_r*0.5f,color4_g*0.5f,color4_b*0.5f,alpha);
+	glBegin(GL_POLYGON);
+	glVertex3f(x+3,y,0);
+	glVertex3f(x+dx-3,y,0);
+	glVertex3f(x+dx-1,y+1,0);
+	glVertex3f(x+dx,y+3,0);
+	glVertex3f(x+dx,y+dy-3,0);
+	glVertex3f(x+dx-1,y+dy-1,0);
+	glVertex3f(x+dx-3,y+dy,0);
+	glVertex3f(x+3,y+dy,0);
+	glVertex3f(x+1,y+dy-1,0);
+	glVertex3f(x,y+dy-3,0);
+	glVertex3f(x,y+3,0);
+	glVertex3f(x+1,y+1,0);
+	glEnd();
+
+	x=m_x+(m_value*m_dx)-m_slider_dx/2;
+	y=m_y+(m_dy/2)-m_slider_dy/2;
+	dx=m_slider_dx;
+	dy=m_slider_dy;
+
+	glColor4f(color4_r*0.5f,color4_g*0.5f,color4_b*0.5f,alpha);
+	if (!m_enabled) glColor4f(color4_r*0.25f,color4_g*0.25f,color4_b*0.25f,alpha);
+
+	glBegin(GL_POLYGON);
+	glVertex3f(x+3,y,0);
+	glVertex3f(x+dx-3,y,0);
+	glVertex3f(x+dx-1,y+1,0);
+	glVertex3f(x+dx,y+3,0);
+	glVertex3f(x+dx,y+dy-3,0);
+	glVertex3f(x+dx-1,y+dy-1,0);
+	glVertex3f(x+dx-3,y+dy,0);
+	glVertex3f(x+3,y+dy,0);
+	glVertex3f(x+1,y+dy-1,0);
+	glVertex3f(x,y+dy-3,0);
+	glVertex3f(x,y+3,0);
+	glVertex3f(x+1,y+1,0);
+	glEnd();
+
+	x++;
+	y++;
+	dx-=2;
+	dx-=2;
+	glColor4f(color4_r,color4_g,color4_b,alpha);
+	if (!m_enabled) glColor4f(color4_r*0.5f,color4_g*0.5f,color4_b*0.5f,alpha);
+
+	glBegin(GL_POLYGON);
+	glVertex3f(x+3,y,0);
+	glVertex3f(x+dx-3,y,0);
+	glVertex3f(x+dx-1,y+1,0);
+	glVertex3f(x+dx,y+3,0);
+	glVertex3f(x+dx,y+dy-3,0);
+	glVertex3f(x+dx-1,y+dy-1,0);
+	glVertex3f(x+dx-3,y+dy,0);
+	glVertex3f(x+3,y+dy,0);
+	glVertex3f(x+1,y+dy-1,0);
+	glVertex3f(x,y+dy-3,0);
+	glVertex3f(x,y+3,0);
+	glVertex3f(x+1,y+1,0);
+	glEnd();
+} /* TGLslider::draw */ 
+
+
+void TGLslider::draw(void)
+{
+	draw(1);
+} /* TGLslider::draw */ 
+
+
 

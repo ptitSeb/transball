@@ -5,7 +5,7 @@ class TGLInterfaceElement {
 public:
 	virtual ~TGLInterfaceElement();
 
-	virtual bool check_status(int mousex,int mousey,int button,class KEYBOARDSTATE *k);
+	virtual bool check_status(int mousex,int mousey,int button,int button_status,class KEYBOARDSTATE *k);
 	virtual void draw(float alpha);
 	virtual void draw(void);
 
@@ -39,7 +39,7 @@ public:
 	TGLbutton(GLTile *icon,float x,float y,float dx,float dy,int ID);
 	virtual ~TGLbutton();
 
-	virtual bool check_status(int mousex,int mousey,int button,KEYBOARDSTATE *k);
+	virtual bool check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);
 	virtual void draw(float alpha);
 	virtual void draw(void);
 
@@ -68,7 +68,7 @@ public:
 	TGLTextInputFrame(char *initial_text,int max_characters,TTF_Font *font,float x,float y,float dx,float dy,int ID);
 	virtual ~TGLTextInputFrame();
 
-	virtual bool check_status(int mousex,int mousey,int button,KEYBOARDSTATE *k);
+	virtual bool check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);
 	virtual void draw(float alpha);
 	virtual void draw(void);
 
@@ -82,6 +82,20 @@ public:
 };
 
 
+class TGLslider : public TGLInterfaceElement {
+public:
+
+	TGLslider(float x,float y,float dx,float dy,float slider_dx,float slider_dy,int ID);
+	virtual ~TGLslider();
+
+	virtual bool check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);
+	virtual void draw(float alpha);
+	virtual void draw(void);
+
+	float m_slider_dx,m_slider_dy;
+	float m_value;
+};
+
 
 
 
@@ -93,7 +107,7 @@ public:
 	static void remove_element(TGLInterfaceElement *b);
 	static void substitute_element(TGLInterfaceElement *old,TGLInterfaceElement *n);
 	static void reset(void);
-	static int update_state(int mousex,int mousey,int button,KEYBOARDSTATE *k);
+	static int update_state(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);
 	static void draw(float alpha);
 	static void draw(void);
 

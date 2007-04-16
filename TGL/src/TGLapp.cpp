@@ -100,6 +100,13 @@ TGLapp::TGLapp()
 	m_lpb_mouse_over_lp=-1;
 	m_lpb_lp_selected=-1;
 
+	m_configure_fullscreen=0;
+	m_configure_window=0;
+	m_configure_music_volume=0;
+	m_configure_sfx_volume=0;
+
+	m_profile_first_profile=0;
+
 	m_screen_dx=640;
 	m_screen_dy=480;
 	fullscreen=false;
@@ -107,13 +114,12 @@ TGLapp::TGLapp()
 	m_GLTM=new GLTManager();
 	m_SFXM=new SFXManager();
 	m_SFXM->cache("sfx");
-	
-	load_playerprofile("default");
-	fullscreen=m_player_profile->m_fullscreen;
+
+	m_player_profile=0;
 
 	m_game=0;
 
-	for(i=0;i<m_player_profile->m_n_players;i++) {
+	for(i=0;i<MAXLOCAL_PLAYERS;i++) {
 		VirtualController *vc = new VirtualController();
 		vc->reset();
 		m_lvc.Add(vc);
@@ -227,6 +233,8 @@ bool TGLapp::cycle(KEYBOARDSTATE *k)
 
 	m_SFXM->next_cycle();
 
+	if (m_player_profile!=0) fullscreen=m_player_profile->m_fullscreen;
+
 	return true;
 } /* TGLapp::cycle */ 
 
@@ -335,11 +343,13 @@ void TGLapp::save_playerprofile(void)
 	FILE *fp;
 	char tmp[256];
 
-	sprintf(tmp,"players/%s.pp",m_player_profile->m_name);
-	fp=fopen(tmp,"w+");
-	if (fp!=0) {
-		m_player_profile->save(fp);
-		fclose(fp);
+	if (m_player_profile!=0) {
+		sprintf(tmp,"players/%s.pp",m_player_profile->m_name);
+		fp=fopen(tmp,"w+");
+		if (fp!=0) {
+			m_player_profile->save(fp);
+			fclose(fp);
+		} // if 
 	} // if 
 } /* TGLapp::save_playerprofile */ 
 

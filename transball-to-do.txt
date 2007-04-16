@@ -2,14 +2,15 @@ To do in "Transball GL": -------------------------------------------------------
 
 - I've lost the text in the tutorials!!! Insert it again...
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
+- compute statistics ar the end of the game: accuracy, fuel used, nº of shots, max speed, avg speed
 - estados:
-    - load/create/select player profile (always iin windowed mode)
     - highscores
     - mapeditor / level packager
-- ship balancing:
+- ship balancing (record replays again)
     - gyrus is crap: increase it's fire power, bullet size and rotation speed
     - harpoon is crap: modify the ship so that it's easier to aim and make the grabber stop if completely up (if ball
       catched, the grabber does not go completely up) 
+    - dodger needs stronger side thrusters
 - bugs:
     - se cuelga a veces (me pasó una vez al estrellarme teniendo la bola con HARPOON)
 - nice highscore matrix: levels x ships, showing the top three players (the game saves the best replays automatically):

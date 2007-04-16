@@ -31,6 +31,7 @@
 
 #define SAVEREPLAY_REPLAYSPERPAGE	12
 #define LEVELPACKBROWSER_LPPERPAGE	10
+#define PROFILESPERPAGE				12
 
 class TGLapp {
 public:
@@ -167,7 +168,23 @@ protected:
 
 	// configure:
 	int m_configure_key_to_change;
+	TGLInterfaceElement *m_configure_fullscreen;
+	TGLInterfaceElement *m_configure_window;
+	TGLInterfaceElement *m_configure_music_volume;
+	TGLInterfaceElement *m_configure_sfx_volume;
 
+	// Player profile selection:
+	TGLInterfaceElement *m_profile_select_button;
+	TGLInterfaceElement *m_profile_create_button;
+	TGLTextInputFrame *m_profile_name_inputframe;
+	int m_profile_mouse_over_profile;
+	int m_profile_profile_selected;
+	TGLInterfaceElement *m_profile_profile_uparrow;
+	TGLInterfaceElement *m_profile_profile_downarrow;
+	List<char> m_profile_profile_fullnames;
+	List<char> m_profile_profile_names;
+	List<char> m_profile_profile_info;
+	int m_profile_first_profile;
 };
 
 #endif
