@@ -37,6 +37,7 @@
 #include "TGLmap.h"
 #include "TGL.h"
 #include "TGLapp.h"
+#include "PlayerProfile.h"
 
 #include "debug.h"
 
@@ -292,6 +293,7 @@ int main(int argc, char** argv)
                 		if ((modifiers&KMOD_META)!=0) {
                 			fullscreen=(fullscreen ? false : true);				
 							screen_sfc=toogle_video_mode(fullscreen);
+							app->get_player_profile()->m_fullscreen=fullscreen;
 							app->save_configuration();
 						} // if 
 					} // if 
@@ -302,6 +304,7 @@ int main(int argc, char** argv)
 						if ((modifiers&KMOD_ALT)!=0) {
 							fullscreen=(fullscreen ? false : true);
 							screen_sfc=toogle_video_mode(fullscreen);
+							app->get_player_profile()->m_fullscreen=fullscreen;
 							app->save_playerprofile();
 						} // if
 					} // if 

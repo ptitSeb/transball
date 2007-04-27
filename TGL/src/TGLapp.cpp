@@ -59,6 +59,7 @@ TGLapp::TGLapp()
 
 	m_font32=TTF_OpenFont("fonts/arial.ttf",32);
 	m_font16=TTF_OpenFont("fonts/arial.ttf",16);
+	m_ifont32=TTF_OpenFont("fonts/impact.ttf",32);
 
 	m_current_levelpack=0;
 	m_selected_level=0;
@@ -135,6 +136,7 @@ TGLapp::~TGLapp()
 
 	TTF_CloseFont(m_font32);
 	TTF_CloseFont(m_font16);
+	TTF_CloseFont(m_ifont32);
 
 	save_playerprofile();
 

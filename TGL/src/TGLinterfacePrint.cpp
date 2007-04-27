@@ -177,3 +177,14 @@ void TGLinterface::print_center(char *text,TTF_Font *font,float x,float y,float 
 } /* TGLinterface::print_center */ 
 
 
+void TGLinterface::print_centered(char *text,TTF_Font *font,float x,float y,float r,float g,float b,float a,float angle,float scale)
+{
+	GLTile *tile;
+
+	tile=get_text_tile(text,font);
+	glNormal3f(0,0,1);
+	tile->set_hotspot(tile->get_dx()/2,tile->get_dy()/2);
+	tile->draw(r,g,b,a,x,y,0,angle,scale);
+} /* TGLinterface::print_center */ 
+
+

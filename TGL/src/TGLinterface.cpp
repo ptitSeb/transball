@@ -368,6 +368,36 @@ bool TGLbutton::check_status(int mousex,int mousey,int button,int button_status,
 } /* TGLbutton::check_status */ 
 
 
+
+TGLbuttonTransparent::TGLbuttonTransparent(char *text,TTF_Font *font,float x,float y,float dx,float dy,int ID) : TGLbutton(text,font,x,y,dx,dy,ID)
+{
+} /* TGLbuttonTransparent::TGLbuttonTransparent */ 
+
+
+
+void TGLbuttonTransparent::draw(float alpha)
+{
+	if (!m_enabled) alpha/=3;
+	switch(m_status) {
+	case 1: TGLinterface::print_centered(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2,0,0,0,alpha*0.5f,0,1.15f);
+			TGLinterface::print_centered(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2,1,1,1,alpha*0.5f,0,1.1f);
+			TGLinterface::print_centered(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2,1,1,1,alpha,0,1.05f);
+			TGLinterface::print_centered(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2,0.75f,0.75f,0.75f,alpha,0,1);
+			break;				
+	case 2: TGLinterface::print_centered(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2,0,0,0,alpha*0.5f,0,1.15f);
+			TGLinterface::print_centered(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2,1,1,1,alpha*0.5f,0,1.1f);
+			TGLinterface::print_centered(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2,1,1,1,alpha,0,1.05f);
+			TGLinterface::print_centered(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2,1,1,1,alpha,0,1);
+			break;
+	default:TGLinterface::print_centered(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2,0,0,0,alpha*0.5f,0,1.05f);
+			TGLinterface::print_centered(m_text,m_font,m_x+m_dx/2,m_y+m_dy/2,0.75f,0.75f,0.75f,alpha,0,1);
+
+	} // switch
+
+} /* TGLbuttonTransparent::draw */ 
+
+
+
 TGLframe::TGLframe(float x,float y,float dx,float dy)
 {
 	m_x=x;

@@ -48,6 +48,8 @@ public:
 
 	static void string_editor_cycle(char *editing_text,unsigned int *editing_position,unsigned int max_length,KEYBOARDSTATE *k);
 
+	class PlayerProfile *get_player_profile(void) {return m_player_profile;};
+
 
 protected:
 	int playerprofile_cycle(KEYBOARDSTATE *k);
@@ -85,7 +87,7 @@ protected:
 	class GLTManager *m_GLTM;
 	class SFXManager *m_SFXM;
 
-	TTF_Font *m_font32,*m_font16;
+	TTF_Font *m_font32,*m_font16,*m_ifont32;
 
 	List<int> m_mouse_click_x;
 	List<int> m_mouse_click_y;
@@ -101,7 +103,7 @@ protected:
 	List<class VirtualController> m_lvc;
 
 	// configuration:
-	class PlayerProfile *m_player_profile;
+	PlayerProfile *m_player_profile;
 
 	// Game state:
 	int m_game_state;

@@ -50,6 +50,16 @@ public:
 };
 
 
+class TGLbuttonTransparent : public TGLbutton {
+public:
+
+	TGLbuttonTransparent(char *text,TTF_Font *font,float x,float y,float dx,float dy,int ID);
+
+	virtual void draw(float alpha);
+};
+
+
+
 class TGLframe : public TGLInterfaceElement {
 public:
 
@@ -116,6 +126,9 @@ public:
 	static void print_center(char *text,TTF_Font *font,float x,float y);
 	static void print_left(char *text,TTF_Font *font,float x,float y,float r,float g,float b,float a);
 	static void print_center(char *text,TTF_Font *font,float x,float y,float r,float g,float b,float a);
+
+	// Centered in both X and Y:
+	static void print_centered(char *text,TTF_Font *font,float x,float y,float r,float g,float b,float a,float angle,float scale);
 };
 
 #endif
