@@ -314,7 +314,7 @@ int TGLapp::playerprofile_cycle(KEYBOARDSTATE *k)
 					
 					char *tmp=new char[256];
 					{
-						sprintf(tmp,"0 points %i ships",pfl->m_ships.Length());
+						sprintf(tmp,"%i points %i ships",pfl->get_points(),pfl->m_ships.Length());
 					}
 
 					m_profile_profile_info.SetObj(i,tmp);

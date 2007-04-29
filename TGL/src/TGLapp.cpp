@@ -249,6 +249,9 @@ void TGLapp::draw(int SCREEN_X,int SCREEN_Y)
 	float tmpla[4]={1.0F,1.0F,1.0F,1.0};
     float ratio;
 
+	// If no CYCLE has been executed for this state, do not redraw:
+	if (m_state_cycle==0) return;
+
 	m_screen_dx=SCREEN_X;
 	m_screen_dy=SCREEN_Y;
 

@@ -11,6 +11,7 @@
             <map>maps/tutorial/tutorial1.tgl</map>
             <name>First Tutorial</name>
             <description>...</description>
+            <points>1</points>
         </level>
     </levels>
 </levelpack>

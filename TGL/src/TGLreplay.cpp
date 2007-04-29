@@ -209,6 +209,7 @@ TGLreplay::TGLreplay(char *map)
 
 	m_buffer=0;
 	m_buffer_position=-1;
+	m_length=0;
 
 #ifdef _WIN32
     struct tm today;
@@ -657,6 +658,8 @@ void TGLreplay::store_cycle(List<VirtualController> *m_input,List<TGLobject> *m_
 
 		m_replay.Add(node);
 	} // if 
+
+	m_length++;
 
 } /* TGLreplay::store_cycle */ 
 

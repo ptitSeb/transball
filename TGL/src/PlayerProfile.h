@@ -17,6 +17,7 @@ class PlayerProfileLPProgress {
 public:
 	char *m_levelpack_id;
 	int m_levels_completed;
+	int m_points;
 	List<PlayerProfileLevelResult> m_results;
 
 	PlayerProfileLPProgress();
@@ -38,8 +39,12 @@ public:
 	List<int> m_ships;
 
 	int progress_in_levelpack(char *id);
-	void level_completed(char *levelpack_id,int level,TGLreplay *replay);
+	int number_of_times_completed(char *lpid,int level);
+	void level_completed(char *levelpack_id,int level,TGLreplay *replay,LevelPack *lp);
 	int get_besttime(char *levelpack_id,int level,int ship);
+	int get_points(void);
+	int get_points(char *lp_id);
+	bool has_ship(int ship);
 
 	PlayerProfile(char *name);
 	PlayerProfile(FILE *fp);

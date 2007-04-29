@@ -50,18 +50,18 @@ To do in "Transball GL": -------------------------------------------------------
 : ------------------------------------------------------------------------------------------
 
 Naves:
-	- SHADOW RUNNER (intial fuel: 64, shot fuel: 40, thrust: 24 / 8)
-	- V-PANTHER 2 (initial fuel: 64, shot fuel: 64)
-	- X-TERMINATOR (initial fuel: 96, shot fuel: 96)
-	- NITRO BLASTER: poder de disparo como shadow runner (velocidad como v-panther), pero con nitro!
-	- VIPPER BEAM: laser, potente contra enemigos, pero no destruye las balas (te propulsa un poco)
-	- DODGER-K7: tiene thrusters laterales, al pulsar abajo, si pulsas izquierda/derecha, te mueves en vez de rotar
-	- GRAVIS T8: disparo como shadow runner, y lenta como x-terminator, pero tiene un "long range attractor",
-		que al activarlo, atrae a la bola hacia donde estás tú sin importar la distancia (solo
-		después de haberla cogido, por supuesto). De hecho, lo que hace es incrementar la atracción, de 28 a 128
-	- ACCURA-T5: Mini homming misiles (little power, but homming)
-	- GYRUS-P: disparo cutre y lenta, pero el disparo es direccional! (si mantienes pulsado "abajo",
-	  com los cursores controlas la dirección del cañón!)
-	- D-FLECTER: rápida cono shadow runner, no dispara, pero tiene un escudo que quita fuel (que solo 
+	0 - SHADOW RUNNER (intial fuel: 64, shot fuel: 40, thrust: 24 / 8)
+	0 - V-PANTHER 2 (initial fuel: 64, shot fuel: 64)
+	0 - X-TERMINATOR (initial fuel: 96, shot fuel: 96)
+	5 - NITRO BLASTER: poder de disparo como shadow runner (velocidad como v-panther), pero con nitro!
+	125 - VIPPER BEAM: laser, potente contra enemigos, pero no destruye las balas (te propulsa un poco)
+	25 - DODGER-K7: tiene thrusters laterales, al pulsar abajo, si pulsas izquierda/derecha, te mueves en vez de rotar
+	75 - GRAVIS T8: disparo como shadow runner, y lenta como x-terminator, pero tiene un "long range attractor",
+		 que al activarlo, atrae a la bola hacia donde estás tú sin importar la distancia (solo
+		 después de haberla cogido, por supuesto). De hecho, lo que hace es incrementar la atracción, de 28 a 128
+	100 - ACCURA-T5: Mini homming misiles (little power, but homming)
+	40 - GYRUS-P: disparo cutre y lenta, pero el disparo es direccional! (si mantienes pulsado "abajo",
+	     com los cursores controlas la dirección del cañón!)
+	55 - D-FLECTER: rápida cono shadow runner, no dispara, pero tiene un escudo que quita fuel (que solo 
 	         protege de balas y choque, no contra lasers que atraviesan la nave de lado a lado)
-	- C-HARPOON (otro color): Tiene un arpón, y atrapa la bola con ua cuerda (nunca la pierde),
+	15 - C-HARPOON (otro color): Tiene un arpón, y atrapa la bola con ua cuerda (nunca la pierde),

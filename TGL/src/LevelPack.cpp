@@ -18,6 +18,7 @@ LevelPack_Level::LevelPack_Level(FILE *fp)
 	m_name=0;
 	m_description=0;
 	m_initial_fuel=100;
+	m_points=1;
 
 	// Load it from a file:
 	XMLNode *node;
@@ -35,6 +36,7 @@ LevelPack_Level::LevelPack_Level(XMLNode *node)
 	m_name=0;
 	m_description=0;
 	m_initial_fuel=100;
+	m_points=1;
 
 	load(node);
 
@@ -64,6 +66,9 @@ void LevelPack_Level::load(XMLNode *node)
 		} // if 
 		if (n->get_type()->cmp("initial-fuel")) {
 			m_initial_fuel=atoi(n->get_value()->get());
+		} // if 
+		if (n->get_type()->cmp("points")) {
+			m_points=atoi(n->get_value()->get());
 		} // if 
 	} // while 
 	delete children;
@@ -168,3 +173,12 @@ LevelPack::~LevelPack()
 	if (m_creator_nickname!=0) delete []m_creator_nickname;
 	m_creator_nickname=0;
 } /* LevelPack::~LevelPack */ 
+
+
+int LevelPack::get_points(int level)
+{
+	if (level>=0 && level<m_levels.Length()) return m_levels[level]->m_points;
+
+	return 0;
+} /* LevelPack::get_points */ 
+

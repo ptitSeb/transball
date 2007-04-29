@@ -81,8 +81,8 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 		} // if 
 
 		TGLinterface::reset();
-		TGLinterface::add_element(new TGLbutton("Back",m_font32,70,10,180,60,0));
-		e=new TGLbutton("Change Level Pack",m_font32,270,10,320,60,1);
+		TGLinterface::add_element(new TGLbutton("Back",m_font32,10,10,180,60,0));
+		e=new TGLbutton("Change Level Pack",m_font16,430,10,200,60,1);
 		TGLinterface::add_element(e);
 
 		TGLinterface::add_element(new TGLframe(20,120,330,340));
@@ -120,7 +120,10 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 					sprintf(tmp,"Best Time:: %i:%.2i:%.2i",mins,secs,hunds);
 				} // if 
 				m_lp_level_time[i]=new TGLText(tmp,m_font16,30,float(220+i*90),false);
+				sprintf(tmp,"Points: %i [%i]",level->m_points,level->m_points*m_player_profile->number_of_times_completed(m_current_levelpack->m_id,i+m_lp_first_level));
+				m_lp_level_points[i]=new TGLText(tmp,m_font16,30,float(240+i*90),false);
 				TGLinterface::add_element(m_lp_level_time[i]);
+				TGLinterface::add_element(m_lp_level_points[i]);
 				m_lp_viewreplay_buttons[i]=new TGLbutton("View Replay",m_font16,180,float(210+i*90),120,20,10+i*2);
 				TGLinterface::add_element(m_lp_viewreplay_buttons[i]);
 				if (time==-1) m_lp_viewreplay_buttons[i]->m_enabled=false;
@@ -273,9 +276,16 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 				sprintf(tmp,"Best Time:: %i:%.2i:%.2i",mins,secs,hunds);
 			} // if 
 			old=m_lp_level_time[i];
-			m_lp_level_time[i]=new TGLText(tmp,m_font16,30,float(220+i*90),false);
+			m_lp_level_time[i]=new TGLText(tmp,m_font16,30,float(220+i*90),false);		
 			TGLinterface::substitute_element(old,m_lp_level_time[i]);
 			delete old;
+	
+			old=m_lp_level_points[i];
+			sprintf(tmp,"Points: %i [%i]",level->m_points,level->m_points*m_player_profile->number_of_times_completed(m_current_levelpack->m_id,i+m_lp_first_level));
+			m_lp_level_points[i]=new TGLText(tmp,m_font16,30,float(240+i*90),false);
+			TGLinterface::substitute_element(old,m_lp_level_points[i]);
+			delete old;
+
 			if (time==-1) m_lp_viewreplay_buttons[i]->m_enabled=false;
 				     else m_lp_viewreplay_buttons[i]->m_enabled=true;
 			if (m_player_profile->progress_in_levelpack(m_current_levelpack->m_id)<i+m_lp_first_level) {
@@ -527,12 +537,20 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 
 void TGLapp::levelpackscreen_draw(void)
 {
+	char buffer[256];
 	float replay_full_factor=0;
 
 	glClearColor(0,0,0,1);
     glClear(GL_COLOR_BUFFER_BIT);
 
 	TGLinterface::draw();
+
+	// Draw scores:
+	sprintf(buffer,"Total Points: %i",m_player_profile->get_points());
+	TGLinterface::print_left(buffer,m_font16,230,40);
+	sprintf(buffer,"Level Pack Points: %i",m_player_profile->get_points(m_current_levelpack->m_id));
+	TGLinterface::print_left(buffer,m_font16,230,60);
+
 	
 	// Draw Selected ship:
 	{

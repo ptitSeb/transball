@@ -40,14 +40,20 @@
 #include "TGLinterface.h"
 
 #include "LevelPack.h"
+#include "PlayerProfile.h"
 
 
 
 int TGLapp::postgame_cycle(KEYBOARDSTATE *k)
 {
+	int points_for_ship[11]={0,0,0,5,125, 25,75,100,40,55, 15};
+
 	if (SDL_ShowCursor(SDL_QUERY)!=SDL_ENABLE) SDL_ShowCursor(SDL_ENABLE);
 	if (m_state_cycle==0) {
 		TGLInterfaceElement *e;
+		int i;
+
+		m_ship_unlocked=-1;
 
 		TGLinterface::reset();
 		if (m_game->get_game_result()!=1) SDL_WarpMouse(210,352);
@@ -58,6 +64,13 @@ int TGLapp::postgame_cycle(KEYBOARDSTATE *k)
 		TGLinterface::add_element(e);
 		TGLinterface::add_element(new TGLbutton("Back",m_font32,110,404,200,64,2));
 		TGLinterface::add_element(new TGLbutton("Save Replay",m_font32,330,404,200,64,3));
+
+		for(i=0;i<11 && m_ship_unlocked==-1;i++) {
+			if (!m_player_profile->has_ship(i) && m_player_profile->get_points()>=points_for_ship[i]) {
+				m_ship_unlocked=i;
+				m_player_profile->m_ships.Add(new int(m_ship_unlocked));
+			} // if 
+		} // for
 	} // if 
 
 	if (m_state_fading==1) {
@@ -122,6 +135,10 @@ int TGLapp::postgame_cycle(KEYBOARDSTATE *k)
 void TGLapp::postgame_draw(void)
 {
 	char buffer[255];
+	char *ship_names[11]={"V-Panther","X-Terminator","Shadow Runner",
+		 				  "Nitro Blaster","Vipper Beam","Dodger-K7",
+						  "Gravis T8","Accura-T 5","Gyrus-P",
+						  "D-Flecter","C-Harpoon"};
 
 	glClearColor(0,0,0,1);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -147,7 +164,15 @@ void TGLapp::postgame_draw(void)
 		} else {
 			sprintf(buffer,"Time taken: --:--:--");
 		} // if 
-		TGLinterface::print_center(buffer,m_font16,320,128);
+		TGLinterface::print_center(buffer,m_font16,320,125);
+
+		sprintf(buffer,"Current score: %i",m_player_profile->get_points());
+		TGLinterface::print_center(buffer,m_font16,320,150);
+		
+		if (m_ship_unlocked!=-1) {
+			sprintf(buffer,"New ship unlocked: '%s'!",ship_names[m_ship_unlocked]);
+		} // if 
+		TGLinterface::print_center(buffer,m_font16,320,175);
 	}
 
 	TGLinterface::draw();

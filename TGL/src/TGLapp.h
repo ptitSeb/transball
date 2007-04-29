@@ -117,6 +117,9 @@ protected:
 	int m_game_previous_state;
 	bool m_game_reinit_previous_state;
 
+	// Post game:
+	int m_ship_unlocked;
+
 	// Main menu:
 	int m_mm_demo_state;
 	int m_mm_demo_timmer;
@@ -147,6 +150,7 @@ protected:
 	TGLInterfaceElement *m_lp_level_downarrow;
 	TGLInterfaceElement *m_lp_level_name[3];
 	TGLInterfaceElement *m_lp_level_time[3];
+	TGLInterfaceElement *m_lp_level_points[3];
 	TGLInterfaceElement *m_lp_play_buttons[3];
 	TGLInterfaceElement *m_lp_viewreplay_buttons[3];
 	TGLInterfaceElement *m_lp_ship_leftarrow;

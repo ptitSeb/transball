@@ -161,7 +161,7 @@ int TGLapp::game_cycle(KEYBOARDSTATE *k)
 			if (m_game_state_cycle>50) {
 				if (m_game_replay_mode==1 && m_game->get_game_result()==1) {
 					// Update player profile!
-					m_player_profile->level_completed(m_current_levelpack->m_id,m_selected_level,m_game_replay);
+					m_player_profile->level_completed(m_current_levelpack->m_id,m_selected_level,m_game_replay,m_current_levelpack);
 					save_playerprofile();
 				} // if 
 				return m_game_previous_state;

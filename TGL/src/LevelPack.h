@@ -13,6 +13,7 @@ public:
 	char *m_name;
 	char *m_description;
 	int m_initial_fuel;
+	int m_points;
 };
 
 
@@ -22,6 +23,7 @@ public:
 	~LevelPack();
 
 	void load(XMLNode *node);
+	int get_points(int level);
 
 	char *m_id;
 	char *m_name;

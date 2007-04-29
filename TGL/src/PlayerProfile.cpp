@@ -47,38 +47,43 @@
 #include "debug.h"
 
 #include "PlayerProfile.h"
+#include "LevelPack.h"
 
 
 /*
 // This is the default profile file:
 
 <player-profile>
-    <name>default</name>
-    <video>
-        <mode>window</mode>
-        <resolutionx>640</resolutionx>
-        <resolutiony>480</resolutiony>
-    </video>
-    <audio>
-        <sfx-volume>128</sfx-volume>
-        <music-volume>96</music-volume>
-    </audio>
-    <input>
-        <keyboard player="0">
-            <up>113</up>
-            <down>97</down>
-            <left>111</left>
-            <right>112</right>
-            <button1>32</button1>
-            <button2>13</button2>
-            <pause>282</pause>
-            <quit>27</quit>
-        </keyboard>
-    </input>
-	<progress>
-	</progress>
+  <name>player</name>
+  <video>
+    <mode>window</mode>
+    <resolutionx>640</resolutionx>
+    <resolutiony>480</resolutiony>
+  </video>
+  <audio>
+    <sfx-volume>127</sfx-volume>
+    <music-volume>96</music-volume>
+  </audio>
+  <input>
+      <keyboard player="0">
+        <up>113</up>
+        <down>97</down>
+        <left>111</left>
+        <right>112</right>
+        <button1>32</button1>
+        <button2>13</button2>
+        <pause>282</pause>
+        <quit>27</quit>
+    </keyboard>
+  </input>
+  <ships>
+    <ship>0</ship>
+    <ship>1</ship>
+    <ship>2</ship>
+  </ships>
+  <progress>
+  </progress>
 </player-profile>
-
 */
 
 
@@ -86,6 +91,7 @@ PlayerProfileLPProgress::PlayerProfileLPProgress()
 {
 	m_levelpack_id=0;
 	m_levels_completed=0;
+	m_points=0;
 } /* PlayerProfileLPProgress::PlayerProfileLPProgress */ 
 
 
@@ -242,6 +248,8 @@ PlayerProfile::PlayerProfile(FILE *fp)
 			} // if 
 			tmp=levelpack->get_children("levels-completed");
 			if (tmp!=0) lpp->m_levels_completed=atoi(tmp->get_value()->get());
+			tmp=levelpack->get_children("points");
+			if (tmp!=0) lpp->m_points=atoi(tmp->get_value()->get());
 
 			results=levelpack->get_children("results");
 			if (results!=0) {
@@ -331,6 +339,7 @@ bool PlayerProfile::save(FILE *fp)
 		fprintf(fp,"    <levelpack>\n");
 		fprintf(fp,"      <id>%s</id>\n",lpp->m_levelpack_id);
 		fprintf(fp,"      <levels-completed>%i</levels-completed>\n",lpp->m_levels_completed);
+		fprintf(fp,"      <points>%i</points>\n",lpp->m_points);
 		fprintf(fp,"      <results>\n");
 		lpp->m_results.Rewind();
 		while(lpp->m_results.Iterate(lr)) {
@@ -367,7 +376,7 @@ int PlayerProfile::progress_in_levelpack(char *id)
 
 
 
-void PlayerProfile::level_completed(char *levelpack_id,int level,TGLreplay *replay)
+void PlayerProfile::level_completed(char *levelpack_id,int level,TGLreplay *replay,LevelPack *lp)
 {
 	PlayerProfileLPProgress *lpp,*selected=0;
 	PlayerProfileLevelResult *lr,*selected_l=0;
@@ -401,6 +410,8 @@ void PlayerProfile::level_completed(char *levelpack_id,int level,TGLreplay *repl
 		selected_l->m_impacts=0;
 		selected_l->m_kills=0;
 		selected->m_results.Add(selected_l);
+	
+		selected->m_points+=lp->get_points(level);
 	} // if 
 
 	if (selected_l->m_best_time==-1 || selected_l->m_best_time>replay->get_length()*18) {
@@ -459,3 +470,61 @@ int PlayerProfile::get_besttime(char *levelpack_id,int level,int ship)
 	return selected_l->m_best_time;
 } /* PlayerProfile::get_besttime */ 
 
+
+int PlayerProfile::get_points(void)
+{
+	int points=0;
+	PlayerProfileLPProgress *lpp;
+
+	m_progress.Rewind();
+	while(m_progress.Iterate(lpp)) {
+		points+=lpp->m_points;
+	} // while 
+
+	return points;
+} /* PlayerProfile::get_points */ 
+
+
+int PlayerProfile::get_points(char *lp_id)
+{
+	PlayerProfileLPProgress *lpp;
+
+	m_progress.Rewind();
+	while(m_progress.Iterate(lpp)) {
+		if (strcmp(lpp->m_levelpack_id,lp_id)==0) return lpp->m_points;
+	} // while 
+
+	return 0;
+} /* PlayerProfile::get_points */ 
+
+
+
+bool PlayerProfile::has_ship(int ship)
+{
+	int *s;
+	m_ships.Rewind();
+	while(m_ships.Iterate(s)) {
+		if (*s==ship) return true;
+	} // while 
+	return false;
+} /* PlayerProfile::has_ship */ 
+
+
+int PlayerProfile::number_of_times_completed(char *lpid,int level)
+{
+	int times=0;
+	PlayerProfileLPProgress *lpp;
+	PlayerProfileLevelResult *r;
+
+	m_progress.Rewind();
+	while(m_progress.Iterate(lpp)) {
+		if (strcmp(lpp->m_levelpack_id,lpid)==0) {
+			lpp->m_results.Rewind();
+			while(lpp->m_results.Iterate(r)) {
+				if (r->m_level==level) times++;
+			} // while 
+		} // if 
+	} // times 
+
+	return times;
+} /* PlayerProfile::number_of_times_completed */ 
