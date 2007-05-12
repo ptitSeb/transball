@@ -62,7 +62,6 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 		e=new TGLbuttonTransparent("OPTIONS",m_ifont32,240,335,160,30,2);
 		TGLinterface::add_element(e);
 		e=new TGLbuttonTransparent("HIGH SCORES",m_ifont32,240,370,160,30,3);
-		e->m_enabled=false;
 		TGLinterface::add_element(e);
 		TGLinterface::add_element(new TGLbuttonTransparent("REPLAYS",m_ifont32,240,405,160,30,4));
 		TGLinterface::add_element(new TGLbuttonTransparent("QUIT",m_ifont32,240,440,160,30,5));
@@ -124,6 +123,9 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 				break;
 		case 2: 
 				return TGL_STATE_CONFIGURE;
+				break;
+		case 3: 
+				return TGL_STATE_HIGHSCORES;
 				break;
 		case 4: 
 				return TGL_STATE_REPLAYBROWSER;

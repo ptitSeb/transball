@@ -50,11 +50,14 @@
 
 int TGLapp::intro_cycle(KEYBOARDSTATE *k)
 {
+	if (k->key_press(SDLK_ESCAPE)) return TGL_STATE_MAINMENU;
 	if (k->key_press(SDLK_SPACE) ||
-		k->key_press(SDLK_ESCAPE) ||
-		k->key_press(SDLK_RETURN)) return TGL_STATE_MAINMENU;
+		k->key_press(SDLK_RETURN)) {
+		if (m_state_cycle<350) m_state_cycle = 350;
+					      else return TGL_STATE_MAINMENU;
+	} // if 
 
-	if (m_state_cycle>1000) return TGL_STATE_MAINMENU;
+	if (m_state_cycle>1100) return TGL_STATE_MAINMENU;
 	return TGL_STATE_INTRO;
 } /* TGLapp::intro_cycle */ 
 
@@ -78,18 +81,18 @@ void TGLapp::intro_draw(void)
 		m_GLTM->get_smooth("interface/braingames")->draw(1,1,1,f1,320,240,0,0,f2);
 	} // if 
 
-	if (m_state_cycle>=350 && m_state_cycle<550) {
-		float f1=(m_state_cycle-350)/200.0f;
-		m_GLTM->get_smooth("interface/transball")->draw(1,1,1,f1*f1,320,240*(1-f1)+120*f1,0,0,2*(1-f1)+f1*0.5f);
+	if (m_state_cycle>=350 && m_state_cycle<650) {
+		float f1=(m_state_cycle-350)/300.0f;
+		m_GLTM->get_smooth("interface/transball")->draw(1,1,1,f1*f1,320,240*(1-f1)+120*f1,0,15.0f-f1*15.0f,2*(1-f1)+f1*0.5f);
 	} // if 
 
-	if (m_state_cycle>=550) {
+	if (m_state_cycle>=650) {		
 
-		if (m_state_cycle>=600 && m_state_cycle<1000) {
-			float f1=(m_state_cycle-600)/400.0f;
+		if (m_state_cycle>=700 && m_state_cycle<1100) {
+			float f1=(m_state_cycle-700)/400.0f;
 			m_GLTM->get_smooth("interface/gl")->draw(1,1,1,f1,320,240,0,0,0.9f+f1*0.1f);
 		} // if 
-		if (m_state_cycle>=1000) {
+		if (m_state_cycle>=1100) {
 			m_GLTM->get_smooth("interface/gl")->draw(1,1,1,1,320,240,0,0,1);
 		} // if 
 	

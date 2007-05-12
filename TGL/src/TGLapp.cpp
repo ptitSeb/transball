@@ -108,6 +108,9 @@ TGLapp::TGLapp()
 
 	m_profile_first_profile=0;
 
+	m_highscores_uparrow=0;
+	m_highscores_downarrow=0;
+
 	m_screen_dx=640;
 	m_screen_dy=480;
 	fullscreen=false;
@@ -207,6 +210,8 @@ bool TGLapp::cycle(KEYBOARDSTATE *k)
 	case TGL_STATE_SAVEREPLAY: m_state=savereplay_cycle(k);
 							   break;
 	case TGL_STATE_REPLAYBROWSER: m_state=replaybrowser_cycle(k);
+							   break;
+	case TGL_STATE_HIGHSCORES: m_state=highscores_cycle(k);
 							   break;
 	default:return false;
 	} /* switch */ 
@@ -314,6 +319,8 @@ void TGLapp::draw(int SCREEN_X,int SCREEN_Y)
 	case TGL_STATE_SAVEREPLAY: savereplay_draw();
 							   break;
 	case TGL_STATE_REPLAYBROWSER: replaybrowser_draw();
+							   break;
+	case TGL_STATE_HIGHSCORES: highscores_draw();
 							   break;
 	} // switch 
  	

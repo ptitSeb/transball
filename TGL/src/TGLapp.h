@@ -19,6 +19,7 @@
 #define TGL_STATE_POSTGAME		9
 #define TGL_STATE_SAVEREPLAY	10
 #define TGL_STATE_REPLAYBROWSER	11
+#define TGL_STATE_HIGHSCORES	12
 
 #define KEY_THRUST		0
 #define KEY_SPECIAL		1
@@ -32,6 +33,7 @@
 #define SAVEREPLAY_REPLAYSPERPAGE	12
 #define LEVELPACKBROWSER_LPPERPAGE	10
 #define PROFILESPERPAGE				12
+#define HIGHSCORE_GLOBAL_PERPAGE	10
 
 class TGLapp {
 public:
@@ -63,6 +65,7 @@ protected:
 	int postgame_cycle(KEYBOARDSTATE *k);
 	int savereplay_cycle(KEYBOARDSTATE *k);
 	int replaybrowser_cycle(KEYBOARDSTATE *k);
+	int highscores_cycle(KEYBOARDSTATE *k);
 
 	void playerprofile_draw(void);
 	void intro_draw(void);
@@ -75,6 +78,7 @@ protected:
 	void postgame_draw(void);
 	void savereplay_draw(void);
 	void replaybrowser_draw(void);
+	void highscores_draw(void);
 
 	int screen_x(int x);	/* given a coordinate in 640x480, returns the proper coordinate at the current resolution */ 
 	int screen_y(int y);    /* given a coordinate in 640x480, returns the proper coordinate at the current resolution */ 
@@ -191,6 +195,15 @@ protected:
 	List<char> m_profile_profile_names;
 	List<char> m_profile_profile_info;
 	int m_profile_first_profile;
+
+	// Highscores:
+	TGLInterfaceElement *m_highscores_uparrow;
+	TGLInterfaceElement *m_highscores_downarrow;
+	List<char> m_highscores_names;
+	List<char> m_highscores_points;
+	List<char> m_highscores_time;
+	int m_highscores_first_name;
+
 };
 
 #endif

@@ -11,8 +11,6 @@ To do in "Transball GL": -------------------------------------------------------
     - harpoon is crap: modify the ship so that it's easier to aim and make the grabber stop if completely up (if ball
       catched, the grabber does not go completely up) 
     - dodger needs stronger side thrusters
-- bugs:
-    - se cuelga a veces (me pasó una vez al estrellarme teniendo la bola con HARPOON)
 - nice highscore matrix: levels x ships, showing the top three players (the game saves the best replays automatically):
     - the game stores much more information, and can generate an HTML page with all the details (statistics of each game, etc.).
 - Más tiles

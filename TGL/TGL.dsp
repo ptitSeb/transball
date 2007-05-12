@@ -891,6 +891,10 @@ SOURCE=.\src\state_game.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\state_highscores.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\state_intro.cpp
 # End Source File
 # Begin Source File
