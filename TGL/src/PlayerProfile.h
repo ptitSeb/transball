@@ -44,6 +44,8 @@ public:
 	int get_besttime(char *levelpack_id,int level,int ship);
 	int get_points(void);
 	int get_points(char *lp_id);
+	int get_accumulated_time(void);
+	int get_accumulated_time(char *lp_id);
 	bool has_ship(int ship);
 
 	PlayerProfile(char *name);

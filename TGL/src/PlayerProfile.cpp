@@ -528,3 +528,42 @@ int PlayerProfile::number_of_times_completed(char *lpid,int level)
 
 	return times;
 } /* PlayerProfile::number_of_times_completed */ 
+
+
+int PlayerProfile::get_accumulated_time(void)
+{
+	int time=0;
+	PlayerProfileLPProgress *lpp;
+	PlayerProfileLevelResult *r;
+
+	m_progress.Rewind();
+	while(m_progress.Iterate(lpp)) {
+		lpp->m_results.Rewind();
+		while(lpp->m_results.Iterate(r)) {
+			time+=r->m_best_time;
+		} // while 
+	} // while 
+
+	return time;
+} /* PlayerProfile::get_accumulated_time */ 
+
+
+int PlayerProfile::get_accumulated_time(char *lp_id)
+{
+	int time=0;
+	PlayerProfileLPProgress *lpp;
+	PlayerProfileLevelResult *r;
+
+	m_progress.Rewind();
+	while(m_progress.Iterate(lpp)) {
+		if (strcmp(lpp->m_levelpack_id,lp_id)==0) {
+			lpp->m_results.Rewind();
+			while(lpp->m_results.Iterate(r)) {
+				time+=r->m_best_time;
+			} // while 
+		} // if 
+	} // while 
+
+	return time;
+} /* PlayerProfile::get_accumulated_time */ 
+

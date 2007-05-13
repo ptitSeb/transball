@@ -200,8 +200,8 @@ protected:
 	TGLInterfaceElement *m_highscores_uparrow;
 	TGLInterfaceElement *m_highscores_downarrow;
 	List<char> m_highscores_names;
-	List<char> m_highscores_points;
-	List<char> m_highscores_time;
+	List<int> m_highscores_points;
+	List<int> m_highscores_time;
 	int m_highscores_first_name;
 
 };

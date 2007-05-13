@@ -52,7 +52,12 @@ int TGLapp::intro_cycle(KEYBOARDSTATE *k)
 {
 	if (k->key_press(SDLK_ESCAPE)) return TGL_STATE_MAINMENU;
 	if (k->key_press(SDLK_SPACE) ||
-		k->key_press(SDLK_RETURN)) {
+		k->key_press(SDLK_RETURN) ||
+		!m_mouse_click_x.EmptyP()) {
+		if (!m_mouse_click_x.EmptyP()) {
+			delete m_mouse_click_x.Extract();
+			delete m_mouse_click_y.Extract();
+		} // if 
 		if (m_state_cycle<350) m_state_cycle = 350;
 					      else return TGL_STATE_MAINMENU;
 	} // if 
