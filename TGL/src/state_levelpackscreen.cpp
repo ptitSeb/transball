@@ -679,8 +679,8 @@ void TGLapp::levelpackscreen_draw(void)
 			{
 				float f=0.6f+0.4f*float(sin(m_state_cycle*0.1));
 
-				if (m_lp_replay_mode==0 || m_lp_replay_mode==1) TGLinterface::print_center("Press F for fullscreen",m_font16,320*replay_full_factor+495*(1-replay_full_factor),20*replay_full_factor+250*(1-replay_full_factor),1,1,1,f);
-				if (m_lp_replay_mode==2 || m_lp_replay_mode==3) TGLinterface::print_center("Press F for windowed",m_font16,320*replay_full_factor+495*(1-replay_full_factor),20*replay_full_factor+250*(1-replay_full_factor),1,1,1,f);
+				if (m_lp_replay_mode==0 || m_lp_replay_mode==1) TGLinterface::print_center("Press F to maximize",m_font16,320*replay_full_factor+495*(1-replay_full_factor),20*replay_full_factor+250*(1-replay_full_factor),1,1,1,f);
+				if (m_lp_replay_mode==2 || m_lp_replay_mode==3) TGLinterface::print_center("Press F to minimize",m_font16,320*replay_full_factor+495*(1-replay_full_factor),20*replay_full_factor+250*(1-replay_full_factor),1,1,1,f);
 			}
 
 			{

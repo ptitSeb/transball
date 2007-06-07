@@ -2,9 +2,6 @@ To do in "Transball GL": -------------------------------------------------------
 
 - Not all the payers in the players folder should be available to play with, add a password, or something that only allows you
   to play with the players that you have created
-- I've lost the text in the tutorials!!! Insert it again...:
-    OK - define just some text files with the messages
-    - write the text for all the demos 
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
 - compute statistics ar the end of the game: accuracy, fuel used, nº of shots, max speed, avg speed
 - estados:

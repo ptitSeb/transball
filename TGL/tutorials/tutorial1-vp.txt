@@ -1,4 +1,18 @@
-50 This is just a text test
+50 Use your thrusters to fight gravity
 200
-250 This is just another test...
-300
+250 You can also spin the ship
+550
+600 Shot the enemies to destroy them
+800 
+850 The V-panther's bullets/have medium power
+1050 
+1100 Take control of the ball with/the attractor
+1400 
+1450 The ball will be attracted by/the ship once captured
+1650
+1700 Activate buttons using the ball
+2250
+2200 Check for refueling!
+2700
+2750 Take the ball to the top/to complete a level!
+3000
