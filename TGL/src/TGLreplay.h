@@ -22,7 +22,6 @@ public:
 	bool m_keyframe;				// If "true", then the "m_objects" array contains a dump of all the objects in the game
 	List<VirtualController> m_input;
 	List<TGLreplay_object_position> m_objects;
-	char *m_text;
 };
 
 
@@ -45,7 +44,6 @@ public:
 	char *get_playername(int player);
 	char *get_map(void);
 	int get_initial_fuel(void);
-	char *get_text(void);
 
 	bool read_one_cycle(void);
 
@@ -78,9 +76,6 @@ private:
 	// One node per game cycle (thus, the time is m_replay.Length()*18 miliseconds)
 	List<TGLreplay_node> m_replay;
 	int m_length;
-
-	// text:
-	char *m_text;
 
 	// buffer:
 	char *m_buffer;		// replay loaded from a file that is being decoded

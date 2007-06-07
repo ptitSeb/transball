@@ -35,6 +35,17 @@
 #define PROFILESPERPAGE				12
 #define HIGHSCORE_GLOBAL_PERPAGE	10
 
+
+class TextNode {
+public:
+	char *m_text;
+	int m_time;
+
+	TextNode() {m_text = 0; m_time = 0;};
+	~TextNode() {if (m_text!=0) delete m_text;};
+};
+
+
 class TGLapp {
 public:
 	TGLapp();
@@ -161,6 +172,7 @@ protected:
 	TGLInterfaceElement *m_lp_ship_rightarrow;
 	TGL *m_lp_tutorial_game;
 	TGLreplay *m_lp_tutorial_replay;
+	List<TextNode> m_lp_tutorial_replay_text;
 	int m_lp_replay_mode;
 	int m_lp_replay_timmer;
 

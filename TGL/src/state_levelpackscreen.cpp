@@ -326,16 +326,57 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 		} // if 
 
 		if (ship_tutorial[m_selected_ship]!=0) {
-			char *m_lp_replay_name=0;
-			m_lp_replay_name=new char[strlen(ship_tutorial[m_selected_ship])+15];
-			sprintf(m_lp_replay_name,"tutorials/%s.rpl",ship_tutorial[m_selected_ship]);
+			char *replay_name=0;
+			replay_name=new char[strlen(ship_tutorial[m_selected_ship])+15];
+			sprintf(replay_name,"tutorials/%s.rpl",ship_tutorial[m_selected_ship]);
 
-			FILE *fp=fopen(m_lp_replay_name,"rb");
+			FILE *fp=fopen(replay_name,"rb");
 			if (fp!=0) {
 				m_lp_tutorial_replay=new TGLreplay(fp);
 				fclose(fp);
+
+				m_lp_tutorial_replay_text.Delete();
+
+				// Load the text messages:
+				{
+					char *replay_text_name;
+					replay_text_name=new char[strlen(ship_tutorial[m_selected_ship])+15];
+					sprintf(replay_text_name,"tutorials/%s.txt",ship_tutorial[m_selected_ship]);
+
+					FILE *fp=fopen(replay_text_name,"rb");
+					if (fp!=0) {
+						int time;
+						char line[256],*text,*tmp;
+
+						fgets(line,255,fp);
+						while(!feof(fp)) {
+							if (1==sscanf(line,"%i",&time)) {
+								TextNode *n;
+								text = line;
+								while((*text)!=' ' && (*text)!=0) text++;
+								tmp = text;
+								while((*tmp)!=0) {
+									if ((*tmp)=='\n' || (*tmp)=='\r') *tmp=0;
+									tmp++;
+								} // while
+
+								n = new TextNode();
+								n->m_time = time;
+								n->m_text = new char[strlen(text)+1];
+								strcpy(n->m_text,text);
+								m_lp_tutorial_replay_text.Add(n);
+							} // if
+
+							fgets(line,255,fp);
+						} // while 
+
+						fclose(fp);
+					} // if
+					delete []replay_text_name;
+				}
+
 			} // if 
-			delete []m_lp_replay_name;
+			delete []replay_name;
 		} // if 
 	
 		
@@ -646,7 +687,18 @@ void TGLapp::levelpackscreen_draw(void)
 				int i,j;
 				float y;
 				char buffer[128];
-				char *tmp=m_lp_tutorial_replay->get_text();
+				char *tmp=0;
+
+				/* Text messages in replays */ 
+				{
+					TextNode *n;
+
+					m_lp_tutorial_replay_text.Rewind();
+					while(m_lp_tutorial_replay_text.Iterate(n)) {
+						if (n->m_time<m_lp_tutorial_game->get_cycle()) tmp = n->m_text;
+					} // while 
+				}
+
 				if (tmp!=0) {
 					i=0;
 					y=445*replay_full_factor+425*(1-replay_full_factor);

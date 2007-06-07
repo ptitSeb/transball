@@ -18,6 +18,8 @@ public:
 
 	int get_game_result();
 
+	int get_cycle();
+
 protected:
 	TTF_Font *m_font;
 

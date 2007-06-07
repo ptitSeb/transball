@@ -264,3 +264,9 @@ void TGL::set_sfx_volume(int v)
 } /* TGL::set_sfx_volume */ 
 
 
+int TGL::get_cycle()
+{
+	return m_cycle;
+} /* TGL::get_cycle */ 
+
+
