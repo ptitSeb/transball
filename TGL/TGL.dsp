@@ -895,6 +895,10 @@ SOURCE=.\src\state_highscores.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\state_highscores_times.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\state_intro.cpp
 # End Source File
 # Begin Source File

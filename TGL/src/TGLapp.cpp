@@ -213,6 +213,8 @@ bool TGLapp::cycle(KEYBOARDSTATE *k)
 							   break;
 	case TGL_STATE_HIGHSCORES: m_state=highscores_cycle(k);
 							   break;
+	case TGL_STATE_HIGHSCORES_TIMES: m_state=highscores_times_cycle(k);
+							   break;
 	default:return false;
 	} /* switch */ 
 
@@ -321,6 +323,8 @@ void TGLapp::draw(int SCREEN_X,int SCREEN_Y)
 	case TGL_STATE_REPLAYBROWSER: replaybrowser_draw();
 							   break;
 	case TGL_STATE_HIGHSCORES: highscores_draw();
+							   break;
+	case TGL_STATE_HIGHSCORES_TIMES: highscores_times_draw();
 							   break;
 	} // switch 
  	

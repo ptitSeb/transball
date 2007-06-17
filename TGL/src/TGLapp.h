@@ -20,6 +20,7 @@
 #define TGL_STATE_SAVEREPLAY	10
 #define TGL_STATE_REPLAYBROWSER	11
 #define TGL_STATE_HIGHSCORES	12
+#define TGL_STATE_HIGHSCORES_TIMES	13
 
 #define KEY_THRUST		0
 #define KEY_SPECIAL		1
@@ -33,7 +34,7 @@
 #define SAVEREPLAY_REPLAYSPERPAGE	12
 #define LEVELPACKBROWSER_LPPERPAGE	10
 #define PROFILESPERPAGE				12
-#define HIGHSCORE_GLOBAL_PERPAGE	10
+#define HIGHSCORE_GLOBAL_PERPAGE	14
 
 
 class TextNode {
@@ -77,6 +78,7 @@ protected:
 	int savereplay_cycle(KEYBOARDSTATE *k);
 	int replaybrowser_cycle(KEYBOARDSTATE *k);
 	int highscores_cycle(KEYBOARDSTATE *k);
+	int highscores_times_cycle(KEYBOARDSTATE *k);
 
 	void playerprofile_draw(void);
 	void intro_draw(void);
@@ -90,6 +92,7 @@ protected:
 	void savereplay_draw(void);
 	void replaybrowser_draw(void);
 	void highscores_draw(void);
+	void highscores_times_draw(void);
 
 	int screen_x(int x);	/* given a coordinate in 640x480, returns the proper coordinate at the current resolution */ 
 	int screen_y(int y);    /* given a coordinate in 640x480, returns the proper coordinate at the current resolution */ 

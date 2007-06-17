@@ -145,6 +145,40 @@ void TGLinterface::draw(float alpha)
 } /* TGLinterface::draw */ 
 
 
+void TGLinterface::enable(int ID)
+{
+	TGLInterfaceElement *e;
+
+	m_elements.Rewind();
+	while(m_elements.Iterate(e)) {
+		if (e->m_ID==ID) e->m_enabled=true;
+	} // while 
+} /* TGLinterface::enable */  
+
+
+void TGLinterface::disable(int ID)
+{
+	TGLInterfaceElement *e;
+
+	m_elements.Rewind();
+	while(m_elements.Iterate(e)) {
+		if (e->m_ID==ID) e->m_enabled=false;
+	} // while 
+} /* TGLinterface::disable */ 
+
+
+TGLInterfaceElement *TGLinterface::get(int ID)
+{
+	TGLInterfaceElement *e;
+
+	m_elements.Rewind();
+	while(m_elements.Iterate(e)) {
+		if (e->m_ID==ID) return e;
+	} // while 
+	return 0;
+} /* TGLinterface::get */ 
+
+
 /* ------------------------------------------------------------------------------------------------------ */ 
 
 

@@ -120,6 +120,9 @@ public:
 	static int update_state(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);
 	static void draw(float alpha);
 	static void draw(void);
+	static TGLInterfaceElement *get(int ID);
+	static void enable(int ID);
+	static void disable(int ID);
 
 	static void clear_print_cache(void);
 	static void print_left(char *text,TTF_Font *font,float x,float y);
