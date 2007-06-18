@@ -21,6 +21,7 @@ class TGLText : public TGLInterfaceElement {
 public:
 
 	TGLText(char *text,TTF_Font *font,float x,float y,bool centered);
+	TGLText(char *text,TTF_Font *font,float x,float y,bool centered,int ID);
 	virtual ~TGLText();
 
 	virtual void draw(float alpha);

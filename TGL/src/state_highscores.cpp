@@ -58,7 +58,6 @@ int TGLapp::highscores_cycle(KEYBOARDSTATE *k)
 			m_highscores_time.Delete();
 
 			// Look for players:
-			// Load the profile files:
 			{
 				char *tmp;
 				char buf[256];
@@ -114,7 +113,6 @@ int TGLapp::highscores_cycle(KEYBOARDSTATE *k)
 						PlayerProfile *pfl=new PlayerProfile(fp);
 						fclose(fp);
 						
-						char *tmp=new char[256];
 						{
 							m_highscores_points.Add(new int(pfl->get_points()));
 							m_highscores_time.Add(new int(pfl->get_accumulated_time()));
@@ -179,14 +177,12 @@ int TGLapp::highscores_cycle(KEYBOARDSTATE *k)
 		TGLinterface::disable(4);
 		TGLinterface::enable(5);
 
-		m_highscores_uparrow=new TGLbutton(m_GLTM->get("interface/uparrow"),600,70,30,100,2);
-		TGLinterface::add_element(m_highscores_uparrow);
-		if (m_highscores_first_name==0) m_highscores_uparrow->m_enabled=false;
-								   else m_highscores_uparrow->m_enabled=true;
-		m_highscores_downarrow=new TGLbutton(m_GLTM->get("interface/downarrow"),600,290,30,100,3);
-		TGLinterface::add_element(m_highscores_downarrow);
-		if (m_highscores_names.Length()>HIGHSCORE_GLOBAL_PERPAGE) m_highscores_downarrow->m_enabled=true;
-														     else m_highscores_downarrow->m_enabled=false;
+		TGLinterface::add_element(new TGLbutton(m_GLTM->get("interface/uparrow"),600,70,30,100,2));
+		if (m_highscores_first_name==0) TGLinterface::disable(2);
+								   else TGLinterface::enable(2);
+		TGLinterface::add_element(new TGLbutton(m_GLTM->get("interface/downarrow"),600,290,30,100,3));
+		if (m_highscores_names.Length()>HIGHSCORE_GLOBAL_PERPAGE) TGLinterface::enable(3);
+														     else TGLinterface::disable(3);
 
 	} // if 
 
@@ -221,17 +217,17 @@ int TGLapp::highscores_cycle(KEYBOARDSTATE *k)
 					break;
 			case 2:
 					m_highscores_first_name--;
-					if (m_highscores_first_name==0) m_highscores_uparrow->m_enabled=false;
-											   else m_highscores_uparrow->m_enabled=true;
-					if (m_highscores_names.Length()>m_highscores_first_name+HIGHSCORE_GLOBAL_PERPAGE) m_highscores_downarrow->m_enabled=true;
-																			  					 else m_highscores_downarrow->m_enabled=false;	
+					if (m_highscores_first_name==0) TGLinterface::disable(2);
+											   else TGLinterface::enable(2);
+					if (m_highscores_names.Length()>m_highscores_first_name+HIGHSCORE_GLOBAL_PERPAGE) TGLinterface::enable(3);
+																			  					 else TGLinterface::disable(3);	
 					break;
 			case 3:
 					m_highscores_first_name++;
-					if (m_highscores_first_name==0) m_highscores_uparrow->m_enabled=false;
-											   else m_highscores_uparrow->m_enabled=true;
-					if (m_highscores_names.Length()>m_highscores_first_name+HIGHSCORE_GLOBAL_PERPAGE) m_highscores_downarrow->m_enabled=true;
-																			  					 else m_highscores_downarrow->m_enabled=false;
+					if (m_highscores_first_name==0) TGLinterface::disable(2);
+											   else TGLinterface::enable(2);
+					if (m_highscores_names.Length()>m_highscores_first_name+HIGHSCORE_GLOBAL_PERPAGE) TGLinterface::enable(3);
+																			  					 else TGLinterface::disable(3);	
 					break;
 			case 4:
 					break;

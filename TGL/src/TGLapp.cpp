@@ -108,8 +108,9 @@ TGLapp::TGLapp()
 
 	m_profile_first_profile=0;
 
-	m_highscores_uparrow=0;
-	m_highscores_downarrow=0;
+	m_highscores_level_pack=0;
+	m_highscores_first_ship=0;
+	m_highscores_first_level=0;
 
 	m_screen_dx=640;
 	m_screen_dy=480;

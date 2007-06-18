@@ -221,6 +221,20 @@ TGLText::TGLText(char *text,TTF_Font *font,float x,float y,bool centered)
 } /* TGLText::TGLText */ 
 
 
+TGLText::TGLText(char *text,TTF_Font *font,float x,float y,bool centered,int ID)
+{
+	m_ID = ID;
+	m_centered=centered;
+	m_text=new char[strlen(text)+1];
+	strcpy(m_text,text);
+	m_font=font;
+	m_x=x;
+	m_y=y;
+	m_enabled=true;
+	m_active=false;
+} /* TGLText::TGLText */ 
+
+
 TGLText::~TGLText()
 {
 	delete []m_text;

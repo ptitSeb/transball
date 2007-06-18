@@ -7,6 +7,8 @@
 
 #define MAXLOCAL_PLAYERS	4
 
+#define N_SHIPS		11
+
 #define TGL_STATE_NONE	-1
 #define TGL_STATE_PLAYERPROFILE	1
 #define TGL_STATE_INTRO			2
@@ -212,12 +214,17 @@ protected:
 	int m_profile_first_profile;
 
 	// Highscores:
-	TGLInterfaceElement *m_highscores_uparrow;
-	TGLInterfaceElement *m_highscores_downarrow;
 	List<char> m_highscores_names;
 	List<int> m_highscores_points;
 	List<int> m_highscores_time;
 	int m_highscores_first_name;
+	char *m_highscores_level_pack;
+	List<char> m_highscores_lp_ids;
+	List<char> m_highscores_lp_names;
+	List< List<char> > m_highscores_times_names[N_SHIPS+1];	// One list per ship type, plus a common one
+	List< List<int> > m_highscores_times_time[N_SHIPS+1];	// One list per ship type, plus a common one
+	int m_highscores_first_ship;
+	int m_highscores_first_level;
 
 };
 
