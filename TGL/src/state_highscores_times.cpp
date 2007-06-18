@@ -274,72 +274,81 @@ int TGLapp::highscores_times_cycle(KEYBOARDSTATE *k)
 
 		// Load player by player and fill the table:
 		{
+			int i;
 			char *tmp;
 			char buf[256];
-
-				char *short_ship_names[]={"V-P",
-										  "X-T",
-										  "SR",
-										  "NB",
-										  "VB",
-										  "DDG",
-										  "GRV",
-										  "ACC",
-									  	  "GYR",
-										  "D-F",
-										  "C-H",
+			char *short_ship_names[]={"V-P",
+									  "X-T",
+									  "S R",
+									  "N B",
+									  "V B",
+									  "DDG",
+									  "GRV",
+									  "ACC",
+									  "GYR",
+									  "D-F",
+									  "C-H",
 									};
-
+			char *folders[2]={"players","other-players"};
 
 			m_highscores_names.Delete();
 
+
+			for(i=0;i<2;i++) {
+
 #ifdef _WIN32
-			/* Find files: */
-			WIN32_FIND_DATA finfo;
-			HANDLE h;
+				/* Find files: */
+				WIN32_FIND_DATA finfo;
+				HANDLE h;
 
-			h = FindFirstFile("players/*.pp", &finfo);
-			if (h != INVALID_HANDLE_VALUE) {
-				tmp=new char[strlen(finfo.cFileName)+1];
-				strcpy(tmp,finfo.cFileName);
-				tmp[strlen(tmp)-3]=0;
-				m_highscores_names.Add(tmp);
-
-				while (FindNextFile(h, &finfo) == TRUE) {
+				sprintf(buf,"%s/*.pp",folders[i]);
+				h = FindFirstFile(buf, &finfo);
+				if (h != INVALID_HANDLE_VALUE) {
 					tmp=new char[strlen(finfo.cFileName)+1];
 					strcpy(tmp,finfo.cFileName);
 					tmp[strlen(tmp)-3]=0;
 					m_highscores_names.Add(tmp);
-				} /* while */
-			} /* if */
-#else
-			DIR *dp;
-			struct dirent *ep;
 
-			dp = opendir ("players");
-			if (dp != NULL) {
-				while (ep = readdir (dp)) {
-					if (strlen(ep->d_name) > 4 &&
-							ep->d_name[strlen(ep->d_name) - 3] == '.' &&
-							ep->d_name[strlen(ep->d_name) - 2] == 'p' &&
-							ep->d_name[strlen(ep->d_name) - 1] == 'p') {
-
-						tmp=new char[strlen(ep->d_name)+1];
-						strcpy(tmp,ep->d_name);
+					while (FindNextFile(h, &finfo) == TRUE) {
+						tmp=new char[strlen(finfo.cFileName)+1];
+						strcpy(tmp,finfo.cFileName);
 						tmp[strlen(tmp)-3]=0;
 						m_highscores_names.Add(tmp);
-					} /* if */
+					} /* while */
+				} /* if */
+#else
+				DIR *dp;
+				struct dirent *ep;
 
-				} /* while */
-				(void) closedir (dp);
-			} /* if */
+				dp = opendir (folders[i]);
+				if (dp != NULL) {
+					while (ep = readdir (dp)) {
+						if (strlen(ep->d_name) > 4 &&
+								ep->d_name[strlen(ep->d_name) - 3] == '.' &&
+								ep->d_name[strlen(ep->d_name) - 2] == 'p' &&
+								ep->d_name[strlen(ep->d_name) - 1] == 'p') {
+
+							tmp=new char[strlen(ep->d_name)+1];
+							strcpy(tmp,ep->d_name);
+							tmp[strlen(tmp)-3]=0;
+							m_highscores_names.Add(tmp);
+						} /* if */
+
+					} /* while */
+					(void) closedir (dp);
+				} /* if */
 #endif
+			} // for
 
 			m_highscores_names.Rewind();
 			while(m_highscores_names.Iterate(tmp)) {
 
 				sprintf(buf,"players/%s.pp",tmp);
 				FILE *fp=fopen(buf,"rb");
+				if (fp==0) {
+					sprintf(buf,"other-players/%s.pp",tmp);
+					fp=fopen(buf,"rb");
+				} // if 
 				if (fp!=0) {
 					PlayerProfileLevelResult *lr;
 					PlayerProfileLPProgress *lpp;
@@ -570,11 +579,16 @@ void TGLapp::highscores_times_draw(void)
 							} // if 
 						} // if
 
-						if (strcmp(m_highscores_times_names[N_SHIPS][level]->operator [](k),get_player_profile()->m_name)==0) {
-							TGLinterface::print_left(tmp,m_font16,float(90),float(start_y+60+j*80+k*20),0,1,0,1);
-						} else {
-							TGLinterface::print_left(tmp,m_font16,float(90),float(start_y+60+j*80+k*20));
-						} // if 
+						{
+							char tmp2[128];
+							strcpy(tmp2,m_highscores_times_names[N_SHIPS][level]->operator [](k));
+							tmp2[strlen(tmp2)-6]=0;
+							if (strcmp(tmp2,get_player_profile()->m_name)==0) {
+								TGLinterface::print_left(tmp,m_font16,float(90),float(start_y+60+j*80+k*20),0,1,0,1);
+							} else {
+								TGLinterface::print_left(tmp,m_font16,float(90),float(start_y+60+j*80+k*20));
+							} // if 
+						}
 					} else {
 						sprintf(tmp,"(%i) - --- - ---",k+1);
 						TGLinterface::print_left(tmp,m_font16,float(90),float(start_y+60+j*80+k*20));

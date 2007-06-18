@@ -1,3 +1,5 @@
 100 The Gyrus-P can fire in any/direction
 500
+600 To turn the cannon hold/the [special] key and turn
+1000
 

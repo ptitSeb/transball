@@ -56,6 +56,7 @@ TGLobject_ship_gyrus::TGLobject_ship_gyrus(float x,float y,int initial_fuel) : T
 	m_fuel=(initial_fuel/2)*64;
 	m_cannon_angle=0;
 	m_cannon=0;
+	m_cannon_rotation_timmer = 50;
 } /* TGLobject_ship_gyrus::TGLobject_ship */ 
 
 
@@ -67,6 +68,8 @@ TGLobject_ship_gyrus::~TGLobject_ship_gyrus()
 bool TGLobject_ship_gyrus::cycle(VirtualController *k,TGLmap *map,GLTManager *GLTM,SFXManager *SFXM,int sfx_volume)
 {
 	m_cycle++;
+
+	m_cannon_rotation_timmer++;
 
 	// Check for collision:
 	if (map->collision(this,0,0,0)) {
@@ -118,15 +121,16 @@ bool TGLobject_ship_gyrus::cycle(VirtualController *k,TGLmap *map,GLTManager *GL
 		};
 	} // if 
 
-	if (k->m_button[0] && !k->m_old_button[0] && m_fuel>40) {
+	if (k->m_button[0] && !k->m_old_button[0] && m_fuel>64) {
 		TGLobject *bullet;
 		int a=(m_angle+m_cannon_angle)-90;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*8)),float(get_y()+(sin_table[a]*8)),m_angle+m_cannon_angle,6,1,GLTM->get("objects/bullet-red"),this);
+
+		bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*8)),float(get_y()+(sin_table[a]*8)),m_angle+m_cannon_angle,5,2,GLTM->get("objects/bullet-red2"),this);
 		if (m_ball!=0) bullet->exclude_for_collision(m_ball);
 		map->add_object(bullet);
-		m_fuel-=40;
+		m_fuel-=64;
 //		Sound_play(SFXM->get("sfx/shipshot"),sfx_volume);
 		Sound_play(SFXM->get("sfx/shipshot2"),sfx_volume);
 	} // if 
@@ -141,12 +145,14 @@ bool TGLobject_ship_gyrus::cycle(VirtualController *k,TGLmap *map,GLTManager *GL
 	} // if
 
 	if (k->m_joystick[VC_LEFT] && k->m_joystick[VC_DOWN]) {
-		m_cannon_angle-=2;
+		m_cannon_angle-=4;
 		if (m_cannon_angle<0) m_cannon_angle+=360;
+		m_cannon_rotation_timmer=0;
 	} // if 
 	if (k->m_joystick[VC_RIGHT] && k->m_joystick[VC_DOWN]) {
-		m_cannon_angle+=2;
+		m_cannon_angle+=4;
 		if (m_cannon_angle>=360) m_cannon_angle-=360;
+		m_cannon_rotation_timmer=0;
 	} // if
 
 
@@ -228,6 +234,28 @@ void TGLobject_ship_gyrus::draw(GLTManager *GLTM)
 	if (m_last_mask==0) m_last_mask=GLTM->get("objects/ship-gyrus-1");
 	if (m_cannon==0) m_cannon=GLTM->get("objects/ship-gyrus-2");
 
+	if (m_cannon_rotation_timmer<50) {
+		GLTile *dot=GLTM->get("objects/dot");
+		float f=(25-m_cannon_rotation_timmer)/25.0f;
+		int i;
+		if (f>1) f=1;
+		if (f<0) f=0;
+		float x = m_x;
+		float y = m_y;
+		float inc_x,inc_y;
+		int a=(m_angle+m_cannon_angle)-90;
+		while(a<0) a+=360;
+		while(a>=360) a-=360;
+
+		inc_x = float(cos_table[a]*8);
+		inc_y = float(sin_table[a]*8);
+		for(i=0;i<8;i++) {
+			dot->draw(1,1,1,f,x,y,0,0,0.5f);
+			x+=inc_x;
+			y+=inc_y;
+		} // for
+	} // if 
+
 	if (m_thrusting) {
 		if (((m_cycle/4)%2)==0) m_last_tile=GLTM->get("objects/ship-gyrus-3");
 						   else m_last_tile=GLTM->get("objects/ship-gyrus-4");
@@ -237,6 +265,7 @@ void TGLobject_ship_gyrus::draw(GLTManager *GLTM)
 
 	if (m_last_tile!=0) m_last_tile->draw(m_x,m_y,0,float(m_angle),m_scale);
 	if (m_cannon!=0) m_cannon->draw(m_x,m_y,0,float(m_angle+m_cannon_angle),m_scale);
+
 } /* TGLobject_ship_gyrus::draw */ 
 
 

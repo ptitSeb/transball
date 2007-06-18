@@ -16,6 +16,7 @@ public:
 private:
 	bool m_thrusting;
 	int m_cannon_angle;
+	int m_cannon_rotation_timmer;
 	GLTile *m_cannon;
 };
 

@@ -154,8 +154,8 @@ bool TGLobject_ship_dodger::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 		int a=m_angle;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		m_speed_x+=float(cos_table[a]*10.0)/256.0f;
-		m_speed_y+=float(sin_table[a]*10.0)/256.0f;
+		m_speed_x+=float(cos_table[a]*12.0)/256.0f;
+		m_speed_y+=float(sin_table[a]*12.0)/256.0f;
 		m_leftthrusting=true;
 		m_fuel--;
 	} // if 
@@ -164,8 +164,8 @@ bool TGLobject_ship_dodger::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 		int a=m_angle-180;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		m_speed_x+=float(cos_table[a]*10.0)/256.0f;
-		m_speed_y+=float(sin_table[a]*10.0)/256.0f;
+		m_speed_x+=float(cos_table[a]*12.0)/256.0f;
+		m_speed_y+=float(sin_table[a]*12.0)/256.0f;
 		m_rightthrusting=true;
 		m_fuel--;
 	} // if 

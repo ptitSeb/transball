@@ -1,17 +1,12 @@
 To do in "Transball GL": --------------------------------------------------------
 
-- Not all the payers in the players folder should be available to play with, add a password, or something that only allows you
-  to play with the players that you have created (simply have them in different folders)
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
-- compute statistics ar the end of the game: accuracy, fuel used, nº of shots, max speed, avg speed
+- compute statistics at the end of the game: accuracy, fuel used, nº of shots, max speed, avg speed
 - estados:
-    - highscores
     - mapeditor / level packager
 - ship balancing (record replays again)
-    - gyrus is crap: increase it's fire power, bullet size and rotation speed
     - harpoon is crap: modify the ship so that it's easier to aim and make the grabber stop if completely up (if ball
       catched, the grabber does not go completely up) 
-    - dodger needs stronger side thrusters
 - Más tiles
 - Nuevos elementos:
 	- ascensores (debes meterte en ellos, y moverte con ellos, tanto horizontales como verticales)
@@ -32,7 +27,8 @@ To do in "Transball GL": -------------------------------------------------------
     - En los modos colaborativo y competitivo:
         - hay 2 bolas (cualquiera puede coger cualquiera de las dos), pero solo una a la vez.
         - los disparos de el adversario/colaborador te quitan fuel, te desplazan un poco, y te quitan la bola
-    - En red
+    - En red:
+        - cuando te conectas a otro ordenador, se sincronizan los highscores ("other-players" folder)
 - Música en el menu principal
 - Música/loop de sonido durante el juego 
 - Para las instrucciones (añadir a los tutoriales):

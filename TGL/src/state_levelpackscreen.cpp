@@ -386,7 +386,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 	if (m_lp_tutorial_replay!=0) {
 		if (m_lp_tutorial_game==0) {
 			m_lp_tutorial_game=new TGL(m_lp_tutorial_replay->get_map(),
-									   m_lp_tutorial_replay->get_playership("default"),
+									   m_lp_tutorial_replay->get_playership(m_lp_tutorial_replay->get_playername(0)),
 									   m_lp_tutorial_replay->get_initial_fuel(),
 									   0,
 									   0,m_GLTM);

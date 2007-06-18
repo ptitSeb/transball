@@ -59,56 +59,65 @@ int TGLapp::highscores_cycle(KEYBOARDSTATE *k)
 
 			// Look for players:
 			{
+				int i;
 				char *tmp;
 				char buf[256];
+				char *folders[2]={"players","other-players"};
 
+				for(i=0;i<2;i++) {
 #ifdef _WIN32
-				/* Find files: */
-				WIN32_FIND_DATA finfo;
-				HANDLE h;
+					/* Find files: */
+					WIN32_FIND_DATA finfo;
+					HANDLE h;
 
-				h = FindFirstFile("players/*.pp", &finfo);
-				if (h != INVALID_HANDLE_VALUE) {
-					tmp=new char[strlen(finfo.cFileName)+1];
-					strcpy(tmp,finfo.cFileName);
-					tmp[strlen(tmp)-3]=0;
-					m_highscores_names.Add(tmp);
-
-					while (FindNextFile(h, &finfo) == TRUE) {
+					sprintf(buf,"%s/*.pp",folders[i]);
+					h = FindFirstFile(buf, &finfo);
+					if (h != INVALID_HANDLE_VALUE) {
 						tmp=new char[strlen(finfo.cFileName)+1];
 						strcpy(tmp,finfo.cFileName);
 						tmp[strlen(tmp)-3]=0;
 						m_highscores_names.Add(tmp);
-					} /* while */
-				} /* if */
-#else
-				DIR *dp;
-				struct dirent *ep;
 
-				dp = opendir ("players");
-				if (dp != NULL) {
-					while (ep = readdir (dp)) {
-						if (strlen(ep->d_name) > 4 &&
-								ep->d_name[strlen(ep->d_name) - 3] == '.' &&
-								ep->d_name[strlen(ep->d_name) - 2] == 'p' &&
-								ep->d_name[strlen(ep->d_name) - 1] == 'p') {
-
-							tmp=new char[strlen(ep->d_name)+1];
-							strcpy(tmp,ep->d_name);
+						while (FindNextFile(h, &finfo) == TRUE) {
+							tmp=new char[strlen(finfo.cFileName)+1];
+							strcpy(tmp,finfo.cFileName);
 							tmp[strlen(tmp)-3]=0;
 							m_highscores_names.Add(tmp);
-						} /* if */
+						} /* while */
+					} /* if */
+#else
+					DIR *dp;
+					struct dirent *ep;
 
-					} /* while */
-					(void) closedir (dp);
-				} /* if */
+					dp = opendir (folders[i]);
+					if (dp != NULL) {
+						while (ep = readdir (dp)) {
+							if (strlen(ep->d_name) > 4 &&
+									ep->d_name[strlen(ep->d_name) - 3] == '.' &&
+									ep->d_name[strlen(ep->d_name) - 2] == 'p' &&
+									ep->d_name[strlen(ep->d_name) - 1] == 'p') {
+
+								tmp=new char[strlen(ep->d_name)+1];
+								strcpy(tmp,ep->d_name);
+								tmp[strlen(tmp)-3]=0;
+								m_highscores_names.Add(tmp);
+							} /* if */
+
+						} /* while */
+						(void) closedir (dp);
+					} /* if */
 #endif
+				} // for
 
 				m_highscores_names.Rewind();
 				while(m_highscores_names.Iterate(tmp)) {
 
 					sprintf(buf,"players/%s.pp",tmp);
 					FILE *fp=fopen(buf,"rb");
+					if (fp==0) {
+						sprintf(buf,"other-players/%s.pp",tmp);
+						fp=fopen(buf,"rb");
+					} // if 
 					if (fp!=0) {
 						PlayerProfile *pfl=new PlayerProfile(fp);
 						fclose(fp);
@@ -279,25 +288,22 @@ void TGLapp::highscores_draw(void)
 	{
 		int i,j;
 		int start_y = 100;
+		float r=1,g=1,b=1;
 
 		for(j=0,i=m_highscores_first_name;i<m_highscores_first_name+HIGHSCORE_GLOBAL_PERPAGE && i<m_highscores_names.Length();i++,j++) {
 
 			if (strcmp(m_highscores_names[i],get_player_profile()->m_name)==0) {
-				float f;
-				f=float(0.7+0.2*sin((m_state_cycle)*0.15F));
-				glColor4f(0.5f,1,0.5f,f);
-				glBegin(GL_POLYGON);
-				glVertex3f(15,float(start_y+(j-1)*22),0);
-				glVertex3f(585,float(start_y+(j-1)*22),0);
-				glVertex3f(585,float(start_y+20+(j-1)*22),0);
-				glVertex3f(15,float(start_y+20+(j-1)*22),0);
-				glEnd();
+				r=0;
+				g=1;
+				b=0;
+			} else {
+				r=g=b=1;
 			} // if 	
 
 			{
 				char buf[256];
 				sprintf(buf,"(%i)",i+1);
-				TGLinterface::print_left(buf,m_font16,20,float(start_y+j*22));
+				TGLinterface::print_left(buf,m_font16,20,float(start_y+j*22),r,g,b,1);
 			}
 
 			{
@@ -308,7 +314,7 @@ void TGLapp::highscores_draw(void)
 				if (glIsEnabled(GL_SCISSOR_TEST)) old_scissor=true;
 				glEnable(GL_SCISSOR_TEST);
 				glScissor(10,0,200,480);
-				TGLinterface::print_left(m_highscores_names[i],m_font16,70,float(start_y+j*22));
+				TGLinterface::print_left(m_highscores_names[i],m_font16,70,float(start_y+j*22),r,g,b,1);
 				glScissor(old[0],old[1],old[2],old[3]);
 				if (!old_scissor) glDisable(GL_SCISSOR_TEST);
 			}
@@ -316,13 +322,13 @@ void TGLapp::highscores_draw(void)
 			{
 				char buf[256];
 				sprintf(buf,"%i",*(m_highscores_points[i]));
-				TGLinterface::print_left(buf,m_font16,250,float(start_y+j*22));
+				TGLinterface::print_left(buf,m_font16,250,float(start_y+j*22),r,g,b,1);
 
 				{
 					int days,hours,mins,secs,milis;
 					milis=*(m_highscores_time[i]);
 					if (milis<0) {
-						TGLinterface::print_left("---",m_font16,350,float(start_y+j*22));
+						TGLinterface::print_left("---",m_font16,350,float(start_y+j*22),r,g,b,1);
 					} else {
 						secs=milis/1000;
 						milis=milis%1000;
@@ -341,7 +347,7 @@ void TGLapp::highscores_draw(void)
 								sprintf(buf,"%im:%.2is:%.2i",mins,secs,milis/10);
 							} // if 
 						} // if 
-						TGLinterface::print_left(buf,m_font16,350,float(start_y+j*22));
+						TGLinterface::print_left(buf,m_font16,350,float(start_y+j*22),r,g,b,1);
 					} // if
 				}
 			}
