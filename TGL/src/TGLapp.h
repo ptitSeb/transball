@@ -23,6 +23,8 @@
 #define TGL_STATE_REPLAYBROWSER	11
 #define TGL_STATE_HIGHSCORES	12
 #define TGL_STATE_HIGHSCORES_TIMES	13
+#define TGL_STATE_EDITOR			14
+#define TGL_STATE_MAPEDITOR			15
 
 #define KEY_THRUST		0
 #define KEY_SPECIAL		1
@@ -81,6 +83,8 @@ protected:
 	int replaybrowser_cycle(KEYBOARDSTATE *k);
 	int highscores_cycle(KEYBOARDSTATE *k);
 	int highscores_times_cycle(KEYBOARDSTATE *k);
+	int editor_cycle(KEYBOARDSTATE *k);
+	int mapeditor_cycle(KEYBOARDSTATE *k);
 
 	void playerprofile_draw(void);
 	void intro_draw(void);
@@ -95,6 +99,8 @@ protected:
 	void replaybrowser_draw(void);
 	void highscores_draw(void);
 	void highscores_times_draw(void);
+	void editor_draw(void);
+	void mapeditor_draw(void);
 
 	int screen_x(int x);	/* given a coordinate in 640x480, returns the proper coordinate at the current resolution */ 
 	int screen_y(int y);    /* given a coordinate in 640x480, returns the proper coordinate at the current resolution */ 
@@ -104,16 +110,17 @@ protected:
 	void fade_in_squares(float f,float size);
 	void fade_in_triangles(float f,float size);
 
-	class GLTManager *m_GLTM;
 	class SFXManager *m_SFXM;
+	class GLTManager *m_GLTM;
 
 	TTF_Font *m_font32,*m_font16,*m_ifont32;
 
+	int m_mouse_x,m_mouse_y,m_mouse_button;
 	List<int> m_mouse_click_x;
 	List<int> m_mouse_click_y;
 
 	int m_screen_dx,m_screen_dy;
-	int m_state;
+	int m_state,m_previous_state;
 	int m_state_cycle;
 	int m_state_fading;
 	int m_state_fading_cycle;
@@ -225,6 +232,10 @@ protected:
 	List< List<int> > m_highscores_times_time[N_SHIPS+1];	// One list per ship type, plus a common one
 	int m_highscores_first_ship;
 	int m_highscores_first_level;
+
+	// Editor:
+	LevelPack *m_editor_levelpack;
+	class LevelPack_Level *m_editor_level;
 
 };
 

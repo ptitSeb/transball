@@ -55,15 +55,20 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 
 		TGLinterface::reset();
 		SDL_WarpMouse(210,315);
-		TGLinterface::add_element(new TGLbuttonTransparent("SOLO PLAY",m_ifont32,150,300,160,30,0));
-		e=new TGLbuttonTransparent("NET PLAY",m_ifont32,330,300,160,30,1);
+		TGLinterface::add_element(new TGLbuttonTransparent("SOLO PLAY",m_ifont32,150,305,160,30,0));
+		e=new TGLbuttonTransparent("NET PLAY",m_ifont32,330,305,160,30,1);
 		e->m_enabled=false;
 		TGLinterface::add_element(e);
-		e=new TGLbuttonTransparent("OPTIONS",m_ifont32,240,335,160,30,2);
+
+		e=new TGLbuttonTransparent("OPTIONS",m_ifont32,150,350,160,30,2);
 		TGLinterface::add_element(e);
-		e=new TGLbuttonTransparent("HIGH SCORES",m_ifont32,240,370,160,30,3);
+
+		e=new TGLbuttonTransparent("EDITOR",m_ifont32,330,350,160,30,6);
 		TGLinterface::add_element(e);
-		TGLinterface::add_element(new TGLbuttonTransparent("REPLAYS",m_ifont32,240,405,160,30,4));
+
+		e=new TGLbuttonTransparent("HIGH SCORES",m_ifont32,150,395,160,30,3);
+		TGLinterface::add_element(e);
+		TGLinterface::add_element(new TGLbuttonTransparent("REPLAYS",m_ifont32,330,395,160,30,4));
 		TGLinterface::add_element(new TGLbuttonTransparent("QUIT",m_ifont32,240,440,160,30,5));
 	} // if 
 
@@ -129,6 +134,9 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 				break;
 		case 4: 
 				return TGL_STATE_REPLAYBROWSER;
+				break;
+		case 6: 
+				return TGL_STATE_EDITOR;
 				break;
 		case 5: 
 				return TGL_STATE_NONE;

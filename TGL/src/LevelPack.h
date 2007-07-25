@@ -3,11 +3,13 @@
 
 class LevelPack_Level {
 public:
+	LevelPack_Level();
 	LevelPack_Level(FILE *fp);
 	LevelPack_Level(class XMLNode *node);
 	~LevelPack_Level();
 
 	void load(XMLNode *node);
+	void setName(char* name);
 
 	char *m_map;
 	char *m_name;
@@ -19,11 +21,17 @@ public:
 
 class LevelPack {
 public:
+	LevelPack();
 	LevelPack(FILE *fp);
 	~LevelPack();
 
 	void load(XMLNode *node);
 	int get_points(int level);
+
+	int getLevelPosition(LevelPack_Level *level);
+	int getNLevels();
+	LevelPack_Level *getLevel(int n);
+	LevelPack_Level *getLevel(char *name);
 
 	char *m_id;
 	char *m_name;

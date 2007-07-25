@@ -11,6 +11,17 @@
 #include "XMLparser.h"
 #include "LevelPack.h"
 
+
+LevelPack_Level::LevelPack_Level()
+{
+	m_map=0;
+	m_name=0;
+	m_description=0;
+	m_initial_fuel=100;
+	m_points=1;
+} /* LevelPack_Level::LevelPack_Level */ 
+
+
 LevelPack_Level::LevelPack_Level(FILE *fp)
 {
 
@@ -84,6 +95,27 @@ LevelPack_Level::~LevelPack_Level()
 	if (m_description!=0) delete []m_description;
 	m_description=0;
 } /* LevelPack_Level::~LevelPack_Level */ 
+
+
+void LevelPack_Level::setName(char* name)
+{
+	if (m_name!=0) delete m_name;
+	m_name = new char[strlen(name)+1];
+	strcpy(m_name,name);
+} /* LevelPack_Level::setName */ 
+
+
+
+
+LevelPack::LevelPack()
+{
+	m_id=0;
+	m_name=0;
+	m_description=0;
+	m_creator_name=0;
+	m_creator_nickname=0;
+
+} /* LevelPack::LevelPack */ 
 
 
 LevelPack::LevelPack(FILE *fp)
@@ -181,4 +213,37 @@ int LevelPack::get_points(int level)
 
 	return 0;
 } /* LevelPack::get_points */ 
+
+
+int LevelPack::getLevelPosition(LevelPack_Level *level)
+{
+	return m_levels.PositionRef(level);
+} /* LevelPack::getLevelPosition */ 
+
+
+int LevelPack::getNLevels()
+{
+	return m_levels.Length();
+} /* LevelPack::getNLevels */ 
+
+
+LevelPack_Level *LevelPack::getLevel(int n)
+{
+	return m_levels[n];
+} /* LevelPack::getLevel */ 
+
+
+LevelPack_Level *LevelPack::getLevel(char *name)
+{
+	LevelPack_Level *l;
+
+	m_levels.Rewind();
+	while(m_levels.Iterate(l)) {
+		if (strcmp(l->m_name,name)==0) return l;
+	} // while
+
+	return 0;
+} /* LevelPack::getLevel */ 
+
+
 

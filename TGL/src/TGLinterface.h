@@ -3,6 +3,7 @@
 
 class TGLInterfaceElement {
 public:
+	TGLInterfaceElement();
 	virtual ~TGLInterfaceElement();
 
 	virtual bool check_status(int mousex,int mousey,int button,int button_status,class KEYBOARDSTATE *k);
@@ -10,9 +11,12 @@ public:
 	virtual void draw(void);
 
 	int m_ID;
+	bool m_modal;	/* If any element is modal, only him has the control until it is destroyed (the rest of the interface is faded) */ 
 	bool m_enabled;
 	bool m_active;	/* This indictes wether the component is active or passive, */ 
 					/* e.g.: TGLText and TGLframe are passive					*/ 
+	bool m_to_be_deleted;
+
 	float m_x,m_y,m_dx,m_dy;
 };
 
@@ -106,6 +110,50 @@ public:
 	float m_slider_dx,m_slider_dy;
 	float m_value;
 };
+
+
+class TGLBrowser : public TGLInterfaceElement {
+public:
+
+	TGLBrowser(TTF_Font *font,float x,float y,float dx,float dy,int ID);
+	virtual ~TGLBrowser();
+
+	void clear(void);
+	void addEntry(char *);
+	char *getEntry(int i);
+	void deleteEntry(int i);
+	void setSelected(int i);
+	int getSelected(void);
+
+	virtual bool check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);
+	virtual void draw(float alpha);
+	virtual void draw(void);
+
+	TTF_Font *m_font;
+	List<char> m_entries;
+	float m_slider_pos,m_slider_height;
+	int m_selected,m_mouse_over;
+	int m_old_mouse_x,m_old_mouse_y;
+
+};
+
+
+class TGLConfirmation : public TGLInterfaceElement {
+public:
+
+	TGLConfirmation(char *message,TTF_Font *font,float x,float y,int ID);
+	virtual ~TGLConfirmation();
+
+	virtual bool check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);
+	virtual void draw(float alpha);
+	virtual void draw(void);
+
+	TTF_Font *m_font;
+	char *m_message;
+	int m_state,m_cycle;
+	TGLbutton *m_ok_button,*m_cancel_button;
+};
+
 
 
 

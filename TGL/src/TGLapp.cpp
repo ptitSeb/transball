@@ -73,6 +73,7 @@ TGLapp::TGLapp()
 	m_lp_music_channel=-1;
 
 	m_state=TGL_STATE_PLAYERPROFILE;
+	m_previous_state = m_state;
 	m_state_cycle=0;
 	m_state_fading=0;
 	m_state_fading_cycle=0;
@@ -111,6 +112,9 @@ TGLapp::TGLapp()
 	m_highscores_level_pack=0;
 	m_highscores_first_ship=0;
 	m_highscores_first_level=0;
+
+	m_editor_levelpack=0;
+	m_editor_level=0;
 
 	m_screen_dx=640;
 	m_screen_dy=480;
@@ -172,6 +176,9 @@ TGLapp::~TGLapp()
 	if (m_game_replay!=0) delete m_game_replay;
 	m_game_replay=0;
 
+	if (m_editor_levelpack!=0) delete m_editor_levelpack;
+	m_editor_levelpack=0;
+
 	delete m_GLTM;
 	delete m_SFXM;
 
@@ -216,6 +223,10 @@ bool TGLapp::cycle(KEYBOARDSTATE *k)
 							   break;
 	case TGL_STATE_HIGHSCORES_TIMES: m_state=highscores_times_cycle(k);
 							   break;
+	case TGL_STATE_EDITOR: m_state=editor_cycle(k);
+							   break;
+	case TGL_STATE_MAPEDITOR: m_state=mapeditor_cycle(k);
+							   break;
 	default:return false;
 	} /* switch */ 
 
@@ -244,6 +255,8 @@ bool TGLapp::cycle(KEYBOARDSTATE *k)
 	m_SFXM->next_cycle();
 
 	if (m_player_profile!=0) fullscreen=m_player_profile->m_fullscreen;
+
+	m_previous_state = old_state;
 
 	return true;
 } /* TGLapp::cycle */ 
@@ -326,6 +339,10 @@ void TGLapp::draw(int SCREEN_X,int SCREEN_Y)
 	case TGL_STATE_HIGHSCORES: highscores_draw();
 							   break;
 	case TGL_STATE_HIGHSCORES_TIMES: highscores_times_draw();
+							   break;
+	case TGL_STATE_EDITOR: editor_draw();
+							   break;
+	case TGL_STATE_MAPEDITOR: mapeditor_draw();
 							   break;
 	} // switch 
  	

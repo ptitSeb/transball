@@ -79,7 +79,8 @@ void TGLinterface::reset(void)
 int TGLinterface::update_state(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k)
 {
 	int ret_val=-1;
-	TGLInterfaceElement *e;
+	TGLInterfaceElement *e,*modal=0;
+	List<TGLInterfaceElement> to_delete;
 
 	if (k->key_press(SDLK_TAB)) {
 		TGLInterfaceElement *found=0;
@@ -113,9 +114,26 @@ int TGLinterface::update_state(int mousex,int mousey,int button,int button_statu
 	} // if 
 
 	m_elements.Rewind();
-	while(m_elements.Iterate(e)) {
-		if (e->check_status(mousex,mousey,button,button_status,k)) ret_val=e->m_ID;
+	while(m_elements.Iterate(e) && modal==0) {		
+		if (e->m_modal==true) modal=e;
 	} // while 
+
+	if (modal!=0) {
+		if (modal->check_status(mousex,mousey,button,button_status,k)) ret_val=modal->m_ID;
+		if (modal->m_to_be_deleted) to_delete.Add(e);
+	} else {
+		m_elements.Rewind();
+		while(m_elements.Iterate(e)) {		
+			if (e->check_status(mousex,mousey,button,button_status,k)) ret_val=e->m_ID;
+			if (e->m_to_be_deleted) to_delete.Add(e);
+		} // while 
+	} // if
+
+	while(!to_delete.EmptyP()) {
+		e = to_delete.ExtractIni();
+		m_elements.DeleteElement(e);
+		delete e;
+	} // while
 
 	return ret_val;
 } /* TGLinterface::update_state */ 
@@ -183,12 +201,20 @@ TGLInterfaceElement *TGLinterface::get(int ID)
 
 
 
-TGLInterfaceElement::~TGLInterfaceElement() 
+TGLInterfaceElement::TGLInterfaceElement() 
 {
 	m_ID=-1;
 	m_enabled=false;
 	m_active=false;
+	m_modal=false;
+	m_to_be_deleted=false;
 	m_x=m_y=m_dx=m_dy=0;
+} /* TGLInterfaceElement::TGLInterfaceElement */ 
+
+
+
+TGLInterfaceElement::~TGLInterfaceElement() 
+{
 } /* TGLInterfaceElement::~TGLInterfaceElement */ 
 
 
@@ -221,7 +247,7 @@ TGLText::TGLText(char *text,TTF_Font *font,float x,float y,bool centered)
 } /* TGLText::TGLText */ 
 
 
-TGLText::TGLText(char *text,TTF_Font *font,float x,float y,bool centered,int ID)
+TGLText::TGLText(char *text,TTF_Font *font,float x,float y,bool centered,int ID) : TGLInterfaceElement()
 {
 	m_ID = ID;
 	m_centered=centered;
@@ -269,7 +295,7 @@ void TGLText::draw(float alpha)
 } /* TGLText::draw */ 
 
 
-TGLbutton::TGLbutton(char *text,TTF_Font *font,float x,float y,float dx,float dy,int ID)
+TGLbutton::TGLbutton(char *text,TTF_Font *font,float x,float y,float dx,float dy,int ID)  : TGLInterfaceElement()
 {
 	m_text=new char[strlen(text)+1];
 	strcpy(m_text,text);
@@ -287,7 +313,7 @@ TGLbutton::TGLbutton(char *text,TTF_Font *font,float x,float y,float dx,float dy
 } /* TGLbutton::TGLbutton */ 
 
 
-TGLbutton::TGLbutton(GLTile *icon,float x,float y,float dx,float dy,int ID)
+TGLbutton::TGLbutton(GLTile *icon,float x,float y,float dx,float dy,int ID)  : TGLInterfaceElement()
 {
 	m_text=0;
 	m_font=0;
@@ -446,7 +472,7 @@ void TGLbuttonTransparent::draw(float alpha)
 
 
 
-TGLframe::TGLframe(float x,float y,float dx,float dy)
+TGLframe::TGLframe(float x,float y,float dx,float dy) : TGLInterfaceElement()
 {
 	m_x=x;
 	m_y=y;
@@ -661,7 +687,7 @@ bool TGLTextInputFrame::check_status(int mousex,int mousey,int button,int button
 } /* TGLTextInputFrame::check_status */ 
 
 
-TGLslider::TGLslider(float x,float y,float dx,float dy,float slider_dx,float slider_dy,int ID)
+TGLslider::TGLslider(float x,float y,float dx,float dy,float slider_dx,float slider_dy,int ID) : TGLInterfaceElement()
 {
 	m_x=x;
 	m_y=y;
