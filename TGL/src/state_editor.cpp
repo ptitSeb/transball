@@ -62,28 +62,42 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 
 	if (m_state_cycle == 0){
 
+		if (m_editor_levelpack == 0) {
+			m_editor_levelpack = new LevelPack();
+			m_editor_levelpack->m_id=new char[3];
+			strcpy(m_editor_levelpack->m_id,"id");
+			m_editor_levelpack->m_name=new char[8];
+			strcpy(m_editor_levelpack->m_name,"no name");
+			m_editor_levelpack->m_description=new char[15];
+			strcpy(m_editor_levelpack->m_description,"no description");
+		} // if
+		if (m_previous_state != TGL_STATE_MAPEDITOR) m_editor_level = 0;
+
 		// CREATE THE INTERFACE:
 		TGLinterface::reset();
-		TGLinterface::add_element(new TGLbutton("Back",m_font32,40,440,128,32,1));
-		TGLinterface::add_element(new TGLbutton("Load",m_font32,240,440,128,32,2));
-		TGLinterface::add_element(new TGLbutton("Save",m_font32,440,440,128,32,3));
+		TGLinterface::add_element(new TGLbutton("Back",m_font32,40,420,160,48,1));
+		TGLinterface::add_element(new TGLbutton("Load",m_font32,240,420,160,48,2));
+		TGLinterface::add_element(new TGLbutton("Save",m_font32,440,420,160,48,3));
 		TGLinterface::add_element(new TGLText("Transball GL Level Editor",m_font32,320,16,true));
-		TGLinterface::add_element(new TGLBrowser(m_font16,60,64,360,300,11));
+		TGLinterface::add_element(new TGLframe(24,196,416,216));
+		TGLinterface::add_element(new TGLBrowser(m_font16,32,204,400,200,11));
 
-		TGLinterface::add_element(new TGLText("Pack",m_font16,465,45,true));
-		TGLinterface::add_element(new TGLbutton("Rename",m_font16,445,55,128,32,12));
-		TGLinterface::add_element(new TGLbutton("Description",m_font16,445,95,128,32,13));
-		TGLinterface::add_element(new TGLbutton("Password",m_font16,445,135,128,32,14));
+		TGLinterface::add_element(new TGLText("ID:",m_font16,16,75,false));
+		TGLinterface::add_element(new TGLTextInputFrame(m_editor_levelpack->m_id,16,m_font16,100,55,520,32,12));
+		TGLinterface::add_element(new TGLText("Name:",m_font16,16,115,false));
+		TGLinterface::add_element(new TGLTextInputFrame(m_editor_levelpack->m_name,32,m_font16,100,95,520,32,13));
+		TGLinterface::add_element(new TGLText("Description:",m_font16,16,155,false));
+		TGLinterface::add_element(new TGLTextInputFrame(m_editor_levelpack->m_description,64,m_font16,100,135,520,32,14));
 
-		TGLinterface::add_element(new TGLText("Level",m_font16,465,205,true));
+		TGLinterface::add_element(new TGLText("Levels",m_font16,220,185,true));
 
-		TGLinterface::add_element(new TGLbutton("Edit",m_font32,440,215,128,32,10));
-		TGLinterface::add_element(new TGLbutton("Rename",m_font16,440,255,128,24,8));
-		TGLinterface::add_element(new TGLbutton("Description",m_font16,440,285,128,24,15));
-		TGLinterface::add_element(new TGLbutton("Add map",m_font16,440,315,128,24,4));
-		TGLinterface::add_element(new TGLbutton("Delete map",m_font16,440,345,128,24,5));
-		TGLinterface::add_element(new TGLbutton("Up",m_font16,440,375,64,24,6));
-		TGLinterface::add_element(new TGLbutton("Down",m_font16,520,375,64,24,7));
+		TGLinterface::add_element(new TGLbutton("Edit",m_font32,480,215,128,32,10));
+		TGLinterface::add_element(new TGLbutton("Rename",m_font16,480,255,128,24,8));
+		TGLinterface::add_element(new TGLbutton("Description",m_font16,480,285,128,24,15));
+		TGLinterface::add_element(new TGLbutton("Add level",m_font16,480,315,128,24,4));
+		TGLinterface::add_element(new TGLbutton("Delete level",m_font16,480,345,128,24,5));
+		TGLinterface::add_element(new TGLbutton("Up",m_font16,480,375,60,24,6));
+		TGLinterface::add_element(new TGLbutton("Down",m_font16,548,375,60,24,7));
 
 		TGLinterface::disable(2);
 		TGLinterface::disable(3);
@@ -92,16 +106,9 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 		TGLinterface::disable(6);
 		TGLinterface::disable(7);
 		TGLinterface::disable(8);
-		TGLinterface::disable(9);
 		TGLinterface::disable(10);
 
-		TGLinterface::disable(12);
-		TGLinterface::disable(13);
-		TGLinterface::disable(14);
 		TGLinterface::disable(15);
-
-		if (m_editor_levelpack == 0) m_editor_levelpack = new LevelPack();
-		if (m_previous_state != TGL_STATE_MAPEDITOR) m_editor_level = 0;
 
 	} else {
 
@@ -111,7 +118,6 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 			TGLinterface::disable(6);
 			TGLinterface::disable(7);
 			TGLinterface::disable(8);
-			TGLinterface::disable(9);
 			TGLinterface::disable(10);
 		} else {
 			TGLinterface::enable(5);
@@ -120,9 +126,27 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 			if (m_editor_levelpack->getLevelPosition(m_editor_level)<(m_editor_levelpack->getNLevels()-1)) TGLinterface::enable(7);
 																									  else TGLinterface::disable(7);
 			TGLinterface::enable(8);
-			TGLinterface::enable(9);
 			TGLinterface::enable(10);
 		} // if 
+
+		// Synchronize text edit boxes with stored data:
+		{
+			TGLTextInputFrame *ti = (TGLTextInputFrame *)TGLinterface::get(12);
+
+			delete []m_editor_levelpack->m_id;
+			m_editor_levelpack->m_id=new char[strlen(ti->m_editing)+1];
+			strcpy(m_editor_levelpack->m_id,ti->m_editing);
+
+			ti = (TGLTextInputFrame *)TGLinterface::get(13);
+			delete []m_editor_levelpack->m_name;
+			m_editor_levelpack->m_name=new char[strlen(ti->m_editing)+1];
+			strcpy(m_editor_levelpack->m_name,ti->m_editing);
+
+			ti = (TGLTextInputFrame *)TGLinterface::get(14);
+			delete []m_editor_levelpack->m_description;
+			m_editor_levelpack->m_description=new char[strlen(ti->m_editing)+1];
+			strcpy(m_editor_levelpack->m_description,ti->m_editing);
+		}
 
 		// Update the list of names in the browser:
 		{

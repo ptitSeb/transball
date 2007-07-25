@@ -600,7 +600,7 @@ TGLTextInputFrame::~TGLTextInputFrame()
 void TGLTextInputFrame::draw(float alpha)
 {
 	TGLframe::draw(alpha);
-
+/*
 	TGLinterface::print_left(m_editing,m_font,m_x+8,m_y+(m_dy/2)+TTF_FontHeight(m_font)/2,color1_r,color1_g,color1_b,alpha);
 	
 	// draw the cursor:
@@ -617,14 +617,14 @@ void TGLTextInputFrame::draw(float alpha)
 			f=float(0.5+0.3*sin((m_cycle)*0.3F));
 			glColor4f(1,0,0,f*alpha);
 			glBegin(GL_POLYGON);
-			glVertex3f(float(m_x+8+tdx),348,0);
-			glVertex3f(float(m_x+8+tdx+4),348,0);
-			glVertex3f(float(m_x+8+tdx+4),364,0);
-			glVertex3f(float(m_x+8+tdx),364,0);
+			glVertex3f(float(m_x+8+tdx),m_y+8,0);
+			glVertex3f(float(m_x+8+tdx+4),m_y+8,0);
+			glVertex3f(float(m_x+8+tdx+4),m_y+24,0);
+			glVertex3f(float(m_x+8+tdx),m_y+24,0);
 			glEnd();
 		}
 	} // if
-
+*/
 } /* TGLTextInputFrame::draw */ 
 
 
@@ -648,10 +648,10 @@ void TGLTextInputFrame::draw(void)
 			f=float(0.5+0.3*sin((m_cycle)*0.3F));
 			glColor4f(1,0,0,f);
 			glBegin(GL_POLYGON);
-			glVertex3f(float(m_x+8+tdx),348,0);
-			glVertex3f(float(m_x+8+tdx+4),348,0);
-			glVertex3f(float(m_x+8+tdx+4),364,0);
-			glVertex3f(float(m_x+8+tdx),364,0);
+			glVertex3f(float(m_x+8+tdx),m_y+8,0);
+			glVertex3f(float(m_x+8+tdx+4),m_y+8,0);
+			glVertex3f(float(m_x+8+tdx+4),m_y+24,0);
+			glVertex3f(float(m_x+8+tdx),m_y+24,0);
 			glEnd();
 		}
 	} // if

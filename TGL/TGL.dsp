@@ -227,6 +227,14 @@ SOURCE=.\src\TGLinterface.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\TGLinterfaceBrowser.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\TGLinterfaceConfirmation.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\TGLinterfacePrint.cpp
 # End Source File
 # Begin Source File
@@ -887,6 +895,10 @@ SOURCE=.\src\state_configure.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\state_editor.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\state_game.cpp
 # End Source File
 # Begin Source File
@@ -912,6 +924,10 @@ SOURCE=.\src\state_levelpackscreen.cpp
 # Begin Source File
 
 SOURCE=.\src\state_mainmenu.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\src\state_mapeditor.cpp
 # End Source File
 # Begin Source File
 

@@ -131,9 +131,9 @@ int TGLapp::highscores_times_cycle(KEYBOARDSTATE *k)
 		if (m_highscores_lp_names.PositionRef(m_highscores_level_pack)>=m_highscores_lp_names.Length()-1) TGLinterface::disable(7);
 																		 						     else TGLinterface::enable(7);
 
-		TGLinterface::add_element(new TGLbutton(m_GLTM->get("interface/leftarrow"),300,85,40,40,8));
+		TGLinterface::add_element(new TGLbutton(m_GLTM->get("interface/leftarrow"),360,85,40,40,8));
 		TGLinterface::disable(8);
-		TGLinterface::add_element(new TGLbutton(m_GLTM->get("interface/rightarrow"),480,85,40,40,9));
+		TGLinterface::add_element(new TGLbutton(m_GLTM->get("interface/rightarrow"),520,85,40,40,9));
 		TGLinterface::enable(9);
 
 	} // if 
@@ -542,9 +542,9 @@ void TGLapp::highscores_times_draw(void)
 				{
 					t=m_GLTM->get(ship_tiles[ship]);
 
-					t->draw(float(150+260),float(start_y),0,0,0.6f);
+					t->draw(float(150+310),float(start_y),0,0,0.6f);
 
-					TGLinterface::print_center(ship_names[ship],m_font16,float(150+260),float(start_y+30));
+					TGLinterface::print_center(ship_names[ship],m_font16,float(150+310),float(start_y+30));
 	
 					TGLinterface::print_center("Any ship",m_font16,float(150),float(start_y+30));
 				} // if
