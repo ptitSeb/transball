@@ -79,21 +79,25 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 		TGLinterface::add_element(new TGLbutton("Load",m_font32,240,420,160,48,2));
 		TGLinterface::add_element(new TGLbutton("Save",m_font32,440,420,160,48,3));
 		TGLinterface::add_element(new TGLText("Transball GL Level Editor",m_font32,320,16,true));
-		TGLinterface::add_element(new TGLframe(24,196,416,216));
-		TGLinterface::add_element(new TGLBrowser(m_font16,32,204,400,200,11));
+		TGLinterface::add_element(new TGLframe(24,206,416,206));
+		TGLinterface::add_element(new TGLBrowser(m_font16,32,214,400,190,11));
 
-		TGLinterface::add_element(new TGLText("ID:",m_font16,16,75,false));
-		TGLinterface::add_element(new TGLTextInputFrame(m_editor_levelpack->m_id,16,m_font16,100,55,520,32,12));
-		TGLinterface::add_element(new TGLText("Name:",m_font16,16,115,false));
-		TGLinterface::add_element(new TGLTextInputFrame(m_editor_levelpack->m_name,32,m_font16,100,95,520,32,13));
-		TGLinterface::add_element(new TGLText("Description:",m_font16,16,155,false));
-		TGLinterface::add_element(new TGLTextInputFrame(m_editor_levelpack->m_description,64,m_font16,100,135,520,32,14));
+		TGLinterface::add_element(new TGLText("Pack ID:",m_font16,8,75,false));
+		TGLinterface::add_element(new TGLTextInputFrame(m_editor_levelpack->m_id,16,m_font16,90,55,220,32,12));
+		TGLinterface::add_element(new TGLText("Pack Name:",m_font16,8,115,false));
+		TGLinterface::add_element(new TGLTextInputFrame(m_editor_levelpack->m_name,32,m_font16,90,95,220,32,13));
+		TGLinterface::add_element(new TGLText("Pack",m_font16,8,155,false));
+		TGLinterface::add_element(new TGLText("Description:",m_font16,8,170,false));
+		TGLinterface::add_element(new TGLTextInputFrame(m_editor_levelpack->m_description,256,m_font16,90,135,220,56,14));
 
-		TGLinterface::add_element(new TGLText("Levels",m_font16,220,185,true));
+		TGLinterface::add_element(new TGLText("Level Name:",m_font16,328,115,false));
+		TGLinterface::add_element(new TGLTextInputFrame("---",32,m_font16,410,95,220,32,16));
+		TGLinterface::add_element(new TGLText("Level",m_font16,328,155,false));
+		TGLinterface::add_element(new TGLText("Description:",m_font16,328,170,false));
+		TGLinterface::add_element(new TGLTextInputFrame("---",256,m_font16,410,135,220,56,17));
 
-		TGLinterface::add_element(new TGLbutton("Edit",m_font32,480,215,128,32,10));
-		TGLinterface::add_element(new TGLbutton("Rename",m_font16,480,255,128,24,8));
-		TGLinterface::add_element(new TGLbutton("Description",m_font16,480,285,128,24,15));
+
+		TGLinterface::add_element(new TGLbutton("Edit",m_font32,480,215,128,48,10));
 		TGLinterface::add_element(new TGLbutton("Add level",m_font16,480,315,128,24,4));
 		TGLinterface::add_element(new TGLbutton("Delete level",m_font16,480,345,128,24,5));
 		TGLinterface::add_element(new TGLbutton("Up",m_font16,480,375,60,24,6));
@@ -195,7 +199,7 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 					LevelPack_Level *l=new LevelPack_Level();
 					int i=1;
 					do{
-						sprintf(tmp,"map-%i",i);
+						sprintf(tmp,"level-%i",i);
 						i++;
 					}while(m_editor_levelpack->getLevel(tmp)!=0);
 					l->setName(tmp);

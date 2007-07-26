@@ -29,7 +29,7 @@
 #include "TGLinterface.h"
 
 
-#define ROW_HEIGHT	36
+#define ROW_HEIGHT	20
 
 extern int SCREEN_X,SCREEN_Y;
 
@@ -154,8 +154,8 @@ void TGLBrowser::draw(float alpha)
 			} // if 
 
 			
-			if (m_selected == i) TGLinterface::print_left(entry,m_font,m_x+8, float(y),0,1,0,1);
-							else TGLinterface::print_left(entry,m_font,m_x+8, float(y));
+			if (m_selected == i) TGLinterface::print_left(entry,m_font,m_x+8, float(y+ROW_HEIGHT+4),0,1,0,1);
+							else TGLinterface::print_left(entry,m_font,m_x+8, float(y+ROW_HEIGHT+4));
 			y+=ROW_HEIGHT;
 			i++;
 		} // while
