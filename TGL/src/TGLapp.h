@@ -25,6 +25,7 @@
 #define TGL_STATE_HIGHSCORES_TIMES	13
 #define TGL_STATE_EDITOR			14
 #define TGL_STATE_MAPEDITOR			15
+#define TGL_STATE_LOADLEVELPACK		16
 
 #define KEY_THRUST		0
 #define KEY_SPECIAL		1
@@ -85,6 +86,7 @@ protected:
 	int highscores_times_cycle(KEYBOARDSTATE *k);
 	int editor_cycle(KEYBOARDSTATE *k);
 	int mapeditor_cycle(KEYBOARDSTATE *k);
+	int loadlevelpack_cycle(KEYBOARDSTATE *k);
 
 	void playerprofile_draw(void);
 	void intro_draw(void);
@@ -101,6 +103,7 @@ protected:
 	void highscores_times_draw(void);
 	void editor_draw(void);
 	void mapeditor_draw(void);
+	void loadlevelpack_draw(void);
 
 	int screen_x(int x);	/* given a coordinate in 640x480, returns the proper coordinate at the current resolution */ 
 	int screen_y(int y);    /* given a coordinate in 640x480, returns the proper coordinate at the current resolution */ 

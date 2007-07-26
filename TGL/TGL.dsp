@@ -927,6 +927,10 @@ SOURCE=.\src\state_levelpackscreen.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\state_loadlevelpack.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\state_mainmenu.cpp
 # End Source File
 # Begin Source File

@@ -64,6 +64,8 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 
 		if (m_editor_levelpack == 0) {
 			m_editor_levelpack = new LevelPack();
+			m_editor_levelpack->m_creator_nickname=new char[strlen(m_player_profile->m_name)+1];
+			strcpy(m_editor_levelpack->m_creator_nickname,m_player_profile->m_name);
 			m_editor_levelpack->m_id=new char[3];
 			strcpy(m_editor_levelpack->m_id,"id");
 			m_editor_levelpack->m_name=new char[8];
@@ -102,9 +104,6 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 		TGLinterface::add_element(new TGLbutton("Delete level",m_font16,480,345,128,24,5));
 		TGLinterface::add_element(new TGLbutton("Up",m_font16,480,375,60,24,6));
 		TGLinterface::add_element(new TGLbutton("Down",m_font16,548,375,60,24,7));
-
-		TGLinterface::disable(2);
-		TGLinterface::disable(3);
 
 		TGLinterface::disable(5);
 		TGLinterface::disable(6);
@@ -219,11 +218,51 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 				break;
 
 		case 2: // LOAD
-				// ...
+				TGLinterface::add_element(new TGLConfirmation("Discard current level pack?",m_font16,320,200,106));
+				break;
+		case 106:
+				return TGL_STATE_LOADLEVELPACK;
 				break;
 
 		case 3: // SAVE
-				// ...
+				{
+					char filename[80];
+					FILE *fp;
+
+					sprintf(filename,"maps/%s.lp",m_editor_levelpack->m_id);
+
+					fp=fopen(filename,"r");
+					if (fp!=0) {
+						TGLinterface::add_element(new TGLConfirmation("Overwrite?",m_font16,320,200,105));
+						fclose(fp);
+					} else {
+						// Save:
+						fp=fopen(filename,"w");
+						if (fp!=0) {
+							m_editor_levelpack->save(fp);
+							fclose(fp);
+						} else {
+							TGLinterface::add_element(new TGLConfirmation("Error saving level pack",m_font16,320,200,-1));
+						} // if 
+					} // if 
+				}					
+				break;
+		case 105: // SAVE (Without check for overwrite)
+				{
+					char filename[80];
+					FILE *fp;
+
+					sprintf(filename,"maps/%s.lp",m_editor_levelpack->m_id);
+
+					// Save:
+					fp=fopen(filename,"w");
+					if (fp!=0) {
+						m_editor_levelpack->save(fp);
+						fclose(fp);
+					} else {
+						TGLinterface::add_element(new TGLConfirmation("Error saving level pack",m_font16,320,200,-1));
+					} // if 
+				}	
 				break;
 
 		case 4: // ADD MAP:
@@ -243,7 +282,7 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 				break;
 
 		case 5: // DELETE MAP:
-				TGLinterface::add_element(new TGLConfirmation("delete map?",m_font16,320,200,104));
+				TGLinterface::add_element(new TGLConfirmation("Delete level?",m_font16,320,200,104));
 				break;
 
 		case 6: // UP:

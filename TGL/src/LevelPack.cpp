@@ -246,4 +246,44 @@ LevelPack_Level *LevelPack::getLevel(char *name)
 } /* LevelPack::getLevel */ 
 
 
+void LevelPack::save(FILE *fp)
+{
+	LevelPack_Level *l;
+
+	fprintf(fp,"<levelpack>\n");
+	fprintf(fp,"  <id>%s</id>\n",m_id);
+	fprintf(fp,"  <name>%s</name>\n",m_name);
+	fprintf(fp,"  <description>%s</description>\n",m_description);
+	fprintf(fp,"  <creator>\n");
+    if (m_creator_name!=0) fprintf(fp,"    <name>%s</name>\n",m_creator_name);
+    if (m_creator_nickname!=0) fprintf(fp,"    <nickname>%s</nickname>\n",m_creator_nickname);
+	fprintf(fp,"  </creator>\n");
+	fprintf(fp,"  <levels>\n");
+	
+	m_levels.Rewind();
+	while(m_levels.Iterate(l)) l->save(fp);
+
+	fprintf(fp,"  </levels>\n");
+	fprintf(fp,"</levelpack>\n");
+} /* LevelPack::save */ 
+
+
+/*
+        <level>
+            <map>maps/secondassault/sa-level1.tgl</map>
+            <name>Wellcome back!</name>
+            <description>This level is just to warm up again...</description>
+            <points>2</points>
+        </level>
+*/
+
+void LevelPack_Level::save(FILE *fp)
+{
+	fprintf(fp,"    <level>\n");
+	if (m_map!=0) fprintf(fp,"      <map>%s</map>\n",m_map);
+	if (m_name!=0) fprintf(fp,"      <name>%s</name>\n",m_name);
+	if (m_description!=0) fprintf(fp,"      <description>%s</description>\n",m_description);
+	fprintf(fp,"      <points>%i</points>\n",m_points);
+	fprintf(fp,"    </level>\n");
+} /* LevelPack_Level::save */ 
 

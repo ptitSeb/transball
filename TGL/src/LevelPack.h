@@ -9,6 +9,7 @@ public:
 	~LevelPack_Level();
 
 	void load(XMLNode *node);
+	void save(FILE *fp);
 	void setName(char* name);
 
 	char *m_map;
@@ -26,6 +27,7 @@ public:
 	~LevelPack();
 
 	void load(XMLNode *node);
+	void save(FILE *fp);
 	int get_points(int level);
 
 	int getLevelPosition(LevelPack_Level *level);
