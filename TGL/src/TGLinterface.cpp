@@ -185,6 +185,19 @@ void TGLinterface::disable(int ID)
 } /* TGLinterface::disable */ 
 
 
+bool TGLinterface::is_enabled(int ID)
+{
+	TGLInterfaceElement *e;
+
+	m_elements.Rewind();
+	while(m_elements.Iterate(e)) {
+		if (e->m_ID==ID) return e->m_enabled;
+	} // while 
+
+	return false;
+} /* TGLinterface::is_enabled */ 
+
+
 TGLInterfaceElement *TGLinterface::get(int ID)
 {
 	TGLInterfaceElement *e;
@@ -491,7 +504,8 @@ TGLframe::~TGLframe()
 
 void TGLframe::draw(void)
 {
-	draw(1);
+	if (!m_enabled) draw(0.5f);
+			   else draw(1);
 } /* TGLframe::draw */ 
 
 

@@ -91,10 +91,10 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 		TGLinterface::add_element(new TGLTextInputFrame(m_editor_levelpack->m_description,256,m_font16,90,135,220,56,14));
 
 		TGLinterface::add_element(new TGLText("Level Name:",m_font16,328,115,false));
-		TGLinterface::add_element(new TGLTextInputFrame("---",32,m_font16,410,95,220,32,16));
+		TGLinterface::add_element(new TGLTextInputFrame("",32,m_font16,410,95,220,32,16));
 		TGLinterface::add_element(new TGLText("Level",m_font16,328,155,false));
 		TGLinterface::add_element(new TGLText("Description:",m_font16,328,170,false));
-		TGLinterface::add_element(new TGLTextInputFrame("---",256,m_font16,410,135,220,56,17));
+		TGLinterface::add_element(new TGLTextInputFrame("",256,m_font16,410,135,220,56,17));
 
 
 		TGLinterface::add_element(new TGLbutton("Edit",m_font32,480,215,128,48,10));
@@ -113,6 +113,9 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 		TGLinterface::disable(10);
 
 		TGLinterface::disable(15);
+
+		TGLinterface::disable(16);
+		TGLinterface::disable(17);
 
 	} else {
 
@@ -151,6 +154,36 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 			m_editor_levelpack->m_description=new char[strlen(ti->m_editing)+1];
 			strcpy(m_editor_levelpack->m_description,ti->m_editing);
 		}
+		if (m_editor_level==0) {
+			TGLinterface::disable(16);
+			TGLinterface::disable(17);
+		} else {
+			if (TGLinterface::is_enabled(16)) {
+				TGLTextInputFrame *ti = (TGLTextInputFrame *)TGLinterface::get(16);
+
+				delete []m_editor_level->m_name;
+				m_editor_level->m_name=new char[strlen(ti->m_editing)+1];
+				strcpy(m_editor_level->m_name,ti->m_editing);
+
+				ti = (TGLTextInputFrame *)TGLinterface::get(17);
+				delete []m_editor_level->m_description;
+				m_editor_level->m_description=new char[strlen(ti->m_editing)+1];
+				strcpy(m_editor_level->m_description,ti->m_editing);
+
+			} else {
+				TGLinterface::enable(16);
+				TGLinterface::enable(17);
+			
+				TGLTextInputFrame *ti = (TGLTextInputFrame *)TGLinterface::get(16);
+				strcpy(ti->m_editing,m_editor_level->m_name);
+				ti->m_editing_position=strlen(ti->m_editing);
+
+				ti = (TGLTextInputFrame *)TGLinterface::get(17);
+				strcpy(ti->m_editing,m_editor_level->m_description);
+				ti->m_editing_position=strlen(ti->m_editing);
+
+			} // if
+		} //
 
 		// Update the list of names in the browser:
 		{
@@ -203,6 +236,8 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 						i++;
 					}while(m_editor_levelpack->getLevel(tmp)!=0);
 					l->setName(tmp);
+					l->m_description=new char[1];
+					strcpy(l->m_description,"");
 					m_editor_levelpack->m_levels.Add(l);
 				}
 				break;
@@ -235,10 +270,6 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 				}
 				break;
 
-		case 8: // RENAME
-				TGLinterface::add_element(new TGLTextInputFrame("",16,m_font16,320,200,160,32,100));
-				break;
-
 		case 10: // EDIT
 				return TGL_STATE_MAPEDITOR;
 				break;
@@ -250,22 +281,19 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 						int i = browser->getSelected();
 						if (i>=0) {
 							m_editor_level = m_editor_levelpack->getLevel(i);
+							TGLinterface::disable(16);
+							TGLinterface::disable(17);
 						} // if 
 					} // if 
 				} 
 				break;
-		case 100: // NAME ENTERED:
-				{
-					TGLTextInputFrame *ti = (TGLTextInputFrame *)TGLinterface::get(100);
-					if (strlen(ti->m_editing)>0) m_editor_level->setName(ti->m_editing);
-				}
-				break;
-
 		case 104: // DELETE MAP:
 				{
 					m_editor_levelpack->m_levels.DeleteElement(m_editor_level);
 					delete m_editor_level;
 					m_editor_level = 0;
+					TGLinterface::disable(16);
+					TGLinterface::disable(17);
 				}
 				break;
 

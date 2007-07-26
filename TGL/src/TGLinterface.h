@@ -172,6 +172,7 @@ public:
 	static TGLInterfaceElement *get(int ID);
 	static void enable(int ID);
 	static void disable(int ID);
+	static bool is_enabled(int ID);
 
 	static void clear_print_cache(void);
 	static void print_left(char *text,TTF_Font *font,float x,float y);

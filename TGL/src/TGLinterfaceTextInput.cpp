@@ -123,7 +123,11 @@ void TGLTextInputFrame::draw(void)
 		if (cursor_x+cursor_dx>=m_x+m_dx-4) start_x = (m_x+m_dx-4)-(cursor_x + cursor_dx);
 		if (cursor_y+cursor_dy>=m_y+m_dy-4) start_y = (m_y+m_dy-4)-(cursor_y + cursor_dy);
 
-		TGLinterface::print_left(m_editing,m_font,m_x+8+start_x,text_y+start_y,color1_r,color1_g,color1_b,1);
+		if (m_enabled) {
+			TGLinterface::print_left(m_editing,m_font,m_x+8+start_x,text_y+start_y,color1_r,color1_g,color1_b,1);
+		} else {
+			TGLinterface::print_left(m_editing,m_font,m_x+8+start_x,text_y+start_y,color1_r,color1_g,color1_b,0.5f);
+		} // if 
 
 		{
 			float f;
@@ -138,7 +142,11 @@ void TGLTextInputFrame::draw(void)
 		}
 	} else {
 		float text_y = m_y+(m_dy/2)+TTF_FontHeight(m_font)/2;
-		TGLinterface::print_left(m_editing,m_font,m_x+8,text_y,color1_r,color1_g,color1_b,1);
+		if (m_enabled) {
+			TGLinterface::print_left(m_editing,m_font,m_x+8,text_y,color1_r,color1_g,color1_b,1);
+		} else {
+			TGLinterface::print_left(m_editing,m_font,m_x+8,text_y,color1_r,color1_g,color1_b,0.5f);
+		} // if 
 	} // if
 
     glDisable(GL_SCISSOR_TEST);

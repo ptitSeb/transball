@@ -4,12 +4,7 @@ To do in "Transball GL": -------------------------------------------------------
 - compute statistics at the end of the game: accuracy, fuel used, nº of shots, max speed, avg speed
 - estados:
     - mapeditor 
-    - level packager:
-        - rename/description of levels:
-            - multi-line editor
-            - activate deactivate edit boxes of levels
-            - synchronize boxes of levels
-        - load/save
+    - level packager: load/save
 - ship balancing (record replays again)
     - harpoon is crap: modify the ship so that it's easier to aim and make the grabber stop if completely up (if ball
       catched, the grabber does not go completely up) 

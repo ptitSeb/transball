@@ -42,8 +42,8 @@ TGLConfirmation::TGLConfirmation(char *message,TTF_Font *font,float x,float y,in
 	m_state=0;
 	m_cycle=0;
 
-	m_ok_button = new TGLbutton("ok",font,x-170,y+40,64,32,-1);
-	m_cancel_button = new TGLbutton("cancel",font,x+10,y+40,64,32,-1);
+	m_ok_button = new TGLbutton("ok",font,x-100,y+10,80,32,-1);
+	m_cancel_button = new TGLbutton("cancel",font,x+20,y+10,80,32,-1);
 } /* TGLConfirmation::TGLConfirmation */ 
 
 
@@ -93,7 +93,7 @@ void TGLConfirmation::draw(float alpha)
         glEnd();
     }
 
-	TGLinterface::print_left(m_message,m_font,m_x,m_y);
+	TGLinterface::print_center(m_message,m_font,m_x,m_y);
 
 	m_ok_button->draw(alpha);
 	m_cancel_button->draw(alpha);
