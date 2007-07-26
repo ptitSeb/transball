@@ -239,6 +239,10 @@ SOURCE=.\src\TGLinterfacePrint.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\TGLinterfaceTextInput.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\TGLmap.cpp
 # End Source File
 # Begin Source File

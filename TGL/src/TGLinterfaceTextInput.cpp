@@ -28,6 +28,8 @@
 
 #include "TGLinterface.h"
 
+extern int SCREEN_X,SCREEN_Y;
+
 extern float color1_r,color1_g,color1_b;
 extern float color2_r,color2_g,color2_b;
 extern float color3_r,color3_g,color3_b;
@@ -95,10 +97,17 @@ void TGLTextInputFrame::draw(void)
 {
 	TGLframe::draw();
 
-	TGLinterface::print_left(m_editing,m_font,m_x+8,m_y+(m_dy/2)+TTF_FontHeight(m_font)/2,color1_r,color1_g,color1_b,1);
-	
+    GLint bb[4];
+    glGetIntegerv(GL_SCISSOR_BOX, bb);
+	glScissor(int(m_x+4),int(SCREEN_Y-(m_y+4+(m_dy-8))),int(m_dx-8),int(m_dy-8));
+    glEnable(GL_SCISSOR_TEST);
+
+
 	// draw the cursor:
 	if (m_focus) {
+		float start_x = 0,start_y = 0;
+		float cursor_x,cursor_y,cursor_dx,cursor_dy;
+		float text_y = m_y+(m_dy/2)+TTF_FontHeight(m_font)/2;
 		char tmp[255];
 		int tdx=0,tdy=0;
 
@@ -106,18 +115,34 @@ void TGLTextInputFrame::draw(void)
 		tmp[m_editing_position]=0;
 		TTF_SizeText(m_font,tmp,&tdx,&tdy);
 
+		cursor_x = m_x+8+tdx;
+		cursor_y = text_y-TTF_FontHeight(m_font)+2;
+		cursor_dx = 4.0f;
+		cursor_dy = TTF_FontHeight(m_font)-4.0f;
+
+		if (cursor_x+cursor_dx>=m_x+m_dx-4) start_x = (m_x+m_dx-4)-(cursor_x + cursor_dx);
+		if (cursor_y+cursor_dy>=m_y+m_dy-4) start_y = (m_y+m_dy-4)-(cursor_y + cursor_dy);
+
+		TGLinterface::print_left(m_editing,m_font,m_x+8+start_x,text_y+start_y,color1_r,color1_g,color1_b,1);
+
 		{
 			float f;
 			f=float(0.5+0.3*sin((m_cycle)*0.3F));
 			glColor4f(1,0,0,f);
 			glBegin(GL_POLYGON);
-			glVertex3f(float(m_x+8+tdx),m_y+8,0);
-			glVertex3f(float(m_x+8+tdx+4),m_y+8,0);
-			glVertex3f(float(m_x+8+tdx+4),m_y+24,0);
-			glVertex3f(float(m_x+8+tdx),m_y+24,0);
+			glVertex3f(cursor_x+start_x,cursor_y+start_y,0);
+			glVertex3f(cursor_x+cursor_dx+start_x,cursor_y+start_y,0);
+			glVertex3f(cursor_x+cursor_dx+start_x,cursor_y+cursor_dy+start_y,0);
+			glVertex3f(cursor_x+start_x,cursor_y+cursor_dy+start_y,0);
 			glEnd();
 		}
+	} else {
+		float text_y = m_y+(m_dy/2)+TTF_FontHeight(m_font)/2;
+		TGLinterface::print_left(m_editing,m_font,m_x+8,text_y,color1_r,color1_g,color1_b,1);
 	} // if
+
+    glDisable(GL_SCISSOR_TEST);
+	glScissor(bb[0],bb[1],bb[2],bb[3]);
 
 } /* TGLTextInputFrame::draw */ 
 
