@@ -268,7 +268,7 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 		case 4: // ADD MAP:
 				{
 					char tmp[80];
-					LevelPack_Level *l=new LevelPack_Level();
+					LevelPack_Level *l=new LevelPack_Level(m_GLTM);
 					int i=1;
 					do{
 						sprintf(tmp,"level-%i",i);

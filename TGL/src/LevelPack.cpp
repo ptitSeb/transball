@@ -2,27 +2,44 @@
 #include "debug_memorymanager.h"
 #endif
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "stdlib.h"
 #include "string.h"
 #include "stdio.h"
+
+#include "GL/gl.h"
+#include "GL/glu.h"
+#include "SDL.h"
+#include "SDL_mixer.h"
+#include "SDL_ttf.h"
+#include "SDL_rotozoom.h"
 
 #include "List.h"
 #include "Symbol.h"
 #include "XMLparser.h"
 #include "LevelPack.h"
 
+#include "GLTManager.h"
+#include "SFXManager.h"
+#include "TGLmap.h"
 
-LevelPack_Level::LevelPack_Level()
+
+LevelPack_Level::LevelPack_Level(GLTManager *GLTM)
 {
 	m_map=0;
 	m_name=0;
 	m_description=0;
 	m_initial_fuel=100;
 	m_points=1;
+
+	m_map_data = new TGLmap(GLTM);
 } /* LevelPack_Level::LevelPack_Level */ 
 
 
-LevelPack_Level::LevelPack_Level(FILE *fp)
+LevelPack_Level::LevelPack_Level(FILE *fp,GLTManager *GLTM)
 {
 
 	m_map=0;
@@ -34,13 +51,13 @@ LevelPack_Level::LevelPack_Level(FILE *fp)
 	// Load it from a file:
 	XMLNode *node;
 	node=XMLNode::from_file(fp);
-	load(node);
+	load(node,GLTM);
 	delete node;
 
 } /* LevelPack_Level::LevelPack_Level */ 
 
 
-LevelPack_Level::LevelPack_Level(XMLNode *node)
+LevelPack_Level::LevelPack_Level(XMLNode *node,GLTManager *GLTM)
 {
 
 	m_map=0;
@@ -49,12 +66,12 @@ LevelPack_Level::LevelPack_Level(XMLNode *node)
 	m_initial_fuel=100;
 	m_points=1;
 
-	load(node);
+	load(node,GLTM);
 
 } /* LevelPack_Level::LevelPack_Level */ 
 
 
-void LevelPack_Level::load(XMLNode *node)
+void LevelPack_Level::load(XMLNode *node,GLTManager *GLTM)
 {
 	List<XMLNode> *children;
 	XMLNode *n;
@@ -83,6 +100,8 @@ void LevelPack_Level::load(XMLNode *node)
 		} // if 
 	} // while 
 	delete children;
+
+	m_map_data = new TGLmap(GLTM);
 } /* LevelPack_Level::load */ 
 
 
@@ -94,6 +113,9 @@ LevelPack_Level::~LevelPack_Level()
 	m_name=0;
 	if (m_description!=0) delete []m_description;
 	m_description=0;
+
+	if (m_map_data!=0) delete m_map_data;
+	m_map_data=0;
 } /* LevelPack_Level::~LevelPack_Level */ 
 
 
@@ -118,7 +140,7 @@ LevelPack::LevelPack()
 } /* LevelPack::LevelPack */ 
 
 
-LevelPack::LevelPack(FILE *fp)
+LevelPack::LevelPack(FILE *fp,GLTManager *GLTM)
 {
 	m_id=0;
 	m_name=0;
@@ -129,13 +151,13 @@ LevelPack::LevelPack(FILE *fp)
 	// Load it from a file:
 	XMLNode *node;
 	node=XMLNode::from_file(fp);
-	load(node);
+	load(node,GLTM);
 	delete node;
 
 } /* LevelPack::LevelPack */ 
 
 
-void LevelPack::load(XMLNode *node)
+void LevelPack::load(XMLNode *node,GLTManager *GLTM)
 {
 	List<XMLNode> *children;
 	XMLNode *n;
@@ -182,7 +204,7 @@ void LevelPack::load(XMLNode *node)
 			children2->Rewind();
 			while(children2->Iterate(n2)) {
 				if (n2->get_type()->cmp("level")) {
-					m_levels.Add(new LevelPack_Level(n2));
+					m_levels.Add(new LevelPack_Level(n2,GLTM));
 				} // if 
 			} // while
 			delete children2;

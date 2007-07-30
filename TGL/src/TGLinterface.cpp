@@ -308,6 +308,14 @@ void TGLText::draw(float alpha)
 } /* TGLText::draw */ 
 
 
+void TGLText::set_text(char *text)
+{
+	if (m_text!=0) 	delete []m_text;
+	m_text=new char[strlen(text)+1];
+	strcpy(m_text,text);
+} /* TGLText::set_text */ 
+
+
 TGLbutton::TGLbutton(char *text,TTF_Font *font,float x,float y,float dx,float dy,int ID)  : TGLInterfaceElement()
 {
 	m_text=new char[strlen(text)+1];

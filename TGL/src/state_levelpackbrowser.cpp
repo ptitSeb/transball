@@ -123,7 +123,7 @@ int TGLapp::levelpackbrowser_cycle(KEYBOARDSTATE *k)
 					FILE *fp;
 					fp=fopen(tmp,"rb");
 					if (fp!=0) {
-						lp=new LevelPack(fp);
+						lp=new LevelPack(fp,m_GLTM);
 						fclose(fp);
 
 						if (lp!=0) {
@@ -234,7 +234,7 @@ int TGLapp::levelpackbrowser_cycle(KEYBOARDSTATE *k)
 					FILE *fp;
 					fp=fopen(m_lpb_lp_fullnames[m_lpb_lp_selected],"rb");
 					if (fp!=0) {
-						lp=new LevelPack(fp);
+						lp=new LevelPack(fp,m_GLTM);
 						fclose(fp);
 
 						if (lp!=0) {

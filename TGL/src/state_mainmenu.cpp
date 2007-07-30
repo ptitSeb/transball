@@ -114,7 +114,7 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 			//		fp=fopen("maps/expert.lp","rb");
 			//		fp=fopen("maps/tutorial.lp","rb");
 					if (fp!=0) {
-						m_current_levelpack=new LevelPack(fp);
+						m_current_levelpack=new LevelPack(fp,m_GLTM);
 						fclose(fp);
 
 			//			return TGL_STATE_REPLAYBROWSER;

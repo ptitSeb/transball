@@ -5,7 +5,9 @@
 #define STARFIELD_STARS		32
 
 class TGLmap {
+	friend class TGLapp;
 public:
+	TGLmap(class GLTManager *GLTM);
 	TGLmap(FILE *fp, GLTManager *GLTM);
 	~TGLmap();
 
@@ -38,6 +40,9 @@ public:
 
 	void action(int action);
 
+	void set_background(int type,GLTManager *GLTM);
+	void resize(int dx,int dy,GLTManager *GLTM);
+
 protected:
 	int m_cycle;
 
@@ -51,7 +56,8 @@ protected:
 	// background:
 	int m_bg_cell_size;		// 64x64
 	int m_bg_dx,m_bg_dy;
-	GLTile **m_bg;
+	GLTile **m_bg;	
+	int m_bg_code;	// code of the backgorund: 0 - rock, 1 - techno, etc.
 
 	// foreground:
 	int m_fg_cell_size;		// 32x32

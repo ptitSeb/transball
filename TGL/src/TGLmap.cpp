@@ -85,82 +85,46 @@
 // extern GLTile *last_collision;
 
 
+TGLmap::TGLmap(GLTManager *GLTM)
+{
+	int i;
+
+	m_bg=0;
+	m_star_x=0;
+	m_star_y=0;
+	m_star_color=0;
+
+	m_fg_dx = 32;
+	m_fg_dy = 32;
+
+	set_background(0,GLTM);
+
+	m_fg=new GLTile *[m_fg_dx*m_fg_dy];
+	m_fg_cell_size=32;
+	for(i=0;i<m_fg_dx*m_fg_dy;i++) m_fg[i]=0;
+
+} /* TGLmap::TGLmap */ 
+
+
 TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 {
-	int i,j;
+	int i;
 	char tmp[256];
+
+	m_bg=0;
+	m_star_x=0;
+	m_star_y=0;
+	m_star_color=0;
 
 	if (2!=fscanf(fp,"%i %i",&m_fg_dx,&m_fg_dy)) return;
 
 	if (1!=fscanf(fp,"%s",tmp)) return;
 
-	if (strcmp(tmp,"rock")==0) {
-		// Create a rock backgorund:
-		m_bg_dx=(m_fg_dx+1)/2;
-		m_bg_dy=(m_fg_dy+1)/2;
-		m_bg_cell_size=64;
-
-		m_bg=new GLTile *[m_bg_dx*m_bg_dy];
-		for(i=0;i<m_bg_dx;i++) m_bg[i]=GLTM->get("background/top-rock");
-		for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx]=GLTM->get("background/middle-rock");
-		for(j=2;j<m_bg_dy;j++) {
-			for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx*j]=GLTM->get("background/bottom-rock");
-		} // for
-	} // if 
-
-	if (strcmp(tmp,"techno-red")==0) {
-		// Create a techno-red backgorund:
-		m_bg_dx=(m_fg_dx+1)/2;
-		m_bg_dy=(m_fg_dy+1)/2;
-		m_bg_cell_size=64;
-
-		m_bg=new GLTile *[m_bg_dx*m_bg_dy];
-		for(i=0;i<m_bg_dx;i++) m_bg[i]=GLTM->get("background/top-techno-red");
-		for(j=1;j<m_bg_dy;j++) {
-			for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx*j]=GLTM->get("background/bottom-techno-red");
-		} // for
-	} // if 
-
-	if (strcmp(tmp,"techno-blue")==0) {
-		// Create a techno-blue backgorund:
-		m_bg_dx=(m_fg_dx+1)/2;
-		m_bg_dy=(m_fg_dy+1)/2;
-		m_bg_cell_size=64;
-
-		m_bg=new GLTile *[m_bg_dx*m_bg_dy];
-		for(i=0;i<m_bg_dx;i++) m_bg[i]=GLTM->get("background/top-techno-blue");
-		for(j=1;j<m_bg_dy;j++) {
-			for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx*j]=GLTM->get("background/bottom-techno-blue");
-		} // for
-	} // if 
-
-	if (strcmp(tmp,"techno-green")==0) {
-		// Create a techno-green backgorund:
-		m_bg_dx=(m_fg_dx+1)/2;
-		m_bg_dy=(m_fg_dy+1)/2;
-		m_bg_cell_size=64;
-
-		m_bg=new GLTile *[m_bg_dx*m_bg_dy];
-		for(i=0;i<m_bg_dx;i++) m_bg[i]=GLTM->get("background/top-techno-green");
-		for(j=1;j<m_bg_dy;j++) {
-			for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx*j]=GLTM->get("background/bottom-techno-green");
-		} // for
-	} // if 
-
-	if (strcmp(tmp,"snow")==0) {
-		// Create a snow backgorund:
-		m_bg_dx=(m_fg_dx+1)/2;
-		m_bg_dy=(m_fg_dy+1)/2;
-		m_bg_cell_size=64;
-
-		m_bg=new GLTile *[m_bg_dx*m_bg_dy];
-		for(i=0;i<m_bg_dx;i++) m_bg[i]=0;
-		for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx]=0;
-		for(i=0;i<m_bg_dx;i+=2) m_bg[i]=GLTM->get("background/top-snow");
-		for(j=2;j<m_bg_dy;j++) {
-			for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx*j]=GLTM->get("background/bottom-snow");
-		} // for
-	} // if 
+	if (strcmp(tmp,"rock")==0) set_background(0,GLTM);
+	if (strcmp(tmp,"techno-red")==0) set_background(1,GLTM);
+	if (strcmp(tmp,"techno-blue")==0) set_background(2,GLTM);
+	if (strcmp(tmp,"techno-green")==0) set_background(3,GLTM);
+	if (strcmp(tmp,"snow")==0) set_background(4,GLTM);
 
 	m_fg=new GLTile *[m_fg_dx*m_fg_dy];
 	m_fg_cell_size=32;
@@ -406,6 +370,114 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 		}
 	}
 
+} /* TGLmap::TGLmap */ 
+
+
+void TGLmap::set_background(int type,GLTManager *GLTM)
+{
+	int i,j;
+
+	m_bg_code = type;
+
+	if (type==0) {
+		// Create a rock backgorund:
+		if (m_bg!=0) {
+			for(i=0;i<m_bg_dx*m_bg_dy;i++) m_bg[i]=0;
+			delete []m_bg;
+		} // if
+		
+		m_bg_dx=(m_fg_dx+1)/2;
+		m_bg_dy=(m_fg_dy+1)/2;
+		m_bg_cell_size=64;
+
+		m_bg=new GLTile *[m_bg_dx*m_bg_dy];
+		for(i=0;i<m_bg_dx;i++) m_bg[i]=GLTM->get("background/top-rock");
+		for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx]=GLTM->get("background/middle-rock");
+		for(j=2;j<m_bg_dy;j++) {
+			for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx*j]=GLTM->get("background/bottom-rock");
+		} // for
+	} // if 
+
+	if (type==1) {
+		// Create a techno-red backgorund:
+		if (m_bg!=0) {
+			for(i=0;i<m_bg_dx*m_bg_dy;i++) m_bg[i]=0;
+			delete []m_bg;
+		} // if
+
+		m_bg_dx=(m_fg_dx+1)/2;
+		m_bg_dy=(m_fg_dy+1)/2;
+		m_bg_cell_size=64;
+
+		m_bg=new GLTile *[m_bg_dx*m_bg_dy];
+		for(i=0;i<m_bg_dx;i++) m_bg[i]=GLTM->get("background/top-techno-red");
+		for(j=1;j<m_bg_dy;j++) {
+			for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx*j]=GLTM->get("background/bottom-techno-red");
+		} // for
+	} // if 
+
+	if (type==2) {
+		// Create a techno-blue backgorund:
+		if (m_bg!=0) {
+			for(i=0;i<m_bg_dx*m_bg_dy;i++) m_bg[i]=0;
+			delete []m_bg;
+		} // if
+
+		m_bg_dx=(m_fg_dx+1)/2;
+		m_bg_dy=(m_fg_dy+1)/2;
+		m_bg_cell_size=64;
+
+		m_bg=new GLTile *[m_bg_dx*m_bg_dy];
+		for(i=0;i<m_bg_dx;i++) m_bg[i]=GLTM->get("background/top-techno-blue");
+		for(j=1;j<m_bg_dy;j++) {
+			for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx*j]=GLTM->get("background/bottom-techno-blue");
+		} // for
+	} // if 
+
+	if (type==3) {
+		// Create a techno-green backgorund:
+		if (m_bg!=0) {
+			for(i=0;i<m_bg_dx*m_bg_dy;i++) m_bg[i]=0;
+			delete []m_bg;
+		} // if
+
+		m_bg_dx=(m_fg_dx+1)/2;
+		m_bg_dy=(m_fg_dy+1)/2;
+		m_bg_cell_size=64;
+
+		m_bg=new GLTile *[m_bg_dx*m_bg_dy];
+		for(i=0;i<m_bg_dx;i++) m_bg[i]=GLTM->get("background/top-techno-green");
+		for(j=1;j<m_bg_dy;j++) {
+			for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx*j]=GLTM->get("background/bottom-techno-green");
+		} // for
+	} // if 
+
+	if (type==4) {
+		// Create a snow backgorund:
+		if (m_bg!=0) {
+			for(i=0;i<m_bg_dx*m_bg_dy;i++) m_bg[i]=0;
+			delete []m_bg;
+		} // if
+
+		m_bg_dx=(m_fg_dx+1)/2;
+		m_bg_dy=(m_fg_dy+1)/2;
+		m_bg_cell_size=64;
+
+		m_bg=new GLTile *[m_bg_dx*m_bg_dy];
+		for(i=0;i<m_bg_dx;i++) m_bg[i]=0;
+		for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx]=0;
+		for(i=0;i<m_bg_dx;i+=2) m_bg[i]=GLTM->get("background/top-snow");
+		for(j=2;j<m_bg_dy;j++) {
+			for(i=0;i<m_bg_dx;i++) m_bg[i+m_bg_dx*j]=GLTM->get("background/bottom-snow");
+		} // for
+	} // if 
+
+	if (m_star_x!=0) {
+		delete []m_star_x;
+		delete []m_star_y;
+		delete []m_star_color;
+	} // if
+
 	{
 		m_nstars=STARFIELD_STARS*m_fg_dx;
 		m_star_x=new int[m_nstars];
@@ -420,7 +492,8 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 		} // for
 	}
 
-} /* TGLmap::TGLmap */ 
+
+} /* TGLmap::set_background */ 
 
 
 TGLmap::~TGLmap()
@@ -1074,3 +1147,49 @@ void TGLmap::draw_glow(int triangles,float radius,float r,float g,float b,float 
 	} // for
 
 } /* TGLmap::draw_glow */ 
+
+
+void TGLmap::resize(int dx,int dy,GLTManager *GLTM)
+{
+	int i;
+	int x,y;
+	GLTile **m_fg_tmp;
+
+	m_fg_tmp=new GLTile *[dx*dy];
+	for(i=0;i<dx*dy;i++) {
+		x = i%dx;
+		y = i/dx;
+		if ( x<m_fg_dx && y<m_fg_dy ) {
+			m_fg_tmp[i]=m_fg[x+y*m_fg_dx];
+			m_fg[x+y*m_fg_dx]=0;
+		} else {
+			m_fg_tmp[i]=0;
+		} // if 
+	} // for 
+
+	delete []m_fg;
+	m_fg = m_fg_tmp;
+	m_fg_dx = dx;
+	m_fg_dy = dy;
+
+
+	List<TGLobject> to_delete;
+	TGLobject *o;
+	m_fg_objects.Rewind();
+	while(m_fg_objects.Iterate(o)) {
+		if (o->get_x()>m_fg_dx*m_fg_cell_size ||
+			o->get_y()>m_fg_dy*m_fg_cell_size) {
+			to_delete.Add(o);
+		} // if
+	} // while 
+
+	while(!to_delete.EmptyP()) {
+		o=to_delete.ExtractIni();
+		remove_object(o);
+		delete o;
+	} // while 
+
+	set_background(m_bg_code,GLTM);
+} /* TGLmap::resize */ 
+
+

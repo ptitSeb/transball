@@ -239,6 +239,9 @@ protected:
 	// Editor:
 	LevelPack *m_editor_levelpack;
 	class LevelPack_Level *m_editor_level;
+	int m_editor_mode;
+	int m_editor_focus_x,m_editor_focus_y;
+	int m_editor_zoom,m_editor_old_zoom,m_editor_zoom_timmer;	
 
 };
 

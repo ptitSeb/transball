@@ -31,6 +31,8 @@ public:
 	virtual void draw(float alpha);
 	virtual void draw(void);
 
+	void set_text(char *text);
+
 	bool m_centered;
 	char *m_text;
 	TTF_Font *m_font;

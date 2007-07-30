@@ -3,12 +3,12 @@
 
 class LevelPack_Level {
 public:
-	LevelPack_Level();
-	LevelPack_Level(FILE *fp);
-	LevelPack_Level(class XMLNode *node);
+	LevelPack_Level(class GLTManager *GLTM);
+	LevelPack_Level(FILE *fp,GLTManager *GLTM);
+	LevelPack_Level(class XMLNode *node,GLTManager *GLTM);
 	~LevelPack_Level();
 
-	void load(XMLNode *node);
+	void load(XMLNode *node,GLTManager *GLTM);
 	void save(FILE *fp);
 	void setName(char* name);
 
@@ -17,16 +17,17 @@ public:
 	char *m_description;
 	int m_initial_fuel;
 	int m_points;
+	class TGLmap *m_map_data;
 };
 
 
 class LevelPack {
 public:
 	LevelPack();
-	LevelPack(FILE *fp);
+	LevelPack(FILE *fp,GLTManager *GLTM);
 	~LevelPack();
 
-	void load(XMLNode *node);
+	void load(XMLNode *node,GLTManager *GLTM);
 	void save(FILE *fp);
 	int get_points(int level);
 

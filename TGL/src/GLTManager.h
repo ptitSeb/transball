@@ -6,7 +6,7 @@ class GLTManagerNode {
 public:
 	~GLTManagerNode();
 
-	GLTile *m_tile;
+	class GLTile *m_tile;
 	Symbol *m_name;
 };
 
