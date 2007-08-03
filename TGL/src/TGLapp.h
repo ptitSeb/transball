@@ -241,7 +241,8 @@ protected:
 	class LevelPack_Level *m_editor_level;
 	int m_editor_mode;
 	int m_editor_focus_x,m_editor_focus_y;
-	int m_editor_zoom,m_editor_old_zoom,m_editor_zoom_timmer;	
+	int m_editor_zoom;
+	float m_editor_real_zoom,m_editor_current_zoom;	
 
 };
 

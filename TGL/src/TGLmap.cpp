@@ -94,14 +94,14 @@ TGLmap::TGLmap(GLTManager *GLTM)
 	m_star_y=0;
 	m_star_color=0;
 
-	m_fg_dx = 32;
+	m_fg_dx = 40;
 	m_fg_dy = 32;
-
-	set_background(0,GLTM);
+	m_fg_cell_size=32;
 
 	m_fg=new GLTile *[m_fg_dx*m_fg_dy];
-	m_fg_cell_size=32;
 	for(i=0;i<m_fg_dx*m_fg_dy;i++) m_fg[i]=0;
+
+	set_background(0,GLTM);
 
 } /* TGLmap::TGLmap */ 
 
@@ -602,7 +602,6 @@ void TGLmap::draw(int focus_x,int focus_y,int dx,int dy,GLTManager *GLTM)
 		glPopMatrix();
 	}
 
-	glPushMatrix();
 	// Draw background:
 	{
 		int i,j,k;
@@ -659,7 +658,6 @@ void TGLmap::draw(int focus_x,int focus_y,int dx,int dy,GLTManager *GLTM)
 		} // for
 		glPopMatrix();
 	}
-	glPopMatrix();
 
 	// Draw auxiliary front objects:
 	{
@@ -679,6 +677,142 @@ void TGLmap::draw(int focus_x,int focus_y,int dx,int dy,GLTManager *GLTM)
 //	} // if 
 	
 } /* TGLmap::draw */ 
+
+
+
+void TGLmap::draw(int focus_x,int focus_y,int dx,int dy,GLTManager *GLTM,float zoom)
+{
+	int offsx,offsy;
+
+	offsx=int((focus_x)-(dx/(2*zoom)));
+	offsy=int((focus_y)-(dy/(2*zoom)));
+
+	glPushMatrix();
+	glScalef(zoom,zoom,zoom);
+
+	// Draw starfield:
+	{
+		int i;
+		glPushMatrix();
+		glTranslatef(float(-(offsx/4)),float(-(offsy/4)),0);
+
+		glBegin(GL_POINTS);
+		for(i=0;i<m_nstars;i++) {
+			glColor3f(m_star_color[i],m_star_color[i],m_star_color[i]);
+			glVertex3f(float(m_star_x[i]),float(m_star_y[i]),0);
+		} // for
+		glEnd();
+
+
+		for(i=0;i<m_nstars;i++) {
+			glPushMatrix();
+			glTranslatef(float(m_star_x[i]),float(m_star_y[i]),0);
+			draw_glow(8,m_star_color[i]*6,m_star_color[i],m_star_color[i],m_star_color[i],0.125f);
+			glPopMatrix();
+		} // for
+		
+		glPopMatrix();
+	}
+
+	// Draw background:
+	{
+		int i,j,k;
+		glPushMatrix();
+		glTranslatef(float(-(offsx/2)),float(-(offsy/2)),0);
+		for(i=0;i<m_bg_dy;i++) {
+			k=i*m_bg_dx;
+			for(j=0;j<m_bg_dx;j++,k++) {
+				if (m_bg[k]!=0) {
+					m_bg[k]->draw(float(j*m_bg_cell_size),float(i*m_bg_cell_size+STARFIELD),0,0,1);
+				} // if 
+			} // for
+		} // for
+		glPopMatrix();
+	}
+
+	// Draw auxiliary back objects:
+	{
+		glPushMatrix();
+		glTranslatef(float(-offsx),float(-offsy),0);
+		TGLobject *o;
+		m_auxiliary_back_objects.Rewind();
+		while(m_auxiliary_back_objects.Iterate(o)) {
+			o->draw(GLTM);
+		} // while 
+		glPopMatrix();
+	}
+
+
+	// Draw objects:
+	{
+		glPushMatrix();
+		glTranslatef(float(-offsx),float(-offsy),0);
+		TGLobject *o;
+		m_fg_objects.Rewind();
+		while(m_fg_objects.Iterate(o)) {
+			o->draw(GLTM);
+		} // while 
+		glPopMatrix();
+	}
+
+	// Draw foreground:
+	{
+		int i,j,k;
+		glPushMatrix();
+		glTranslatef(float(-offsx),float(-offsy),0);
+		for(i=0;i<m_fg_dy;i++) {
+			k=i*m_fg_dx;
+			for(j=0;j<m_fg_dx;j++,k++) {
+				if (m_fg[k]!=0) {
+					m_fg[k]->draw(float(j*m_fg_cell_size),float(i*m_fg_cell_size+STARFIELD),0,0,1);
+				} // if 
+			} // for
+		} // for
+		glPopMatrix();
+	}
+
+	// Draw auxiliary front objects:
+	{
+		glPushMatrix();
+		glTranslatef(float(-offsx),float(-offsy),0);
+		TGLobject *o;
+		m_auxiliary_front_objects.Rewind();
+		while(m_auxiliary_front_objects.Iterate(o)) {
+			o->draw(GLTM);
+		} // while 
+		glPopMatrix();
+	}
+
+
+	// Draw the bounding box of the editable space: (ince this function is only used by the map editor)
+	{
+		glPushMatrix();
+		glTranslatef(float(-offsx),float(-offsy),0);
+		glBegin(GL_LINES);
+		glColor4f(1,1,1,0.5f);
+		glVertex3f(0,0,0);
+		glVertex3f(get_dx(),0,0);
+		glVertex3f(0,get_dy(),0);
+		glVertex3f(get_dx(),get_dy(),0);
+		glVertex3f(0,0,0);
+		glVertex3f(0,get_dy(),0);
+		glVertex3f(get_dx(),0,0);
+		glVertex3f(get_dx(),get_dy(),0);
+		glEnd();
+		glPopMatrix();
+	}
+
+
+	// Draw the collision surface:
+//	if (last_collision!=0) {
+//		last_collision->draw(0,0,0,0,1);
+//	} // if 
+
+	glPopMatrix();
+	
+} /* TGLmap::draw */ 
+
+
 
 
 void TGLmap::add_object(TGLobject *o)
