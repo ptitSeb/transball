@@ -179,6 +179,8 @@ TGLapp::~TGLapp()
 	if (m_editor_levelpack!=0) delete m_editor_levelpack;
 	m_editor_levelpack=0;
 
+	m_editor_tiles.ExtractAll();
+
 	delete m_GLTM;
 	delete m_SFXM;
 

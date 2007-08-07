@@ -61,6 +61,22 @@ void TGLinterface::remove_element(TGLInterfaceElement *e)
 } /* TGLinterface::remove_element */ 
 
 
+void TGLinterface::remove_element(int ID)
+{
+	TGLInterfaceElement *e;
+
+	m_elements.Rewind();
+	while(m_elements.Iterate(e)) {
+		if (e->m_ID==ID) {
+			m_elements.DeleteElement(e);
+			delete e;
+			return;
+		} // if
+	} // while 
+} /* TGLinterface::remove_element */ 
+
+
+
 void TGLinterface::substitute_element(TGLInterfaceElement *old,TGLInterfaceElement *e)
 {
 	int pos=m_elements.PositionRef(old);

@@ -140,6 +140,32 @@ public:
 };
 
 
+class TGLTileBrowser : public TGLInterfaceElement {
+public:
+
+	TGLTileBrowser(float x,float y,float dx,float dy,int ID);
+	virtual ~TGLTileBrowser();
+
+	void clear(void);
+	void addEntry(GLTile *tile);
+	GLTile *getEntry(int i);
+	void deleteEntry(int i);
+	void setSelected(int i);
+	int getSelected(void);
+
+	virtual bool check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);
+	virtual void draw(float alpha);
+	virtual void draw(void);
+
+	List<GLTile> m_entries;
+	float m_slider_pos,m_slider_height;
+	int m_selected,m_mouse_over;
+	int m_old_mouse_x,m_old_mouse_y;
+
+};
+
+
+
 class TGLConfirmation : public TGLInterfaceElement {
 public:
 
@@ -166,6 +192,7 @@ public:
 
 	static void add_element(TGLInterfaceElement *b);
 	static void remove_element(TGLInterfaceElement *b);
+	static void remove_element(int ID);
 	static void substitute_element(TGLInterfaceElement *old,TGLInterfaceElement *n);
 	static void reset(void);
 	static int update_state(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);

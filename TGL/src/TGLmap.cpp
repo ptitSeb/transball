@@ -787,17 +787,17 @@ void TGLmap::draw(int focus_x,int focus_y,int dx,int dy,GLTManager *GLTM,float z
 	// Draw the bounding box of the editable space: (ince this function is only used by the map editor)
 	{
 		glPushMatrix();
-		glTranslatef(float(-offsx),float(-offsy),0);
+		glTranslatef(float(-offsx),float(-offsy)+STARFIELD,0);
 		glBegin(GL_LINES);
 		glColor4f(1,1,1,0.5f);
 		glVertex3f(0,0,0);
-		glVertex3f(get_dx(),0,0);
-		glVertex3f(0,get_dy(),0);
-		glVertex3f(get_dx(),get_dy(),0);
+		glVertex3f(float(get_dx()),0,0);
+		glVertex3f(0,float(get_dy()-STARFIELD),0);
+		glVertex3f(float(get_dx()),float(get_dy()-STARFIELD),0);
 		glVertex3f(0,0,0);
-		glVertex3f(0,get_dy(),0);
-		glVertex3f(get_dx(),0,0);
-		glVertex3f(get_dx(),get_dy(),0);
+		glVertex3f(0,float(get_dy()-STARFIELD),0);
+		glVertex3f(float(get_dx()),0,0);
+		glVertex3f(float(get_dx()),float(get_dy()-STARFIELD),0);
 		glEnd();
 		glPopMatrix();
 	}

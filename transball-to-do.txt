@@ -4,8 +4,10 @@ To do in "Transball GL": -------------------------------------------------------
 - compute statistics at the end of the game: accuracy, fuel used, nº of shots, max speed, avg speed
 - estados:
     - mapeditor:
-        - insert tiles
-        - delete (right button / delete key)
+        - delete (right button / delete key):
+            - tiles
+            - objects
+            - intelligent
         - object mode
         - properties mode
         - intelligent tiles mode

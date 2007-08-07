@@ -243,6 +243,9 @@ protected:
 	int m_editor_focus_x,m_editor_focus_y;
 	int m_editor_zoom;
 	float m_editor_real_zoom,m_editor_current_zoom;	
+	int m_editor_selected_tile;
+	List<GLTile> m_editor_tiles;
+	int m_editor_insert_x,m_editor_insert_y;
 
 };
 

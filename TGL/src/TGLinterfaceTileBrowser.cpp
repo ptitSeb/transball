@@ -29,14 +29,10 @@
 #include "TGLinterface.h"
 
 
-#define ROW_HEIGHT	20
-
 extern int SCREEN_X,SCREEN_Y;
 
-TGLBrowser::TGLBrowser(TTF_Font *font,float x,float y,float dx,float dy,int ID) : TGLInterfaceElement()
+TGLTileBrowser::TGLTileBrowser(float x,float y,float dx,float dy,int ID) : TGLInterfaceElement()
 {
-	m_font = font;
-
 	m_x=x;
 	m_y=y;
 	m_dx=dx;
@@ -53,22 +49,32 @@ TGLBrowser::TGLBrowser(TTF_Font *font,float x,float y,float dx,float dy,int ID) 
 
 	m_old_mouse_x = 0;
 	m_old_mouse_y = 0;
-} /* TGLBrowser::TGLBrowser */ 
+} /* TGLTileBrowser::TGLTileBrowser */ 
 
 
-TGLBrowser::~TGLBrowser()
+TGLTileBrowser::~TGLTileBrowser()
 {
-} /* TGLBrowser::~TGLBrowser */ 
+	m_entries.ExtractAll();
+} /* TGLTileBrowser::~TGLTileBrowser */ 
 
 
-void TGLBrowser::draw(void)
+void TGLTileBrowser::draw(void)
 {
 	draw(1);
-} /* TGLBrowser::draw */ 
+} /* TGLTileBrowser::draw */ 
 
 
-void TGLBrowser::draw(float alpha)
+void TGLTileBrowser::draw(float alpha)
 {
+	// Compute the height:
+	int height = 0;
+	{
+		GLTile *t;
+		List<GLTile> l;
+		l.Instance(m_entries);
+		while(l.Iterate(t)) height+=t->get_dy()+4;
+	}
+
 	glBegin(GL_QUADS);
 	glColor4f(0,0,0,alpha*0.5f);
 	glVertex3f(m_x,m_y,0);
@@ -100,7 +106,7 @@ void TGLBrowser::draw(float alpha)
 	// Draw the slider:
 	{
 		if (m_entries.Length()>0) {
-			m_slider_height = (m_dy-8)/(m_entries.Length()*ROW_HEIGHT);
+			m_slider_height = (m_dy-8)/height;
 			if (m_slider_height>=1) {
 				m_slider_pos = 0;
 				m_slider_height = -1;
@@ -136,9 +142,9 @@ void TGLBrowser::draw(float alpha)
 
 		int i=0;
 		int y;
-		char *entry;
+		GLTile *entry;
 
-		y = int(int(m_y) - (m_slider_pos/(m_dy-8))*(m_entries.Length()*ROW_HEIGHT));
+		y = int(int(m_y) - (m_slider_pos/(m_dy-8))*height);
 
 		m_entries.Rewind();
 		while(m_entries.Iterate(entry) && (y<m_y+m_dy)) {
@@ -148,29 +154,65 @@ void TGLBrowser::draw(float alpha)
 				glColor4f(0.5f,1,0.5f,alpha*0.5f);
 				glVertex3f(m_x+4,float(y+4),0);
 				glVertex3f(m_x+m_dx-4,float(y+4),0);
-				glVertex3f(m_x+m_dx-4,float(y+ROW_HEIGHT+4),0);
-				glVertex3f(m_x+4,float(y+ROW_HEIGHT+4),0);
+				glVertex3f(m_x+m_dx-4,float(y+entry->get_dy()+4),0);
+				glVertex3f(m_x+4,float(y+entry->get_dy()+4),0);
 				glEnd();
 			} // if 
 
-			
-			if (m_selected == i) TGLinterface::print_left(entry,m_font,m_x+8, float(y+ROW_HEIGHT+4),0,1,0,1);
-							else TGLinterface::print_left(entry,m_font,m_x+8, float(y+ROW_HEIGHT+4));
-			y+=ROW_HEIGHT;
+			if (m_selected==i) {
+				glPushMatrix();
+				glTranslatef(m_x+6,float(y+2),0);
+				glBegin(GL_LINES);
+				glColor4f(1,1,1,1);
+				glVertex3f(0,0,0);
+				glVertex3f(entry->get_dx()+4,0,0);
+				glVertex3f(0,entry->get_dy()+4,0);
+				glVertex3f(entry->get_dx()+4,entry->get_dy()+4,0);
+				glVertex3f(0,0,0);
+				glVertex3f(0,entry->get_dy()+4,0);
+				glVertex3f(entry->get_dx()+4,0,0);
+				glVertex3f(entry->get_dx()+4,entry->get_dy()+4,0);
+				glEnd();
+				glPopMatrix();
+			} // if
+
+			entry->draw(m_x+8,float(y+4),0,0,1);
+			y+=entry->get_dy()+4;;
 			i++;
 		} // while
 
         glDisable(GL_SCISSOR_TEST);
 		glScissor(bb[0],bb[1],bb[2],bb[3]);
 	}
-} /* TGLBrowser::draw */ 
+} /* TGLTileBrowser::draw */ 
 
 
-bool TGLBrowser::check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k)
+bool TGLTileBrowser::check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k)
 {
+	int height = 0;
+	{
+		GLTile *t;
+		List<GLTile> l;
+		l.Instance(m_entries);
+		while(l.Iterate(t)) height+=t->get_dy()+4;
+	}
+
 	if (mousex>m_x && mousex<m_x+(m_dx-20) && mousey>m_y && mousey<m_y+m_dy) {
-		int starty = int(int(m_y) - (m_slider_pos/(m_dy-8))*(m_entries.Length()*ROW_HEIGHT));
-		int s = int((mousey-starty)/ROW_HEIGHT);
+		int s=-1;
+		{
+			int i = 0;
+			int y = int(int(m_y) - (m_slider_pos/(m_dy-8))*height);
+			int new_y;
+			GLTile *t;
+			List<GLTile> l;
+			l.Instance(m_entries);
+			while(l.Iterate(t)) {
+				new_y=y+t->get_dy()+4;
+				if (mousey>=y && mousey<new_y) s = i;
+				i++;
+				y=new_y;
+			} // while
+		}
 
 		if (s<m_entries.Length()) {
 			m_mouse_over = s;
@@ -201,47 +243,43 @@ bool TGLBrowser::check_status(int mousex,int mousey,int button,int button_status
 	m_old_mouse_y = mousey;
 
 	return false;
-} /* TGLBrowser::check_status */ 
+} /* TGLTileBrowser::check_status */ 
 
 
-void TGLBrowser::clear(void)
+void TGLTileBrowser::clear(void)
 {
 	m_entries.Delete();
-} /* TGLBrowser::clear */ 
+} /* TGLTileBrowser::clear */ 
 
 
-void TGLBrowser::addEntry(char *e)
+void TGLTileBrowser::addEntry(GLTile  *t)
 {
-	char *tmp = new char[strlen(e)+1];
-	strcpy(tmp,e);
-	m_entries.Add(tmp);
-} /* TGLBrowser::addEntry */  
+	m_entries.Add(t);
+} /* TGLTileBrowser::addEntry */  
 
 
-char *TGLBrowser::getEntry(int i)
+GLTile *TGLTileBrowser::getEntry(int i)
 {
 	return m_entries[i];
-} /* TGLBrowser::addEntry */  
+} /* TGLTileBrowser::addEntry */  
 
 
-void TGLBrowser::deleteEntry(int i)
+void TGLTileBrowser::deleteEntry(int i)
 {
-	char *tmp = m_entries[i];
 	m_entries.DeletePosition(i);
-	delete []tmp;
-} /* TGLBrowser::addEntry */  
+} /* TGLTileBrowser::addEntry */  
 
 
 
-void TGLBrowser::setSelected(int i)
+void TGLTileBrowser::setSelected(int i)
 {
 	if (i<-1) i=-1;
 	if (i>=m_entries.Length()) i = m_entries.Length()-1;
 	m_selected = i;
-} /* TGLBrowser::setSelected */ 
+} /* TGLTileBrowser::setSelected */ 
 
 
-int TGLBrowser::getSelected(void)
+int TGLTileBrowser::getSelected(void)
 {
 	return m_selected;
-} /* TGLBrowser::getSelected */ 
+} /* TGLTileBrowser::getSelected */ 
