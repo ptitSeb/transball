@@ -47,8 +47,6 @@ TGLTileBrowser::TGLTileBrowser(float x,float y,float dx,float dy,int ID) : TGLIn
 	m_slider_pos = 0.0f;
 	m_slider_height = 0.0f;
 
-	m_old_mouse_x = 0;
-	m_old_mouse_y = 0;
 } /* TGLTileBrowser::TGLTileBrowser */ 
 
 
@@ -165,13 +163,13 @@ void TGLTileBrowser::draw(float alpha)
 				glBegin(GL_LINES);
 				glColor4f(1,1,1,1);
 				glVertex3f(0,0,0);
-				glVertex3f(entry->get_dx()+4,0,0);
-				glVertex3f(0,entry->get_dy()+4,0);
-				glVertex3f(entry->get_dx()+4,entry->get_dy()+4,0);
+				glVertex3f(float(entry->get_dx()+4),0,0);
+				glVertex3f(0,float(entry->get_dy()+4),0);
+				glVertex3f(float(entry->get_dx()+4),float(entry->get_dy()+4),0);
 				glVertex3f(0,0,0);
-				glVertex3f(0,entry->get_dy()+4,0);
-				glVertex3f(entry->get_dx()+4,0,0);
-				glVertex3f(entry->get_dx()+4,entry->get_dy()+4,0);
+				glVertex3f(0,float(entry->get_dy()+4),0);
+				glVertex3f(float(entry->get_dx()+4),0,0);
+				glVertex3f(float(entry->get_dx()+4),float(entry->get_dy()+4),0);
 				glEnd();
 				glPopMatrix();
 			} // if
@@ -232,15 +230,11 @@ bool TGLTileBrowser::check_status(int mousex,int mousey,int button,int button_st
 
 	if (m_mouse_over != -1 && button!=0) {
 		m_selected = m_mouse_over;
-		
-		m_old_mouse_x = mousex;
-		m_old_mouse_y = mousey;
 
 		return true;
 	} // if 
 
-	m_old_mouse_x = mousex;
-	m_old_mouse_y = mousey;
+	if (button!=0 && mousex>=m_x && mousey>=m_y && mousex<=m_x+m_dx && mousey<=m_y+m_dy) return true;
 
 	return false;
 } /* TGLTileBrowser::check_status */ 

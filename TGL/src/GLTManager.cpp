@@ -207,3 +207,30 @@ GLTile *GLTManager::get_smooth(Symbol *name)
 		return t;
 	}
 } /* GLTManager::get_smooth */ 
+
+
+char *GLTManager::get_name(GLTile *tile)
+{
+	int i;
+	List<GLTManagerNode> l;
+	GLTManagerNode *n;
+
+	for(i=0;i<SYMBOL_HASH_SIZE;i++) {
+		l.Instance(m_hash[i]);
+		l.Rewind();
+		while(l.Iterate(n)) {
+			if (n->m_tile==tile) return n->m_name->get();
+		} // while
+	} // for
+
+	for(i=0;i<SYMBOL_HASH_SIZE;i++) {
+		l.Instance(m_hash_smooth[i]);
+		l.Rewind();
+		while(l.Iterate(n)) {
+			if (n->m_tile==tile) return n->m_name->get();
+		} // while
+	} // for
+
+	return 0;
+} /* GLTManager::get_name */ 
+

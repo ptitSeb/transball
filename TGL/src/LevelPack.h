@@ -9,7 +9,7 @@ public:
 	~LevelPack_Level();
 
 	void load(XMLNode *node,GLTManager *GLTM);
-	void save(FILE *fp);
+	void save(FILE *fp,GLTManager *GLTM);
 	void setName(char* name);
 
 	char *m_map;
@@ -28,7 +28,7 @@ public:
 	~LevelPack();
 
 	void load(XMLNode *node,GLTManager *GLTM);
-	void save(FILE *fp);
+	void save(FILE *fp,GLTManager *GLTM);
 	int get_points(int level);
 
 	int getLevelPosition(LevelPack_Level *level);

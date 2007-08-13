@@ -70,7 +70,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
-# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "C:\Brain\Library\SDL-1.2.11\include" /I "C:\Brain\Library\SDL_image-1.2.5\include" /I "C:\Brain\Library\SDL_mixer-1.2.7\include" /I "C:\Brain\Library\SDL_ttf-2.0.8\include" /I "src" /I "C:\Brain\Library\SDL_gfx\include" /I "C:\Brain\Library\pthreads-w32-2-7-0-release\Pre-built.2\include" /I "C:\Brain\Library\zlib-1.2.3" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /YX /FD /GZ /c
+# ADD CPP /nologo /MTd /W3 /Gm /GX /ZI /Od /I "C:\Brain\Library\SDL-1.2.11\include" /I "C:\Brain\Library\SDL_image-1.2.5\include" /I "C:\Brain\Library\SDL_mixer-1.2.7\include" /I "C:\Brain\Library\SDL_ttf-2.0.8\include" /I "src" /I "C:\Brain\Library\SDL_gfx\include" /I "C:\Brain\Library\pthreads-w32-2-7-0-release\Pre-built.2\include" /I "C:\Brain\Library\zlib-1.2.3" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /FR /YX /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0xc0a /d "_DEBUG"

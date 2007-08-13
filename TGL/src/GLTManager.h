@@ -24,6 +24,8 @@ public:
 	GLTile *get_smooth(char *name);
 	GLTile *get_smooth(Symbol *name);
 
+	char *get_name(GLTile *tile);
+
 protected:
 
 	List<GLTManagerNode> *m_hash;

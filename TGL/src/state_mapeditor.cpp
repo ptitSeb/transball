@@ -53,9 +53,10 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 	SDL_GetMouseState(&m_mouse_x,&m_mouse_y);
 	if (!m_mouse_click_x.EmptyP()) {
+		m_mouse_button = *(m_mouse_click_button[0]);
 		m_mouse_click_x.Delete();
 		m_mouse_click_y.Delete();
-		m_mouse_button=1;
+		m_mouse_click_button.Delete();
 	} else {
 		m_mouse_button=0;
 	} // if 
@@ -63,9 +64,14 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 	if (m_state_cycle == 0){
 		// CREATE THE INTERFACE:
+		// - 11 is the tile browser for the tile mode
+
 		TGLinterface::reset();
 		TGLinterface::add_element(new TGLbutton("accept",m_font16,10,450,80,20,1));
 		TGLinterface::add_element(new TGLbutton("cancel",m_font16,100,450,80,20,2));
+
+		TGLinterface::add_element(new TGLbutton("load",m_font16,420,450,80,20,12));
+		TGLinterface::add_element(new TGLbutton("save copy",m_font16,510,450,120,20,13));
 
 		TGLinterface::add_element(new TGLbutton(m_GLTM->get("interface/leftarrow"),10,10,20,20,4));
 		TGLinterface::add_element(new TGLbutton(m_GLTM->get("interface/rightarrow"),70,10,20,20,5));
@@ -284,6 +290,13 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 					for(int i=0;i<m_editor_zoom;i++) m_editor_real_zoom/=2.0f;
 				}
 				break;		
+
+		case 12:
+
+				break;
+
+		case 13:
+				break;
 		} // switch
 
 		// Button presse (but not over any interface element);
@@ -306,8 +319,28 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 					break;
 			} // if
 		} // if
-	}
 
+		// Right button presse (but not over any interface element);
+		if ((ID==-1 && m_mouse_button==3) || k->key_press(SDLK_DELETE)) {
+			switch(m_editor_mode) {
+			case 0:
+					break;
+			case 1:
+					{
+						if (m_editor_selected_tile!=-1 &&
+							m_editor_insert_x!=-1) {
+							int offs = m_editor_insert_x/32 + (m_editor_insert_y/32)*m_editor_level->m_map_data->m_fg_dx;
+							m_editor_level->m_map_data->m_fg[offs]=0;
+						} // if
+					}
+					break;
+			case 2:
+					break;
+			case 3:
+					break;
+			} // if
+		} // if
+	}
 
     return TGL_STATE_MAPEDITOR;
 } /* TheGooniesApp::mapeditor_cycle */ 

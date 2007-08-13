@@ -330,7 +330,7 @@ int main(int argc, char** argv)
                     break;
 
 				case SDL_MOUSEBUTTONDOWN:					
-					app->MouseClick(event.button.x,event.button.y);
+					app->MouseClick(event.button.x,event.button.y,event.button.button);
 					break;
 
                 /* SDL_QUIT event (window close) */

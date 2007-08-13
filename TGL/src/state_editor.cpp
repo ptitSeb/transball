@@ -53,9 +53,10 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 
 	SDL_GetMouseState(&m_mouse_x,&m_mouse_y);
 	if (!m_mouse_click_x.EmptyP()) {
+		m_mouse_button=*(m_mouse_click_button[0]);
 		m_mouse_click_x.Delete();
 		m_mouse_click_y.Delete();
-		m_mouse_button=1;
+		m_mouse_click_button.Delete();
 	} else {
 		m_mouse_button=0;
 	} // if 
@@ -239,7 +240,7 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 						// Save:
 						fp=fopen(filename,"w");
 						if (fp!=0) {
-							m_editor_levelpack->save(fp);
+							m_editor_levelpack->save(fp,m_GLTM);
 							fclose(fp);
 						} else {
 							TGLinterface::add_element(new TGLConfirmation("Error saving level pack",m_font16,320,200,-1));
@@ -257,7 +258,7 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 					// Save:
 					fp=fopen(filename,"w");
 					if (fp!=0) {
-						m_editor_levelpack->save(fp);
+						m_editor_levelpack->save(fp,m_GLTM);
 						fclose(fp);
 					} else {
 						TGLinterface::add_element(new TGLConfirmation("Error saving level pack",m_font16,320,200,-1));

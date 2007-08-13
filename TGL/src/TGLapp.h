@@ -63,7 +63,7 @@ public:
 	void save_playerprofile(void);
 	void load_playerprofile(char *name);
 
-	void MouseClick(int mx,int my);
+	void MouseClick(int mx,int my,int button);
 
 	static void string_editor_cycle(char *editing_text,unsigned int *editing_position,unsigned int max_length,KEYBOARDSTATE *k);
 
@@ -121,6 +121,7 @@ protected:
 	int m_mouse_x,m_mouse_y,m_mouse_button;
 	List<int> m_mouse_click_x;
 	List<int> m_mouse_click_y;
+	List<int> m_mouse_click_button;
 
 	int m_screen_dx,m_screen_dy;
 	int m_state,m_previous_state;

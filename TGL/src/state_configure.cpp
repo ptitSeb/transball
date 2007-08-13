@@ -102,7 +102,9 @@ int TGLapp::configure_cycle(KEYBOARDSTATE *k)
 			tmp=m_mouse_click_y.ExtractIni();
 			mouse_y=*tmp;
 			delete tmp;
-			button=1;
+			tmp=m_mouse_click_button.ExtractIni();
+			button=*tmp;
+			delete tmp;
 		} else {
 			button_status=SDL_GetMouseState(&mouse_x,&mouse_y);
 			button=0;

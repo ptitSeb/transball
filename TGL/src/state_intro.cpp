@@ -57,6 +57,7 @@ int TGLapp::intro_cycle(KEYBOARDSTATE *k)
 		if (!m_mouse_click_x.EmptyP()) {
 			delete m_mouse_click_x.Extract();
 			delete m_mouse_click_y.Extract();
+			delete m_mouse_click_button.Extract();
 		} // if 
 		if (m_state_cycle<350) m_state_cycle = 350;
 					      else return TGL_STATE_MAINMENU;

@@ -410,10 +410,11 @@ void TGLapp::load_playerprofile(char *name)
 } /* TGLapp::load_configuration */ 
 
 
-void TGLapp::MouseClick(int mousex,int mousey) 
+void TGLapp::MouseClick(int mousex,int mousey,int button) 
 {
 	m_mouse_click_x.Add(new int(mousex));
 	m_mouse_click_y.Add(new int(mousey));
+	m_mouse_click_button.Add(new int(button));
 } /* TGLapp::MouseClick */ 
 
 

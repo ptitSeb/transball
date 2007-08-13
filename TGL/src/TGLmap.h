@@ -11,6 +11,8 @@ public:
 	TGLmap(FILE *fp, GLTManager *GLTM);
 	~TGLmap();
 
+	void save(FILE *fp, GLTManager *GLTM);
+
 	bool cycle(List<class VirtualController> *lk,GLTManager *GLTM,SFXManager *SFXM,int sfx_volume);
 	void draw(int focus_x,int focus_y,int dx,int dy,GLTManager *GLTM);
 	void draw(int focus_x,int focus_y,int dx,int dy,GLTManager *GLTM,float zoom);

@@ -101,7 +101,17 @@ void LevelPack_Level::load(XMLNode *node,GLTManager *GLTM)
 	} // while 
 	delete children;
 
-	m_map_data = new TGLmap(GLTM);
+	{
+		FILE *fp;
+		fp=fopen(m_map,"r+");
+		if (fp!=0) {
+			m_map_data = new TGLmap(fp,GLTM);
+			fclose(fp);
+		} else {
+			m_map_data = new TGLmap(GLTM);
+		} // if
+	}
+
 } /* LevelPack_Level::load */ 
 
 
@@ -268,7 +278,7 @@ LevelPack_Level *LevelPack::getLevel(char *name)
 } /* LevelPack::getLevel */ 
 
 
-void LevelPack::save(FILE *fp)
+void LevelPack::save(FILE *fp,GLTManager *GLTM)
 {
 	LevelPack_Level *l;
 
@@ -283,7 +293,7 @@ void LevelPack::save(FILE *fp)
 	fprintf(fp,"  <levels>\n");
 	
 	m_levels.Rewind();
-	while(m_levels.Iterate(l)) l->save(fp);
+	while(m_levels.Iterate(l)) l->save(fp,GLTM);
 
 	fprintf(fp,"  </levels>\n");
 	fprintf(fp,"</levelpack>\n");
@@ -299,7 +309,7 @@ void LevelPack::save(FILE *fp)
         </level>
 */
 
-void LevelPack_Level::save(FILE *fp)
+void LevelPack_Level::save(FILE *fp,GLTManager *GLTM)
 {
 	fprintf(fp,"    <level>\n");
 	if (m_map!=0) fprintf(fp,"      <map>%s</map>\n",m_map);
@@ -307,5 +317,15 @@ void LevelPack_Level::save(FILE *fp)
 	if (m_description!=0) fprintf(fp,"      <description>%s</description>\n",m_description);
 	fprintf(fp,"      <points>%i</points>\n",m_points);
 	fprintf(fp,"    </level>\n");
+
+	{
+		FILE *fp;
+		fp=fopen(m_map,"w+");
+		if (fp!=0) {
+			m_map_data->save(fp,GLTM);
+			fclose(fp);
+		} // if
+	}
+
 } /* LevelPack_Level::save */ 
 

@@ -117,6 +117,7 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 	m_star_color=0;
 
 	if (2!=fscanf(fp,"%i %i",&m_fg_dx,&m_fg_dy)) return;
+	m_fg_cell_size=32;
 
 	if (1!=fscanf(fp,"%s",tmp)) return;
 
@@ -127,7 +128,6 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 	if (strcmp(tmp,"snow")==0) set_background(4,GLTM);
 
 	m_fg=new GLTile *[m_fg_dx*m_fg_dy];
-	m_fg_cell_size=32;
 	for(i=0;i<m_fg_dx*m_fg_dy;i++) {
 		if (1!=fscanf(fp,"%s",tmp)) return;
 		if (strcmp(tmp,"-")==0) {
@@ -1325,5 +1325,269 @@ void TGLmap::resize(int dx,int dy,GLTManager *GLTM)
 
 	set_background(m_bg_code,GLTM);
 } /* TGLmap::resize */ 
+
+
+void TGLmap::save(FILE *fp,GLTManager *GLTM)
+{
+	int i;
+
+	fprintf(fp,"%i %i\n",m_fg_dx,m_fg_dy);
+	switch(m_bg_code) {
+	case 1: fprintf(fp,"techno-red\n");	break;
+	case 2: fprintf(fp,"techno-blue\n");	break;
+	case 3: fprintf(fp,"techno-green\n");	break;
+	case 4: fprintf(fp,"snow\n");	break;
+	default: fprintf(fp,"rock\n");	break;
+	} // switch
+	
+	for(i=0;i<m_fg_dx*m_fg_dy;i++) {
+		if (m_fg[i]==0) {
+			fprintf(fp,"-\n");
+		} else {
+			fprintf(fp,"%s\n",GLTM->get_name(m_fg[i]));
+		} // if 
+	} // for 
+
+	/*
+
+		Infer the number of objects and save them...
+
+	*/ 
+
+/*
+	// objects:
+	{
+		int no;
+		int ix,iy;
+		float x,y;
+		if (1!=fscanf(fp,"%i",&no)) return;
+
+		for(i=0;i<no;i++) {
+			if (3!=fscanf(fp,"%s %i %i",tmp,&ix,&iy)) return;
+			x=float(ix*m_fg_cell_size);
+			y=float(iy*m_fg_cell_size);
+			y+=STARFIELD;
+			if (strcmp(tmp,"ball-stand")==0) {
+				m_fg_objects.Add(new TGLobject_ballstand(x,y));
+				m_fg_objects.Add(new TGLobject_ball(x+16,y+5));
+			} // if 
+			if (strcmp(tmp,"red-light")==0) m_fg_objects.Add(new TGLobject_redlight(x,y));
+			if (strcmp(tmp,"radar")==0) m_fg_objects.Add(new TGLobject_radar(x,y));
+			if (strcmp(tmp,"pipe-vertical-screen")==0) m_fg_objects.Add(new TGLobject_pipevscreen(x,y));
+			if (strcmp(tmp,"pipe-horizontal-screen")==0) m_fg_objects.Add(new TGLobject_pipehscreen(x,y));
+			if (strcmp(tmp,"laser-left")==0) m_fg_objects.Add(new TGLobject_laser_left(x,y));
+			if (strcmp(tmp,"laser-right")==0) m_fg_objects.Add(new TGLobject_laser_right(x,y));
+			if (strcmp(tmp,"laser-up")==0) m_fg_objects.Add(new TGLobject_laser_up(x,y));
+			if (strcmp(tmp,"laser-down")==0) m_fg_objects.Add(new TGLobject_laser_down(x,y));
+			if (strcmp(tmp,"cannon-rock-left")==0) m_fg_objects.Add(new TGLobject_cannon_left(x,y,0));
+			if (strcmp(tmp,"cannon-rock-right")==0) m_fg_objects.Add(new TGLobject_cannon_right(x,y,0));
+			if (strcmp(tmp,"cannon-rock-down")==0) m_fg_objects.Add(new TGLobject_cannon_down(x,y,0));
+			if (strcmp(tmp,"cannon-rock-up")==0) m_fg_objects.Add(new TGLobject_cannon_up(x,y,0));
+			if (strcmp(tmp,"cannon-techno-left")==0) m_fg_objects.Add(new TGLobject_cannon_left(x,y,1));
+			if (strcmp(tmp,"cannon-techno-right")==0) m_fg_objects.Add(new TGLobject_cannon_right(x,y,1));
+			if (strcmp(tmp,"cannon-techno-down")==0) m_fg_objects.Add(new TGLobject_cannon_down(x,y,1));
+			if (strcmp(tmp,"cannon-techno-up")==0) m_fg_objects.Add(new TGLobject_cannon_up(x,y,1));
+			if (strcmp(tmp,"fastcannon-techno-left")==0) m_fg_objects.Add(new TGLobject_fastcannon_left(x,y));
+			if (strcmp(tmp,"fastcannon-techno-right")==0) m_fg_objects.Add(new TGLobject_fastcannon_right(x,y));
+			if (strcmp(tmp,"fastcannon-techno-down")==0) m_fg_objects.Add(new TGLobject_fastcannon_down(x,y));
+			if (strcmp(tmp,"fastcannon-techno-up")==0) m_fg_objects.Add(new TGLobject_fastcannon_up(x,y));
+			if (strcmp(tmp,"spike-left")==0) m_fg_objects.Add(new TGLobject_spike_left(x,y));
+			if (strcmp(tmp,"spike-right")==0) m_fg_objects.Add(new TGLobject_spike_right(x,y));
+			if (strcmp(tmp,"fuel-recharge")==0) m_fg_objects.Add(new TGLobject_fuelrecharge(x,y));
+			if (strcmp(tmp,"wall-techno-computer")==0) m_fg_objects.Add(new TGLobject_techno_computer(x,y));	
+			if (strcmp(tmp,"directional-cannon-left")==0) m_fg_objects.Add(new TGLobject_directionalcannon_left(x,y));	
+			if (strcmp(tmp,"directional-cannon-right")==0) m_fg_objects.Add(new TGLobject_directionalcannon_right(x,y));
+			if (strcmp(tmp,"directional-cannon-up")==0) m_fg_objects.Add(new TGLobject_directionalcannon_up(x,y));
+			if (strcmp(tmp,"directional-cannon-down")==0) m_fg_objects.Add(new TGLobject_directionalcannon_down(x,y));		
+			if (strcmp(tmp,"ha-directional-cannon-left")==0) m_fg_objects.Add(new TGLobject_ha_directionalcannon_left(x,y));	
+			if (strcmp(tmp,"ha-directional-cannon-right")==0) m_fg_objects.Add(new TGLobject_ha_directionalcannon_right(x,y));
+			if (strcmp(tmp,"ha-directional-cannon-up")==0) m_fg_objects.Add(new TGLobject_ha_directionalcannon_up(x,y));
+			if (strcmp(tmp,"ha-directional-cannon-down")==0) m_fg_objects.Add(new TGLobject_ha_directionalcannon_down(x,y));	
+			if (strcmp(tmp,"grey-tank")==0) {
+				TGLobject_enemy *tank,*turret,*cannon;
+				tank=new TGLobject_tank(x,y,0);
+				turret=new TGLobject_tank_turret(x,y,tank,0);
+				cannon=new TGLobject_tank_cannon(x,y,turret);
+				m_fg_objects.Add(cannon);
+				m_fg_objects.Add(turret);
+				m_fg_objects.Add(tank);
+				tank->exclude_for_collision(turret);
+				tank->exclude_for_collision(cannon);
+				turret->exclude_for_collision(tank);
+				turret->exclude_for_collision(cannon);
+				cannon->exclude_for_collision(tank);
+				cannon->exclude_for_collision(turret);
+			} // if 
+			if (strcmp(tmp,"red-tank")==0) {
+				TGLobject_enemy *tank,*turret,*cannon;
+				tank=new TGLobject_tank(x,y,1);
+				turret=new TGLobject_tank_turret(x,y,tank,1);
+				cannon=new TGLobject_tank_cannon(x,y,turret);
+				m_fg_objects.Add(cannon);
+				m_fg_objects.Add(turret);
+				m_fg_objects.Add(tank);
+				tank->exclude_for_collision(turret);
+				tank->exclude_for_collision(cannon);
+				turret->exclude_for_collision(tank);
+				turret->exclude_for_collision(cannon);
+				cannon->exclude_for_collision(tank);
+				cannon->exclude_for_collision(turret);
+			} // if 
+			if (strcmp(tmp,"green-tank")==0) {
+				TGLobject_enemy *tank,*turret,*cannon;
+				tank=new TGLobject_tank(x,y,2);
+				turret=new TGLobject_tank_turret(x,y,tank,2);
+				cannon=new TGLobject_tank_cannon(x,y,turret);
+				m_fg_objects.Add(cannon);
+				m_fg_objects.Add(turret);
+				m_fg_objects.Add(tank);
+				tank->exclude_for_collision(turret);
+				tank->exclude_for_collision(cannon);
+				turret->exclude_for_collision(tank);
+				turret->exclude_for_collision(cannon);
+				cannon->exclude_for_collision(tank);
+				cannon->exclude_for_collision(turret);
+			} // if 
+			if (strcmp(tmp,"big-tank")==0) {
+				TGLobject_enemy *tank,*turret,*cannon;
+				tank=new TGLobject_big_tank(x,y);
+				turret=new TGLobject_tank_turret(x,y,tank,3);
+				cannon=new TGLobject_big_tank_cannon(x,y,turret);
+				m_fg_objects.Add(cannon);
+				m_fg_objects.Add(turret);
+				m_fg_objects.Add(tank);
+				tank->exclude_for_collision(turret);
+				tank->exclude_for_collision(cannon);
+				turret->exclude_for_collision(tank);
+				turret->exclude_for_collision(cannon);
+				cannon->exclude_for_collision(tank);
+				cannon->exclude_for_collision(turret);
+			} // if 
+			if (strcmp(tmp,"door-left")==0) {
+				int p1,p2;
+				if (2!=fscanf(fp,"%i %i",&p1,&p2)) return;
+				m_fg_objects.Add(new TGLobject_leftdoor(x,y,p1,p2));
+			} // if 
+			if (strcmp(tmp,"door-right")==0) {
+				int p1,p2;
+				if (2!=fscanf(fp,"%i %i",&p1,&p2)) return;
+				m_fg_objects.Add(new TGLobject_rightdoor(x,y,p1,p2));
+			} // if 
+			if (strcmp(tmp,"button-red-left")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,0));
+			} // if 
+			if (strcmp(tmp,"button-red-right")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,1));
+			} // if 
+			if (strcmp(tmp,"button-red-up")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,2));
+			} // if 
+			if (strcmp(tmp,"button-red-down")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,3));
+			} // if 
+			if (strcmp(tmp,"button-purple-left")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,4));
+			} // if 
+			if (strcmp(tmp,"button-purple-right")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,5));
+			} // if 
+			if (strcmp(tmp,"button-purple-up")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,6));
+			} // if 
+			if (strcmp(tmp,"button-purple-down")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,7));
+			} // if 
+			if (strcmp(tmp,"button-blue-left")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,8));
+			} // if 
+			if (strcmp(tmp,"button-blue-right")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,9));
+			} // if 
+			if (strcmp(tmp,"button-blue-up")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,10));
+			} // if 
+			if (strcmp(tmp,"button-blue-down")==0) {
+				int p1;
+				if (1!=fscanf(fp,"%i",&p1)) return;
+				m_fg_objects.Add(new TGLobject_button(x,y,p1,11));
+			} // if 
+		} // for 
+
+		// Create the laser objects:
+		{
+			List<TGLobject> l,l2;
+			TGLobject *o,*o2,*pair;
+			l.Instance(m_fg_objects);
+			l2.Instance(m_fg_objects);
+			l.Rewind();
+			while(l.Iterate(o)) {
+				if (o->is_a("TGLobject_laser_left")) {
+					// Fint pair:
+					pair=0;
+					l2.Rewind();
+					while(l2.Iterate(o2)) {
+						if (o2->is_a("TGLobject_laser_right") && 
+							o2->get_y()==o->get_y() &&
+							o2->get_x()>o->get_x()) {
+							if (pair==0) pair=o2;
+							if (pair->get_x()>o2->get_x()) pair=o2;
+						} // if 
+					} // while 
+
+					if (pair!=0) {
+						float i;
+						for(i=o->get_x();i<=pair->get_x();i+=m_fg_cell_size) {
+							m_fg_objects.Insert(new TGLobject_laser_horizontal(i,o->get_y(),o,pair));
+						} // for
+					} // if 
+				} // if 
+
+				if (o->is_a("TGLobject_laser_up")) {
+					// Fint pair:
+					pair=0;
+					l2.Rewind();
+					while(l2.Iterate(o2)) {
+						if (o2->is_a("TGLobject_laser_down") && 
+							o2->get_x()==o->get_x() &&
+							o2->get_y()>o->get_y()) {
+							if (pair==0) pair=o2;
+							if (pair->get_y()>o2->get_y()) pair=o2;
+						} // if 
+					} // while 
+
+					if (pair!=0) {
+						float i;
+						for(i=o->get_y();i<=pair->get_y();i+=m_fg_cell_size) {
+							m_fg_objects.Insert(new TGLobject_laser_vertical(o->get_x(),i,o,pair));
+						} // for
+					} // if 
+				} // if 
+			} // while 
+		}
+	}
+*/
+} /* TGLmap::save */ 
 
 

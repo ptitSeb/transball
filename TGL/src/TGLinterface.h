@@ -160,7 +160,6 @@ public:
 	List<GLTile> m_entries;
 	float m_slider_pos,m_slider_height;
 	int m_selected,m_mouse_over;
-	int m_old_mouse_x,m_old_mouse_y;
 
 };
 
