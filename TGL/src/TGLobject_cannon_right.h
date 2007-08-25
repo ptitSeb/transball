@@ -13,6 +13,8 @@ public:
 	virtual bool cycle(VirtualController *k,class TGLmap *map,GLTManager *GLTM,SFXManager *SFXM,int sfx_volume);
 	virtual void draw(GLTManager *GLTM);
 
+	int get_type(void) {return m_type;};
+
 private:
 	int m_type;
 };
