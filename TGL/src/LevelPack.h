@@ -3,9 +3,9 @@
 
 class LevelPack_Level {
 public:
-	LevelPack_Level(class GLTManager *GLTM);
-	LevelPack_Level(FILE *fp,GLTManager *GLTM);
-	LevelPack_Level(class XMLNode *node,GLTManager *GLTM);
+	LevelPack_Level(class LevelPack *lp,class GLTManager *GLTM);
+	LevelPack_Level(LevelPack *lp,FILE *fp,GLTManager *GLTM);
+	LevelPack_Level(LevelPack *lp,class XMLNode *node,GLTManager *GLTM);
 	~LevelPack_Level();
 
 	void load(XMLNode *node,GLTManager *GLTM);
@@ -18,6 +18,7 @@ public:
 	int m_initial_fuel;
 	int m_points;
 	class TGLmap *m_map_data;
+	LevelPack *m_levelpack;
 };
 
 

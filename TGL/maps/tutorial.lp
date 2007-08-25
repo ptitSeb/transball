@@ -8,7 +8,7 @@
     </creator>
     <levels>
         <level>
-            <map>maps/tutorial/tutorial1.tgl</map>
+            <map>tutorial1.tgl</map>
             <name>First Tutorial</name>
             <description>...</description>
             <points>1</points>

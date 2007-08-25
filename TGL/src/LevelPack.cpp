@@ -4,6 +4,7 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#include "direct.h"
 #endif
 
 #include "stdlib.h"
@@ -27,19 +28,20 @@
 #include "TGLmap.h"
 
 
-LevelPack_Level::LevelPack_Level(GLTManager *GLTM)
+LevelPack_Level::LevelPack_Level(LevelPack *lp,GLTManager *GLTM)
 {
 	m_map=0;
 	m_name=0;
 	m_description=0;
 	m_initial_fuel=100;
 	m_points=1;
+	m_levelpack=lp;
 
 	m_map_data = new TGLmap(GLTM);
 } /* LevelPack_Level::LevelPack_Level */ 
 
 
-LevelPack_Level::LevelPack_Level(FILE *fp,GLTManager *GLTM)
+LevelPack_Level::LevelPack_Level(LevelPack *lp,FILE *fp,GLTManager *GLTM)
 {
 
 	m_map=0;
@@ -47,6 +49,7 @@ LevelPack_Level::LevelPack_Level(FILE *fp,GLTManager *GLTM)
 	m_description=0;
 	m_initial_fuel=100;
 	m_points=1;
+	m_levelpack=lp;
 
 	// Load it from a file:
 	XMLNode *node;
@@ -57,7 +60,7 @@ LevelPack_Level::LevelPack_Level(FILE *fp,GLTManager *GLTM)
 } /* LevelPack_Level::LevelPack_Level */ 
 
 
-LevelPack_Level::LevelPack_Level(XMLNode *node,GLTManager *GLTM)
+LevelPack_Level::LevelPack_Level(LevelPack *lp,XMLNode *node,GLTManager *GLTM)
 {
 
 	m_map=0;
@@ -65,6 +68,7 @@ LevelPack_Level::LevelPack_Level(XMLNode *node,GLTManager *GLTM)
 	m_description=0;
 	m_initial_fuel=100;
 	m_points=1;
+	m_levelpack=lp;
 
 	load(node,GLTM);
 
@@ -102,7 +106,10 @@ void LevelPack_Level::load(XMLNode *node,GLTManager *GLTM)
 	delete children;
 
 	{
+		char map_file[256];
 		FILE *fp;
+
+		sprintf(map_file,"maps/%s/%s",m_levelpack->m_id,m_map);
 		fp=fopen(m_map,"r+");
 		if (fp!=0) {
 			m_map_data = new TGLmap(fp,GLTM);
@@ -214,7 +221,7 @@ void LevelPack::load(XMLNode *node,GLTManager *GLTM)
 			children2->Rewind();
 			while(children2->Iterate(n2)) {
 				if (n2->get_type()->cmp("level")) {
-					m_levels.Add(new LevelPack_Level(n2,GLTM));
+					m_levels.Add(new LevelPack_Level(this,n2,GLTM));
 				} // if 
 			} // while
 			delete children2;
@@ -302,7 +309,7 @@ void LevelPack::save(FILE *fp,GLTManager *GLTM)
 
 /*
         <level>
-            <map>maps/secondassault/sa-level1.tgl</map>
+            <map>sa-level1.tgl</map>
             <name>Wellcome back!</name>
             <description>This level is just to warm up again...</description>
             <points>2</points>
@@ -320,7 +327,18 @@ void LevelPack_Level::save(FILE *fp,GLTManager *GLTM)
 
 	{
 		FILE *fp;
-		fp=fopen(m_map,"w+");
+		char map_file[256];
+		sprintf(map_file,"maps/%s/%s",m_levelpack->m_id,m_map);
+		fp=fopen(map_file,"w+");
+		if (fp==0) {
+			// assume the folder does not exist:
+			char folder_file[256];
+			sprintf(folder_file,"maps/%s",m_levelpack->m_id);
+			_mkdir(folder_file);
+
+			fp=fopen(map_file,"w+");
+		} // if
+
 		if (fp!=0) {
 			m_map_data->save(fp,GLTM);
 			fclose(fp);
