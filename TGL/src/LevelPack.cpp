@@ -110,7 +110,7 @@ void LevelPack_Level::load(XMLNode *node,GLTManager *GLTM)
 		FILE *fp;
 
 		sprintf(map_file,"maps/%s/%s",m_levelpack->m_id,m_map);
-		fp=fopen(m_map,"r+");
+		fp=fopen(map_file,"r+");
 		if (fp!=0) {
 			m_map_data = new TGLmap(fp,GLTM);
 			fclose(fp);

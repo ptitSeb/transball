@@ -231,6 +231,8 @@ bool TGLapp::cycle(KEYBOARDSTATE *k)
 							   break;
 	case TGL_STATE_LOADLEVELPACK: m_state=loadlevelpack_cycle(k);
 							   break;
+	case TGL_STATE_LOADMAP: m_state=loadmap_cycle(k);
+							   break;
 	default:return false;
 	} /* switch */ 
 
@@ -349,6 +351,8 @@ void TGLapp::draw(int SCREEN_X,int SCREEN_Y)
 	case TGL_STATE_MAPEDITOR: mapeditor_draw();
 							   break;
 	case TGL_STATE_LOADLEVELPACK: loadlevelpack_draw();
+							   break;
+	case TGL_STATE_LOADMAP: loadmap_draw();
 							   break;
 	} // switch 
  	

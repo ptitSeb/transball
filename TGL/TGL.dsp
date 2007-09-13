@@ -935,6 +935,10 @@ SOURCE=.\src\state_loadlevelpack.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\state_loadmap.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\state_mainmenu.cpp
 # End Source File
 # Begin Source File

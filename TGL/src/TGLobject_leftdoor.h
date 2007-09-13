@@ -15,6 +15,8 @@ public:
 
 	void action(int action);
 
+	int get_action(void) {return m_action;};
+
 private:
 	float m_original_x;
 	int m_action;

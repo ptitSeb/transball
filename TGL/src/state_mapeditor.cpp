@@ -62,7 +62,20 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 	} // if 
 
 
-	if (m_state_cycle == 0){
+	if (m_state_cycle == 0) {
+		{
+			FILE *fp = fopen("tmp.map","w+");
+			if (fp!=0) {
+				m_editor_level->m_map_data->save(fp,m_GLTM);
+				fclose(fp);
+				fp = fopen("tmp.map","r+");
+				m_editor_level_editing = new TGLmap(fp,m_GLTM);
+				fclose(fp);
+			} else {
+				m_editor_level_editing = new TGLmap(m_GLTM);
+			} // if 
+		}	
+
 		// CREATE THE INTERFACE:
 		// - 11 is the tile browser for the tile mode
 
@@ -80,15 +93,14 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 		TGLinterface::add_element(new TGLbutton("in",m_font16,10,80,35,20,9));
 		TGLinterface::add_element(new TGLbutton("out",m_font16,55,80,35,20,10));
-
 		
 		TGLinterface::add_element(new TGLbutton("background",m_font16,10,110,80,20,8));
 
 		TGLinterface::add_element(new TGLbutton("mode",m_font16,10,140,80,20,3));
 		m_editor_mode=0;
 
-//		m_editor_focus_x=m_editor_level->m_map_data->get_dx()/2;
-//		m_editor_focus_y=m_editor_level->m_map_data->get_dy()/2;
+//		m_editor_focus_x=m_editor_level_editing->get_dx()/2;
+//		m_editor_focus_y=m_editor_level_editing->get_dy()/2;
 		m_editor_focus_x=0;
 		m_editor_focus_y=STARFIELD;
 		m_editor_zoom=2;
@@ -183,8 +195,8 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 			m_editor_insert_y = ((m_editor_insert_y-STARFIELD)/32)*32;
 
 			if (m_editor_insert_x<0 || m_editor_insert_y<0 ||
-				m_editor_insert_x>=m_editor_level->m_map_data->get_dx() ||
-				m_editor_insert_y>=m_editor_level->m_map_data->get_dy()) {
+				m_editor_insert_x>=m_editor_level_editing->get_dx() ||
+				m_editor_insert_y>=m_editor_level_editing->get_dy()) {
 				m_editor_insert_x = -1;
 				m_editor_insert_y = -1;
 			} // if
@@ -214,7 +226,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 		} // if
 		if (k->keyboard[SDLK_RIGHT] || m_mouse_x>=SCREEN_X-8) {
 			m_editor_focus_x+=int(8/m_editor_real_zoom);
-			if (m_editor_focus_x>m_editor_level->m_map_data->get_dx()) m_editor_focus_x=m_editor_level->m_map_data->get_dx();
+			if (m_editor_focus_x>m_editor_level_editing->get_dx()) m_editor_focus_x=m_editor_level_editing->get_dx();
 		} // if
 		if (k->keyboard[SDLK_UP] || m_mouse_y<8) {
 			m_editor_focus_y-=int(8/m_editor_real_zoom);
@@ -222,7 +234,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 		} // if
 		if (k->keyboard[SDLK_DOWN] || m_mouse_y>=SCREEN_Y-8) {
 			m_editor_focus_y+=int(8/m_editor_real_zoom);	
-			if (m_editor_focus_y>m_editor_level->m_map_data->get_dy()) m_editor_focus_y=m_editor_level->m_map_data->get_dy();		
+			if (m_editor_focus_y>m_editor_level_editing->get_dy()) m_editor_focus_y=m_editor_level_editing->get_dy();		
 		} // if
 
 //		if (m_editor_focus_x*m_editor_real_zoom < (SCREEN_X/2)) m_editor_focus_x = int((SCREEN_X/2)/m_editor_real_zoom);
@@ -241,9 +253,24 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 		switch(ID) {
 		case 1:	// ACCEPT:
+				{
+					FILE *fp = fopen("tmp.map","w+");
+					if (fp!=0) {
+						m_editor_level_editing->save(fp,m_GLTM);
+						fclose(fp);
+						delete m_editor_level_editing;
+						m_editor_level_editing=0;
+						fp = fopen("tmp.map","r+");
+						delete m_editor_level->m_map_data;
+						m_editor_level->m_map_data = new TGLmap(fp,m_GLTM);
+						fclose(fp);
+					} // if 
+				}	
 				return TGL_STATE_EDITOR;
 				break;
 		case 2:	// CANCEL:
+				delete m_editor_level_editing;
+				m_editor_level_editing=0;
 				return TGL_STATE_EDITOR;
 				break;
 
@@ -252,26 +279,26 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 				if (m_editor_mode>3) m_editor_mode=0;
 				break;
 
-		case 4: if (m_editor_level->m_map_data->m_fg_dx>16) m_editor_level->m_map_data->resize(m_editor_level->m_map_data->m_fg_dx-1,m_editor_level->m_map_data->m_fg_dy,m_GLTM);
-				if (m_editor_focus_x>m_editor_level->m_map_data->get_dx()) m_editor_focus_x=m_editor_level->m_map_data->get_dx();
-				if (m_editor_focus_y>m_editor_level->m_map_data->get_dy()) m_editor_focus_y=m_editor_level->m_map_data->get_dy();
+		case 4: if (m_editor_level_editing->m_fg_dx>16) m_editor_level_editing->resize(m_editor_level_editing->m_fg_dx-1,m_editor_level_editing->m_fg_dy,m_GLTM);
+				if (m_editor_focus_x>m_editor_level_editing->get_dx()) m_editor_focus_x=m_editor_level_editing->get_dx();
+				if (m_editor_focus_y>m_editor_level_editing->get_dy()) m_editor_focus_y=m_editor_level_editing->get_dy();
 				break;
-		case 5: if (m_editor_level->m_map_data->m_fg_dx<128) m_editor_level->m_map_data->resize(m_editor_level->m_map_data->m_fg_dx+1,m_editor_level->m_map_data->m_fg_dy,m_GLTM);
-				if (m_editor_focus_x>m_editor_level->m_map_data->get_dx()) m_editor_focus_x=m_editor_level->m_map_data->get_dx();
-				if (m_editor_focus_y>m_editor_level->m_map_data->get_dy()) m_editor_focus_y=m_editor_level->m_map_data->get_dy();
+		case 5: if (m_editor_level_editing->m_fg_dx<128) m_editor_level_editing->resize(m_editor_level_editing->m_fg_dx+1,m_editor_level_editing->m_fg_dy,m_GLTM);
+				if (m_editor_focus_x>m_editor_level_editing->get_dx()) m_editor_focus_x=m_editor_level_editing->get_dx();
+				if (m_editor_focus_y>m_editor_level_editing->get_dy()) m_editor_focus_y=m_editor_level_editing->get_dy();
 				break;
-		case 6: if (m_editor_level->m_map_data->m_fg_dy>16) m_editor_level->m_map_data->resize(m_editor_level->m_map_data->m_fg_dx,m_editor_level->m_map_data->m_fg_dy-1,m_GLTM);
-				if (m_editor_focus_x>m_editor_level->m_map_data->get_dx()) m_editor_focus_x=m_editor_level->m_map_data->get_dx();
-				if (m_editor_focus_y>m_editor_level->m_map_data->get_dy()) m_editor_focus_y=m_editor_level->m_map_data->get_dy();
+		case 6: if (m_editor_level_editing->m_fg_dy>16) m_editor_level_editing->resize(m_editor_level_editing->m_fg_dx,m_editor_level_editing->m_fg_dy-1,m_GLTM);
+				if (m_editor_focus_x>m_editor_level_editing->get_dx()) m_editor_focus_x=m_editor_level_editing->get_dx();
+				if (m_editor_focus_y>m_editor_level_editing->get_dy()) m_editor_focus_y=m_editor_level_editing->get_dy();
 				break;
-		case 7: if (m_editor_level->m_map_data->m_fg_dy<128) m_editor_level->m_map_data->resize(m_editor_level->m_map_data->m_fg_dx,m_editor_level->m_map_data->m_fg_dy+1,m_GLTM);
-				if (m_editor_focus_x>m_editor_level->m_map_data->get_dx()) m_editor_focus_x=m_editor_level->m_map_data->get_dx();
-				if (m_editor_focus_y>m_editor_level->m_map_data->get_dy()) m_editor_focus_y=m_editor_level->m_map_data->get_dy();
+		case 7: if (m_editor_level_editing->m_fg_dy<128) m_editor_level_editing->resize(m_editor_level_editing->m_fg_dx,m_editor_level_editing->m_fg_dy+1,m_GLTM);
+				if (m_editor_focus_x>m_editor_level_editing->get_dx()) m_editor_focus_x=m_editor_level_editing->get_dx();
+				if (m_editor_focus_y>m_editor_level_editing->get_dy()) m_editor_focus_y=m_editor_level_editing->get_dy();
 				break;
 		case 8: {
-					int bg = m_editor_level->m_map_data->m_bg_code+1;
+					int bg = m_editor_level_editing->m_bg_code+1;
 					if (bg>4) bg=0;
-					m_editor_level->m_map_data->set_background(bg,m_GLTM);
+					m_editor_level_editing->set_background(bg,m_GLTM);
 				}
 				break;
 		case 9:
@@ -291,8 +318,11 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 				}
 				break;		
 
-		case 12:
-
+		case 12: // LOAD
+				TGLinterface::add_element(new TGLConfirmation("Discard current map?",m_font16,320,200,112));
+				break;
+		case 112:
+				return TGL_STATE_LOADMAP;
 				break;
 
 		case 13:
@@ -308,8 +338,8 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 					{
 						if (m_editor_selected_tile!=-1 &&
 							m_editor_insert_x!=-1) {
-							int offs = m_editor_insert_x/32 + (m_editor_insert_y/32)*m_editor_level->m_map_data->m_fg_dx;
-							m_editor_level->m_map_data->m_fg[offs]=m_editor_tiles[m_editor_selected_tile];
+							int offs = m_editor_insert_x/32 + (m_editor_insert_y/32)*m_editor_level_editing->m_fg_dx;
+							m_editor_level_editing->m_fg[offs]=m_editor_tiles[m_editor_selected_tile];
 						} // if
 					}
 					break;
@@ -329,8 +359,8 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 					{
 						if (m_editor_selected_tile!=-1 &&
 							m_editor_insert_x!=-1) {
-							int offs = m_editor_insert_x/32 + (m_editor_insert_y/32)*m_editor_level->m_map_data->m_fg_dx;
-							m_editor_level->m_map_data->m_fg[offs]=0;
+							int offs = m_editor_insert_x/32 + (m_editor_insert_y/32)*m_editor_level_editing->m_fg_dx;
+							m_editor_level_editing->m_fg[offs]=0;
 						} // if
 					}
 					break;
@@ -354,7 +384,7 @@ void TGLapp::mapeditor_draw(void)
 
 	// Draw level:
 	if (m_editor_level!=0) {
-		TGLmap *m = m_editor_level->m_map_data;
+		TGLmap *m = m_editor_level_editing;
 
 		m->draw(m_editor_focus_x,m_editor_focus_y,640,480,m_GLTM,m_editor_current_zoom);
 	} // if 
@@ -363,9 +393,9 @@ void TGLapp::mapeditor_draw(void)
 	{
 		char tmp[80];
 
-		sprintf(tmp,"%i",m_editor_level->m_map_data->m_fg_dx);
+		sprintf(tmp,"%i",m_editor_level_editing->m_fg_dx);
 		TGLinterface::print_center(tmp,m_font16,50,32);
-		sprintf(tmp,"%i",m_editor_level->m_map_data->m_fg_dy);
+		sprintf(tmp,"%i",m_editor_level_editing->m_fg_dy);
 		TGLinterface::print_center(tmp,m_font16,50,62);	
 	}
 

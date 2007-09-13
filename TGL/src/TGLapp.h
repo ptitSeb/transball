@@ -26,6 +26,8 @@
 #define TGL_STATE_EDITOR			14
 #define TGL_STATE_MAPEDITOR			15
 #define TGL_STATE_LOADLEVELPACK		16
+#define TGL_STATE_LOADMAP		17
+#define TGL_STATE_SAVEMAP		18
 
 #define KEY_THRUST		0
 #define KEY_SPECIAL		1
@@ -38,6 +40,7 @@
 
 #define SAVEREPLAY_REPLAYSPERPAGE	12
 #define LEVELPACKBROWSER_LPPERPAGE	10
+#define MAPBROWSER_MPERPAGE			16
 #define PROFILESPERPAGE				12
 #define HIGHSCORE_GLOBAL_PERPAGE	14
 
@@ -87,6 +90,7 @@ protected:
 	int editor_cycle(KEYBOARDSTATE *k);
 	int mapeditor_cycle(KEYBOARDSTATE *k);
 	int loadlevelpack_cycle(KEYBOARDSTATE *k);
+	int loadmap_cycle(KEYBOARDSTATE *k);
 
 	void playerprofile_draw(void);
 	void intro_draw(void);
@@ -104,6 +108,7 @@ protected:
 	void editor_draw(void);
 	void mapeditor_draw(void);
 	void loadlevelpack_draw(void);
+	void loadmap_draw(void);
 
 	int screen_x(int x);	/* given a coordinate in 640x480, returns the proper coordinate at the current resolution */ 
 	int screen_y(int y);    /* given a coordinate in 640x480, returns the proper coordinate at the current resolution */ 
@@ -240,6 +245,7 @@ protected:
 	// Editor:
 	LevelPack *m_editor_levelpack;
 	class LevelPack_Level *m_editor_level;
+	class TGLmap *m_editor_level_editing;
 	int m_editor_mode;
 	int m_editor_focus_x,m_editor_focus_y;
 	int m_editor_zoom;
@@ -247,6 +253,20 @@ protected:
 	int m_editor_selected_tile;
 	List<GLTile> m_editor_tiles;
 	int m_editor_insert_x,m_editor_insert_y;
+
+	// Load/Save maps:
+	TGLInterfaceElement *m_mb_select_button;
+	TGLInterfaceElement *m_mb_m_uparrow;
+	TGLInterfaceElement *m_mb_m_downarrow;
+	List<char> m_mb_folders_names;
+	List<char> m_mb_m_fullnames;
+	List<char> m_mb_m_names;
+	char m_mb_current_path[256];
+	bool m_mb_recheckfiles;
+	int m_mb_first_m;
+	int m_mb_mouse_over_m;
+	int m_mb_m_selected;
+
 
 };
 
