@@ -45,7 +45,7 @@
 
 
 
-int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
+int TGLapp::savemap_cycle(KEYBOARDSTATE *k)
 {
 	if (SDL_ShowCursor(SDL_QUERY)!=SDL_ENABLE) SDL_ShowCursor(SDL_ENABLE);
 	if (m_state_cycle==0) {
@@ -59,11 +59,13 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 
 		TGLinterface::reset();
 		SDL_WarpMouse(120,436);
-		TGLinterface::add_element(new TGLframe(10,32,580,368));		
+		TGLinterface::add_element(new TGLframe(10,32,580,280));		
 		TGLinterface::add_element(new TGLbutton("Back",m_font32,40,404,160,64,1));
-		m_mb_select_button=new TGLbutton("Load",m_font32,240,404,160,64,0);
+		m_mb_select_button=new TGLbutton("Save",m_font32,240,404,160,64,0);
 		TGLinterface::add_element(m_mb_select_button);		
-		m_mb_select_button->m_enabled=false;
+
+		TGLinterface::add_element(new TGLTextInputFrame("map.tgl",32,m_font16,100,340,440,32,4));
+		((TGLTextInputFrame *)(TGLinterface::get(4)))->m_focus=true;
 
 		m_mb_mouse_over_m=-1;
 		m_mb_m_selected=-1;
@@ -73,7 +75,7 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 						  else m_mb_m_uparrow->m_enabled=true;
 		m_mb_m_downarrow=new TGLbutton(m_GLTM->get("interface/downarrow"),600,100+32+36,30,100,3);
 		TGLinterface::add_element(m_mb_m_downarrow);
-		if (m_mb_m_names.Length()+m_mb_folders_names.Length()>MAPBROWSER_MPERPAGE) m_mb_m_downarrow->m_enabled=true;
+		if (m_mb_m_names.Length()+m_mb_folders_names.Length()>MAPBROWSER_MPERPAGE_SAVE) m_mb_m_downarrow->m_enabled=true;
 																					 else m_mb_m_downarrow->m_enabled=false;
 	} // if
 
@@ -81,7 +83,7 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 
 		m_mb_recheckfiles=false;
 
-		// Load the map filenames:
+		// Save the map filenames:
 		{
 			char tmp_path[256];
 			char *tmp;
@@ -163,7 +165,7 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 		m_mb_m_selected=-1;
 		if (m_mb_first_m==0) m_mb_m_uparrow->m_enabled=false;
   					    else m_mb_m_uparrow->m_enabled=true;
-		if (m_mb_m_names.Length()+m_mb_folders_names.Length()>MAPBROWSER_MPERPAGE) m_mb_m_downarrow->m_enabled=true;
+		if (m_mb_m_names.Length()+m_mb_folders_names.Length()>MAPBROWSER_MPERPAGE_SAVE) m_mb_m_downarrow->m_enabled=true;
 																					 else m_mb_m_downarrow->m_enabled=false;
 
 	} // if 
@@ -202,7 +204,7 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 			m_mb_first_m--;
 			if (m_mb_first_m==0) m_mb_m_uparrow->m_enabled=false;
 							  else m_mb_m_uparrow->m_enabled=true;
-			if (m_mb_m_names.Length()+m_mb_folders_names.Length()>m_mb_first_m+MAPBROWSER_MPERPAGE) m_mb_m_downarrow->m_enabled=true;
+			if (m_mb_m_names.Length()+m_mb_folders_names.Length()>m_mb_first_m+MAPBROWSER_MPERPAGE_SAVE) m_mb_m_downarrow->m_enabled=true;
 																									  else m_mb_m_downarrow->m_enabled=false;	
 		} // if 
 
@@ -210,7 +212,7 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 			m_mb_first_m++;
 			if (m_mb_first_m==0) m_mb_m_uparrow->m_enabled=false;
 							  else m_mb_m_uparrow->m_enabled=true;
-			if (m_mb_m_names.Length()+m_mb_folders_names.Length()>m_mb_first_m+MAPBROWSER_MPERPAGE) m_mb_m_downarrow->m_enabled=true;
+			if (m_mb_m_names.Length()+m_mb_folders_names.Length()>m_mb_first_m+MAPBROWSER_MPERPAGE_SAVE) m_mb_m_downarrow->m_enabled=true;
 																									  else m_mb_m_downarrow->m_enabled=false;
 		} // if m_mb_m_downarrow
 
@@ -221,7 +223,7 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 			if (mouse_y>=40) {
 				int selected=(mouse_y-40)/22;
 
-				if (selected>=0 && selected<(m_mb_m_names.Length()+m_mb_folders_names.Length()-m_mb_first_m) && selected<MAPBROWSER_MPERPAGE) {
+				if (selected>=0 && selected<(m_mb_m_names.Length()+m_mb_folders_names.Length()-m_mb_first_m) && selected<MAPBROWSER_MPERPAGE_SAVE) {
 					m_mb_mouse_over_m=selected;
 
 					if (button==1) {
@@ -260,9 +262,9 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 							} else {
 
 								// Selected a map:
-								m_state_fading=2;
-								m_state_fading_cycle=0;
-								m_state_selection=0;
+								strcpy(((TGLTextInputFrame *)(TGLinterface::get(4)))->m_editing,m_mb_m_names[m_mb_m_selected-m_mb_folders_names.Length()]);
+								((TGLTextInputFrame *)(TGLinterface::get(4)))->m_editing_position=strlen(m_mb_m_names[m_mb_m_selected-m_mb_folders_names.Length()]);
+
 							} // if 
 
 						} // if 
@@ -273,9 +275,6 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 
 	}
 
-	if (m_mb_m_selected>=m_mb_folders_names.Length()) m_mb_select_button->m_enabled=true;
-		  										 else m_mb_select_button->m_enabled=false;
-
 	if (m_state_fading==2 && m_state_fading_cycle>25) {
 		switch(m_state_selection) {
 		case 0:
@@ -284,12 +283,11 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 					char tmp[256];
 					FILE *fp;
 
-					sprintf(tmp,"%s/%s",m_mb_current_path,m_mb_m_names[m_mb_m_selected-m_mb_folders_names.Length()]);
-					fp=fopen(tmp,"r+");
+					sprintf(tmp,"%s/%s",m_mb_current_path,((TGLTextInputFrame *)(TGLinterface::get(4)))->m_editing);
+					fp=fopen(tmp,"w+");
 
 					if (fp!=0) {
-						delete m_editor_level_editing;
-						m_editor_level_editing = new TGLmap(fp,m_GLTM);
+						m_editor_level_editing->save(fp,m_GLTM);
 						fclose(fp);
 					} // if 
 				} 
@@ -306,11 +304,11 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 	if (m_state_fading==0 && m_state_fading_cycle>25) m_state_fading=1;
 
 
-	return TGL_STATE_LOADMAP;
-} /* TGLapp::loadmap_cycle */ 
+	return TGL_STATE_SAVEMAP;
+} /* TGLapp::savemap_cycle */ 
 
 
-void TGLapp::loadmap_draw(void)
+void TGLapp::savemap_draw(void)
 {
 //	char buffer[255];
 
@@ -321,7 +319,7 @@ void TGLapp::loadmap_draw(void)
 
 	if (m_mb_m_selected!=-1) {
 		int i=m_mb_m_selected-m_mb_first_m;
-		if (i>=0 && i<MAPBROWSER_MPERPAGE) {
+		if (i>=0 && i<MAPBROWSER_MPERPAGE_SAVE) {
 			glColor4f(0.5f,0.5f,1,0.7f);
 			glBegin(GL_POLYGON);
 			glVertex3f(15,float(40+i*22),0);
@@ -348,7 +346,7 @@ void TGLapp::loadmap_draw(void)
 	{
 		int i,j;
 
-		for(j=0,i=m_mb_first_m;j<MAPBROWSER_MPERPAGE && i<m_mb_folders_names.Length();i++,j++) {
+		for(j=0,i=m_mb_first_m;j<MAPBROWSER_MPERPAGE_SAVE && i<m_mb_folders_names.Length();i++,j++) {
 			{
 				int old[4];
 				bool old_scissor=false;
@@ -365,7 +363,7 @@ void TGLapp::loadmap_draw(void)
 			TGLinterface::print_left("-",m_font16,220,float(60+j*22));			
 		} // for
 
-		for(i-=m_mb_folders_names.Length();j<MAPBROWSER_MPERPAGE && i<m_mb_m_names.Length();i++,j++) {
+		for(i-=m_mb_folders_names.Length();j<MAPBROWSER_MPERPAGE_SAVE && i<m_mb_m_names.Length();i++,j++) {
 			{
 				int old[4];
 				bool old_scissor=false;
@@ -403,5 +401,5 @@ void TGLapp::loadmap_draw(void)
 			}
 			break;
 	} // switch
-} /* TGLapp::loadmap_draw */ 
+} /* TGLapp::savemap_draw */ 
 

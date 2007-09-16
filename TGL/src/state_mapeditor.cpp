@@ -42,6 +42,50 @@
 #include "LevelPack.h"
 #include "PlayerProfile.h"
 
+#include "TGLmap.h"
+#include "TGLobject.h"
+#include "TGLobject_ballstand.h"
+#include "TGLobject_redlight.h"
+#include "TGLobject_radar.h"
+#include "TGLobject_pipevscreen.h"
+#include "TGLobject_pipehscreen.h"
+#include "TGLobject_enemy.h"
+#include "TGLobject_laser_left.h"
+#include "TGLobject_laser_right.h"
+#include "TGLobject_laser_up.h"
+#include "TGLobject_laser_down.h"
+#include "TGLobject_laser_horizontal.h"
+#include "TGLobject_laser_vertical.h"
+#include "TGLobject_cannon_left.h"
+#include "TGLobject_cannon_right.h"
+#include "TGLobject_cannon_down.h"
+#include "TGLobject_cannon_up.h"
+#include "TGLobject_fastcannon_left.h"
+#include "TGLobject_fastcannon_right.h"
+#include "TGLobject_fastcannon_down.h"
+#include "TGLobject_fastcannon_up.h"
+#include "TGLobject_ball.h"
+#include "TGLobject_spike_left.h"
+#include "TGLobject_spike_right.h"
+#include "TGLobject_fuelrecharge.h"
+#include "TGLobject_techno_computer.h"
+#include "TGLobject_directionalcannon_left.h"
+#include "TGLobject_directionalcannon_right.h"
+#include "TGLobject_directionalcannon_up.h"
+#include "TGLobject_directionalcannon_down.h"
+#include "TGLobject_ha_directionalcannon_left.h"
+#include "TGLobject_ha_directionalcannon_right.h"
+#include "TGLobject_ha_directionalcannon_up.h"
+#include "TGLobject_ha_directionalcannon_down.h"
+#include "TGLobject_tank.h"
+#include "TGLobject_tank_turret.h"
+#include "TGLobject_tank_cannon.h"
+#include "TGLobject_big_tank.h"
+#include "TGLobject_big_tank_cannon.h"
+#include "TGLobject_leftdoor.h"
+#include "TGLobject_rightdoor.h"
+#include "TGLobject_button.h"
+
 extern int SCREEN_X,SCREEN_Y;
 
 int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
@@ -63,7 +107,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 
 	if (m_state_cycle == 0) {
-		{
+		if (m_editor_level_editing==0) {
 			FILE *fp = fopen("tmp.map","w+");
 			if (fp!=0) {
 				m_editor_level->m_map_data->save(fp,m_GLTM);
@@ -78,6 +122,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 		// CREATE THE INTERFACE:
 		// - 11 is the tile browser for the tile mode
+		// - 14 is the tile browser for the object mode
 
 		TGLinterface::reset();
 		TGLinterface::add_element(new TGLbutton("accept",m_font16,10,450,80,20,1));
@@ -108,6 +153,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 		m_editor_current_zoom=0.75f;
 
 		m_editor_selected_tile=-1;
+		m_editor_selected_object=-1;
 
 		m_editor_insert_x=-1;
 		m_editor_insert_y=-1;
@@ -155,13 +201,72 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 #endif  
 		} // if 
 
+		if (m_editor_object_tiles.EmptyP()) {
+			
+			m_editor_object_tiles.Add(m_GLTM->get("objects/pipe-ball-stand1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/red-light1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/red-light1-snow"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/pipe-vertical-screen1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/pipe-horizontal-screen1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/radar1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/laser-left1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/laser-right1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/laser-up1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/laser-down1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/cannon-rock-left1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/cannon-rock-right1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/cannon-rock-down1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/cannon-rock-up1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/spike-left"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/spike-right"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/fuel-recharge"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/cannon-techno-left1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/cannon-techno-right1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/cannon-techno-down1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/cannon-techno-up1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/fastcannon-techno-left1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/fastcannon-techno-right1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/fastcannon-techno-down1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/fastcannon-techno-up1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/wall-techno-computer1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/directionalcannon-left"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/directionalcannon-right"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/directionalcannon-down"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/directionalcannon-up"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/ha-directionalcannon-left"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/ha-directionalcannon-right"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/ha-directionalcannon-down"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/ha-directionalcannon-up"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/grey-tank"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/red-tank"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/green-tank"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/big-tank"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/door-left"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/door-right"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/button-red-left1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/button-red-right1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/button-red-down1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/button-red-up1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/button-purple-left1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/button-purple-right1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/button-purple-down1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/button-purple-up1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/button-blue-left1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/button-blue-right1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/button-blue-down1"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/button-blue-up1"));
+
+		} // if 
+
 	} else {
 		// Create the variable part of the interface depending on the selected mode:
 		switch(m_editor_mode) {
 		case 0: TGLinterface::remove_element(11);
+				TGLinterface::remove_element(14);
 				break;
 
 		case 1: // TILES
+				TGLinterface::remove_element(14);
 				{
 					TGLTileBrowser *tb = (TGLTileBrowser *)TGLinterface::get(11);
 					if (tb==0) {
@@ -178,10 +283,27 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 				break;
 
-		case 2: TGLinterface::remove_element(11);
+		case 2: // OBJECTS
+				TGLinterface::remove_element(11);
+
+				{
+					TGLTileBrowser *tb = (TGLTileBrowser *)TGLinterface::get(14);
+					if (tb==0) {
+						GLTile *t;
+						tb = new TGLTileBrowser(10,180,100,256,14);
+						TGLinterface::add_element(tb);
+
+						m_editor_object_tiles.Rewind();
+						while(m_editor_object_tiles.Iterate(t)) tb->addEntry(t);
+					} // if
+
+					m_editor_selected_object = tb->getSelected();
+				}
+
 				break;
 
 		case 3: TGLinterface::remove_element(11);
+				TGLinterface::remove_element(14);
 				break;
 
 		} // switch
@@ -326,10 +448,11 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 				break;
 
 		case 13:
+				return TGL_STATE_SAVEMAP;
 				break;
 		} // switch
 
-		// Button presse (but not over any interface element);
+		// Button pressed (but not over any interface element);
 		if (ID==-1 && m_mouse_button==1) {
 			switch(m_editor_mode) {
 			case 0:
@@ -344,13 +467,180 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 					}
 					break;
 			case 2:
+				
+					if (m_editor_selected_object==0) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_ballstand(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==1) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_redlight(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
+					} else if (m_editor_selected_object==2) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_redlight(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),1));
+					} else if (m_editor_selected_object==3) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_pipevscreen(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==4) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_pipehscreen(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==5) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_radar(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==6) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_laser_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==7) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_laser_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==8) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_laser_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==9) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_laser_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+
+					} else if (m_editor_selected_object==10) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_cannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
+					} else if (m_editor_selected_object==11) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_cannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
+					} else if (m_editor_selected_object==12) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_cannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
+					} else if (m_editor_selected_object==13) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_cannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
+					
+					} else if (m_editor_selected_object==14) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_spike_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==15) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_spike_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==16) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_fuelrecharge(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+
+					} else if (m_editor_selected_object==17) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_cannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),1));
+					} else if (m_editor_selected_object==18) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_cannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),1));
+					} else if (m_editor_selected_object==19) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_cannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),1));
+					} else if (m_editor_selected_object==20) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_cannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),1));
+
+					} else if (m_editor_selected_object==21) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_fastcannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==22) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_fastcannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==23) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_fastcannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==24) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_fastcannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+
+					} else if (m_editor_selected_object==25) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_techno_computer(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+
+					} else if (m_editor_selected_object==26) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_directionalcannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==27) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_directionalcannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==28) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_directionalcannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==29) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_directionalcannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+
+					} else if (m_editor_selected_object==30) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_ha_directionalcannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==31) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_ha_directionalcannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==32) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_ha_directionalcannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+					} else if (m_editor_selected_object==33) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_ha_directionalcannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+
+					} else if (m_editor_selected_object==34) {
+						TGLobject_enemy *tank,*turret,*cannon;
+						tank=new TGLobject_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),0);
+						turret=new TGLobject_tank_turret(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),tank,0);
+						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),turret);
+						m_editor_level_editing->m_fg_objects.Add(cannon);
+						m_editor_level_editing->m_fg_objects.Add(turret);
+						m_editor_level_editing->m_fg_objects.Add(tank);
+						tank->exclude_for_collision(turret);
+						tank->exclude_for_collision(cannon);
+						turret->exclude_for_collision(tank);
+						turret->exclude_for_collision(cannon);
+						cannon->exclude_for_collision(tank);
+						cannon->exclude_for_collision(turret);
+					} else if (m_editor_selected_object==35) {
+						TGLobject_enemy *tank,*turret,*cannon;
+						tank=new TGLobject_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),1);
+						turret=new TGLobject_tank_turret(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),tank,1);
+						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),turret);
+						m_editor_level_editing->m_fg_objects.Add(cannon);
+						m_editor_level_editing->m_fg_objects.Add(turret);
+						m_editor_level_editing->m_fg_objects.Add(tank);
+						tank->exclude_for_collision(turret);
+						tank->exclude_for_collision(cannon);
+						turret->exclude_for_collision(tank);
+						turret->exclude_for_collision(cannon);
+						cannon->exclude_for_collision(tank);
+						cannon->exclude_for_collision(turret);
+					} else if (m_editor_selected_object==36) {
+						TGLobject_enemy *tank,*turret,*cannon;
+						tank=new TGLobject_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),2);
+						turret=new TGLobject_tank_turret(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),tank,2);
+						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),turret);
+						m_editor_level_editing->m_fg_objects.Add(cannon);
+						m_editor_level_editing->m_fg_objects.Add(turret);
+						m_editor_level_editing->m_fg_objects.Add(tank);
+						tank->exclude_for_collision(turret);
+						tank->exclude_for_collision(cannon);
+						turret->exclude_for_collision(tank);
+						turret->exclude_for_collision(cannon);
+						cannon->exclude_for_collision(tank);
+						cannon->exclude_for_collision(turret);
+					} else if (m_editor_selected_object==37) {
+						TGLobject_enemy *tank,*turret,*cannon;
+						tank=new TGLobject_big_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD));
+						turret=new TGLobject_tank_turret(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),tank,3);
+						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),turret);
+						m_editor_level_editing->m_fg_objects.Add(cannon);
+						m_editor_level_editing->m_fg_objects.Add(turret);
+						m_editor_level_editing->m_fg_objects.Add(tank);
+						tank->exclude_for_collision(turret);
+						tank->exclude_for_collision(cannon);
+						turret->exclude_for_collision(tank);
+						turret->exclude_for_collision(cannon);
+						cannon->exclude_for_collision(tank);
+						cannon->exclude_for_collision(turret);
+
+					} else if (m_editor_selected_object==38) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_leftdoor(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0));
+					} else if (m_editor_selected_object==39) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_rightdoor(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0));
+
+					} else if (m_editor_selected_object==40) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0));
+					} else if (m_editor_selected_object==41) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,1));
+					} else if (m_editor_selected_object==42) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,3));
+					} else if (m_editor_selected_object==43) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,2));
+
+					} else if (m_editor_selected_object==44) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,4));
+					} else if (m_editor_selected_object==45) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,5));
+					} else if (m_editor_selected_object==46) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,7));
+					} else if (m_editor_selected_object==47) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,6));
+
+					} else if (m_editor_selected_object==48) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,8));
+					} else if (m_editor_selected_object==49) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,9));
+					} else if (m_editor_selected_object==50) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,11));
+					} else if (m_editor_selected_object==51) {
+						m_editor_level_editing->m_fg_objects.Add(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,10));
+					} // if 
+
 					break;
 			case 3:
 					break;
 			} // if
 		} // if
 
-		// Right button presse (but not over any interface element);
+		// Right button pressed (but not over any interface element);
 		if ((ID==-1 && m_mouse_button==3) || k->key_press(SDLK_DELETE)) {
 			switch(m_editor_mode) {
 			case 0:
@@ -405,7 +695,7 @@ void TGLapp::mapeditor_draw(void)
 
 	case 1: TGLinterface::print_center("tiles",m_font16,50,180);
 
-			if (m_editor_insert_x!=-1) {
+			if (m_editor_insert_x!=-1 && m_editor_selected_tile!=-1) {
 				float x,y;
 
 				x = ((m_editor_insert_x-m_editor_focus_x)*m_editor_current_zoom) + (SCREEN_X/2);
@@ -430,6 +720,30 @@ void TGLapp::mapeditor_draw(void)
 			break;
 
 	case 2: TGLinterface::print_center("objects",m_font16,50,180);
+
+			if (m_editor_insert_x!=-1 && m_editor_selected_object!=-1) {
+				float x,y;
+				GLTile *t = m_editor_object_tiles[m_editor_selected_object];
+
+				x = ((m_editor_insert_x-m_editor_focus_x)*m_editor_current_zoom) + (SCREEN_X/2);
+				y = ((m_editor_insert_y+STARFIELD-m_editor_focus_y)*m_editor_current_zoom) + (SCREEN_Y/2);
+			
+				glPushMatrix();
+				glTranslatef(x,y,0);
+				glBegin(GL_LINES);
+				glColor4f(1,1,1,1);
+				glVertex3f(0,0,0);
+				glVertex3f((t->get_dx())*m_editor_current_zoom,0,0);
+				glVertex3f(0,(t->get_dy())*m_editor_current_zoom,0);
+				glVertex3f((t->get_dx())*m_editor_current_zoom,(t->get_dy())*m_editor_current_zoom,0);
+				glVertex3f(0,0,0);
+				glVertex3f(0,(t->get_dy())*m_editor_current_zoom,0);
+				glVertex3f((t->get_dx())*m_editor_current_zoom,0,0);
+				glVertex3f((t->get_dx())*m_editor_current_zoom,(t->get_dy())*m_editor_current_zoom,0);
+				glEnd();
+				glPopMatrix();
+			} // if
+		
 			break;
 
 	case 3: TGLinterface::print_center("properties",m_font16,50,180);

@@ -39,8 +39,9 @@
 
 
 
-TGLobject_redlight::TGLobject_redlight(float x,float y) : TGLobject(x,y)
+TGLobject_redlight::TGLobject_redlight(float x,float y,int type) : TGLobject(x,y)
 {
+	m_type = type;
 } /* TGLobject_redlight::TGLobject_redlight */ 
 
 
@@ -52,8 +53,14 @@ TGLobject_redlight::~TGLobject_redlight()
 void TGLobject_redlight::draw(GLTManager *GLTM)
 {
 	int local_cycle=m_cycle%48;
-	if (local_cycle<24) m_last_tile=GLTM->get("objects/red-light1");
-				   else m_last_tile=GLTM->get("objects/red-light2");
+	if (m_type==0) {
+		if (local_cycle<24) m_last_tile=GLTM->get("objects/red-light1");
+					   else m_last_tile=GLTM->get("objects/red-light2");
+	} // if
+	if (m_type==1) {
+		if (local_cycle<24) m_last_tile=GLTM->get("objects/red-light1-snow");
+					   else m_last_tile=GLTM->get("objects/red-light2-snow");
+	} // if 
 	if (m_last_tile!=0) m_last_tile->draw(m_x,m_y,0,0,1);
 } /* TGLobject_redlight::draw */ 
 

@@ -41,6 +41,7 @@
 #define SAVEREPLAY_REPLAYSPERPAGE	12
 #define LEVELPACKBROWSER_LPPERPAGE	10
 #define MAPBROWSER_MPERPAGE			16
+#define MAPBROWSER_MPERPAGE_SAVE	12
 #define PROFILESPERPAGE				12
 #define HIGHSCORE_GLOBAL_PERPAGE	14
 
@@ -91,6 +92,7 @@ protected:
 	int mapeditor_cycle(KEYBOARDSTATE *k);
 	int loadlevelpack_cycle(KEYBOARDSTATE *k);
 	int loadmap_cycle(KEYBOARDSTATE *k);
+	int savemap_cycle(KEYBOARDSTATE *k);
 
 	void playerprofile_draw(void);
 	void intro_draw(void);
@@ -109,6 +111,7 @@ protected:
 	void mapeditor_draw(void);
 	void loadlevelpack_draw(void);
 	void loadmap_draw(void);
+	void savemap_draw(void);
 
 	int screen_x(int x);	/* given a coordinate in 640x480, returns the proper coordinate at the current resolution */ 
 	int screen_y(int y);    /* given a coordinate in 640x480, returns the proper coordinate at the current resolution */ 
@@ -250,8 +253,9 @@ protected:
 	int m_editor_focus_x,m_editor_focus_y;
 	int m_editor_zoom;
 	float m_editor_real_zoom,m_editor_current_zoom;	
-	int m_editor_selected_tile;
+	int m_editor_selected_tile,m_editor_selected_object;
 	List<GLTile> m_editor_tiles;
+	List<GLTile> m_editor_object_tiles;
 	int m_editor_insert_x,m_editor_insert_y;
 
 	// Load/Save maps:
@@ -259,7 +263,6 @@ protected:
 	TGLInterfaceElement *m_mb_m_uparrow;
 	TGLInterfaceElement *m_mb_m_downarrow;
 	List<char> m_mb_folders_names;
-	List<char> m_mb_m_fullnames;
 	List<char> m_mb_m_names;
 	char m_mb_current_path[256];
 	bool m_mb_recheckfiles;

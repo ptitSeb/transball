@@ -180,6 +180,7 @@ TGLapp::~TGLapp()
 	m_editor_levelpack=0;
 
 	m_editor_tiles.ExtractAll();
+	m_editor_object_tiles.ExtractAll();
 
 	delete m_GLTM;
 	delete m_SFXM;
@@ -232,6 +233,8 @@ bool TGLapp::cycle(KEYBOARDSTATE *k)
 	case TGL_STATE_LOADLEVELPACK: m_state=loadlevelpack_cycle(k);
 							   break;
 	case TGL_STATE_LOADMAP: m_state=loadmap_cycle(k);
+							   break;
+	case TGL_STATE_SAVEMAP: m_state=savemap_cycle(k);
 							   break;
 	default:return false;
 	} /* switch */ 
@@ -353,6 +356,8 @@ void TGLapp::draw(int SCREEN_X,int SCREEN_Y)
 	case TGL_STATE_LOADLEVELPACK: loadlevelpack_draw();
 							   break;
 	case TGL_STATE_LOADMAP: loadmap_draw();
+							   break;
+	case TGL_STATE_SAVEMAP: savemap_draw();
 							   break;
 	} // switch 
  	

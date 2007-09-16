@@ -963,6 +963,10 @@ SOURCE=.\src\state_replaybrowser.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\src\state_savemap.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\src\state_savereplay.cpp
 # End Source File
 # End Group

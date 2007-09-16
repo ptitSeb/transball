@@ -153,7 +153,8 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 				m_fg_objects.Add(new TGLobject_ballstand(x,y));
 				m_fg_objects.Add(new TGLobject_ball(x+16,y+5));
 			} // if 
-			if (strcmp(tmp,"red-light")==0) m_fg_objects.Add(new TGLobject_redlight(x,y));
+			if (strcmp(tmp,"red-light")==0) m_fg_objects.Add(new TGLobject_redlight(x,y,0));
+			if (strcmp(tmp,"red-light-snow")==0) m_fg_objects.Add(new TGLobject_redlight(x,y,1));
 			if (strcmp(tmp,"radar")==0) m_fg_objects.Add(new TGLobject_radar(x,y));
 			if (strcmp(tmp,"pipe-vertical-screen")==0) m_fg_objects.Add(new TGLobject_pipevscreen(x,y));
 			if (strcmp(tmp,"pipe-horizontal-screen")==0) m_fg_objects.Add(new TGLobject_pipehscreen(x,y));

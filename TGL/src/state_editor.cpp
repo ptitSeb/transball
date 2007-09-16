@@ -310,7 +310,8 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 				}
 				break;
 
-		case 10: // EDIT				
+		case 10: // EDIT		
+				m_editor_level_editing=0;
 				return TGL_STATE_MAPEDITOR;
 				break;
 
