@@ -58,6 +58,11 @@ TGLobject_ship_xterminator::TGLobject_ship_xterminator(float x,float y,int initi
 
 TGLobject_ship_xterminator::~TGLobject_ship_xterminator()
 {
+	if (m_thrust_channel!=-1) {
+		Mix_HaltChannel(m_thrust_channel);
+		m_thrust_channel=-1;
+	} // if 
+
 } /* TGLobject_ship_xterminator::~TGLobject_ship */ 
 
 

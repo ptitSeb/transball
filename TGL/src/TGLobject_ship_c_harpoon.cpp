@@ -70,6 +70,11 @@ TGLobject_ship_c_harpoon::TGLobject_ship_c_harpoon(float x,float y,int initial_f
 
 TGLobject_ship_c_harpoon::~TGLobject_ship_c_harpoon()
 {
+	if (m_thrust_channel!=-1) {
+		Mix_HaltChannel(m_thrust_channel);
+		m_thrust_channel=-1;
+	} // if 
+
 	m_chain.ExtractAll();
 } /* TGLobject_ship_c_harpoon::~TGLobject_ship */ 
 

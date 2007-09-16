@@ -60,6 +60,11 @@ TGLobject_ship_accura::TGLobject_ship_accura(float x,float y,int initial_fuel) :
 
 TGLobject_ship_accura::~TGLobject_ship_accura()
 {
+	if (m_thrust_channel!=-1) {
+		Mix_HaltChannel(m_thrust_channel);
+		m_thrust_channel=-1;
+	} // if 
+
 } /* TGLobject_ship_accura::~TGLobject_ship */ 
 
 

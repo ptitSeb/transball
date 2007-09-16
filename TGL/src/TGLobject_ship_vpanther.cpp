@@ -59,6 +59,10 @@ TGLobject_ship_vpanther::TGLobject_ship_vpanther(float x,float y,int initial_fue
 
 TGLobject_ship_vpanther::~TGLobject_ship_vpanther()
 {
+	if (m_thrust_channel!=-1) {
+		Mix_HaltChannel(m_thrust_channel);
+		m_thrust_channel=-1;
+	} // if 
 } /* TGLobject_ship_vpanther::~TGLobject_ship */ 
 
 

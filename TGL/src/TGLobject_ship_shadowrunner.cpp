@@ -59,6 +59,11 @@ TGLobject_ship_shadowrunner::TGLobject_ship_shadowrunner(float x,float y,int ini
 
 TGLobject_ship_shadowrunner::~TGLobject_ship_shadowrunner()
 {
+	if (m_thrust_channel!=-1) {
+		Mix_HaltChannel(m_thrust_channel);
+		m_thrust_channel=-1;
+	} // if 
+
 } /* TGLobject_ship_shadowrunner::~TGLobject_ship */ 
 
 
