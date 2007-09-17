@@ -23,6 +23,7 @@ public:
 
 	virtual void draw(GLTManager *GLTM);
 	virtual bool cycle(VirtualController *k,class TGLmap *map,GLTManager *GLTM,SFXManager *SFXM,int sfx_volume);
+	virtual bool editor_cycle(TGLmap *map,GLTManager *GLTM);
 
 	void exclude_for_collision(TGLobject *o);
 	void reconsider_for_collision(TGLobject *o);

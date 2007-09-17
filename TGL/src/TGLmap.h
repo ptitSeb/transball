@@ -14,9 +14,13 @@ public:
 	void save(FILE *fp, GLTManager *GLTM);
 
 	bool cycle(List<class VirtualController> *lk,GLTManager *GLTM,SFXManager *SFXM,int sfx_volume);
+	bool editor_cycle(GLTManager *GLTM);
 	void draw(int focus_x,int focus_y,int dx,int dy,GLTManager *GLTM);
 	void draw(int focus_x,int focus_y,int dx,int dy,GLTManager *GLTM,float zoom);
 
+	void reset(void);
+	void create_laser_objects(void);
+	
 	int get_dx(void) {return m_bg_dx*m_bg_cell_size;};
 	int get_dy(void) {return m_bg_dy*m_bg_cell_size+STARFIELD;};
 

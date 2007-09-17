@@ -83,7 +83,6 @@ TGL::TGL(char *map, int ship,int initial_fuel,int sfx_volume, int music_volume, 
 	}
 
 	if (m_map!=0) {
-		m_ball=m_map->object_exists("TGLobject_ball");
 		switch(ship) {
 		case 0:	m_ship=new TGLobject_ship_vpanther(float(m_map->get_dx()/2),32,initial_fuel);
 				break;
@@ -109,10 +108,6 @@ TGL::TGL(char *map, int ship,int initial_fuel,int sfx_volume, int music_volume, 
 				break;
 		} // switch
 		m_map->add_object(m_ship);
-		if (m_ball!=0) {
-			m_ball->exclude_for_collision(m_ship);
-			m_ship->exclude_for_collision(m_ball);
-		} // if 
 		m_focus_x=m_map->get_dx()/2;
 		m_focus_y=32;
 	} else {
@@ -140,6 +135,13 @@ TGL::~TGL()
 } /* TGL::~TGL */ 
 
 
+void TGL::reset(void)
+{
+	m_map->reset();
+	m_ball = m_map->object_exists("TGLobject_ball");
+} /* TGL::reset */ 
+
+
 int TGL::get_game_result()
 {
 	return m_game_result;
@@ -158,6 +160,17 @@ TGLmap *TGL::get_map(void)
 	return m_map;
 } /* TGL::get_object_list */ 
 
+
+
+bool TGL::editor_cycle(GLTManager *GLTM)
+{
+	if (m_map!=0) {
+		m_map->editor_cycle(GLTM);
+		m_cycle++;
+	} // if 
+	
+	return true;
+} /* TGL::editor_cycle */ 
 
 
 bool TGL::cycle(List<VirtualController> *lv,GLTManager *GLTM,SFXManager *SFXM,int sfx_volume)

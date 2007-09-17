@@ -73,6 +73,13 @@ bool TGLobject::cycle(VirtualController *k,TGLmap *map,GLTManager *GLTM,SFXManag
 } /* TGLobject::cycle */ 
 
 
+bool TGLobject::editor_cycle(TGLmap *map,GLTManager *GLTM)
+{
+	m_cycle++;
+	return true;
+} /* TGLobject::editor_cycle */ 
+
+
 GLTile *TGLobject::get_last_tile(void)
 {
 	return m_last_tile;

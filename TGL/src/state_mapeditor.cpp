@@ -482,12 +482,16 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 						m_editor_level_editing->m_fg_objects.Add(new TGLobject_radar(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
 					} else if (m_editor_selected_object==6) {
 						m_editor_level_editing->m_fg_objects.Add(new TGLobject_laser_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->create_laser_objects();
 					} else if (m_editor_selected_object==7) {
 						m_editor_level_editing->m_fg_objects.Add(new TGLobject_laser_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->create_laser_objects();
 					} else if (m_editor_selected_object==8) {
 						m_editor_level_editing->m_fg_objects.Add(new TGLobject_laser_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->create_laser_objects();
 					} else if (m_editor_selected_object==9) {
 						m_editor_level_editing->m_fg_objects.Add(new TGLobject_laser_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->create_laser_objects();
 
 					} else if (m_editor_selected_object==10) {
 						m_editor_level_editing->m_fg_objects.Add(new TGLobject_cannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
@@ -661,6 +665,8 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 			} // if
 		} // if
 	}
+
+	if (m_editor_level_editing!=0) m_editor_level_editing->editor_cycle(m_GLTM);
 
     return TGL_STATE_MAPEDITOR;
 } /* TheGooniesApp::mapeditor_cycle */ 

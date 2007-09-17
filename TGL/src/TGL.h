@@ -8,7 +8,10 @@ public:
 	~TGL();
 
 	bool cycle(List<class VirtualController> *lk,GLTManager *GLTM,SFXManager *SFXM,int sfx_volume);
+	bool editor_cycle(GLTManager *GLTM);
 	void draw(GLTManager *GLTM);
+
+	void reset(void);
 
 	void set_music_volume(int v);
 	void set_sfx_volume(int v);

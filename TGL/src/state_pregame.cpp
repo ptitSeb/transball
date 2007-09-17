@@ -55,6 +55,7 @@ int TGLapp::pregame_cycle(KEYBOARDSTATE *k)
 			char map_name[256];
 			sprintf(map_name,"maps/%s/%s",m_current_levelpack->m_id,m_current_levelpack->m_levels[m_selected_level]->m_map);
 			m_game=new TGL(map_name,m_selected_ship,m_current_levelpack->m_levels[m_selected_level]->m_initial_fuel,m_player_profile->m_sfx_volume,m_player_profile->m_music_volume,m_GLTM);
+			m_game->reset();
 		}
 
 		

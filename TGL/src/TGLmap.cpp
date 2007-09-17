@@ -74,6 +74,7 @@
 #include "TGLobject_leftdoor.h"
 #include "TGLobject_rightdoor.h"
 #include "TGLobject_button.h"
+#include "TGLobject_ship.h"
 
 #include "collision.h"
 
@@ -150,8 +151,7 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 			y=float(iy*m_fg_cell_size);
 			y+=STARFIELD;
 			if (strcmp(tmp,"ball-stand")==0) {
-				m_fg_objects.Add(new TGLobject_ballstand(x,y));
-				m_fg_objects.Add(new TGLobject_ball(x+16,y+5));
+				m_fg_objects.Add(new TGLobject_ballstand(x,y));				
 			} // if 
 			if (strcmp(tmp,"red-light")==0) m_fg_objects.Add(new TGLobject_redlight(x,y,0));
 			if (strcmp(tmp,"red-light-snow")==0) m_fg_objects.Add(new TGLobject_redlight(x,y,1));
@@ -317,61 +317,97 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 				m_fg_objects.Add(new TGLobject_button(x,y,p1,11));
 			} // if 
 		} // for 
-
-		// Create the laser objects:
-		{
-			List<TGLobject> l,l2;
-			TGLobject *o,*o2,*pair;
-			l.Instance(m_fg_objects);
-			l2.Instance(m_fg_objects);
-			l.Rewind();
-			while(l.Iterate(o)) {
-				if (o->is_a("TGLobject_laser_left")) {
-					// Fint pair:
-					pair=0;
-					l2.Rewind();
-					while(l2.Iterate(o2)) {
-						if (o2->is_a("TGLobject_laser_right") && 
-							o2->get_y()==o->get_y() &&
-							o2->get_x()>o->get_x()) {
-							if (pair==0) pair=o2;
-							if (pair->get_x()>o2->get_x()) pair=o2;
-						} // if 
-					} // while 
-
-					if (pair!=0) {
-						float i;
-						for(i=o->get_x();i<=pair->get_x();i+=m_fg_cell_size) {
-							m_fg_objects.Insert(new TGLobject_laser_horizontal(i,o->get_y(),o,pair));
-						} // for
-					} // if 
-				} // if 
-
-				if (o->is_a("TGLobject_laser_up")) {
-					// Fint pair:
-					pair=0;
-					l2.Rewind();
-					while(l2.Iterate(o2)) {
-						if (o2->is_a("TGLobject_laser_down") && 
-							o2->get_x()==o->get_x() &&
-							o2->get_y()>o->get_y()) {
-							if (pair==0) pair=o2;
-							if (pair->get_y()>o2->get_y()) pair=o2;
-						} // if 
-					} // while 
-
-					if (pair!=0) {
-						float i;
-						for(i=o->get_y();i<=pair->get_y();i+=m_fg_cell_size) {
-							m_fg_objects.Insert(new TGLobject_laser_vertical(o->get_x(),i,o,pair));
-						} // for
-					} // if 
-				} // if 
-			} // while 
-		}
 	}
 
 } /* TGLmap::TGLmap */ 
+
+
+void TGLmap::reset(void)
+{
+	TGLobject_ballstand *bs = (TGLobject_ballstand *)object_exists("TGLobject_ballstand");
+
+	if (bs!=0) {
+		TGLobject_ball *ball = new TGLobject_ball(bs->get_x()+16,bs->get_y()+5);
+		TGLobject_ship *ship = (TGLobject_ship *)object_exists("TGLobject_ship");
+		m_fg_objects.Insert(ball);
+		if (ball!=0 && ship!=0) {
+			ball->exclude_for_collision(ship);
+			ship->exclude_for_collision(ball);
+		} // if 
+
+	} // if 
+
+	create_laser_objects();
+} /* TGLmap::TGLmap */ 
+
+
+void TGLmap::create_laser_objects(void) 
+{
+	List<TGLobject> l,l2,todelete;
+	TGLobject *o,*o2,*pair;
+
+
+	// First remove all the laser objects existing in the map:
+	l.Instance(m_fg_objects);
+	l.Rewind();
+	while(l.Iterate(o)) {
+		if (o->is_a("TGLobject_laser_horizontal") || o->is_a("TGLobject_laser_vertical")) todelete.Add(o);
+	} // while 
+
+	while(!todelete.EmptyP()) {
+		o=todelete.ExtractIni();
+		m_fg_objects.DeleteElement(o);
+		delete o;
+	} // while 
+
+	l.Instance(m_fg_objects);
+	l2.Instance(m_fg_objects);
+	l.Rewind();
+	while(l.Iterate(o)) {
+		if (o->is_a("TGLobject_laser_left")) {
+			// Fint pair:
+			pair=0;
+			l2.Rewind();
+			while(l2.Iterate(o2)) {
+				if (o2->is_a("TGLobject_laser_right") && 
+					o2->get_y()==o->get_y() &&
+					o2->get_x()>o->get_x()) {
+					if (pair==0) pair=o2;
+					if (pair->get_x()>o2->get_x()) pair=o2;
+				} // if 
+			} // while 
+
+			if (pair!=0) {
+				float i;
+				for(i=o->get_x();i<=pair->get_x();i+=m_fg_cell_size) {
+					m_fg_objects.Insert(new TGLobject_laser_horizontal(i,o->get_y(),o,pair));
+				} // for
+			} // if 
+		} // if 
+
+		if (o->is_a("TGLobject_laser_up")) {
+			// Fint pair:
+			pair=0;
+			l2.Rewind();
+			while(l2.Iterate(o2)) {
+				if (o2->is_a("TGLobject_laser_down") && 
+					o2->get_x()==o->get_x() &&
+					o2->get_y()>o->get_y()) {
+					if (pair==0) pair=o2;
+					if (pair->get_y()>o2->get_y()) pair=o2;
+				} // if 
+			} // while 
+
+			if (pair!=0) {
+				float i;
+				for(i=o->get_y();i<=pair->get_y();i+=m_fg_cell_size) {
+					m_fg_objects.Insert(new TGLobject_laser_vertical(o->get_x(),i,o,pair));
+				} // for
+			} // if 
+		} // if 
+	} // while 
+} /* TGLmap::create_laser_objects */ 
+
 
 
 void TGLmap::set_background(int type,GLTManager *GLTM)
@@ -515,54 +551,102 @@ TGLmap::~TGLmap()
 } /* TGLmap::~TGLmap */ 
 
 
+bool TGLmap::editor_cycle(GLTManager *GLTM)
+{
+	List<TGLobject> todelete;
+
+	TGLobject *o;
+
+	m_fg_objects.Rewind();
+	while(m_fg_objects.Iterate(o)) {
+		if (!o->editor_cycle(this,GLTM)) {
+			todelete.Add(o);
+		} // if 
+	} // while 
+
+	while(!todelete.EmptyP()) {
+		o=todelete.ExtractIni();
+		m_fg_ships.DeleteElement(o);
+		m_fg_objects.DeleteElement(o);
+		delete o;
+	} // while 
+
+	m_auxiliary_front_objects.Rewind();
+	while(m_auxiliary_front_objects.Iterate(o)) {
+		if (!o->editor_cycle(this,GLTM)) {
+			todelete.Add(o);
+		} // if 
+	} // while 
+
+	while(!todelete.EmptyP()) {
+		o=todelete.ExtractIni();
+		m_auxiliary_front_objects.DeleteElement(o);
+		delete o;
+	} // while 
+
+	m_auxiliary_back_objects.Rewind();
+	while(m_auxiliary_back_objects.Iterate(o)) {
+		if (!o->editor_cycle(this,GLTM)) {
+			todelete.Add(o);
+		} // if 
+	} // while 
+
+	while(!todelete.EmptyP()) {
+		o=todelete.ExtractIni();
+		m_auxiliary_back_objects.DeleteElement(o);
+		delete o;
+	} // while 
+
+	return true;
+} /* TGLmap::editor_cycle */ 
+
 
 bool TGLmap::cycle(List<VirtualController> *lv,GLTManager *GLTM,SFXManager *SFXM,int sfx_volume)
 {
-	{
-		List<TGLobject> todelete;
+	List<TGLobject> todelete;
 
-		TGLobject *o;
+	TGLobject *o;
 
-		m_fg_objects.Rewind();
-		while(m_fg_objects.Iterate(o)) {
-			if (!o->cycle((*lv)[o->get_controller()],this,GLTM,SFXM,sfx_volume)) {
-				todelete.Add(o);
-			} // if 
-		} // while 
+	m_fg_objects.Rewind();
+	while(m_fg_objects.Iterate(o)) {
+		if (!o->cycle((*lv)[o->get_controller()],this,GLTM,SFXM,sfx_volume)) {
+			todelete.Add(o);
+		} // if 
+	} // while 
 
-		while(!todelete.EmptyP()) {
-			o=todelete.ExtractIni();
-			m_fg_ships.DeleteElement(o);
-			m_fg_objects.DeleteElement(o);
-			delete o;
-		} // while 
+	while(!todelete.EmptyP()) {
+		o=todelete.ExtractIni();
+		m_fg_ships.DeleteElement(o);
+		m_fg_objects.DeleteElement(o);
+		delete o;
+	} // while 
 
-		m_auxiliary_front_objects.Rewind();
-		while(m_auxiliary_front_objects.Iterate(o)) {
-			if (!o->cycle((*lv)[o->get_controller()],this,GLTM,SFXM,sfx_volume)) {
-				todelete.Add(o);
-			} // if 
-		} // while 
+	m_auxiliary_front_objects.Rewind();
+	while(m_auxiliary_front_objects.Iterate(o)) {
+		if (!o->cycle((*lv)[o->get_controller()],this,GLTM,SFXM,sfx_volume)) {
+			todelete.Add(o);
+		} // if 
+	} // while 
 
-		while(!todelete.EmptyP()) {
-			o=todelete.ExtractIni();
-			m_auxiliary_front_objects.DeleteElement(o);
-			delete o;
-		} // while 
-	
-		m_auxiliary_back_objects.Rewind();
-		while(m_auxiliary_back_objects.Iterate(o)) {
-			if (!o->cycle((*lv)[o->get_controller()],this,GLTM,SFXM,sfx_volume)) {
-				todelete.Add(o);
-			} // if 
-		} // while 
+	while(!todelete.EmptyP()) {
+		o=todelete.ExtractIni();
+		m_auxiliary_front_objects.DeleteElement(o);
+		delete o;
+	} // while 
 
-		while(!todelete.EmptyP()) {
-			o=todelete.ExtractIni();
-			m_auxiliary_back_objects.DeleteElement(o);
-			delete o;
-		} // while 
-	}
+	m_auxiliary_back_objects.Rewind();
+	while(m_auxiliary_back_objects.Iterate(o)) {
+		if (!o->cycle((*lv)[o->get_controller()],this,GLTM,SFXM,sfx_volume)) {
+			todelete.Add(o);
+		} // if 
+	} // while 
+
+	while(!todelete.EmptyP()) {
+		o=todelete.ExtractIni();
+		m_auxiliary_back_objects.DeleteElement(o);
+		delete o;
+	} // while 
+
 	return true;
 } /* TGLmap::cycle */ 
 
