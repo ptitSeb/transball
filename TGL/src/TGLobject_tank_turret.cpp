@@ -87,6 +87,22 @@ bool TGLobject_tank_turret::cycle(VirtualController *k,class TGLmap *map,GLTMana
 } /* TGLobject_tank_turret::cycle */ 
 
 
+bool TGLobject_tank_turret::editor_cycle(TGLmap *map,GLTManager *GLTM)
+{
+	if (m_type==3) {
+		m_x=(m_tank->get_x());
+		m_y=(m_tank->get_y()-26);
+	} else {
+		m_x=(m_tank->get_x()+2);
+		m_y=(m_tank->get_y()-17);
+	} // if 
+
+	m_angle=m_tank->get_angle()/2;
+
+	return true;
+} /* TGLobject_tank_turret::editor_cycle */
+
+
 void TGLobject_tank_turret::draw(GLTManager *GLTM)
 {
 	if (m_last_tile==0) {

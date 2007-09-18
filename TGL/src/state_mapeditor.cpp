@@ -158,6 +158,8 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 		m_editor_insert_x=-1;
 		m_editor_insert_y=-1;
 
+		m_mb_object_under_pointer=0;
+
 		if (m_editor_tiles.EmptyP()) {
 			// Load all the tiles from "graphics\foreground"
 			char *path="graphics/foreground";
@@ -298,6 +300,24 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 					} // if
 
 					m_editor_selected_object = tb->getSelected();
+				}
+
+				// Check if the pointer is over an object (for the delete pointer):
+				{
+					int mouse_x,mouse_y;
+
+					mouse_x = int((m_mouse_x-(SCREEN_X/2))/m_editor_current_zoom + (m_editor_focus_x));
+					mouse_y = int((m_mouse_y-(SCREEN_Y/2))/m_editor_current_zoom + (m_editor_focus_y));
+
+					if (mouse_x<0 || mouse_y<0 ||
+						mouse_x>=m_editor_level_editing->get_dx() ||
+						mouse_y>=m_editor_level_editing->get_dy()) {
+						mouse_x = -1;
+						mouse_y = -1;
+					} // if
+
+					m_mb_object_under_pointer = m_editor_level_editing->collision_with_object(float(mouse_x),float(mouse_y));
+
 				}
 
 				break;
@@ -550,9 +570,9 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 					} else if (m_editor_selected_object==34) {
 						TGLobject_enemy *tank,*turret,*cannon;
-						tank=new TGLobject_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),0);
-						turret=new TGLobject_tank_turret(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),tank,0);
-						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),turret);
+						tank=new TGLobject_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+45+STARFIELD),0);
+						turret=new TGLobject_tank_turret(float(m_editor_insert_x+34),float(m_editor_insert_y+28+STARFIELD),tank,0);
+						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+34),float(m_editor_insert_y+20+STARFIELD),turret);
 						m_editor_level_editing->m_fg_objects.Add(cannon);
 						m_editor_level_editing->m_fg_objects.Add(turret);
 						m_editor_level_editing->m_fg_objects.Add(tank);
@@ -564,9 +584,9 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 						cannon->exclude_for_collision(turret);
 					} else if (m_editor_selected_object==35) {
 						TGLobject_enemy *tank,*turret,*cannon;
-						tank=new TGLobject_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),1);
-						turret=new TGLobject_tank_turret(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),tank,1);
-						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),turret);
+						tank=new TGLobject_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+45+STARFIELD),1);
+						turret=new TGLobject_tank_turret(float(m_editor_insert_x+34),float(m_editor_insert_y+28+STARFIELD),tank,1);
+						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+34),float(m_editor_insert_y+20+STARFIELD),turret);
 						m_editor_level_editing->m_fg_objects.Add(cannon);
 						m_editor_level_editing->m_fg_objects.Add(turret);
 						m_editor_level_editing->m_fg_objects.Add(tank);
@@ -578,9 +598,9 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 						cannon->exclude_for_collision(turret);
 					} else if (m_editor_selected_object==36) {
 						TGLobject_enemy *tank,*turret,*cannon;
-						tank=new TGLobject_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),2);
-						turret=new TGLobject_tank_turret(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),tank,2);
-						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),turret);
+						tank=new TGLobject_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+45+STARFIELD),2);
+						turret=new TGLobject_tank_turret(float(m_editor_insert_x+34),float(m_editor_insert_y+28+STARFIELD),tank,2);
+						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+34),float(m_editor_insert_y+20+STARFIELD),turret);
 						m_editor_level_editing->m_fg_objects.Add(cannon);
 						m_editor_level_editing->m_fg_objects.Add(turret);
 						m_editor_level_editing->m_fg_objects.Add(tank);
@@ -592,9 +612,9 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 						cannon->exclude_for_collision(turret);
 					} else if (m_editor_selected_object==37) {
 						TGLobject_enemy *tank,*turret,*cannon;
-						tank=new TGLobject_big_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD));
-						turret=new TGLobject_tank_turret(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),tank,3);
-						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+32),float(m_editor_insert_y+32+STARFIELD),turret);
+						tank=new TGLobject_big_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+45+STARFIELD));
+						turret=new TGLobject_tank_turret(float(m_editor_insert_x+32),float(m_editor_insert_y+19+STARFIELD),tank,3);
+						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+32),float(m_editor_insert_y+11+STARFIELD),turret);
 						m_editor_level_editing->m_fg_objects.Add(cannon);
 						m_editor_level_editing->m_fg_objects.Add(turret);
 						m_editor_level_editing->m_fg_objects.Add(tank);
@@ -659,6 +679,102 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 					}
 					break;
 			case 2:
+					if (m_mb_object_under_pointer!=0) {
+						if (m_mb_object_under_pointer->is_a("TGLobject_tank")) {
+							List<TGLobject> *l = m_editor_level_editing->get_objects("TGLobject_tank_cannon");
+							TGLobject *o;
+
+							l->Rewind();
+							while(l->Iterate(o)) {
+								if (((TGLobject_tank_turret *)((TGLobject_tank_cannon *)o)->get_turret())->get_tank()==m_mb_object_under_pointer) {
+									m_editor_level_editing->remove_object(o);
+								} // if 
+							} // while 
+							l->ExtractAll();
+							delete l;
+
+							l = m_editor_level_editing->get_objects("TGLobject_tank_turret");
+							l->Rewind();
+							while(l->Iterate(o)) {
+								if (((TGLobject_tank_turret *)o)->get_tank()==m_mb_object_under_pointer) {
+									m_editor_level_editing->remove_object(o);
+								} // if 
+							} // while 
+							l->ExtractAll();
+							delete l;
+
+							m_editor_level_editing->remove_object(m_mb_object_under_pointer);
+							m_mb_object_under_pointer=0;
+
+						} else if (m_mb_object_under_pointer->is_a("TGLobject_tank_turret")) {
+							List<TGLobject> *l = m_editor_level_editing->get_objects("TGLobject_tank_cannon");
+							TGLobject *o;
+
+							l->Rewind();
+							while(l->Iterate(o)) {
+								if (((TGLobject_tank_cannon *)o)->get_turret()==m_mb_object_under_pointer) {
+									m_editor_level_editing->remove_object(o);
+								} // if 
+							} // while 
+							l->ExtractAll();
+							delete l;
+
+							m_editor_level_editing->remove_object(((TGLobject_tank_turret *)m_mb_object_under_pointer)->get_tank());
+							m_editor_level_editing->remove_object(m_mb_object_under_pointer);
+							m_mb_object_under_pointer=0;		
+							
+						} else if (m_mb_object_under_pointer->is_a("TGLobject_tank_cannon")) {
+							List<TGLobject> *l = m_editor_level_editing->get_objects("TGLobject_tank_turret");
+							TGLobject *o;
+
+							l->Rewind();
+							while(l->Iterate(o)) {
+								if (o==((TGLobject_tank_cannon *)m_mb_object_under_pointer)->get_turret()) {
+									m_editor_level_editing->remove_object(((TGLobject_tank_turret *)o)->get_tank());
+									m_editor_level_editing->remove_object(o);
+								} // if 
+							} // while 
+							l->ExtractAll();
+							delete l;
+
+							m_editor_level_editing->remove_object(m_mb_object_under_pointer);
+							m_mb_object_under_pointer=0;
+
+						} else if (m_mb_object_under_pointer->is_a("TGLobject_big_tank")) {
+							List<TGLobject> *l = m_editor_level_editing->get_objects("TGLobject_tank_cannon");
+							TGLobject *o;
+
+							l->Rewind();
+							while(l->Iterate(o)) {
+								if (((TGLobject_tank_turret *)((TGLobject_tank_cannon *)o)->get_turret())->get_tank()==m_mb_object_under_pointer) {
+									m_editor_level_editing->remove_object(o);
+								} // if 
+							} // while 
+							l->ExtractAll();
+							delete l;
+
+							l = m_editor_level_editing->get_objects("TGLobject_tank_turret");
+							l->Rewind();
+							while(l->Iterate(o)) {
+								if (((TGLobject_tank_turret *)o)->get_tank()==m_mb_object_under_pointer) {
+									m_editor_level_editing->remove_object(o);
+								} // if 
+							} // while 
+							l->ExtractAll();
+							delete l;
+
+							m_editor_level_editing->remove_object(m_mb_object_under_pointer);
+							m_mb_object_under_pointer=0;
+
+						} else {
+							m_editor_level_editing->remove_object(m_mb_object_under_pointer);
+							m_mb_object_under_pointer=0;
+						} // if 
+						
+						m_editor_level_editing->create_laser_objects();
+
+					} // if 
+					 
 					break;
 			case 3:
 					break;
@@ -749,6 +865,32 @@ void TGLapp::mapeditor_draw(void)
 				glEnd();
 				glPopMatrix();
 			} // if
+
+			if (m_mb_object_under_pointer!=0) {
+				float x,y;
+				GLTile *t = m_mb_object_under_pointer->get_last_tile();
+
+				x = m_mb_object_under_pointer->get_x() - t->get_hot_x();
+				y = m_mb_object_under_pointer->get_y() - t->get_hot_y();
+
+				x = ((x-m_editor_focus_x)*m_editor_current_zoom) + (SCREEN_X/2);
+				y = ((y-m_editor_focus_y)*m_editor_current_zoom) + (SCREEN_Y/2);
+			
+				glPushMatrix();
+				glTranslatef(x,y,0);
+				glBegin(GL_LINES);
+				glColor4f(1,0,0,1);
+				glVertex3f(0,0,0);
+				glVertex3f((t->get_dx())*m_editor_current_zoom,0,0);
+				glVertex3f(0,(t->get_dy())*m_editor_current_zoom,0);
+				glVertex3f((t->get_dx())*m_editor_current_zoom,(t->get_dy())*m_editor_current_zoom,0);
+				glVertex3f(0,0,0);
+				glVertex3f(0,(t->get_dy())*m_editor_current_zoom,0);
+				glVertex3f((t->get_dx())*m_editor_current_zoom,0,0);
+				glVertex3f((t->get_dx())*m_editor_current_zoom,(t->get_dy())*m_editor_current_zoom,0);
+				glEnd();
+				glPopMatrix();
+			} // if 
 		
 			break;
 

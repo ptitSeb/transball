@@ -44,6 +44,8 @@ public:
 	bool collision_vector(TGLobject *o,float *vx,float *vy);
 	TGLobject *collision_with_object(TGLobject *o);
 	bool collision_with_foreground(TGLobject *o,float offsx,float offsy,int offs_alpha);
+	TGLobject *collision_with_object(float x,float y);	/* Checks if there is any object in the given coordinates */ 
+
 
 	void action(int action);
 

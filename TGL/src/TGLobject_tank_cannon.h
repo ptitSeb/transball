@@ -11,10 +11,14 @@ public:
 	virtual const char *get_class(void);
 
 	virtual bool cycle(VirtualController *k,class TGLmap *map,GLTManager *GLTM,SFXManager *SFXM,int sfx_volume);
+	virtual bool editor_cycle(TGLmap *map,GLTManager *GLTM);
 	virtual void draw(GLTManager *GLTM);
 
+
+	TGLobject_enemy *get_turret(void) {return m_turret;};
+
 private:
-	TGLobject_enemy *m_tank;
+	TGLobject_enemy *m_turret;
 };
 
 #endif

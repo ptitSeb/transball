@@ -1225,6 +1225,38 @@ TGLobject *TGLmap::collision_with_object(TGLobject *o)
 } /* TGLmap::collision_with_object */ 
 
 
+TGLobject *TGLmap::collision_with_object(float x,float y)
+{
+	List<TGLobject> l;
+	TGLobject *o2;
+
+	l.Instance(m_fg_objects);
+	l.Rewind();
+	while(l.Iterate(o2)) {
+		GLTile *mask2;
+		SDL_Surface *sfc2=0;
+		float x2,y2;
+		int hx2,hy2,angle2;
+		float s2;
+
+		mask2=o2->get_last_mask();
+		if (mask2!=0) {
+			sfc2=mask2->get_tile(0);
+			x2=o2->get_x();
+			y2=o2->get_y();
+			hx2=mask2->get_hot_x();
+			hy2=mask2->get_hot_y();
+			angle2=o2->get_angle();
+			s2=o2->get_scale();
+
+			if (::collision_with_point(sfc2,x2,y2,hx2,hy2,angle2,s2,x,y)) return o2;
+		} // if 
+
+	} // while 
+
+	return 0;
+} /* TGLmap::collision_with_object */ 
+
 
 bool TGLmap::collision_with_foreground(TGLobject *o,float offsx,float offsy,int offs_alpha)
 {
