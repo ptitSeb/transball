@@ -173,6 +173,7 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 							  m_mm_replay->get_initial_fuel(),
 							  0,
 							  0,m_GLTM);
+			m_mm_game->reset();
 		} // if 
 
 		m_mm_demo_state=1;

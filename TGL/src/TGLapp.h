@@ -269,7 +269,7 @@ protected:
 	int m_mb_first_m;
 	int m_mb_mouse_over_m;
 	int m_mb_m_selected;
-	TGLobject *m_mb_object_under_pointer;
+	class TGLobject *m_mb_object_under_pointer;
 
 
 };

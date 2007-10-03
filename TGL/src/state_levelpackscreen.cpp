@@ -392,6 +392,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 									   m_lp_tutorial_replay->get_initial_fuel(),
 									   0,
 									   0,m_GLTM);
+			m_lp_tutorial_game->reset();
 		} // if 
 
 		List<TGLobject> *l=m_lp_tutorial_game->get_map()->get_objects("TGLobject");
@@ -479,8 +480,9 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 							m_game_replay->rewind();
 							fclose(fp);
 						}
-						char *map_name=m_current_levelpack->m_levels[m_lp_first_level]->m_map;
+						char *map_name=m_game_replay->get_map();
 						m_game=new TGL(map_name,m_selected_ship,m_current_levelpack->m_levels[m_lp_first_level]->m_initial_fuel,m_player_profile->m_sfx_volume,m_player_profile->m_music_volume,m_GLTM);
+						m_game->reset();
 
 						m_game_state=0;
 						m_game_state_cycle=0;
@@ -507,8 +509,9 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 							m_game_replay->rewind();
 							fclose(fp);
 						}
-						char *map_name=m_current_levelpack->m_levels[m_lp_first_level+1]->m_map;
+						char *map_name=m_game_replay->get_map();
 						m_game=new TGL(map_name,m_selected_ship,m_current_levelpack->m_levels[m_lp_first_level+1]->m_initial_fuel,m_player_profile->m_sfx_volume,m_player_profile->m_music_volume,m_GLTM);
+						m_game->reset();
 
 						m_game_state=0;
 						m_game_state_cycle=0;
@@ -535,8 +538,9 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 							m_game_replay->rewind();
 							fclose(fp);
 						}
-						char *map_name=m_current_levelpack->m_levels[m_lp_first_level+2]->m_map;
+						char *map_name=m_game_replay->get_map();
 						m_game=new TGL(map_name,m_selected_ship,m_current_levelpack->m_levels[m_lp_first_level+2]->m_initial_fuel,m_player_profile->m_sfx_volume,m_player_profile->m_music_volume,m_GLTM);
+						m_game->reset();
 
 						m_game_state=0;
 						m_game_state_cycle=0;

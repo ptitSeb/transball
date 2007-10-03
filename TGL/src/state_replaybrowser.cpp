@@ -361,6 +361,7 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 								   m_player_profile->m_sfx_volume,
 								   m_player_profile->m_music_volume,
 								   m_GLTM);
+					m_game->reset();
 
 					m_game_state=0;
 					m_game_state_cycle=0;
