@@ -4,7 +4,6 @@ To do in "Transball GL": -------------------------------------------------------
 - compute statistics at the end of the game: accuracy, fuel used, nº of shots, max speed, avg speed
 - estados:
     - mapeditor:
-        - annotations (button actions, etc.)
         - properties mode (incluso poder cambiar el "offset" de la animación de cada objeto (Útil para pinchos)
         - intelligent tiles mode
         - delete in intelligent tiles mode
@@ -12,8 +11,8 @@ To do in "Transball GL": -------------------------------------------------------
 - ship balancing (record replays again)
     - harpoon is crap: modify the ship so that it's easier to aim and make the grabber stop if completely up (if ball
       catched, the grabber does not go completely up) 
-- Más tiles
 - Nuevos elementos:
+    - Más tiles
 	- ascensores (debes meterte en ellos, y moverte con ellos, tanto horizontales como verticales)
 	- Torretas de misiles (mega explosión con onda expansiva y además te siguen un poco (como ACCURA))
 	- Cañones direccionales rápidos (metralletas, con balas pequeñas y azules que te quitan fuel y

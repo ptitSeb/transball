@@ -16,6 +16,7 @@ public:
 	virtual void draw(GLTManager *GLTM);
 
 	int get_type(void) {return m_type;};
+	int get_event(void) {return m_event;};
 
 private:
 	int m_type;

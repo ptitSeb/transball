@@ -895,6 +895,53 @@ void TGLapp::mapeditor_draw(void)
 			break;
 
 	case 3: TGLinterface::print_center("properties",m_font16,50,180);
+			{
+				List<TGLobject> *l;
+				TGLobject *o;
+
+				l=m_editor_level_editing->get_objects("TGLobject");
+				l->Rewind();
+				while(l->Iterate(o)) {
+					float x,y;
+					GLTile *t = o->get_last_tile();
+
+					x = o->get_x() - t->get_hot_x();
+					y = o->get_y() - t->get_hot_y();
+
+					x = ((x-m_editor_focus_x)*m_editor_current_zoom) + (SCREEN_X/2);
+					y = ((y-m_editor_focus_y)*m_editor_current_zoom) + (SCREEN_Y/2);
+
+					if (o->is_a("TGLobject_button")) {
+						char tmp[80];
+						sprintf(tmp,"AO: %i",0);
+						TGLinterface::print_left(tmp,m_font16,x,y);
+						sprintf(tmp,"ID: %i",((TGLobject_button *)o)->get_event());
+						TGLinterface::print_left(tmp,m_font16,x,y+16);
+					} else if (o->is_a("TGLobject_leftdoor")) {
+						char tmp[80];
+						sprintf(tmp,"AO: %i",0);
+						TGLinterface::print_left(tmp,m_font16,x,y);
+						sprintf(tmp,"ID: %i",((TGLobject_leftdoor *)o)->get_action());
+						TGLinterface::print_left(tmp,m_font16,x,y+16);
+						sprintf(tmp,"IS: %i",o->get_state());
+						TGLinterface::print_left(tmp,m_font16,x,y+32);
+					} else if (o->is_a("TGLobject_rightdoor")) {
+						char tmp[80];
+						sprintf(tmp,"AO: %i",0);
+						TGLinterface::print_left(tmp,m_font16,x,y);
+						sprintf(tmp,"ID: %i",((TGLobject_rightdoor *)o)->get_action());
+						TGLinterface::print_left(tmp,m_font16,x,y+16);
+						sprintf(tmp,"IS: %i",o->get_state());
+						TGLinterface::print_left(tmp,m_font16,x,y+32);
+					} else {
+						char tmp[80];
+						sprintf(tmp,"AO: %i",0);
+						TGLinterface::print_left(tmp,m_font16,x,y);
+					} // if 
+				} // while
+				l->ExtractAll();
+				delete l;
+			}
 			break;
 	} // switch
 	

@@ -14,6 +14,7 @@ public:
 	virtual void draw(GLTManager *GLTM);
 
 	void action(int action);
+	int get_action(void) {return m_action;};
 
 private:
 	float m_original_x;
