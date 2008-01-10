@@ -49,6 +49,7 @@ TGLobject::TGLobject(float x,float y)
 	m_last_mask=0;
 	m_state=0;
 	m_cycle=0;
+	m_animation_offset=0;
 
 	m_controller=0;
 
@@ -133,6 +134,26 @@ int TGLobject::get_state(void)
 {
 	return m_state;
 } /* TGLobject::get_state */ 
+
+
+void TGLobject::set_state(int s)
+{
+	m_state=s;
+} /* TGLobject::set_state */ 
+
+
+int TGLobject::get_animation_offset(void)
+{
+	return m_animation_offset;
+} /* TGLobject::get_animation_offset */ 
+
+
+void TGLobject::set_animation_offset(int s)
+{
+	m_animation_offset=s;
+} /* TGLobject::set_animation_offset */ 
+
+
 
 
 bool TGLobject::is_a(Symbol *c)

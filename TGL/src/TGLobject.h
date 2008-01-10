@@ -45,8 +45,11 @@ public:
 	void set_x(float x);
 	void set_y(float y);
 
-
 	int get_state(void);
+	void set_state(int s);
+
+	int get_animation_offset(void);
+	void set_animation_offset(int o);
 
 	virtual bool is_a(char *n);
 	virtual bool is_a(Symbol *n);
@@ -59,6 +62,7 @@ protected:
 	float m_x,m_y;
 	int m_angle;
 	float m_scale;
+	int m_animation_offset;
 	GLTile *m_last_tile;
 	GLTile *m_last_mask;
 

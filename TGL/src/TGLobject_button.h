@@ -17,6 +17,7 @@ public:
 
 	int get_type(void) {return m_type;};
 	int get_event(void) {return m_event;};
+	void set_event(int event) {m_event=event;};
 
 private:
 	int m_type;

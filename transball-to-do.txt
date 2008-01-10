@@ -4,7 +4,10 @@ To do in "Transball GL": -------------------------------------------------------
 - compute statistics at the end of the game: accuracy, fuel used, nº of shots, max speed, avg speed
 - estados:
     - mapeditor:
-        - properties mode (incluso poder cambiar el "offset" de la animación de cada objeto (Útil para pinchos)
+        - properties mode (incluso poder cambiar el "offset" de la animación de cada objeto (Útil para pinchos):
+            ok - editar valores
+            - que tengan efecto (animation offset, ID, initial state)
+            - que se guarden a disco
         - intelligent tiles mode
         - delete in intelligent tiles mode
 - Allow to load files in other states (profile, levelpack, etc.) by double-clicking them.
@@ -43,6 +46,9 @@ To do in "Transball GL": -------------------------------------------------------
         - A + O/P alarga o acorta chain (consume fuel)
         - para coger/soltar la bola ENTER
     - Como utilizar los especiales de cada nave
+    - Editor:
+        - modos
+        - especialmente el "properties mode" y qué quiere decir cada propiedad
 
 : ------------------------------------------------------------------------------------------
 

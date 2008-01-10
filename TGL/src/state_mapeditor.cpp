@@ -324,6 +324,25 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 		case 3: TGLinterface::remove_element(11);
 				TGLinterface::remove_element(14);
+				
+				// Check if the pointer is over an object (for the delete pointer):
+				{
+					int mouse_x,mouse_y;
+
+					mouse_x = int((m_mouse_x-(SCREEN_X/2))/m_editor_current_zoom + (m_editor_focus_x));
+					mouse_y = int((m_mouse_y-(SCREEN_Y/2))/m_editor_current_zoom + (m_editor_focus_y));
+
+					if (mouse_x<0 || mouse_y<0 ||
+						mouse_x>=m_editor_level_editing->get_dx() ||
+						mouse_y>=m_editor_level_editing->get_dy()) {
+						mouse_x = -1;
+						mouse_y = -1;
+					} // if
+
+					m_mb_object_under_pointer = m_editor_level_editing->collision_with_object(float(mouse_x),float(mouse_y));
+
+				}
+
 				break;
 
 		} // switch
@@ -660,6 +679,41 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 					break;
 			case 3:
+					if (m_mb_object_under_pointer!=0) {
+						if (m_mb_object_under_pointer->is_a("TGLobject_button")) {
+							if (k->keyboard[SDLK_1]) {
+								m_mb_object_under_pointer->set_animation_offset(m_mb_object_under_pointer->get_animation_offset()+1);
+							} // if 
+							if (k->keyboard[SDLK_2]) {
+								int e = ((TGLobject_button *)m_mb_object_under_pointer)->get_event();
+								((TGLobject_button *)m_mb_object_under_pointer)->set_event(e+1);
+							} // if 
+
+						} else if (m_mb_object_under_pointer->is_a("TGLobject_leftdoor")) {
+							if (k->keyboard[SDLK_1]) {
+								int e = ((TGLobject_leftdoor *)m_mb_object_under_pointer)->get_action();
+								((TGLobject_leftdoor *)m_mb_object_under_pointer)->set_action(e+1);
+							} // if 
+							if (k->keyboard[SDLK_2]) {
+								m_mb_object_under_pointer->set_state(1-m_mb_object_under_pointer->get_state());
+							} // if 
+
+						} else if (m_mb_object_under_pointer->is_a("TGLobject_rightdoor")) {
+							if (k->keyboard[SDLK_1]) {
+								int e = ((TGLobject_rightdoor *)m_mb_object_under_pointer)->get_action();
+								((TGLobject_rightdoor *)m_mb_object_under_pointer)->set_action(e+1);
+							} // if 
+							if (k->keyboard[SDLK_2]) {
+								m_mb_object_under_pointer->set_state(1-m_mb_object_under_pointer->get_state());
+							} // if 
+
+						} else {
+							if (k->keyboard[SDLK_1]) {
+								m_mb_object_under_pointer->set_animation_offset(m_mb_object_under_pointer->get_animation_offset()+1);
+							} // if 							
+						} // if
+					} // if
+
 					break;
 			} // if
 		} // if
@@ -777,6 +831,40 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 					 
 					break;
 			case 3:
+					if (m_mb_object_under_pointer!=0) {
+						if (m_mb_object_under_pointer->is_a("TGLobject_button")) {
+							if (k->keyboard[SDLK_1]) {
+								m_mb_object_under_pointer->set_animation_offset(m_mb_object_under_pointer->get_animation_offset()-1);
+							} // if 
+							if (k->keyboard[SDLK_2]) {
+								int e = ((TGLobject_button *)m_mb_object_under_pointer)->get_event();
+								((TGLobject_button *)m_mb_object_under_pointer)->set_event(e-1);
+							} // if 
+
+						} else if (m_mb_object_under_pointer->is_a("TGLobject_leftdoor")) {
+							if (k->keyboard[SDLK_1]) {
+								int e = ((TGLobject_leftdoor *)m_mb_object_under_pointer)->get_action();
+								((TGLobject_leftdoor *)m_mb_object_under_pointer)->set_action(e-1);
+							} // if 
+							if (k->keyboard[SDLK_2]) {
+								m_mb_object_under_pointer->set_state(1-m_mb_object_under_pointer->get_state());
+							} // if 
+
+						} else if (m_mb_object_under_pointer->is_a("TGLobject_rightdoor")) {
+							if (k->keyboard[SDLK_1]) {
+								int e = ((TGLobject_rightdoor *)m_mb_object_under_pointer)->get_action();
+								((TGLobject_rightdoor *)m_mb_object_under_pointer)->set_action(e-1);
+							} // if 
+							if (k->keyboard[SDLK_2]) {
+								m_mb_object_under_pointer->set_state(1-m_mb_object_under_pointer->get_state());
+							} // if 
+
+						} else {
+							if (k->keyboard[SDLK_1]) {
+								m_mb_object_under_pointer->set_animation_offset(m_mb_object_under_pointer->get_animation_offset()-1);
+							} // if 							
+						} // if
+					} // if
 					break;
 			} // if
 		} // if
@@ -895,6 +983,33 @@ void TGLapp::mapeditor_draw(void)
 			break;
 
 	case 3: TGLinterface::print_center("properties",m_font16,50,180);
+
+			if (m_mb_object_under_pointer!=0) {
+				float x,y;
+				GLTile *t = m_mb_object_under_pointer->get_last_tile();
+
+				x = m_mb_object_under_pointer->get_x() - t->get_hot_x();
+				y = m_mb_object_under_pointer->get_y() - t->get_hot_y();
+
+				x = ((x-m_editor_focus_x)*m_editor_current_zoom) + (SCREEN_X/2);
+				y = ((y-m_editor_focus_y)*m_editor_current_zoom) + (SCREEN_Y/2);
+			
+				glPushMatrix();
+				glTranslatef(x,y,0);
+				glBegin(GL_LINES);
+				glColor4f(1,0,0,1);
+				glVertex3f(0,0,0);
+				glVertex3f((t->get_dx())*m_editor_current_zoom,0,0);
+				glVertex3f(0,(t->get_dy())*m_editor_current_zoom,0);
+				glVertex3f((t->get_dx())*m_editor_current_zoom,(t->get_dy())*m_editor_current_zoom,0);
+				glVertex3f(0,0,0);
+				glVertex3f(0,(t->get_dy())*m_editor_current_zoom,0);
+				glVertex3f((t->get_dx())*m_editor_current_zoom,0,0);
+				glVertex3f((t->get_dx())*m_editor_current_zoom,(t->get_dy())*m_editor_current_zoom,0);
+				glEnd();
+				glPopMatrix();
+			} // if 
+
 			{
 				List<TGLobject> *l;
 				TGLobject *o;
@@ -902,6 +1017,7 @@ void TGLapp::mapeditor_draw(void)
 				l=m_editor_level_editing->get_objects("TGLobject");
 				l->Rewind();
 				while(l->Iterate(o)) {
+					float r=1,g=1,b=1;
 					float x,y;
 					GLTile *t = o->get_last_tile();
 
@@ -911,32 +1027,38 @@ void TGLapp::mapeditor_draw(void)
 					x = ((x-m_editor_focus_x)*m_editor_current_zoom) + (SCREEN_X/2);
 					y = ((y-m_editor_focus_y)*m_editor_current_zoom) + (SCREEN_Y/2);
 
+					if (m_mb_object_under_pointer==o) {
+						r = 1;
+						g = 0;
+						b = 0;
+					} else {
+						r = 1;
+						g = 1;
+						b = 1;
+					} // if 
+
 					if (o->is_a("TGLobject_button")) {
 						char tmp[80];
-						sprintf(tmp,"AO: %i",0);
-						TGLinterface::print_left(tmp,m_font16,x,y);
-						sprintf(tmp,"ID: %i",((TGLobject_button *)o)->get_event());
-						TGLinterface::print_left(tmp,m_font16,x,y+16);
+						sprintf(tmp,"(1) AO: %i",o->get_animation_offset());
+						TGLinterface::print_left(tmp,m_font16,x,y,r,g,b,1.0f);
+						sprintf(tmp,"(2) ID: %i",((TGLobject_button *)o)->get_event());
+						TGLinterface::print_left(tmp,m_font16,x,y+16,r,g,b,1.0f);
 					} else if (o->is_a("TGLobject_leftdoor")) {
 						char tmp[80];
-						sprintf(tmp,"AO: %i",0);
-						TGLinterface::print_left(tmp,m_font16,x,y);
-						sprintf(tmp,"ID: %i",((TGLobject_leftdoor *)o)->get_action());
-						TGLinterface::print_left(tmp,m_font16,x,y+16);
-						sprintf(tmp,"IS: %i",o->get_state());
-						TGLinterface::print_left(tmp,m_font16,x,y+32);
+						sprintf(tmp,"(1) ID: %i",((TGLobject_leftdoor *)o)->get_action());
+						TGLinterface::print_left(tmp,m_font16,x,y,r,g,b,1.0f);
+						sprintf(tmp,"(2) IS: %i",o->get_state());
+						TGLinterface::print_left(tmp,m_font16,x,y+16,r,g,b,1.0f);
 					} else if (o->is_a("TGLobject_rightdoor")) {
 						char tmp[80];
-						sprintf(tmp,"AO: %i",0);
-						TGLinterface::print_left(tmp,m_font16,x,y);
-						sprintf(tmp,"ID: %i",((TGLobject_rightdoor *)o)->get_action());
-						TGLinterface::print_left(tmp,m_font16,x,y+16);
-						sprintf(tmp,"IS: %i",o->get_state());
-						TGLinterface::print_left(tmp,m_font16,x,y+32);
+						sprintf(tmp,"(1) ID: %i",((TGLobject_rightdoor *)o)->get_action());
+						TGLinterface::print_left(tmp,m_font16,x,y,r,g,b,1.0f);
+						sprintf(tmp,"(2) IS: %i",o->get_state());
+						TGLinterface::print_left(tmp,m_font16,x,y+16,r,g,b,1.0f);
 					} else {
 						char tmp[80];
-						sprintf(tmp,"AO: %i",0);
-						TGLinterface::print_left(tmp,m_font16,x,y);
+						sprintf(tmp,"(1) AO: %i",o->get_animation_offset());
+						TGLinterface::print_left(tmp,m_font16,x,y,r,g,b,1.0f);
 					} // if 
 				} // while
 				l->ExtractAll();
