@@ -68,6 +68,24 @@ bool TGLobject_spike_right::cycle(VirtualController *k,class TGLmap *map,GLTMana
 } /* TGLobject_spike_right::cycle */ 
 
 
+bool TGLobject_spike_right::editor_cycle(TGLmap *map,GLTManager *GLTM)
+{
+	int tmp;
+
+	m_cycle++;
+
+	tmp=((m_animation_offset+m_cycle)/2)%64;
+
+	if (tmp<32) {
+		m_x=m_start_x+(32-tmp);
+	} else {
+		m_x=m_start_x+(tmp-32);
+	} // if 
+		
+	return true;
+} /* TGLobject_spike_right::editor_cycle */ 
+
+
 void TGLobject_spike_right::draw(GLTManager *GLTM)
 {
 	if (m_last_tile==0) m_last_tile=GLTM->get("objects/spike-right");

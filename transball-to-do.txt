@@ -6,8 +6,8 @@ To do in "Transball GL": -------------------------------------------------------
     - mapeditor:
         - properties mode (incluso poder cambiar el "offset" de la animación de cada objeto (Útil para pinchos):
             ok - editar valores
-            - que tengan efecto (animation offset, ID, initial state)
-            - que se guarden a disco
+            OK - que tengan efecto:
+            - guardar animation offset to disk (buf! this implies to regenerate ALL the maps!?!?!)               
         - intelligent tiles mode
         - delete in intelligent tiles mode
 - Allow to load files in other states (profile, levelpack, etc.) by double-clicking them.

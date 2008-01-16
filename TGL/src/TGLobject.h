@@ -48,6 +48,9 @@ public:
 	int get_state(void);
 	void set_state(int s);
 
+	int get_cycle(void);
+	void set_cycle(int s);
+
 	int get_animation_offset(void);
 	void set_animation_offset(int o);
 

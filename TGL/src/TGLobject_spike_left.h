@@ -11,7 +11,10 @@ public:
 	virtual const char *get_class(void);
 
 	virtual bool cycle(VirtualController *k,class TGLmap *map,GLTManager *GLTM,SFXManager *SFXM,int sfx_volume);
+	virtual bool editor_cycle(TGLmap *map,GLTManager *GLTM);
 	virtual void draw(GLTManager *GLTM);
+
+	float get_start_x(void) {return m_start_x;};
 
 private:
 	float m_start_x;

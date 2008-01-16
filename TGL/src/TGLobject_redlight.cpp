@@ -52,7 +52,7 @@ TGLobject_redlight::~TGLobject_redlight()
 
 void TGLobject_redlight::draw(GLTManager *GLTM)
 {
-	int local_cycle=m_cycle%48;
+	int local_cycle=(m_animation_offset+m_cycle)%48;
 	if (m_type==0) {
 		if (local_cycle<24) m_last_tile=GLTM->get("objects/red-light1");
 					   else m_last_tile=GLTM->get("objects/red-light2");

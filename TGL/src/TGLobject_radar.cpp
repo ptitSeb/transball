@@ -51,7 +51,7 @@ TGLobject_radar::~TGLobject_radar()
 
 void TGLobject_radar::draw(GLTManager *GLTM)
 {
-	int local_cycle=(m_cycle%64)/8;
+	int local_cycle=((m_animation_offset+m_cycle)%64)/8;
 	if (local_cycle==0) m_last_tile=GLTM->get("objects/radar1");
 	if (local_cycle==1) m_last_tile=GLTM->get("objects/radar2");
 	if (local_cycle==2) m_last_tile=GLTM->get("objects/radar3");

@@ -46,11 +46,12 @@ public:
 	bool collision_with_foreground(TGLobject *o,float offsx,float offsy,int offs_alpha);
 	TGLobject *collision_with_object(float x,float y);	/* Checks if there is any object in the given coordinates */ 
 
-
 	void action(int action);
 
 	void set_background(int type,GLTManager *GLTM);
 	void resize(int dx,int dy,GLTManager *GLTM);
+
+	int get_cycle(void);
 
 protected:
 	int m_cycle;

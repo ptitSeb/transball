@@ -64,7 +64,7 @@ bool TGLobject_laser_horizontal::cycle(VirtualController *k,class TGLmap *map,GL
 
 void TGLobject_laser_horizontal::draw(GLTManager *GLTM)
 {
-	int local_cycle=(m_cycle/96)%2;
+	int local_cycle=((m_animation_offset+m_cycle)/96)%2;
 	if (local_cycle==1) {
 		local_cycle=0;
 		if ((m_cycle%32)==0) local_cycle=1;

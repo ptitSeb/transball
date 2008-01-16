@@ -73,7 +73,7 @@ bool TGLobject_laser_up::cycle(VirtualController *k,class TGLmap *map,GLTManager
 
 void TGLobject_laser_up::draw(GLTManager *GLTM)
 {
-	int local_cycle=(m_cycle/96)%2;
+	int local_cycle=((m_animation_offset+m_cycle)/96)%2;
 	if (local_cycle==0) m_last_tile=GLTM->get("objects/laser-up1");
 				   else m_last_tile=GLTM->get("objects/laser-up2");
 	if (m_last_tile!=0) m_last_tile->draw(m_x,m_y,0,0,1);

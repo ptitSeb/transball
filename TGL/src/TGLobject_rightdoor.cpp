@@ -41,9 +41,10 @@
 
 TGLobject_rightdoor::TGLobject_rightdoor(float x,float y,int state,int action) : TGLobject(x,y)
 {
-	m_original_x=x;
+	m_start_x=x;
 	m_state=state;
 	m_action=action;
+	m_local_cycle=0;
 } /* TGLobject_rightdoor::TGLobject_rightdoor */ 
 
 
@@ -54,16 +55,28 @@ TGLobject_rightdoor::~TGLobject_rightdoor()
 
 bool TGLobject_rightdoor::cycle(VirtualController *k,class TGLmap *map,GLTManager *GLTM,SFXManager *SFXM,int sfx_volume)
 {
-	int local_cycle=m_cycle;
-	if (local_cycle>22) local_cycle=22;
+	if (m_local_cycle>22) m_local_cycle=22;
 
 	if (m_state==0) {
-		m_x=(m_original_x+22-local_cycle);
+		m_x=(m_start_x+22-m_local_cycle);
 	} else {
-		m_x=(m_original_x+local_cycle);
+		m_x=(m_start_x+m_local_cycle);
 	} // if
 
-	m_cycle++;
+	m_local_cycle++;
+
+	return true;
+} /* TGLobject_rightdoor::cycle */ 
+
+
+
+bool TGLobject_rightdoor::editor_cycle(TGLmap *map,GLTManager *GLTM)
+{
+	if (m_state==0) {
+		m_x=(m_start_x);
+	} else {
+		m_x=(m_start_x+22);
+	} // if
 
 	return true;
 } /* TGLobject_rightdoor::cycle */ 
@@ -107,7 +120,7 @@ void TGLobject_rightdoor::action(int action)
 {
 	if (action==m_action) {
 		m_state=(1-m_state);
-		if (m_cycle>22) m_cycle=0;
-				   else m_cycle=22-m_cycle;
+		if (m_local_cycle>22) m_local_cycle=0;
+						 else m_local_cycle=22-m_local_cycle;
 	} // if 
 } /* TGLobject_rightdoor::action */ 

@@ -142,6 +142,18 @@ void TGLobject::set_state(int s)
 } /* TGLobject::set_state */ 
 
 
+int TGLobject::get_cycle(void)
+{
+	return m_cycle;
+} /* TGLobject::get_cycle */ 
+
+
+void TGLobject::set_cycle(int c)
+{
+	m_cycle = c;
+} /* TGLobject::set_cycle */ 
+
+
 int TGLobject::get_animation_offset(void)
 {
 	return m_animation_offset;
@@ -152,8 +164,6 @@ void TGLobject::set_animation_offset(int s)
 {
 	m_animation_offset=s;
 } /* TGLobject::set_animation_offset */ 
-
-
 
 
 bool TGLobject::is_a(Symbol *c)

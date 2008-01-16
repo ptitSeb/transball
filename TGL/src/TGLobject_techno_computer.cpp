@@ -51,7 +51,7 @@ TGLobject_techno_computer::~TGLobject_techno_computer()
 
 void TGLobject_techno_computer::draw(GLTManager *GLTM)
 {
-	int local_cycle=(m_cycle%56)/8;
+	int local_cycle=((m_animation_offset+m_cycle)%56)/8;
 	if (local_cycle==0) m_last_tile=GLTM->get("objects/wall-techno-computer1");
 	if (local_cycle==1) m_last_tile=GLTM->get("objects/wall-techno-computer2");
 	if (local_cycle==2) m_last_tile=GLTM->get("objects/wall-techno-computer3");

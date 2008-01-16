@@ -51,7 +51,7 @@ TGLobject_pipehscreen::~TGLobject_pipehscreen()
 
 void TGLobject_pipehscreen::draw(GLTManager *GLTM)
 {
-	int local_cycle=(m_cycle%96)/8;
+	int local_cycle=((m_animation_offset+m_cycle)%96)/8;
 	if (local_cycle==0) m_last_tile=GLTM->get("objects/pipe-horizontal-screen1");
 	if (local_cycle==1) m_last_tile=GLTM->get("objects/pipe-horizontal-screen2");
 	if (local_cycle==2) m_last_tile=GLTM->get("objects/pipe-horizontal-screen1");
