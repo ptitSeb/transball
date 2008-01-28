@@ -40,7 +40,7 @@
 
 
 
-TGLobject_FX_particle::TGLobject_FX_particle(float x,float y,int a,float speedx,float speedy,int speeda,bool gravity,float alpha1,float alpha2,float scale1,float scale2,int duration,GLTile *t) : TGLobject(x,y)
+TGLobject_FX_particle::TGLobject_FX_particle(float x,float y,int a,float speedx,float speedy,int speeda,bool gravity,float alpha1,float alpha2,float scale1,float scale2,int duration,GLTile *t) : TGLobject(x,y,0)
 {
 	m_angle=a;
 	m_affected_by_gavity=gravity;
@@ -63,7 +63,7 @@ TGLobject_FX_particle::TGLobject_FX_particle(float x,float y,int a,float speedx,
 											 float r1,float r2,
 											 float g1,float g2,
 											 float b1,float b2,
-											 float alpha1,float alpha2,float scale1,float scale2,int duration,GLTile *t) : TGLobject(x,y)
+											 float alpha1,float alpha2,float scale1,float scale2,int duration,GLTile *t) : TGLobject(x,y,0)
 {
 	m_angle=a;
 	m_affected_by_gavity=gravity;

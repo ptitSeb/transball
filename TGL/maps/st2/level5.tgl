@@ -577,14 +577,14 @@ foreground/wall1
 foreground/wall1
 foreground/wall1
 11
-red-light 17 1
-red-light 9 2
-cannon-rock-right 16 2
-cannon-rock-up 16 4
-laser-left 19 9
-laser-right 22 9
-cannon-rock-up 18 11
-cannon-rock-up 8 14
-cannon-rock-right 21 14
-cannon-rock-up 5 15
-ball-stand 11 20
+red-light 0 17 1
+red-light 0 9 2
+cannon-rock-right 0 16 2
+cannon-rock-up 0 16 4
+laser-left 0 19 9
+laser-right 0 22 9
+cannon-rock-up 0 18 11
+cannon-rock-up 0 8 14
+cannon-rock-right 0 21 14
+cannon-rock-up 0 5 15
+ball-stand 0 11 20

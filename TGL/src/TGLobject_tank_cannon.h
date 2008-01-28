@@ -3,7 +3,7 @@
 
 class TGLobject_tank_cannon : public TGLobject_enemy {
 public:
-	TGLobject_tank_cannon(float x,float y,TGLobject_enemy *enemy);
+	TGLobject_tank_cannon(float x,float y,int animation_offset,TGLobject_enemy *enemy);
 	virtual ~TGLobject_tank_cannon();
 
 	virtual bool is_a(char *n);

@@ -2561,113 +2561,113 @@ foreground/wall-snow1
 foreground/wall-snow2
 foreground/wall-snow1
 110
-radar 15 0
-red-light-snow 9 1
-radar 10 1
-radar 76 2
-radar 51 3
-radar 66 3
-laser-up 30 4
-laser-up 31 4
-laser-up 34 4
-laser-up 35 4
-laser-up 37 4
-laser-up 38 4
-laser-up 39 4
-laser-left 45 6
-laser-right 47 6
-cannon-rock-up 55 6
-cannon-rock-up 71 6
-laser-down 30 7
-laser-down 31 7
-laser-down 34 7
-laser-down 35 7
-radar 36 7
-laser-down 37 7
-laser-down 38 7
-laser-down 39 7
-cannon-rock-up 63 7
-cannon-rock-up 30 8
-cannon-rock-up 32 8
-cannon-rock-up 34 8
-cannon-rock-up 36 8
-cannon-rock-up 38 8
-laser-left 3 9
-laser-right 10 9
-cannon-rock-left 45 9
-red-light-snow 4 10
-cannon-rock-up 23 10
-cannon-rock-right 49 10
-ball-stand 53 10
-cannon-rock-down 31 11
-cannon-rock-down 33 11
-cannon-rock-down 35 11
-cannon-rock-down 37 11
-cannon-rock-down 39 11
-laser-up 30 12
-cannon-rock-up 31 12
-laser-up 32 12
-laser-up 34 12
-cannon-rock-up 35 12
-laser-up 36 12
-laser-up 38 12
-cannon-rock-up 39 12
-cannon-rock-right 58 13
-cannon-rock-left 60 13
-cannon-rock-right 66 13
-cannon-rock-left 68 13
-cannon-rock-right 78 13
-radar 22 14
-cannon-rock-right 49 14
-cannon-rock-up 59 14
-cannon-rock-up 67 14
-laser-up 6 15
-laser-left 17 15
-laser-right 21 15
-laser-down 30 15
-laser-down 32 15
-cannon-rock-down 33 15
-laser-down 34 15
-laser-down 36 15
-cannon-rock-down 37 15
-laser-down 38 15
-cannon-rock-down 55 15
-cannon-rock-down 63 15
-cannon-rock-down 71 15
-cannon-rock-right 54 16
-cannon-rock-left 56 16
-cannon-rock-right 62 16
-cannon-rock-left 64 16
-cannon-rock-right 70 16
-cannon-rock-left 72 16
-laser-left 25 17
-laser-right 29 17
-laser-left 40 17
-laser-right 44 17
-cannon-rock-right 49 17
-laser-down 6 18
-radar 8 18
-cannon-rock-right 77 18
-laser-left 0 19
-laser-right 4 19
-cannon-rock-left 15 19
-cannon-rock-left 45 19
-cannon-rock-up 7 21
-cannon-rock-left 25 22
-cannon-rock-up 30 22
-cannon-rock-right 44 22
-cannon-rock-down 59 22
-cannon-rock-down 67 22
-cannon-rock-right 78 22
-cannon-rock-left 1 23
-cannon-rock-right 23 23
-cannon-rock-right 78 25
-radar 43 26
-laser-up 53 26
-laser-up 62 26
-radar 23 28
-pipe-vertical-screen 58 28
-laser-down 62 29
-laser-down 53 30
-red-tank 6 25
-red-tank 35 25
+radar 0 15 0
+red-light-snow 0 9 1
+radar 0 10 1
+radar 0 76 2
+radar 0 51 3
+radar 0 66 3
+laser-up 0 30 4
+laser-up 0 31 4
+laser-up 0 34 4
+laser-up 0 35 4
+laser-up 0 37 4
+laser-up 0 38 4
+laser-up 0 39 4
+laser-left 0 45 6
+laser-right 0 47 6
+cannon-rock-up 0 55 6
+cannon-rock-up 0 71 6
+laser-down 0 30 7
+laser-down 0 31 7
+laser-down 0 34 7
+laser-down 0 35 7
+radar 0 36 7
+laser-down 0 37 7
+laser-down 0 38 7
+laser-down 0 39 7
+cannon-rock-up 0 63 7
+cannon-rock-up 0 30 8
+cannon-rock-up 0 32 8
+cannon-rock-up 0 34 8
+cannon-rock-up 0 36 8
+cannon-rock-up 0 38 8
+laser-left 0 3 9
+laser-right 0 10 9
+cannon-rock-left 0 45 9
+red-light-snow 0 4 10
+cannon-rock-up 0 23 10
+cannon-rock-right 0 49 10
+ball-stand 0 53 10
+cannon-rock-down 0 31 11
+cannon-rock-down 0 33 11
+cannon-rock-down 0 35 11
+cannon-rock-down 0 37 11
+cannon-rock-down 0 39 11
+laser-up 0 30 12
+cannon-rock-up 0 31 12
+laser-up 0 32 12
+laser-up 0 34 12
+cannon-rock-up 0 35 12
+laser-up 0 36 12
+laser-up 0 38 12
+cannon-rock-up 0 39 12
+cannon-rock-right 0 58 13
+cannon-rock-left 0 60 13
+cannon-rock-right 0 66 13
+cannon-rock-left 0 68 13
+cannon-rock-right 0 78 13
+radar 0 22 14
+cannon-rock-right 0 49 14
+cannon-rock-up 0 59 14
+cannon-rock-up 0 67 14
+laser-up 0 6 15
+laser-left 0 17 15
+laser-right 0 21 15
+laser-down 0 30 15
+laser-down 0 32 15
+cannon-rock-down 0 33 15
+laser-down 0 34 15
+laser-down 0 36 15
+cannon-rock-down 0 37 15
+laser-down 0 38 15
+cannon-rock-down 0 55 15
+cannon-rock-down 0 63 15
+cannon-rock-down 0 71 15
+cannon-rock-right 0 54 16
+cannon-rock-left 0 56 16
+cannon-rock-right 0 62 16
+cannon-rock-left 0 64 16
+cannon-rock-right 0 70 16
+cannon-rock-left 0 72 16
+laser-left 0 25 17
+laser-right 0 29 17
+laser-left 0 40 17
+laser-right 0 44 17
+cannon-rock-right 0 49 17
+laser-down 0 6 18
+radar 0 8 18
+cannon-rock-right 0 77 18
+laser-left 0 0 19
+laser-right 0 4 19
+cannon-rock-left 0 15 19
+cannon-rock-left 0 45 19
+cannon-rock-up 0 7 21
+cannon-rock-left 0 25 22
+cannon-rock-up 0 30 22
+cannon-rock-right 0 44 22
+cannon-rock-down 0 59 22
+cannon-rock-down 0 67 22
+cannon-rock-right 0 78 22
+cannon-rock-left 0 1 23
+cannon-rock-right 0 23 23
+cannon-rock-right 0 78 25
+radar 0 43 26
+laser-up 0 53 26
+laser-up 0 62 26
+radar 0 23 28
+pipe-vertical-screen 0 58 28
+laser-down 0 62 29
+laser-down 0 53 30
+red-tank 0 6 25
+red-tank 0 35 25

@@ -261,7 +261,7 @@ foreground/wall3
 foreground/wall1
 foreground/wall4
 4
-laser-left 2 6
-laser-right 13 6
-ball-stand 6 9
-red-light 8 10
+laser-left 0 2 6
+laser-right 0 13 6
+ball-stand 0 6 9
+red-light 0 8 10

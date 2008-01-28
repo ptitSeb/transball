@@ -40,7 +40,7 @@
 
 
 
-TGLobject_fuelrecharge::TGLobject_fuelrecharge(float x,float y) : TGLobject(x,y)
+TGLobject_fuelrecharge::TGLobject_fuelrecharge(float x,float y,int ao) : TGLobject(x,y,ao)
 {
 } /* TGLobject_fuelrecharge::TGLobject_fuelrecharge */ 
 

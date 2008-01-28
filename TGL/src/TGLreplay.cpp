@@ -194,6 +194,11 @@ TGLreplay::TGLreplay(FILE *fp)
 
 	delete node;
 
+	m_statistics_computed = false;
+	m_max_speed = 0;
+	m_average_speed = 0;
+	m_average_speed_tmp = 0;
+
 } /* TGLreplay::TGLreplay */ 
 
 
@@ -235,6 +240,11 @@ TGLreplay::TGLreplay(char *map)
 
 	m_map=new char[strlen(map)+1];
 	strcpy(m_map,map);
+
+	m_statistics_computed = false;
+	m_max_speed = 0;
+	m_average_speed = 0;
+	m_average_speed_tmp = 0;
 } /* TGLreplay::TGLreplay */ 
 
 
@@ -591,6 +601,23 @@ void TGLreplay::store_cycle(List<VirtualController> *m_input,List<TGLobject> *m_
 	TGLreplay_object_position *ro;
 	const char *name;
 
+	m_statistics_computed = false;
+
+	{
+		m_objects->Rewind();
+		while(m_objects->Iterate(o)) {
+			if (o->is_a("TGLobject_ship")) {
+				float sx = ((TGLobject_ship *)o)->get_speedx();
+				float sy = ((TGLobject_ship *)o)->get_speedy();
+				float speed = float(sqrt(sx*sx+sy*sy));
+				m_average_speed_tmp += speed;
+				m_average_speed = m_average_speed_tmp/(m_length+1);
+				if (speed>m_max_speed) m_max_speed = speed;
+			} // if
+		} // while 
+	}
+
+
 	if ((cycle%KEYFRAME_PERIOD)==0) {
 		node = new TGLreplay_node();
 		node->m_keyframe=true;
@@ -746,6 +773,129 @@ int TGLreplay::get_initial_fuel(void)
 {
 	return m_initial_fuel;
 } /* TGLreplay::get_initial_fuel */ 
+
+
+float TGLreplay::get_max_speed(void)
+{
+	return m_max_speed;
+} /* TGLreplay::get_max_speed */ 
+
+
+float TGLreplay::get_average_speed(void)
+{
+	return m_average_speed;
+} /* TGLreplay::get_average_speed */ 
+
+
+int TGLreplay::get_fuel_used(void)
+{
+	if (m_statistics_computed) {
+		return m_used_fuel;
+	} else {
+		compute_statistics();
+		return m_used_fuel;
+	} // if 
+} /* TGLreplay::get_fuel_used */ 
+
+int TGLreplay::get_n_shots(void)
+{
+	if (m_statistics_computed) {
+		return m_n_shots;
+	} else {
+		compute_statistics();
+		return m_n_shots;
+	} // if 
+} /* TGLreplay::get_n_shots */ 
+
+
+
+
+void TGLreplay::compute_statistics(void)
+{
+	List<TGLreplay_node> l;
+	TGLreplay_node *n;
+	int ship = *(m_ships[0]);
+
+	m_used_fuel = 0;
+	m_n_shots = 0;
+
+	l.Instance(m_replay);
+	l.Rewind();
+	while(l.Iterate(n)) {
+
+		// Computing Fuel:
+		if (n->m_input[0]->m_button[0]) {
+			switch(ship) {
+			case 0:	if (!n->m_input[0]->m_old_button[0]) {
+						m_used_fuel+=64;
+						m_n_shots++;
+					} // if
+					break;
+			case 1: if (!n->m_input[0]->m_old_button[0]) {
+						m_used_fuel+=96;
+						m_n_shots++;
+					} // if 
+					break;
+			case 2: if (!n->m_input[0]->m_old_button[0]) {
+						m_used_fuel+=40;
+						m_n_shots++;
+					} // if
+					break;
+			case 3: if (!n->m_input[0]->m_old_button[0]) {
+						m_used_fuel+=40;
+						m_n_shots++;
+					} // if
+					break;
+			case 4: if (!n->m_input[0]->m_old_button[0]) m_n_shots++;
+					m_used_fuel+=2;
+					break;
+			case 5: if (!n->m_input[0]->m_old_button[0]) {
+						m_used_fuel+=40;
+						m_n_shots++;
+					} // if
+					break;
+			case 6: if (!n->m_input[0]->m_old_button[0]) {
+						m_used_fuel+=40;
+						m_n_shots++;
+					} // if
+					break;
+			case 7: if (!n->m_input[0]->m_old_button[0]) {
+						m_used_fuel+=40;
+						m_n_shots++;
+					} // if
+					break;
+			case 8: if (!n->m_input[0]->m_old_button[0]) {
+						m_used_fuel+=64;
+						m_n_shots++;
+					} // if
+					break;
+			case 9: m_used_fuel+=6;
+					break;
+			case 10:if (!n->m_input[0]->m_old_button[0]) {
+						m_used_fuel+=32;
+					} // if
+					break;
+			} // switch
+		} // if 
+		if (n->m_input[0]->m_joystick[VC_UP]) {
+			if (ship==3) {
+				if (n->m_input[0]->m_joystick[VC_DOWN]) {
+					m_used_fuel+=2;
+				} else {
+					m_used_fuel++;
+				} // if 
+			} else {
+				m_used_fuel++;
+			} // if
+		} // if 
+		if (n->m_input[0]->m_joystick[VC_DOWN]) {
+			if (!n->m_input[0]->m_joystick[VC_UP] && ship==2) m_used_fuel++;
+			if (n->m_input[0]->m_joystick[VC_LEFT] && ship==5) m_used_fuel++;
+			if (n->m_input[0]->m_joystick[VC_RIGHT] && ship==5) m_used_fuel++;
+			if (ship==6) m_used_fuel++;
+		} // if
+	} // while 
+} /* TGLreplay::compute_statistics */ 
 
 
 char *TGLreplay::get_playername(int player)

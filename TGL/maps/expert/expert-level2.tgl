@@ -577,53 +577,53 @@ foreground/wall-techno1
 foreground/wall-techno1
 foreground/wall-techno1
 50
-door-left 4 1 1 0
-door-right 5 1 1 0
-wall-techno-computer 8 1
-wall-techno-computer 9 1
-wall-techno-computer 14 1
-wall-techno-computer 15 1
-door-left 18 1 0 1
-door-right 19 1 0 1
-wall-techno-computer 8 2
-wall-techno-computer 9 2
-wall-techno-computer 14 2
-wall-techno-computer 15 2
-wall-techno-computer 8 3
-wall-techno-computer 9 3
-wall-techno-computer 14 3
-wall-techno-computer 15 3
-wall-techno-computer 8 4
-wall-techno-computer 9 4
-wall-techno-computer 14 4
-wall-techno-computer 15 4
-wall-techno-computer 8 5
-wall-techno-computer 9 5
-wall-techno-computer 14 5
-wall-techno-computer 15 5
-ball-stand 2 7
-fuel-recharge 10 7
-fastcannon-techno-right 22 7
-pipe-vertical-screen 2 8
-fastcannon-techno-right 22 8
-wall-techno-computer 2 11
-directional-cannon-up 8 12
-directional-cannon-up 10 12
-directional-cannon-up 12 12
-directional-cannon-up 14 12
-directional-cannon-up 16 12
-directional-cannon-up 18 12
-directional-cannon-up 20 12
-wall-techno-computer 2 13
-directional-cannon-left 4 13
-wall-techno-computer 2 15
-directional-cannon-left 4 15
-wall-techno-computer 2 17
-directional-cannon-left 4 17
-wall-techno-computer 2 19
-directional-cannon-left 4 19
-wall-techno-computer 2 21
-button-purple-right 23 21 0
-wall-techno-computer 2 23
-grey-tank 8 13
-grey-tank 18 13
+door-left 0 4 1 1 0
+door-right 0 5 1 1 0
+wall-techno-computer 0 8 1
+wall-techno-computer 0 9 1
+wall-techno-computer 0 14 1
+wall-techno-computer 0 15 1
+door-left 0 18 1 0 1
+door-right 0 19 1 0 1
+wall-techno-computer 0 8 2
+wall-techno-computer 0 9 2
+wall-techno-computer 0 14 2
+wall-techno-computer 0 15 2
+wall-techno-computer 0 8 3
+wall-techno-computer 0 9 3
+wall-techno-computer 0 14 3
+wall-techno-computer 0 15 3
+wall-techno-computer 0 8 4
+wall-techno-computer 0 9 4
+wall-techno-computer 0 14 4
+wall-techno-computer 0 15 4
+wall-techno-computer 0 8 5
+wall-techno-computer 0 9 5
+wall-techno-computer 0 14 5
+wall-techno-computer 0 15 5
+ball-stand 0 2 7
+fuel-recharge 0 10 7
+fastcannon-techno-right 0 22 7
+pipe-vertical-screen 0 2 8
+fastcannon-techno-right 0 22 8
+wall-techno-computer 0 2 11
+directional-cannon-up 0 8 12
+directional-cannon-up 0 10 12
+directional-cannon-up 0 12 12
+directional-cannon-up 0 14 12
+directional-cannon-up 0 16 12
+directional-cannon-up 0 18 12
+directional-cannon-up 0 20 12
+wall-techno-computer 0 2 13
+directional-cannon-left 0 4 13
+wall-techno-computer 0 2 15
+directional-cannon-left 0 4 15
+wall-techno-computer 0 2 17
+directional-cannon-left 0 4 17
+wall-techno-computer 0 2 19
+directional-cannon-left 0 4 19
+wall-techno-computer 0 2 21
+button-purple-right 0 23 21 0
+wall-techno-computer 0 2 23
+grey-tank 0 8 13
+grey-tank 0 18 13

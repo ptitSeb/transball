@@ -3,7 +3,7 @@
 
 class TGLobject_redlight : public TGLobject {
 public:
-	TGLobject_redlight(float x,float y,int type);	// type = 0 is regular, type = 1 is snow
+	TGLobject_redlight(float x,float y,int animation_offset,int type);	// type = 0 is regular, type = 1 is snow
 	virtual ~TGLobject_redlight();
 
 	virtual bool is_a(char *n);

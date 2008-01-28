@@ -769,22 +769,22 @@ foreground/wall1
 foreground/wall1
 foreground/wall1
 19
-red-light 5 0
-radar 8 0
-radar 18 0
-radar 33 0
-radar 37 0
-laser-up 8 2
-cannon-rock-up 9 2
-laser-up 28 2
-cannon-rock-right 34 4
-cannon-rock-right 46 4
-cannon-rock-right 34 5
-ball-stand 45 5
-cannon-rock-right 16 6
-laser-down 28 7
-radar 31 7
-pipe-horizontal-screen 20 10
-cannon-rock-down 5 12
-laser-down 8 13
-green-tank 37 13
+red-light 0 5 0
+radar 0 8 0
+radar 0 18 0
+radar 0 33 0
+radar 0 37 0
+laser-up 0 8 2
+cannon-rock-up 0 9 2
+laser-up 0 28 2
+cannon-rock-right 0 34 4
+cannon-rock-right 0 46 4
+cannon-rock-right 0 34 5
+ball-stand 0 45 5
+cannon-rock-right 0 16 6
+laser-down 0 28 7
+radar 0 31 7
+pipe-horizontal-screen 0 20 10
+cannon-rock-down 0 5 12
+laser-down 0 8 13
+green-tank 0 37 13

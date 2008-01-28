@@ -39,7 +39,7 @@
 
 
 
-TGLobject_redlight::TGLobject_redlight(float x,float y,int type) : TGLobject(x,y)
+TGLobject_redlight::TGLobject_redlight(float x,float y,int ao,int type) : TGLobject(x,y,ao)
 {
 	m_type = type;
 } /* TGLobject_redlight::TGLobject_redlight */ 

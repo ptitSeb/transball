@@ -40,7 +40,7 @@
 
 
 
-TGLobject_ball::TGLobject_ball(float x,float y) : TGLobject(x,y)
+TGLobject_ball::TGLobject_ball(float x,float y,int animation_offset) : TGLobject(x,y,animation_offset)
 {
 	m_attractor_timmer=0;
 	m_speed_x=0;

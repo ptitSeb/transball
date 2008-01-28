@@ -2305,49 +2305,49 @@ foreground/wall1
 foreground/wall2
 foreground/wall1
 46
-fastcannon-techno-down 30 3
-fastcannon-techno-down 16 4
-door-left 24 4 1 0
-door-right 25 4 1 0
-fastcannon-techno-down 36 6
-fastcannon-techno-down 10 7
-fastcannon-techno-right 6 11
-directional-cannon-right 38 11
-directional-cannon-left 7 12
-cannon-techno-up 31 13
-door-left 14 14 0 0
-door-right 15 14 0 0
-pipe-vertical-screen 20 15
-ball-stand 33 15
-pipe-vertical-screen 35 15
-fastcannon-techno-left 44 15
-pipe-vertical-screen 11 16
-fastcannon-techno-left 23 16
-cannon-techno-right 21 18
-pipe-vertical-screen 11 20
-fastcannon-techno-right 26 20
-pipe-vertical-screen 15 21
-directional-cannon-down 31 22
-cannon-techno-up 29 24
-cannon-techno-up 33 24
-fastcannon-techno-right 4 25
-pipe-vertical-screen 20 25
-pipe-horizontal-screen 9 27
-cannon-techno-left 28 27
-cannon-techno-left 7 28
-cannon-techno-left 23 28
-pipe-horizontal-screen 11 30
-cannon-techno-right 26 30
-cannon-techno-up 31 30
-button-purple-right 42 30 0
-pipe-horizontal-screen 15 31
-cannon-techno-right 34 31
-fastcannon-techno-left 43 31
-fastcannon-techno-left 21 34
-fastcannon-techno-right 28 34
-fuel-recharge 24 36
-pipe-vertical-screen 34 42
-red-light 1 45
-radar 43 45
-radar 9 46
-grey-tank 39 30
+fastcannon-techno-down 0 30 3
+fastcannon-techno-down 0 16 4
+door-left 0 24 4 1 0
+door-right 0 25 4 1 0
+fastcannon-techno-down 0 36 6
+fastcannon-techno-down 0 10 7
+fastcannon-techno-right 0 6 11
+directional-cannon-right 0 38 11
+directional-cannon-left 0 7 12
+cannon-techno-up 0 31 13
+door-left 0 14 14 0 0
+door-right 0 15 14 0 0
+pipe-vertical-screen 0 20 15
+ball-stand 0 33 15
+pipe-vertical-screen 0 35 15
+fastcannon-techno-left 0 44 15
+pipe-vertical-screen 0 11 16
+fastcannon-techno-left 0 23 16
+cannon-techno-right 0 21 18
+pipe-vertical-screen 0 11 20
+fastcannon-techno-right 0 26 20
+pipe-vertical-screen 0 15 21
+directional-cannon-down 0 31 22
+cannon-techno-up 0 29 24
+cannon-techno-up 0 33 24
+fastcannon-techno-right 0 4 25
+pipe-vertical-screen 0 20 25
+pipe-horizontal-screen 0 9 27
+cannon-techno-left 0 28 27
+cannon-techno-left 0 7 28
+cannon-techno-left 0 23 28
+pipe-horizontal-screen 0 11 30
+cannon-techno-right 0 26 30
+cannon-techno-up 0 31 30
+button-purple-right 0 42 30 0
+pipe-horizontal-screen 0 15 31
+cannon-techno-right 0 34 31
+fastcannon-techno-left 0 43 31
+fastcannon-techno-left 0 21 34
+fastcannon-techno-right 0 28 34
+fuel-recharge 0 24 36
+pipe-vertical-screen 0 34 42
+red-light 0 1 45
+radar 0 43 45
+radar 0 9 46
+grey-tank 0 39 30

@@ -41,7 +41,7 @@
 
 
 
-TGLobject_big_tank::TGLobject_big_tank(float x,float y) : TGLobject_enemy(x,y)
+TGLobject_big_tank::TGLobject_big_tank(float x,float y,int ao) : TGLobject_enemy(x,y,ao)
 {
 	m_state=0;
 	m_hitpoints=10;

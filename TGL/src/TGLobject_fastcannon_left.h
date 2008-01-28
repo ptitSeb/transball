@@ -3,7 +3,7 @@
 
 class TGLobject_fastcannon_left : public TGLobject_enemy {
 public:
-	TGLobject_fastcannon_left(float x,float y);	
+	TGLobject_fastcannon_left(float x,float y,int animation_offset);	
 	virtual ~TGLobject_fastcannon_left();
 
 	virtual bool is_a(char *n);

@@ -385,6 +385,6 @@ foreground/wall5
 foreground/wall1
 foreground/wall1
 3
-red-light 5 0
-red-light 13 0
-ball-stand 17 13
+red-light 0 5 0
+red-light 0 13 0
+ball-stand 0 17 13

@@ -39,7 +39,7 @@
 
 
 
-TGLobject_radar::TGLobject_radar(float x,float y) : TGLobject(x,y)
+TGLobject_radar::TGLobject_radar(float x,float y,int ao) : TGLobject(x,y,ao)
 {
 } /* TGLobject_radar::TGLobject_radar */ 
 

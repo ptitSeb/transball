@@ -144,55 +144,54 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 	{
 		int no;
 		int ix,iy;
+		int animation_offset;
 		float x,y;
 		if (1!=fscanf(fp,"%i",&no)) return;
 
 		for(i=0;i<no;i++) {
-			if (3!=fscanf(fp,"%s %i %i",tmp,&ix,&iy)) return;
+			if (4!=fscanf(fp,"%s %i %i %i",tmp,&animation_offset,&ix,&iy)) return;
 			x=float(ix*m_fg_cell_size);
 			y=float(iy*m_fg_cell_size);
 			y+=STARFIELD;
-			if (strcmp(tmp,"ball-stand")==0) {
-				add_object(new TGLobject_ballstand(x,y));				
-			} // if 
-			if (strcmp(tmp,"red-light")==0) add_object(new TGLobject_redlight(x,y,0));
-			if (strcmp(tmp,"red-light-snow")==0) add_object(new TGLobject_redlight(x,y,1));
-			if (strcmp(tmp,"radar")==0) add_object(new TGLobject_radar(x,y));
-			if (strcmp(tmp,"pipe-vertical-screen")==0) add_object(new TGLobject_pipevscreen(x,y));
-			if (strcmp(tmp,"pipe-horizontal-screen")==0) add_object(new TGLobject_pipehscreen(x,y));
-			if (strcmp(tmp,"laser-left")==0) add_object(new TGLobject_laser_left(x,y));
-			if (strcmp(tmp,"laser-right")==0) add_object(new TGLobject_laser_right(x,y));
-			if (strcmp(tmp,"laser-up")==0) add_object(new TGLobject_laser_up(x,y));
-			if (strcmp(tmp,"laser-down")==0) add_object(new TGLobject_laser_down(x,y));
-			if (strcmp(tmp,"cannon-rock-left")==0) add_object(new TGLobject_cannon_left(x,y,0));
-			if (strcmp(tmp,"cannon-rock-right")==0) add_object(new TGLobject_cannon_right(x,y,0));
-			if (strcmp(tmp,"cannon-rock-down")==0) add_object(new TGLobject_cannon_down(x,y,0));
-			if (strcmp(tmp,"cannon-rock-up")==0) add_object(new TGLobject_cannon_up(x,y,0));
-			if (strcmp(tmp,"cannon-techno-left")==0) add_object(new TGLobject_cannon_left(x,y,1));
-			if (strcmp(tmp,"cannon-techno-right")==0) add_object(new TGLobject_cannon_right(x,y,1));
-			if (strcmp(tmp,"cannon-techno-down")==0) add_object(new TGLobject_cannon_down(x,y,1));
-			if (strcmp(tmp,"cannon-techno-up")==0) add_object(new TGLobject_cannon_up(x,y,1));
-			if (strcmp(tmp,"fastcannon-techno-left")==0) add_object(new TGLobject_fastcannon_left(x,y));
-			if (strcmp(tmp,"fastcannon-techno-right")==0) add_object(new TGLobject_fastcannon_right(x,y));
-			if (strcmp(tmp,"fastcannon-techno-down")==0) add_object(new TGLobject_fastcannon_down(x,y));
-			if (strcmp(tmp,"fastcannon-techno-up")==0) add_object(new TGLobject_fastcannon_up(x,y));
-			if (strcmp(tmp,"spike-left")==0) add_object(new TGLobject_spike_left(x,y));
-			if (strcmp(tmp,"spike-right")==0) add_object(new TGLobject_spike_right(x,y));
-			if (strcmp(tmp,"fuel-recharge")==0) add_object(new TGLobject_fuelrecharge(x,y));
-			if (strcmp(tmp,"wall-techno-computer")==0) add_object(new TGLobject_techno_computer(x,y));	
-			if (strcmp(tmp,"directional-cannon-left")==0) add_object(new TGLobject_directionalcannon_left(x,y));	
-			if (strcmp(tmp,"directional-cannon-right")==0) add_object(new TGLobject_directionalcannon_right(x,y));
-			if (strcmp(tmp,"directional-cannon-up")==0) add_object(new TGLobject_directionalcannon_up(x,y));
-			if (strcmp(tmp,"directional-cannon-down")==0) add_object(new TGLobject_directionalcannon_down(x,y));		
-			if (strcmp(tmp,"ha-directional-cannon-left")==0) add_object(new TGLobject_ha_directionalcannon_left(x,y));	
-			if (strcmp(tmp,"ha-directional-cannon-right")==0) add_object(new TGLobject_ha_directionalcannon_right(x,y));
-			if (strcmp(tmp,"ha-directional-cannon-up")==0) add_object(new TGLobject_ha_directionalcannon_up(x,y));
-			if (strcmp(tmp,"ha-directional-cannon-down")==0) add_object(new TGLobject_ha_directionalcannon_down(x,y));	
+			if (strcmp(tmp,"ball-stand")==0) add_object(new TGLobject_ballstand(x,y,animation_offset));				
+			if (strcmp(tmp,"red-light")==0) add_object(new TGLobject_redlight(x,y,animation_offset,0));
+			if (strcmp(tmp,"red-light-snow")==0) add_object(new TGLobject_redlight(x,y,animation_offset,1));
+			if (strcmp(tmp,"radar")==0) add_object(new TGLobject_radar(x,y,animation_offset));
+			if (strcmp(tmp,"pipe-vertical-screen")==0) add_object(new TGLobject_pipevscreen(x,y,animation_offset));
+			if (strcmp(tmp,"pipe-horizontal-screen")==0) add_object(new TGLobject_pipehscreen(x,y,animation_offset));
+			if (strcmp(tmp,"laser-left")==0) add_object(new TGLobject_laser_left(x,y,animation_offset));
+			if (strcmp(tmp,"laser-right")==0) add_object(new TGLobject_laser_right(x,y,animation_offset));
+			if (strcmp(tmp,"laser-up")==0) add_object(new TGLobject_laser_up(x,y,animation_offset));
+			if (strcmp(tmp,"laser-down")==0) add_object(new TGLobject_laser_down(x,y,animation_offset));
+			if (strcmp(tmp,"cannon-rock-left")==0) add_object(new TGLobject_cannon_left(x,y,animation_offset,0));
+			if (strcmp(tmp,"cannon-rock-right")==0) add_object(new TGLobject_cannon_right(x,y,animation_offset,0));
+			if (strcmp(tmp,"cannon-rock-down")==0) add_object(new TGLobject_cannon_down(x,y,animation_offset,0));
+			if (strcmp(tmp,"cannon-rock-up")==0) add_object(new TGLobject_cannon_up(x,y,animation_offset,0));
+			if (strcmp(tmp,"cannon-techno-left")==0) add_object(new TGLobject_cannon_left(x,y,animation_offset,1));
+			if (strcmp(tmp,"cannon-techno-right")==0) add_object(new TGLobject_cannon_right(x,y,animation_offset,1));
+			if (strcmp(tmp,"cannon-techno-down")==0) add_object(new TGLobject_cannon_down(x,y,animation_offset,1));
+			if (strcmp(tmp,"cannon-techno-up")==0) add_object(new TGLobject_cannon_up(x,y,animation_offset,1));
+			if (strcmp(tmp,"fastcannon-techno-left")==0) add_object(new TGLobject_fastcannon_left(x,y,animation_offset));
+			if (strcmp(tmp,"fastcannon-techno-right")==0) add_object(new TGLobject_fastcannon_right(x,y,animation_offset));
+			if (strcmp(tmp,"fastcannon-techno-down")==0) add_object(new TGLobject_fastcannon_down(x,y,animation_offset));
+			if (strcmp(tmp,"fastcannon-techno-up")==0) add_object(new TGLobject_fastcannon_up(x,y,animation_offset));
+			if (strcmp(tmp,"spike-left")==0) add_object(new TGLobject_spike_left(x,y,animation_offset));
+			if (strcmp(tmp,"spike-right")==0) add_object(new TGLobject_spike_right(x,y,animation_offset));
+			if (strcmp(tmp,"fuel-recharge")==0) add_object(new TGLobject_fuelrecharge(x,y,animation_offset));
+			if (strcmp(tmp,"wall-techno-computer")==0) add_object(new TGLobject_techno_computer(x,y,animation_offset));	
+			if (strcmp(tmp,"directional-cannon-left")==0) add_object(new TGLobject_directionalcannon_left(x,y,animation_offset));	
+			if (strcmp(tmp,"directional-cannon-right")==0) add_object(new TGLobject_directionalcannon_right(x,y,animation_offset));
+			if (strcmp(tmp,"directional-cannon-up")==0) add_object(new TGLobject_directionalcannon_up(x,y,animation_offset));
+			if (strcmp(tmp,"directional-cannon-down")==0) add_object(new TGLobject_directionalcannon_down(x,y,animation_offset));		
+			if (strcmp(tmp,"ha-directional-cannon-left")==0) add_object(new TGLobject_ha_directionalcannon_left(x,y,animation_offset));	
+			if (strcmp(tmp,"ha-directional-cannon-right")==0) add_object(new TGLobject_ha_directionalcannon_right(x,y,animation_offset));
+			if (strcmp(tmp,"ha-directional-cannon-up")==0) add_object(new TGLobject_ha_directionalcannon_up(x,y,animation_offset));
+			if (strcmp(tmp,"ha-directional-cannon-down")==0) add_object(new TGLobject_ha_directionalcannon_down(x,y,animation_offset));	
 			if (strcmp(tmp,"grey-tank")==0) {
 				TGLobject_enemy *tank,*turret,*cannon;
-				tank=new TGLobject_tank(x,y,0);
-				turret=new TGLobject_tank_turret(x,y,tank,0);
-				cannon=new TGLobject_tank_cannon(x,y,turret);
+				tank=new TGLobject_tank(x,y,animation_offset,0);
+				turret=new TGLobject_tank_turret(x,y,animation_offset,tank,0);
+				cannon=new TGLobject_tank_cannon(x,y,animation_offset,turret);
 				add_object(cannon);
 				add_object(turret);
 				add_object(tank);
@@ -205,9 +204,9 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 			} // if 
 			if (strcmp(tmp,"red-tank")==0) {
 				TGLobject_enemy *tank,*turret,*cannon;
-				tank=new TGLobject_tank(x,y,1);
-				turret=new TGLobject_tank_turret(x,y,tank,1);
-				cannon=new TGLobject_tank_cannon(x,y,turret);
+				tank=new TGLobject_tank(x,y,animation_offset,1);
+				turret=new TGLobject_tank_turret(x,y,animation_offset,tank,1);
+				cannon=new TGLobject_tank_cannon(x,y,animation_offset,turret);
 				add_object(cannon);
 				add_object(turret);
 				add_object(tank);
@@ -220,9 +219,9 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 			} // if 
 			if (strcmp(tmp,"green-tank")==0) {
 				TGLobject_enemy *tank,*turret,*cannon;
-				tank=new TGLobject_tank(x,y,2);
-				turret=new TGLobject_tank_turret(x,y,tank,2);
-				cannon=new TGLobject_tank_cannon(x,y,turret);
+				tank=new TGLobject_tank(x,y,animation_offset,2);
+				turret=new TGLobject_tank_turret(x,y,animation_offset,tank,2);
+				cannon=new TGLobject_tank_cannon(x,y,animation_offset,turret);
 				add_object(cannon);
 				add_object(turret);
 				add_object(tank);
@@ -235,9 +234,9 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 			} // if 
 			if (strcmp(tmp,"big-tank")==0) {
 				TGLobject_enemy *tank,*turret,*cannon;
-				tank=new TGLobject_big_tank(x,y);
-				turret=new TGLobject_tank_turret(x,y,tank,3);
-				cannon=new TGLobject_big_tank_cannon(x,y,turret);
+				tank=new TGLobject_big_tank(x,y,animation_offset);
+				turret=new TGLobject_tank_turret(x,y,animation_offset,tank,3);
+				cannon=new TGLobject_big_tank_cannon(x,y,animation_offset,turret);
 				add_object(cannon);
 				add_object(turret);
 				add_object(tank);
@@ -251,72 +250,72 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 			if (strcmp(tmp,"door-left")==0) {
 				int p1,p2;
 				if (2!=fscanf(fp,"%i %i",&p1,&p2)) return;
-				add_object(new TGLobject_leftdoor(x,y,p1,p2));
+				add_object(new TGLobject_leftdoor(x,y,animation_offset,p1,p2));
 			} // if 
 			if (strcmp(tmp,"door-right")==0) {
 				int p1,p2;
 				if (2!=fscanf(fp,"%i %i",&p1,&p2)) return;
-				add_object(new TGLobject_rightdoor(x,y,p1,p2));
+				add_object(new TGLobject_rightdoor(x,y,animation_offset,p1,p2));
 			} // if 
 			if (strcmp(tmp,"button-red-left")==0) {
 				int p1;
 				if (1!=fscanf(fp,"%i",&p1)) return;
-				add_object(new TGLobject_button(x,y,p1,0));
+				add_object(new TGLobject_button(x,y,animation_offset,p1,0));
 			} // if 
 			if (strcmp(tmp,"button-red-right")==0) {
 				int p1;
 				if (1!=fscanf(fp,"%i",&p1)) return;
-				add_object(new TGLobject_button(x,y,p1,1));
+				add_object(new TGLobject_button(x,y,animation_offset,p1,1));
 			} // if 
 			if (strcmp(tmp,"button-red-up")==0) {
 				int p1;
 				if (1!=fscanf(fp,"%i",&p1)) return;
-				add_object(new TGLobject_button(x,y,p1,2));
+				add_object(new TGLobject_button(x,y,animation_offset,p1,2));
 			} // if 
 			if (strcmp(tmp,"button-red-down")==0) {
 				int p1;
 				if (1!=fscanf(fp,"%i",&p1)) return;
-				add_object(new TGLobject_button(x,y,p1,3));
+				add_object(new TGLobject_button(x,y,animation_offset,p1,3));
 			} // if 
 			if (strcmp(tmp,"button-purple-left")==0) {
 				int p1;
 				if (1!=fscanf(fp,"%i",&p1)) return;
-				add_object(new TGLobject_button(x,y,p1,4));
+				add_object(new TGLobject_button(x,y,animation_offset,p1,4));
 			} // if 
 			if (strcmp(tmp,"button-purple-right")==0) {
 				int p1;
 				if (1!=fscanf(fp,"%i",&p1)) return;
-				add_object(new TGLobject_button(x,y,p1,5));
+				add_object(new TGLobject_button(x,y,animation_offset,p1,5));
 			} // if 
 			if (strcmp(tmp,"button-purple-up")==0) {
 				int p1;
 				if (1!=fscanf(fp,"%i",&p1)) return;
-				add_object(new TGLobject_button(x,y,p1,6));
+				add_object(new TGLobject_button(x,y,animation_offset,p1,6));
 			} // if 
 			if (strcmp(tmp,"button-purple-down")==0) {
 				int p1;
 				if (1!=fscanf(fp,"%i",&p1)) return;
-				add_object(new TGLobject_button(x,y,p1,7));
+				add_object(new TGLobject_button(x,y,animation_offset,p1,7));
 			} // if 
 			if (strcmp(tmp,"button-blue-left")==0) {
 				int p1;
 				if (1!=fscanf(fp,"%i",&p1)) return;
-				add_object(new TGLobject_button(x,y,p1,8));
+				add_object(new TGLobject_button(x,y,animation_offset,p1,8));
 			} // if 
 			if (strcmp(tmp,"button-blue-right")==0) {
 				int p1;
 				if (1!=fscanf(fp,"%i",&p1)) return;
-				add_object(new TGLobject_button(x,y,p1,9));
+				add_object(new TGLobject_button(x,y,animation_offset,p1,9));
 			} // if 
 			if (strcmp(tmp,"button-blue-up")==0) {
 				int p1;
 				if (1!=fscanf(fp,"%i",&p1)) return;
-				add_object(new TGLobject_button(x,y,p1,10));
+				add_object(new TGLobject_button(x,y,animation_offset,p1,10));
 			} // if 
 			if (strcmp(tmp,"button-blue-down")==0) {
 				int p1;
 				if (1!=fscanf(fp,"%i",&p1)) return;
-				add_object(new TGLobject_button(x,y,p1,11));
+				add_object(new TGLobject_button(x,y,animation_offset,p1,11));
 			} // if 
 		} // for 
 	}
@@ -330,7 +329,7 @@ void TGLmap::reset(void)
 	m_cycle=0;
 
 	if (bs!=0) {
-		TGLobject_ball *ball = new TGLobject_ball(bs->get_x()+16,bs->get_y()+5);
+		TGLobject_ball *ball = new TGLobject_ball(bs->get_x()+16,bs->get_y()+5,0);
 		TGLobject_ship *ship = (TGLobject_ship *)object_exists("TGLobject_ship");
 		m_fg_objects.Insert(ball);
 		if (ball!=0 && ship!=0) {
@@ -383,7 +382,7 @@ void TGLmap::create_laser_objects(void)
 			if (pair!=0) {
 				float i;
 				for(i=o->get_x();i<=pair->get_x();i+=m_fg_cell_size) {
-					m_fg_objects.Insert(new TGLobject_laser_horizontal(i,o->get_y(),o,pair));
+					m_fg_objects.Insert(new TGLobject_laser_horizontal(i,o->get_y(),o->get_animation_offset(),o,pair));
 				} // for
 			} // if 
 		} // if 
@@ -404,7 +403,7 @@ void TGLmap::create_laser_objects(void)
 			if (pair!=0) {
 				float i;
 				for(i=o->get_y();i<=pair->get_y();i+=m_fg_cell_size) {
-					m_fg_objects.Insert(new TGLobject_laser_vertical(o->get_x(),i,o,pair));
+					m_fg_objects.Insert(new TGLobject_laser_vertical(o->get_x(),i,o->get_animation_offset(),o,pair));
 				} // for
 			} // if 
 		} // if 
@@ -1534,57 +1533,57 @@ void TGLmap::save(FILE *fp,GLTManager *GLTM)
 		l.Instance(m_fg_objects);
 		l.Rewind();
 		while(l.Iterate(o)) {
-			if (o->is_a("TGLobject_ballstand")) fprintf(fp,"ball-stand %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_redlight")) fprintf(fp,"red-light %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_radar")) fprintf(fp,"radar %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_pipevscreen")) fprintf(fp,"pipe-vertical-screen %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_pipehscreen")) fprintf(fp,"pipe-horizontal-screen %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_laser_left")) fprintf(fp,"laser-left %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_laser_right")) fprintf(fp,"laser-right %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_laser_up")) fprintf(fp,"laser-up %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_laser_down")) fprintf(fp,"laser-down %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_cannon_left") && ((TGLobject_cannon_left *)o)->get_type()==0) fprintf(fp,"cannon-rock-left %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_cannon_right") && ((TGLobject_cannon_left *)o)->get_type()==0) fprintf(fp,"cannon-rock-right %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_cannon_down") && ((TGLobject_cannon_left *)o)->get_type()==0) fprintf(fp,"cannon-rock-down %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_cannon_up") && ((TGLobject_cannon_left *)o)->get_type()==0) fprintf(fp,"cannon-rock-up %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_cannon_left") && ((TGLobject_cannon_left *)o)->get_type()==1) fprintf(fp,"cannon-techno-left %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_cannon_right") && ((TGLobject_cannon_left *)o)->get_type()==1) fprintf(fp,"cannon-techno-right %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_cannon_down") && ((TGLobject_cannon_left *)o)->get_type()==1) fprintf(fp,"cannon-techno-down %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_cannon_up") && ((TGLobject_cannon_left *)o)->get_type()==1) fprintf(fp,"cannon-techno-up %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_fastcannon_left")) fprintf(fp,"fastcannon-techno-left %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_fastcannon_right")) fprintf(fp,"fastcannon-techno-right %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_fastcannon_down")) fprintf(fp,"fastcannon-techno-down %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_fastcannon_up")) fprintf(fp,"fastcannon-techno-up %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_spike_left")) fprintf(fp,"spike-left %i %i\n",int(((TGLobject_spike_left *)o)->get_start_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_spike_right")) fprintf(fp,"spike-right %i %i\n",int(((TGLobject_spike_left *)o)->get_start_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_fuelrecharge")) fprintf(fp,"fuel-recharge %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_techno_computer")) fprintf(fp,"wall-techno-computer %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_directionalcannon_left")) fprintf(fp,"directional-cannon-left %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_directionalcannon_right")) fprintf(fp,"directional-cannon-right %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_directionalcannon_up")) fprintf(fp,"directional-cannon-up %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_directionalcannon_down")) fprintf(fp,"directional-cannon-down %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_ha_directionalcannon_left")) fprintf(fp,"ha-directional-cannon-left %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_ha_directionalcannon_right")) fprintf(fp,"ha-directional-cannon-right %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_ha_directionalcannon_up")) fprintf(fp,"ha-directional-cannon-up %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_ha_directionalcannon_down")) fprintf(fp,"ha-directional-cannon-down %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_tank") && ((TGLobject_tank *)o)->get_type()==0) fprintf(fp,"grey-tank %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_tank") && ((TGLobject_tank *)o)->get_type()==1) fprintf(fp,"red-tank %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_tank") && ((TGLobject_tank *)o)->get_type()==2) fprintf(fp,"green-tank %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_big_tank")) fprintf(fp,"big-tank %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
-			if (o->is_a("TGLobject_leftdoor")) fprintf(fp,"door-left %i %i %i %i\n",int(((TGLobject_leftdoor *)o)->get_start_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_state()),int(((TGLobject_leftdoor *)o)->get_action()));
-			if (o->is_a("TGLobject_rightdoor")) fprintf(fp,"door-right %i %i %i %i\n",int(((TGLobject_leftdoor *)o)->get_start_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_state()),int(((TGLobject_leftdoor *)o)->get_action()));
-			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==0) fprintf(fp,"button-red-left %i %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
-			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==1) fprintf(fp,"button-red-right %i %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
-			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==2) fprintf(fp,"button-red-up %i %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
-			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==3) fprintf(fp,"button-red-down %i %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
-			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==4) fprintf(fp,"button-purple-left %i %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
-			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==5) fprintf(fp,"button-purple-right %i %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
-			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==6) fprintf(fp,"button-purple-up %i %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
-			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==7) fprintf(fp,"button-purple-down %i %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
-			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==8) fprintf(fp,"button-blue-left %i %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
-			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==9) fprintf(fp,"button-blue-right %i %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
-			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==10) fprintf(fp,"button-blue-up %i %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
-			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==11) fprintf(fp,"button-blue-down %i %i %i\n",int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
+			if (o->is_a("TGLobject_ballstand")) fprintf(fp,"ball-stand %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_redlight")) fprintf(fp,"red-light %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_radar")) fprintf(fp,"radar %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_pipevscreen")) fprintf(fp,"pipe-vertical-screen %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_pipehscreen")) fprintf(fp,"pipe-horizontal-screen %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_laser_left")) fprintf(fp,"laser-left %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_laser_right")) fprintf(fp,"laser-right %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_laser_up")) fprintf(fp,"laser-up %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_laser_down")) fprintf(fp,"laser-down %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_cannon_left") && ((TGLobject_cannon_left *)o)->get_type()==0) fprintf(fp,"cannon-rock-left %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_cannon_right") && ((TGLobject_cannon_left *)o)->get_type()==0) fprintf(fp,"cannon-rock-right %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_cannon_down") && ((TGLobject_cannon_left *)o)->get_type()==0) fprintf(fp,"cannon-rock-down %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_cannon_up") && ((TGLobject_cannon_left *)o)->get_type()==0) fprintf(fp,"cannon-rock-up %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_cannon_left") && ((TGLobject_cannon_left *)o)->get_type()==1) fprintf(fp,"cannon-techno-left %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_cannon_right") && ((TGLobject_cannon_left *)o)->get_type()==1) fprintf(fp,"cannon-techno-right %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_cannon_down") && ((TGLobject_cannon_left *)o)->get_type()==1) fprintf(fp,"cannon-techno-down %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_cannon_up") && ((TGLobject_cannon_left *)o)->get_type()==1) fprintf(fp,"cannon-techno-up %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_fastcannon_left")) fprintf(fp,"fastcannon-techno-left %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_fastcannon_right")) fprintf(fp,"fastcannon-techno-right %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_fastcannon_down")) fprintf(fp,"fastcannon-techno-down %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_fastcannon_up")) fprintf(fp,"fastcannon-techno-up %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_spike_left")) fprintf(fp,"spike-left %i %i %i\n",o->get_animation_offset(),int(((TGLobject_spike_left *)o)->get_start_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_spike_right")) fprintf(fp,"spike-right %i %i %i\n",o->get_animation_offset(),int(((TGLobject_spike_left *)o)->get_start_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_fuelrecharge")) fprintf(fp,"fuel-recharge %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_techno_computer")) fprintf(fp,"wall-techno-computer %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_directionalcannon_left")) fprintf(fp,"directional-cannon-left %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_directionalcannon_right")) fprintf(fp,"directional-cannon-right %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_directionalcannon_up")) fprintf(fp,"directional-cannon-up %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_directionalcannon_down")) fprintf(fp,"directional-cannon-down %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_ha_directionalcannon_left")) fprintf(fp,"ha-directional-cannon-left %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_ha_directionalcannon_right")) fprintf(fp,"ha-directional-cannon-right %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_ha_directionalcannon_up")) fprintf(fp,"ha-directional-cannon-up %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_ha_directionalcannon_down")) fprintf(fp,"ha-directional-cannon-down %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_tank") && ((TGLobject_tank *)o)->get_type()==0) fprintf(fp,"grey-tank %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_tank") && ((TGLobject_tank *)o)->get_type()==1) fprintf(fp,"red-tank %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_tank") && ((TGLobject_tank *)o)->get_type()==2) fprintf(fp,"green-tank %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_big_tank")) fprintf(fp,"big-tank %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_leftdoor")) fprintf(fp,"door-left %i %i %i %i %i\n",o->get_animation_offset(),int(((TGLobject_leftdoor *)o)->get_start_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_state()),int(((TGLobject_leftdoor *)o)->get_action()));
+			if (o->is_a("TGLobject_rightdoor")) fprintf(fp,"door-right %i %i %i %i %i\n",o->get_animation_offset(),int(((TGLobject_leftdoor *)o)->get_start_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_state()),int(((TGLobject_leftdoor *)o)->get_action()));
+			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==0) fprintf(fp,"button-red-left %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
+			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==1) fprintf(fp,"button-red-right %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
+			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==2) fprintf(fp,"button-red-up %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
+			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==3) fprintf(fp,"button-red-down %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
+			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==4) fprintf(fp,"button-purple-left %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
+			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==5) fprintf(fp,"button-purple-right %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
+			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==6) fprintf(fp,"button-purple-up %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
+			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==7) fprintf(fp,"button-purple-down %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
+			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==8) fprintf(fp,"button-blue-left %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
+			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==9) fprintf(fp,"button-blue-right %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
+			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==10) fprintf(fp,"button-blue-up %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
+			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==11) fprintf(fp,"button-blue-down %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
 		} // while 
 	
 	}

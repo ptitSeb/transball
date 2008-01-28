@@ -44,7 +44,7 @@
 
 
 
-TGLobject_directionalcannon_right::TGLobject_directionalcannon_right(float x,float y) : TGLobject_enemy(x+12,y+15)
+TGLobject_directionalcannon_right::TGLobject_directionalcannon_right(float x,float y,int ao) : TGLobject_enemy(x+12,y+15,ao)
 {
 	m_state=0;
 	m_hitpoints=12;
@@ -90,7 +90,7 @@ bool TGLobject_directionalcannon_right::cycle(VirtualController *k,class TGLmap 
 				int a=m_angle;
 				while(a<0) a+=360;
 				while(a>=360) a-=360;
-				bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*14)),float(get_y()+(sin_table[a]*14)),m_angle+90,2,1,GLTM->get("objects/bullet-grey"),this);
+				bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*14)),float(get_y()+(sin_table[a]*14)),0,m_angle+90,2,1,GLTM->get("objects/bullet-grey"),this);
 				map->add_object_back(bullet);
 				m_state=128;
 				Sound_play(SFXM->get("sfx/shot"),sfx_volume);

@@ -385,22 +385,22 @@ foreground/wall1
 foreground/wall2
 foreground/wall1
 19
-red-light 6 2
-directional-cannon-left 1 4
-wall-techno-computer 13 4
-wall-techno-computer 15 4
-pipe-horizontal-screen 18 4
-directional-cannon-up 12 5
-directional-cannon-up 14 5
-directional-cannon-up 16 5
-directional-cannon-left 1 6
-directional-cannon-left 1 8
-directional-cannon-down 3 9
-directional-cannon-down 13 10
-directional-cannon-down 15 10
-wall-techno-computer 2 11
-directional-cannon-down 6 11
-directional-cannon-down 8 11
-directional-cannon-down 10 11
-ball-stand 20 11
-wall-techno-computer 14 12
+red-light 0 6 2
+directional-cannon-left 0 1 4
+wall-techno-computer 0 13 4
+wall-techno-computer 0 15 4
+pipe-horizontal-screen 0 18 4
+directional-cannon-up 0 12 5
+directional-cannon-up 0 14 5
+directional-cannon-up 0 16 5
+directional-cannon-left 0 1 6
+directional-cannon-left 0 1 8
+directional-cannon-down 0 3 9
+directional-cannon-down 0 13 10
+directional-cannon-down 0 15 10
+wall-techno-computer 0 2 11
+directional-cannon-down 0 6 11
+directional-cannon-down 0 8 11
+directional-cannon-down 0 10 11
+ball-stand 0 20 11
+wall-techno-computer 0 14 12

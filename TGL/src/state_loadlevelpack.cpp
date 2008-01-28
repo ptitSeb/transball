@@ -216,7 +216,16 @@ int TGLapp::loadlevelpack_cycle(KEYBOARDSTATE *k)
 				if (selected>=0 && selected<(m_lpb_lp_names.Length()-m_lpb_first_lp) && selected<LEVELPACKBROWSER_LPPERPAGE) {
 					m_lpb_mouse_over_lp=selected;
 
-					if (button==1) m_lpb_lp_selected=m_lpb_first_lp+selected;
+					if (button==1) {
+						if (m_lpb_lp_selected == m_lpb_first_lp+selected) {
+							// Double click:
+							m_state_fading=2;
+							m_state_fading_cycle=0;
+							m_state_selection=0;
+						} else {
+							m_lpb_lp_selected=m_lpb_first_lp+selected;
+						} // if
+					} // if 
 				} // if 
 			} // if
 		} // if 

@@ -769,25 +769,25 @@ foreground/wall-snow1
 foreground/wall-snow4
 foreground/wall-snow1
 22
-red-light-snow 0 0
-red-light-snow 6 2
-cannon-rock-up 14 4
-laser-up 16 4
-red-light-snow 27 4
-door-left 29 5 0 0
-door-right 30 5 0 0
-cannon-rock-left 1 7
-laser-down 16 8
-cannon-rock-left 27 8
-cannon-rock-left 27 9
-cannon-rock-left 27 10
-cannon-rock-right 6 11
-spike-left 11 11
-cannon-rock-left 27 11
-spike-right 12 13
-laser-left 2 17
-laser-right 6 17
-cannon-rock-left 18 20
-ball-stand 30 20
-radar 9 21
-radar 22 23
+red-light-snow 0 0 0
+red-light-snow 0 6 2
+cannon-rock-up 0 14 4
+laser-up 0 16 4
+red-light-snow 0 27 4
+door-left 0 29 5 0 0
+door-right 0 30 5 0 0
+cannon-rock-left 0 1 7
+laser-down 0 16 8
+cannon-rock-left 0 27 8
+cannon-rock-left 0 27 9
+cannon-rock-left 0 27 10
+cannon-rock-right 0 6 11
+spike-left 0 11 11
+cannon-rock-left 0 27 11
+spike-right 0 12 13
+laser-left 0 2 17
+laser-right 0 6 17
+cannon-rock-left 0 18 20
+ball-stand 0 30 20
+radar 0 9 21
+radar 0 22 23

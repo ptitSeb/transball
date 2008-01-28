@@ -39,7 +39,7 @@
 
 
 
-TGLobject_techno_computer::TGLobject_techno_computer(float x,float y) : TGLobject(x,y)
+TGLobject_techno_computer::TGLobject_techno_computer(float x,float y,int ao) : TGLobject(x,y,ao)
 {
 } /* TGLobject_techno_computer::TGLobject_techno_computer */ 
 

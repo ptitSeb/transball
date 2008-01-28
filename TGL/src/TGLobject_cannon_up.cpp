@@ -43,7 +43,7 @@
 
 
 
-TGLobject_cannon_up::TGLobject_cannon_up(float x,float y,int type) : TGLobject_enemy(x,y)
+TGLobject_cannon_up::TGLobject_cannon_up(float x,float y,int ao,int type) : TGLobject_enemy(x,y,ao)
 {
 	m_type=type;
 	m_state=0;
@@ -68,7 +68,7 @@ bool TGLobject_cannon_up::cycle(VirtualController *k,class TGLmap *map,GLTManage
 	case 1: ship=map->object_exists("TGLobject_ship",get_x()-16,get_y(),get_x()+48,get_y()+240);
 			if (ship!=0) {
 				// fire
-				map->add_object_back(new TGLobject_bullet(get_x()+17,get_y()+30,180,2,1,GLTM->get("objects/bullet-grey"),this));
+				map->add_object_back(new TGLobject_bullet(get_x()+17,get_y()+30,0,180,2,1,GLTM->get("objects/bullet-grey"),this));
 				m_state=128;
 				Sound_play(SFXM->get("sfx/shot"),sfx_volume);
 

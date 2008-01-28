@@ -3,7 +3,7 @@
 
 class TGLobject_directionalcannon_up : public TGLobject_enemy {
 public:
-	TGLobject_directionalcannon_up(float x,float y);
+	TGLobject_directionalcannon_up(float x,float y,int animation_offset);
 	virtual ~TGLobject_directionalcannon_up();
 
 	virtual bool is_a(char *n);

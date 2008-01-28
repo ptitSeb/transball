@@ -18,7 +18,7 @@
 
 class TGLobject {
 public:
-	TGLobject(float x,float y);
+	TGLobject(float x,float y,int animation_offset);
 	virtual ~TGLobject();
 
 	virtual void draw(GLTManager *GLTM);

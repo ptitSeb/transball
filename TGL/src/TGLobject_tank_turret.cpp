@@ -42,7 +42,7 @@
 
 
 
-TGLobject_tank_turret::TGLobject_tank_turret(float x,float y,TGLobject_enemy *tank,int type) : TGLobject_enemy(x,y)
+TGLobject_tank_turret::TGLobject_tank_turret(float x,float y,int ao,TGLobject_enemy *tank,int type) : TGLobject_enemy(x,y,ao)
 {
 	m_state=0;
 	m_hitpoints=10;

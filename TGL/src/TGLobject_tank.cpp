@@ -41,7 +41,7 @@
 
 
 
-TGLobject_tank::TGLobject_tank(float x,float y,int type) : TGLobject_enemy(x,y)
+TGLobject_tank::TGLobject_tank(float x,float y,int ao,int type) : TGLobject_enemy(x,y,ao)
 {
 	m_state=0;
 	m_hitpoints=10;

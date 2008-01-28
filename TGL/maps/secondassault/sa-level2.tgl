@@ -1153,36 +1153,36 @@ foreground/wall1
 foreground/wall2
 foreground/wall1
 33
-radar 5 13
-red-light 6 13
-radar 14 13
-cannon-rock-up 21 14
-laser-left 1 15
-laser-right 4 15
-cannon-rock-right 22 15
-cannon-rock-up 8 17
-cannon-rock-up 10 17
-cannon-rock-up 12 17
-cannon-rock-left 1 19
-cannon-rock-left 1 21
-cannon-rock-right 16 22
-cannon-rock-left 1 23
-cannon-rock-right 16 24
-cannon-rock-right 16 26
-cannon-rock-down 5 27
-cannon-rock-down 7 27
-cannon-rock-down 9 27
-laser-left 11 28
-laser-right 16 28
-door-left 20 29 0 0
-door-right 21 29 0 0
-spike-right 15 32
-door-left 6 34 1 0
-door-right 7 34 1 0
-spike-left 19 36
-spike-right 21 36
-ball-stand 6 41
-pipe-vertical-screen 9 41
-pipe-horizontal-screen 7 42
-cannon-rock-left 1 43
-green-tank 11 44
+radar 0 5 13
+red-light 0 6 13
+radar 0 14 13
+cannon-rock-up 0 21 14
+laser-left 0 1 15
+laser-right 0 4 15
+cannon-rock-right 0 22 15
+cannon-rock-up 0 8 17
+cannon-rock-up 0 10 17
+cannon-rock-up 0 12 17
+cannon-rock-left 0 1 19
+cannon-rock-left 0 1 21
+cannon-rock-right 0 16 22
+cannon-rock-left 0 1 23
+cannon-rock-right 0 16 24
+cannon-rock-right 0 16 26
+cannon-rock-down 0 5 27
+cannon-rock-down 0 7 27
+cannon-rock-down 0 9 27
+laser-left 0 11 28
+laser-right 0 16 28
+door-left 0 20 29 0 0
+door-right 0 21 29 0 0
+spike-right 0 15 32
+door-left 0 6 34 1 0
+door-right 0 7 34 1 0
+spike-left 0 19 36
+spike-right 0 21 36
+ball-stand 0 6 41
+pipe-vertical-screen 0 9 41
+pipe-horizontal-screen 0 7 42
+cannon-rock-left 0 1 43
+green-tank 0 11 44

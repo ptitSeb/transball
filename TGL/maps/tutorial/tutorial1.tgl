@@ -497,16 +497,16 @@ foreground/wall3
 foreground/wall1
 foreground/wall2
 13
-ball-stand 14 10
-pipe-vertical-screen 14 11
-wall-techno-computer 21 5
-wall-techno-computer 23 3
-wall-techno-computer 26 3
-wall-techno-computer 27 6
-wall-techno-computer 30 4
-fastcannon-techno-right 20 5
-cannon-techno-right 20 3
-button-red-down 16 12 0
-door-left 19 9 0 1
-door-right 20 9 0 1
-fuel-recharge 23 12
+ball-stand 0 14 10
+pipe-vertical-screen 0 14 11
+wall-techno-computer 0 21 5
+wall-techno-computer 0 23 3
+wall-techno-computer 0 26 3
+wall-techno-computer 0 27 6
+wall-techno-computer 0 30 4
+fastcannon-techno-right 0 20 5
+cannon-techno-right 0 20 3
+button-red-down 0 16 12 0
+door-left 0 19 9 0 1
+door-right 0 20 9 0 1
+fuel-recharge 0 23 12

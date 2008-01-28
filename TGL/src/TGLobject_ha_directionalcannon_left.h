@@ -3,7 +3,7 @@
 
 class TGLobject_ha_directionalcannon_left : public TGLobject_enemy {
 public:
-	TGLobject_ha_directionalcannon_left(float x,float y);
+	TGLobject_ha_directionalcannon_left(float x,float y,int animation_offset);
 	virtual ~TGLobject_ha_directionalcannon_left();
 
 	virtual bool is_a(char *n);

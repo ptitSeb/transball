@@ -39,7 +39,7 @@
 
 
 
-TGLobject_button::TGLobject_button(float x,float y,int event,int type) : TGLobject(x,y)
+TGLobject_button::TGLobject_button(float x,float y,int ao,int event,int type) : TGLobject(x,y,ao)
 {
 	m_event=event;
 	m_type=type;

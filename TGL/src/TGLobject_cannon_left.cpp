@@ -44,7 +44,7 @@
 
 
 
-TGLobject_cannon_left::TGLobject_cannon_left(float x,float y,int type) : TGLobject_enemy(x,y)
+TGLobject_cannon_left::TGLobject_cannon_left(float x,float y,int ao,int type) : TGLobject_enemy(x,y,ao)
 {
 	m_type=type;
 	m_state=0;
@@ -69,7 +69,7 @@ bool TGLobject_cannon_left::cycle(VirtualController *k,class TGLmap *map,GLTMana
 	case 1: ship=map->object_exists("TGLobject_ship",get_x(),get_y()-16,get_x()+320,get_y()+48);
 			if (ship!=0) {
 				// fire
-				map->add_object_back(new TGLobject_bullet(get_x()+32,get_y()+14,90,2,1,GLTM->get("objects/bullet-grey"),this));
+				map->add_object_back(new TGLobject_bullet(get_x()+32,get_y()+14,0,90,2,1,GLTM->get("objects/bullet-grey"),this));
 				m_state=128;
 				Sound_play(SFXM->get("sfx/shot"),sfx_volume);
 

@@ -39,7 +39,7 @@
 
 
 
-TGLobject_enemy::TGLobject_enemy(float x,float y) : TGLobject(x,y)
+TGLobject_enemy::TGLobject_enemy(float x,float y,int ao) : TGLobject(x,y,ao)
 {
 	m_hitpoints=1;
 	m_hit=false;

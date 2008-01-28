@@ -41,7 +41,7 @@
 
 
 
-TGLobject_laser_down::TGLobject_laser_down(float x,float y) : TGLobject_enemy(x,y)
+TGLobject_laser_down::TGLobject_laser_down(float x,float y,int ao) : TGLobject_enemy(x,y,ao)
 {
 	m_hitpoints=16;
 } /* TGLobject_laser_down::TGLobject_laser_down */ 

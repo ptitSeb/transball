@@ -42,7 +42,7 @@
 
 
 
-TGLobject_bullet::TGLobject_bullet(float x,float y,int angle,float speed,int power,GLTile *tile,TGLobject *ship) : TGLobject(x,y)
+TGLobject_bullet::TGLobject_bullet(float x,float y,int ao,int angle,float speed,int power,GLTile *tile,TGLobject *ship) : TGLobject(x,y,ao)
 {
 	m_angle=angle;
 	m_speed=speed;

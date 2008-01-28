@@ -1537,48 +1537,48 @@ foreground/wall1
 foreground/wall2
 foreground/wall1
 45
-radar 28 0
-door-left 2 1 1 0
-door-right 3 1 1 0
-radar 40 1
-red-light 13 2
-radar 34 2
-door-left 42 2 0 2
-door-right 43 2 0 2
-pipe-vertical-screen 11 3
-door-left 8 5 0 0
-door-right 9 5 0 0
-cannon-rock-left 41 6
-fuel-recharge 20 8
-cannon-rock-up 34 8
-cannon-rock-up 37 8
-button-red-right 25 9 0
-laser-left 1 10
-laser-right 4 10
-cannon-rock-left 6 10
-cannon-rock-right 46 11
-cannon-rock-right 19 12
-laser-up 28 12
-cannon-rock-left 42 12
-cannon-rock-left 0 13
-spike-right 39 13
-cannon-rock-left 0 14
-button-red-right 40 14 1
-cannon-rock-left 42 14
-spike-right 39 15
-laser-down 28 16
-spike-left 43 17
-door-left 23 18 0 1
-door-right 24 18 0 1
-cannon-rock-left 15 19
-cannon-rock-up 26 20
-cannon-rock-left 0 22
-cannon-rock-right 45 22
-cannon-rock-left 17 23
-ball-stand 10 24
-cannon-rock-up 32 24
-radar 12 27
-cannon-rock-right 46 28
-green-tank 37 16
-green-tank 39 27
-green-tank 25 27
+radar 0 28 0
+door-left 0 2 1 1 0
+door-right 0 3 1 1 0
+radar 0 40 1
+red-light 0 13 2
+radar 0 34 2
+door-left 0 42 2 0 2
+door-right 0 43 2 0 2
+pipe-vertical-screen 0 11 3
+door-left 0 8 5 0 0
+door-right 0 9 5 0 0
+cannon-rock-left 0 41 6
+fuel-recharge 0 20 8
+cannon-rock-up 0 34 8
+cannon-rock-up 0 37 8
+button-red-right 0 25 9 0
+laser-left 0 1 10
+laser-right 0 4 10
+cannon-rock-left 0 6 10
+cannon-rock-right 0 46 11
+cannon-rock-right 0 19 12
+laser-up 0 28 12
+cannon-rock-left 0 42 12
+cannon-rock-left 0 0 13
+spike-right 0 39 13
+cannon-rock-left 0 0 14
+button-red-right 0 40 14 1
+cannon-rock-left 0 42 14
+spike-right 0 39 15
+laser-down 0 28 16
+spike-left 0 43 17
+door-left 0 23 18 0 1
+door-right 0 24 18 0 1
+cannon-rock-left 0 15 19
+cannon-rock-up 0 26 20
+cannon-rock-left 0 0 22
+cannon-rock-right 0 45 22
+cannon-rock-left 0 17 23
+ball-stand 0 10 24
+cannon-rock-up 0 32 24
+radar 0 12 27
+cannon-rock-right 0 46 28
+green-tank 0 37 16
+green-tank 0 39 27
+green-tank 0 25 27

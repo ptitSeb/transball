@@ -41,7 +41,7 @@
 
 
 
-TGLobject_FX_explosion2::TGLobject_FX_explosion2(float x,float y,float maxsize,int duration) : TGLobject(x,y)
+TGLobject_FX_explosion2::TGLobject_FX_explosion2(float x,float y,float maxsize,int duration) : TGLobject(x,y,0)
 {
 	m_maxsize=maxsize;
 	m_duration=duration;

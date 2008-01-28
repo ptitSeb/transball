@@ -1153,57 +1153,57 @@ foreground/wall-snow1
 foreground/wall-snow2
 foreground/wall-snow1
 54
-radar 32 0
-red-light-snow 10 3
-door-left 6 4 1 0
-door-right 7 4 1 0
-cannon-rock-up 28 4
-cannon-rock-up 29 4
-cannon-rock-up 36 4
-door-left 19 5 0 2
-door-right 20 5 0 2
-laser-up 13 6
-cannon-rock-up 23 6
-cannon-rock-up 43 6
-cannon-rock-left 3 7
-cannon-rock-right 45 7
-fastcannon-techno-down 31 9
-directional-cannon-down 34 9
-cannon-rock-left 3 10
-directional-cannon-right 27 10
-wall-techno-computer 28 10
-wall-techno-computer 29 10
-wall-techno-computer 33 10
-wall-techno-computer 34 10
-cannon-rock-down 7 11
-laser-down 13 11
-cannon-rock-down 38 11
-cannon-rock-down 39 11
-door-left 4 12 0 1
-door-right 5 12 0 1
-directional-cannon-right 27 12
-wall-techno-computer 28 12
-wall-techno-computer 29 12
-wall-techno-computer 33 12
-wall-techno-computer 34 12
-door-left 42 12 1 0
-door-right 43 12 1 0
-laser-up 11 13
-ha-directional-cannon-up 33 13
-cannon-rock-left 3 14
-button-blue-left 10 14 0
-button-blue-left 3 15 1
-cannon-rock-left 10 15
-radar 26 15
-laser-down 11 16
-laser-left 22 16
-laser-right 25 16
-spike-left 40 16
-door-left 4 17 0 1
-door-right 5 17 0 1
-cannon-rock-up 26 18
-cannon-rock-up 29 18
-ball-stand 43 18
-pipe-horizontal-screen 44 19
-big-tank 34 21
-big-tank 6 21
+radar 0 32 0
+red-light-snow 0 10 3
+door-left 0 6 4 1 0
+door-right 0 7 4 1 0
+cannon-rock-up 0 28 4
+cannon-rock-up 0 29 4
+cannon-rock-up 0 36 4
+door-left 0 19 5 0 2
+door-right 0 20 5 0 2
+laser-up 0 13 6
+cannon-rock-up 0 23 6
+cannon-rock-up 0 43 6
+cannon-rock-left 0 3 7
+cannon-rock-right 0 45 7
+fastcannon-techno-down 0 31 9
+directional-cannon-down 0 34 9
+cannon-rock-left 0 3 10
+directional-cannon-right 0 27 10
+wall-techno-computer 0 28 10
+wall-techno-computer 0 29 10
+wall-techno-computer 0 33 10
+wall-techno-computer 0 34 10
+cannon-rock-down 0 7 11
+laser-down 0 13 11
+cannon-rock-down 0 38 11
+cannon-rock-down 0 39 11
+door-left 0 4 12 0 1
+door-right 0 5 12 0 1
+directional-cannon-right 0 27 12
+wall-techno-computer 0 28 12
+wall-techno-computer 0 29 12
+wall-techno-computer 0 33 12
+wall-techno-computer 0 34 12
+door-left 0 42 12 1 0
+door-right 0 43 12 1 0
+laser-up 0 11 13
+ha-directional-cannon-up 0 33 13
+cannon-rock-left 0 3 14
+button-blue-left 0 10 14 0
+button-blue-left 0 3 15 1
+cannon-rock-left 0 10 15
+radar 0 26 15
+laser-down 0 11 16
+laser-left 0 22 16
+laser-right 0 25 16
+spike-left 0 40 16
+door-left 0 4 17 0 1
+door-right 0 5 17 0 1
+cannon-rock-up 0 26 18
+cannon-rock-up 0 29 18
+ball-stand 0 43 18
+pipe-horizontal-screen 0 44 19
+big-tank 0 34 21
+big-tank 0 6 21

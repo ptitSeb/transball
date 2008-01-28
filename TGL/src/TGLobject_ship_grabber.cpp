@@ -49,7 +49,7 @@
 
 
 
-TGLobject_ship_grabber::TGLobject_ship_grabber(float x,float y) : TGLobject(x,y)
+TGLobject_ship_grabber::TGLobject_ship_grabber(float x,float y) : TGLobject(x,y,0)
 {
 	m_scale=1.0f;
 

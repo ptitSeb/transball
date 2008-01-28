@@ -3,7 +3,7 @@
 
 class TGLobject_bullet : public TGLobject {
 public:
-	TGLobject_bullet(float x,float y,int angle,float speed,int power,GLTile *tile,TGLobject *ship);
+	TGLobject_bullet(float x,float y,int animation_offset,int angle,float speed,int power,GLTile *tile,TGLobject *ship);
 	virtual ~TGLobject_bullet();
 
 	virtual bool is_a(char *n);

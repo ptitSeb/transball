@@ -3,7 +3,7 @@
 
 class TGLobject_laser_left : public TGLobject_enemy {
 public:
-	TGLobject_laser_left(float x,float y);
+	TGLobject_laser_left(float x,float y,int animation_offset);
 	virtual ~TGLobject_laser_left();
 
 	virtual bool is_a(char *n);

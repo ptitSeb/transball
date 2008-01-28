@@ -3,7 +3,7 @@
 
 class TGLobject_ball : public TGLobject {
 public:
-	TGLobject_ball(float x,float y);
+	TGLobject_ball(float x,float y,int animation_offset);
 	virtual ~TGLobject_ball();
 
 	virtual bool is_a(char *n);

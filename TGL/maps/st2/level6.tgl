@@ -401,16 +401,16 @@ foreground/wall-snow1
 foreground/wall-snow2
 foreground/wall-snow1
 13
-red-light-snow 0 1
-red-light-snow 8 1
-laser-left 1 2
-laser-right 7 2
-door-left 4 5 1 0
-door-right 5 5 1 0
-door-left 16 5 0 1
-door-right 17 5 0 1
-cannon-rock-left 1 11
-cannon-rock-down 13 11
-radar 15 12
-ball-stand 4 17
-button-blue-down 17 17 0
+red-light-snow 0 0 1
+red-light-snow 0 8 1
+laser-left 0 1 2
+laser-right 0 7 2
+door-left 0 4 5 1 0
+door-right 0 5 5 1 0
+door-left 0 16 5 0 1
+door-right 0 17 5 0 1
+cannon-rock-left 0 1 11
+cannon-rock-down 0 13 11
+radar 0 15 12
+ball-stand 0 4 17
+button-blue-down 0 17 17 0

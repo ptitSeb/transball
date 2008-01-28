@@ -3,7 +3,7 @@
 
 class TGLobject_leftdoor : public TGLobject {
 public:
-	TGLobject_leftdoor(float x,float y,int state,int action);
+	TGLobject_leftdoor(float x,float y,int animation_offset,int state,int action);
 	virtual ~TGLobject_leftdoor();
 
 	virtual bool is_a(char *n);

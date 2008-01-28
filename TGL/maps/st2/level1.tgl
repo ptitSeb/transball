@@ -513,6 +513,6 @@ foreground/wall1
 foreground/wall2
 foreground/wall1
 3
-ball-stand 14 10
-red-light 18 10
-pipe-vertical-screen 14 11
+ball-stand 0 14 10
+red-light 0 18 10
+pipe-vertical-screen 0 14 11

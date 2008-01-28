@@ -39,7 +39,7 @@
 
 
 
-TGLobject_pipevscreen::TGLobject_pipevscreen(float x,float y) : TGLobject(x,y)
+TGLobject_pipevscreen::TGLobject_pipevscreen(float x,float y,int ao) : TGLobject(x,y,ao)
 {
 } /* TGLobject_pipevscreen::TGLobject_pipevscreen */ 
 

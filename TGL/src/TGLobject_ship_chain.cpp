@@ -49,7 +49,7 @@
 
 
 
-TGLobject_ship_chain::TGLobject_ship_chain(float x,float y) : TGLobject(x,y)
+TGLobject_ship_chain::TGLobject_ship_chain(float x,float y) : TGLobject(x,y,0)
 {
 	m_scale=1.0f;
 

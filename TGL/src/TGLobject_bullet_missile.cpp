@@ -43,8 +43,8 @@
 
 
 
-TGLobject_bullet_missile::TGLobject_bullet_missile(float x,float y,int angle,float speed,int power,GLTile *tile,GLTile *tile2,TGLobject *ship) : 
-						  TGLobject_bullet(x,y,angle,speed,power,tile,ship)
+TGLobject_bullet_missile::TGLobject_bullet_missile(float x,float y,int ao,int angle,float speed,int power,GLTile *tile,GLTile *tile2,TGLobject *ship) : 
+						  TGLobject_bullet(x,y,ao,angle,speed,power,tile,ship)
 {
 	m_tile2=tile2;
 } /* TGLobject_bullet_missile::TGLobject_bullet_missile */ 

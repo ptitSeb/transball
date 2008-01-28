@@ -129,7 +129,7 @@ bool TGLobject_ship_dodger::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 		int a=m_angle-90;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*12)),float(get_y()+(sin_table[a]*12)),m_angle,6,1,GLTM->get("objects/bullet-green"),this);
+		bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*12)),float(get_y()+(sin_table[a]*12)),0,m_angle,6,1,GLTM->get("objects/bullet-green"),this);
 		if (m_ball!=0) bullet->exclude_for_collision(m_ball);
 		map->add_object_back(bullet);
 		m_fuel-=40;

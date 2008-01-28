@@ -39,7 +39,7 @@
 
 
 
-TGLobject_ballstand::TGLobject_ballstand(float x,float y) : TGLobject(x,y)
+TGLobject_ballstand::TGLobject_ballstand(float x,float y,int animation_offset) : TGLobject(x,y,animation_offset)
 {
 } /* TGLobject_ballstand::TGLobject_ballstand */ 
 

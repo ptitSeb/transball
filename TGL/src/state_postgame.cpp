@@ -147,6 +147,12 @@ void TGLapp::postgame_draw(void)
 
 	{
 		int time=-1;
+		int fuel_used = -1;
+		int shots = -1;
+		float max_speed = 0.0f;
+		float average_speed = 0.0f;
+		int enemies_killed = -1;
+		float accuracy = 0.0f;
 
 		if (m_game->get_game_result()==1) {
 			TGLinterface::print_center("Congratulations!",m_font32,320,96);
@@ -154,6 +160,11 @@ void TGLapp::postgame_draw(void)
 		} else {
 			TGLinterface::print_center("Better luck next time...",m_font16,320,96);
 		} // if 
+
+		fuel_used = m_game_replay->get_fuel_used();
+		shots = m_game_replay->get_n_shots();
+		max_speed = m_game_replay->get_max_speed();
+		average_speed = m_game_replay->get_average_speed();
 
 		if (time!=-1) {
 			int mins,secs,milis;
@@ -168,13 +179,19 @@ void TGLapp::postgame_draw(void)
 		} // if 
 		TGLinterface::print_center(buffer,m_font16,320,125);
 
+		sprintf(buffer,"Fuel used: %i    Shots: %i",fuel_used,shots);
+		TGLinterface::print_center(buffer,m_font16,320,145);
+
+		sprintf(buffer,"Mspeed: %.2f    Average Speed: %.2f",max_speed,average_speed);
+		TGLinterface::print_center(buffer,m_font16,320,165);
+
 		sprintf(buffer,"Current score: %i",m_player_profile->get_points());
-		TGLinterface::print_center(buffer,m_font16,320,150);
+		TGLinterface::print_center(buffer,m_font16,320,200);
 		
 		if (m_ship_unlocked!=-1) {
 			sprintf(buffer,"New ship unlocked: '%s'!",ship_names[m_ship_unlocked]);
 		} // if 
-		TGLinterface::print_center(buffer,m_font16,320,175);
+		TGLinterface::print_center(buffer,m_font16,320,225);
 	}
 
 	TGLinterface::draw();

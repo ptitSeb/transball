@@ -1089,78 +1089,78 @@ foreground/wall1
 foreground/wall2
 foreground/wall1
 75
-wall-techno-computer 8 3
-wall-techno-computer 12 3
-wall-techno-computer 16 3
-wall-techno-computer 29 3
-wall-techno-computer 30 3
-cannon-techno-up 22 4
-button-purple-up 31 4 0
-directional-cannon-right 29 5
-fastcannon-techno-right 29 6
-cannon-techno-left 30 6
-directional-cannon-right 29 7
-cannon-techno-left 30 8
-wall-techno-computer 8 9
-fastcannon-techno-right 29 9
-wall-techno-computer 8 10
-directional-cannon-left 9 10
-cannon-techno-left 30 10
-fastcannon-techno-right 29 11
-cannon-techno-left 30 12
-fastcannon-techno-right 29 13
-directional-cannon-left 9 14
-cannon-techno-left 30 14
-cannon-techno-right 29 16
-cannon-techno-left 30 16
-wall-techno-computer 8 17
-cannon-techno-down 10 17
-cannon-techno-down 21 17
-wall-techno-computer 0 18
-door-left 2 18 0 2
-door-right 3 18 0 2
-wall-techno-computer 7 18
-wall-techno-computer 8 18
-wall-techno-computer 9 18
-door-left 25 18 1 0
-door-right 26 18 1 0
-wall-techno-computer 28 18
-wall-techno-computer 29 18
-cannon-techno-left 30 18
-fastcannon-techno-up 8 19
-fastcannon-techno-up 10 19
-directional-cannon-up 15 19
-fastcannon-techno-up 20 19
-fastcannon-techno-up 22 19
-directional-cannon-left 1 20
-wall-techno-computer 5 20
-fastcannon-techno-left 6 20
-door-left 30 20 0 0
-door-right 31 20 0 0
-wall-techno-computer 5 21
-button-purple-left 6 21 1
-door-left 14 21 0 1
-door-right 15 21 0 1
-wall-techno-computer 0 22
-directional-cannon-left 1 22
-wall-techno-computer 5 22
-fastcannon-techno-left 6 22
-fastcannon-techno-down 7 23
-fastcannon-techno-down 9 23
-fastcannon-techno-down 11 23
-directional-cannon-down 15 23
-fastcannon-techno-down 19 23
-fastcannon-techno-down 21 23
-fastcannon-techno-down 23 23
-directional-cannon-up 10 24
-directional-cannon-up 12 24
-directional-cannon-up 14 24
-fastcannon-techno-down 30 24
-fastcannon-techno-right 29 25
-wall-techno-computer 30 25
-laser-left 3 28
-laser-right 26 28
-cannon-rock-left 3 30
-ball-stand 12 31
-cannon-rock-down 11 33
-cannon-rock-down 13 33
+wall-techno-computer 0 8 3
+wall-techno-computer 0 12 3
+wall-techno-computer 0 16 3
+wall-techno-computer 0 29 3
+wall-techno-computer 0 30 3
+cannon-techno-up 0 22 4
+button-purple-up 0 31 4 0
+directional-cannon-right 0 29 5
+fastcannon-techno-right 0 29 6
+cannon-techno-left 0 30 6
+directional-cannon-right 0 29 7
+cannon-techno-left 0 30 8
+wall-techno-computer 0 8 9
+fastcannon-techno-right 0 29 9
+wall-techno-computer 0 8 10
+directional-cannon-left 0 9 10
+cannon-techno-left 0 30 10
+fastcannon-techno-right 0 29 11
+cannon-techno-left 0 30 12
+fastcannon-techno-right 0 29 13
+directional-cannon-left 0 9 14
+cannon-techno-left 0 30 14
+cannon-techno-right 0 29 16
+cannon-techno-left 0 30 16
+wall-techno-computer 0 8 17
+cannon-techno-down 0 10 17
+cannon-techno-down 0 21 17
+wall-techno-computer 0 0 18
+door-left 0 2 18 0 2
+door-right 0 3 18 0 2
+wall-techno-computer 0 7 18
+wall-techno-computer 0 8 18
+wall-techno-computer 0 9 18
+door-left 0 25 18 1 0
+door-right 0 26 18 1 0
+wall-techno-computer 0 28 18
+wall-techno-computer 0 29 18
+cannon-techno-left 0 30 18
+fastcannon-techno-up 0 8 19
+fastcannon-techno-up 0 10 19
+directional-cannon-up 0 15 19
+fastcannon-techno-up 0 20 19
+fastcannon-techno-up 0 22 19
+directional-cannon-left 0 1 20
+wall-techno-computer 0 5 20
+fastcannon-techno-left 0 6 20
+door-left 0 30 20 0 0
+door-right 0 31 20 0 0
+wall-techno-computer 0 5 21
+button-purple-left 0 6 21 1
+door-left 0 14 21 0 1
+door-right 0 15 21 0 1
+wall-techno-computer 0 0 22
+directional-cannon-left 0 1 22
+wall-techno-computer 0 5 22
+fastcannon-techno-left 0 6 22
+fastcannon-techno-down 0 7 23
+fastcannon-techno-down 0 9 23
+fastcannon-techno-down 0 11 23
+directional-cannon-down 0 15 23
+fastcannon-techno-down 0 19 23
+fastcannon-techno-down 0 21 23
+fastcannon-techno-down 0 23 23
+directional-cannon-up 0 10 24
+directional-cannon-up 0 12 24
+directional-cannon-up 0 14 24
+fastcannon-techno-down 0 30 24
+fastcannon-techno-right 0 29 25
+wall-techno-computer 0 30 25
+laser-left 0 3 28
+laser-right 0 26 28
+cannon-rock-left 0 3 30
+ball-stand 0 12 31
+cannon-rock-down 0 11 33
+cannon-rock-down 0 13 33

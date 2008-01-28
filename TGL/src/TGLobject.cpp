@@ -39,7 +39,7 @@
 
 
 
-TGLobject::TGLobject(float x,float y)
+TGLobject::TGLobject(float x,float y,int animation_offset)
 {
 	m_x=x;
 	m_y=y;
@@ -49,7 +49,7 @@ TGLobject::TGLobject(float x,float y)
 	m_last_mask=0;
 	m_state=0;
 	m_cycle=0;
-	m_animation_offset=0;
+	m_animation_offset=animation_offset;
 
 	m_controller=0;
 

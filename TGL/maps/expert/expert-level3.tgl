@@ -961,71 +961,71 @@ foreground/wall-snow1
 foreground/wall-snow2
 foreground/wall-snow1
 68
-red-light-snow 6 0
-door-left 3 1 1 1
-door-right 4 1 1 1
-laser-left 0 5
-laser-right 3 5
-cannon-rock-up 6 7
-cannon-rock-up 8 7
-laser-up 9 7
-cannon-rock-left 0 8
-door-left 26 9 0 0
-door-right 27 9 0 0
-cannon-rock-right 18 10
-laser-left 25 10
-laser-right 28 10
-cannon-rock-left 3 11
-cannon-rock-left 25 11
-directional-cannon-down 12 12
-directional-cannon-down 14 12
-cannon-rock-right 29 12
-directional-cannon-right 11 13
-wall-techno-computer 12 13
-wall-techno-computer 14 13
-directional-cannon-left 15 13
-cannon-rock-right 29 13
-wall-techno-computer 12 14
-wall-techno-computer 14 14
-directional-cannon-right 19 14
-wall-techno-computer 20 14
-wall-techno-computer 21 14
-wall-techno-computer 23 14
-wall-techno-computer 24 14
-directional-cannon-right 11 15
-wall-techno-computer 13 15
-directional-cannon-left 15 15
-wall-techno-computer 12 16
-wall-techno-computer 14 16
-directional-cannon-right 19 16
-directional-cannon-right 11 17
-wall-techno-computer 12 17
-wall-techno-computer 14 17
-directional-cannon-left 15 17
-cannon-rock-right 25 17
-laser-down 9 18
-directional-cannon-right 19 18
-spike-right 24 18
-wall-techno-computer 20 20
-wall-techno-computer 21 20
-cannon-rock-right 29 20
-cannon-rock-up 5 21
-cannon-rock-up 6 21
-cannon-rock-up 7 21
-cannon-rock-up 8 21
-cannon-rock-up 9 21
-fastcannon-techno-up 20 21
-directional-cannon-down 24 21
-cannon-rock-right 29 21
-wall-techno-computer 24 22
-directional-cannon-up 24 23
-cannon-rock-up 1 24
-button-blue-left 0 25 0
-cannon-rock-right 26 25
-cannon-rock-right 12 26
-cannon-rock-left 16 26
-cannon-rock-right 12 27
-ball-stand 19 27
-cannon-rock-right 12 28
-cannon-rock-down 22 29
-red-tank 5 21
+red-light-snow 0 6 0
+door-left 0 3 1 1 1
+door-right 0 4 1 1 1
+laser-left 0 0 5
+laser-right 0 3 5
+cannon-rock-up 0 6 7
+cannon-rock-up 0 8 7
+laser-up 0 9 7
+cannon-rock-left 0 0 8
+door-left 0 26 9 0 0
+door-right 0 27 9 0 0
+cannon-rock-right 0 18 10
+laser-left 0 25 10
+laser-right 0 28 10
+cannon-rock-left 0 3 11
+cannon-rock-left 0 25 11
+directional-cannon-down 0 12 12
+directional-cannon-down 0 14 12
+cannon-rock-right 0 29 12
+directional-cannon-right 0 11 13
+wall-techno-computer 0 12 13
+wall-techno-computer 0 14 13
+directional-cannon-left 0 15 13
+cannon-rock-right 0 29 13
+wall-techno-computer 0 12 14
+wall-techno-computer 0 14 14
+directional-cannon-right 0 19 14
+wall-techno-computer 0 20 14
+wall-techno-computer 0 21 14
+wall-techno-computer 0 23 14
+wall-techno-computer 0 24 14
+directional-cannon-right 0 11 15
+wall-techno-computer 0 13 15
+directional-cannon-left 0 15 15
+wall-techno-computer 0 12 16
+wall-techno-computer 0 14 16
+directional-cannon-right 0 19 16
+directional-cannon-right 0 11 17
+wall-techno-computer 0 12 17
+wall-techno-computer 0 14 17
+directional-cannon-left 0 15 17
+cannon-rock-right 0 25 17
+laser-down 0 9 18
+directional-cannon-right 0 19 18
+spike-right 0 24 18
+wall-techno-computer 0 20 20
+wall-techno-computer 0 21 20
+cannon-rock-right 0 29 20
+cannon-rock-up 0 5 21
+cannon-rock-up 0 6 21
+cannon-rock-up 0 7 21
+cannon-rock-up 0 8 21
+cannon-rock-up 0 9 21
+fastcannon-techno-up 0 20 21
+directional-cannon-down 0 24 21
+cannon-rock-right 0 29 21
+wall-techno-computer 0 24 22
+directional-cannon-up 0 24 23
+cannon-rock-up 0 1 24
+button-blue-left 0 0 25 0
+cannon-rock-right 0 26 25
+cannon-rock-right 0 12 26
+cannon-rock-left 0 16 26
+cannon-rock-right 0 12 27
+ball-stand 0 19 27
+cannon-rock-right 0 12 28
+cannon-rock-down 0 22 29
+red-tank 0 5 21

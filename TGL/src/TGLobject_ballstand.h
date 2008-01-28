@@ -3,7 +3,7 @@
 
 class TGLobject_ballstand : public TGLobject {
 public:
-	TGLobject_ballstand(float x,float y);
+	TGLobject_ballstand(float x,float y,int animation_offset);
 	virtual ~TGLobject_ballstand();
 
 	virtual bool is_a(char *n);

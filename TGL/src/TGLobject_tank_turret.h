@@ -3,7 +3,7 @@
 
 class TGLobject_tank_turret : public TGLobject_enemy {
 public:
-	TGLobject_tank_turret(float x,float y,TGLobject_enemy *tank,int type);
+	TGLobject_tank_turret(float x,float y,int animation_offset,TGLobject_enemy *tank,int type);
 	virtual ~TGLobject_tank_turret();
 
 	virtual bool is_a(char *n);

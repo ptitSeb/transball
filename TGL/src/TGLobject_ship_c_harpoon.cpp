@@ -190,7 +190,7 @@ bool TGLobject_ship_c_harpoon::cycle(VirtualController *k,TGLmap *map,GLTManager
 		int a=m_angle-90;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*12)),float(get_y()+(sin_table[a]*12)),m_angle,5,1,GLTM->get("objects/bullet-red"),this);
+		bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*12)),float(get_y()+(sin_table[a]*12)),0,m_angle,5,1,GLTM->get("objects/bullet-red"),this);
 		if (m_ball!=0) bullet->exclude_for_collision(m_ball);
 		map->add_object_back(bullet);
 		m_fuel-=32;
@@ -226,11 +226,9 @@ bool TGLobject_ship_c_harpoon::cycle(VirtualController *k,TGLmap *map,GLTManager
 			delete o;
 			m_chain[0]->set_previous(this);				
 		} // if 
-
-		m_fuel--;
 	} // if 
 
-	if (k->m_joystick[VC_DOWN] && k->m_joystick[VC_RIGHT] &&  get_chain_length()<MAX_CHAIN_SIZE*CHAIN_LINK_LENGTH && m_fuel>0) {
+	if (k->m_joystick[VC_DOWN] && k->m_joystick[VC_RIGHT] && get_chain_length()<MAX_CHAIN_SIZE*CHAIN_LINK_LENGTH && m_fuel>0) {
 		m_chain_length++;
 		if (m_chain_length>m_chain.Length()*(CHAIN_LINK_LENGTH*1.5f)) {
 			// Add another link:
@@ -249,8 +247,6 @@ bool TGLobject_ship_c_harpoon::cycle(VirtualController *k,TGLmap *map,GLTManager
 			map->add_auxiliary_back_object(link);
 
 		} // if 
-
-		m_fuel--;
 	} // if 
 
 	if (k->m_button[1] && !k->m_old_button[1]) {

@@ -3,7 +3,7 @@
 
 class TGLobject_spike_left : public TGLobject {
 public:
-	TGLobject_spike_left(float x,float y);
+	TGLobject_spike_left(float x,float y,int animation_offset);
 	virtual ~TGLobject_spike_left();
 
 	virtual bool is_a(char *n);

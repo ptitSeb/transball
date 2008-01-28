@@ -132,7 +132,7 @@ bool TGLobject_ship_gyrus::cycle(VirtualController *k,TGLmap *map,GLTManager *GL
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
 
-		bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*8)),float(get_y()+(sin_table[a]*8)),m_angle+m_cannon_angle,5,2,GLTM->get("objects/bullet-red2"),this);
+		bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*8)),float(get_y()+(sin_table[a]*8)),0,m_angle+m_cannon_angle,5,2,GLTM->get("objects/bullet-red2"),this);
 		if (m_ball!=0) bullet->exclude_for_collision(m_ball);
 		map->add_object(bullet);
 		m_fuel-=64;

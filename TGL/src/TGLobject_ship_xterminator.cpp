@@ -124,7 +124,7 @@ bool TGLobject_ship_xterminator::cycle(VirtualController *k,TGLmap *map,GLTManag
 		int a=m_angle-90;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		bullet=new TGLobject_bullet_missile(float(get_x()+(cos_table[a]*8)),float(get_y()+(sin_table[a]*8)),m_angle,4,4,GLTM->get("objects/bullet-grey-missile1"),GLTM->get("objects/bullet-grey-missile2"),this);
+		bullet=new TGLobject_bullet_missile(float(get_x()+(cos_table[a]*8)),float(get_y()+(sin_table[a]*8)),0,m_angle,4,4,GLTM->get("objects/bullet-grey-missile1"),GLTM->get("objects/bullet-grey-missile2"),this);
 		if (m_ball!=0) bullet->exclude_for_collision(m_ball);
 		map->add_object_back(bullet);
 		m_fuel-=96;

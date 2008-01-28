@@ -43,7 +43,7 @@
 
 
 
-TGLobject_tank_cannon::TGLobject_tank_cannon(float x,float y,TGLobject_enemy *turret) : TGLobject_enemy(x+15,y+12)
+TGLobject_tank_cannon::TGLobject_tank_cannon(float x,float y,int ao,TGLobject_enemy *turret) : TGLobject_enemy(x+15,y+12,ao)
 {
 	m_state=0;
 	m_hitpoints=12;
@@ -109,7 +109,7 @@ bool TGLobject_tank_cannon::cycle(VirtualController *k,class TGLmap *map,GLTMana
 				int a=m_angle;
 				while(a<0) a+=360;
 				while(a>=360) a-=360;
-				bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*14)),float(get_y()+(sin_table[a]*14)),m_angle+90,2,1,GLTM->get("objects/bullet-grey"),this);
+				bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*14)),float(get_y()+(sin_table[a]*14)),0,m_angle+90,2,1,GLTM->get("objects/bullet-grey"),this);
 				bullet->exclude_for_collision(m_turret);
 				map->add_object_back(bullet);
 				m_state=128;

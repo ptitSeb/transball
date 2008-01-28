@@ -230,13 +230,19 @@ int TGLapp::playerprofile_cycle(KEYBOARDSTATE *k)
 				int selected=(mouse_y-48)/22;
 
 				if (selected>=0 && selected<(m_profile_profile_names.Length()-m_profile_first_profile) && selected<PROFILESPERPAGE) {
-					m_profile_mouse_over_profile=selected;
+					m_profile_mouse_over_profile=selected+m_profile_first_profile;
 
 					if (button!=0) {
-						m_profile_profile_selected=selected;
-						strcpy(m_profile_name_inputframe->m_editing,m_profile_profile_names[m_profile_profile_selected]);
-						m_profile_name_inputframe->m_editing_position=strlen(m_profile_name_inputframe->m_editing);
-						m_profile_name_inputframe->m_enabled=true;
+						if (m_profile_profile_selected==selected+m_profile_first_profile) {
+							m_state_fading=2;
+							m_state_fading_cycle=0;
+							m_state_selection=1;
+						} else {
+							m_profile_profile_selected=selected+m_profile_first_profile;
+							strcpy(m_profile_name_inputframe->m_editing,m_profile_profile_names[m_profile_profile_selected]);
+							m_profile_name_inputframe->m_editing_position=strlen(m_profile_name_inputframe->m_editing);
+							m_profile_name_inputframe->m_enabled=true;
+						} // if
 					} // if
 				} // if 
 			} // if
@@ -339,6 +345,20 @@ void TGLapp::playerprofile_draw(void)
     glClear(GL_COLOR_BUFFER_BIT);
 
 	TGLinterface::draw();
+
+
+	if (m_profile_profile_selected!=-1) {
+		float f;
+		f=float(0.7+0.2*sin((m_state_cycle)*0.3F));		
+		glColor4f(0.5f,0.5f,1,0.7f);
+		glBegin(GL_POLYGON);
+		glVertex3f(15,float(48+m_profile_profile_selected*22),0);
+		glVertex3f(585,float(48+m_profile_profile_selected*22),0);
+		glVertex3f(585,float(68+m_profile_profile_selected*22),0);
+		glVertex3f(15,float(68+m_profile_profile_selected*22),0);
+		glEnd();
+	} // if 
+
 
 	if (m_profile_mouse_over_profile!=-1) {
 		float f;

@@ -3,7 +3,7 @@
 
 class TGLobject_pipevscreen : public TGLobject {
 public:
-	TGLobject_pipevscreen(float x,float y);
+	TGLobject_pipevscreen(float x,float y,int animation_offset);
 	virtual ~TGLobject_pipevscreen();
 
 	virtual bool is_a(char *n);

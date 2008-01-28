@@ -769,58 +769,58 @@ foreground/wall-techno1
 foreground/wall-techno1
 foreground/wall-techno1
 55
-fastcannon-techno-down 6 1
-wall-techno-computer 0 2
-wall-techno-computer 10 2
-cannon-techno-up 22 2
-cannon-techno-up 29 2
-cannon-techno-up 11 3
-wall-techno-computer 31 4
-cannon-techno-left 1 5
-wall-techno-computer 5 5
-ball-stand 9 5
-cannon-techno-left 14 5
-pipe-horizontal-screen 8 6
-wall-techno-computer 13 7
-fastcannon-techno-down 18 7
-cannon-techno-left 6 8
-wall-techno-computer 21 8
-wall-techno-computer 0 9
-cannon-techno-left 1 9
-fastcannon-techno-up 17 9
-fastcannon-techno-up 19 9
-fastcannon-techno-up 21 9
-fastcannon-techno-up 23 9
-wall-techno-computer 26 9
-wall-techno-computer 31 9
-fastcannon-techno-right 25 10
-cannon-techno-right 4 11
-wall-techno-computer 5 12
-fastcannon-techno-down 18 12
-fastcannon-techno-down 20 12
-fastcannon-techno-down 22 12
-wall-techno-computer 23 13
-wall-techno-computer 24 13
-wall-techno-computer 25 13
-wall-techno-computer 26 13
-wall-techno-computer 10 14
-wall-techno-computer 23 14
-wall-techno-computer 24 14
-wall-techno-computer 25 14
-wall-techno-computer 26 14
-wall-techno-computer 23 15
-wall-techno-computer 24 15
-wall-techno-computer 25 15
-wall-techno-computer 26 15
-cannon-techno-right 4 16
-wall-techno-computer 31 16
-wall-techno-computer 6 17
-wall-techno-computer 10 18
-fuel-recharge 7 20
-wall-techno-computer 0 21
-wall-techno-computer 17 22
-wall-techno-computer 31 22
-wall-techno-computer 5 23
-wall-techno-computer 15 23
-wall-techno-computer 20 23
-grey-tank 18 18
+fastcannon-techno-down 0 6 1
+wall-techno-computer 0 0 2
+wall-techno-computer 0 10 2
+cannon-techno-up 0 22 2
+cannon-techno-up 0 29 2
+cannon-techno-up 0 11 3
+wall-techno-computer 0 31 4
+cannon-techno-left 0 1 5
+wall-techno-computer 0 5 5
+ball-stand 0 9 5
+cannon-techno-left 0 14 5
+pipe-horizontal-screen 0 8 6
+wall-techno-computer 0 13 7
+fastcannon-techno-down 0 18 7
+cannon-techno-left 0 6 8
+wall-techno-computer 0 21 8
+wall-techno-computer 0 0 9
+cannon-techno-left 0 1 9
+fastcannon-techno-up 0 17 9
+fastcannon-techno-up 0 19 9
+fastcannon-techno-up 0 21 9
+fastcannon-techno-up 0 23 9
+wall-techno-computer 0 26 9
+wall-techno-computer 0 31 9
+fastcannon-techno-right 0 25 10
+cannon-techno-right 0 4 11
+wall-techno-computer 0 5 12
+fastcannon-techno-down 0 18 12
+fastcannon-techno-down 0 20 12
+fastcannon-techno-down 0 22 12
+wall-techno-computer 0 23 13
+wall-techno-computer 0 24 13
+wall-techno-computer 0 25 13
+wall-techno-computer 0 26 13
+wall-techno-computer 0 10 14
+wall-techno-computer 0 23 14
+wall-techno-computer 0 24 14
+wall-techno-computer 0 25 14
+wall-techno-computer 0 26 14
+wall-techno-computer 0 23 15
+wall-techno-computer 0 24 15
+wall-techno-computer 0 25 15
+wall-techno-computer 0 26 15
+cannon-techno-right 0 4 16
+wall-techno-computer 0 31 16
+wall-techno-computer 0 6 17
+wall-techno-computer 0 10 18
+fuel-recharge 0 7 20
+wall-techno-computer 0 0 21
+wall-techno-computer 0 17 22
+wall-techno-computer 0 31 22
+wall-techno-computer 0 5 23
+wall-techno-computer 0 15 23
+wall-techno-computer 0 20 23
+grey-tank 0 18 18

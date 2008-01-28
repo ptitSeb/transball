@@ -3,7 +3,7 @@
 
 class TGLobject_techno_computer : public TGLobject {
 public:
-	TGLobject_techno_computer(float x,float y);
+	TGLobject_techno_computer(float x,float y,int animation_offset);
 	virtual ~TGLobject_techno_computer();
 
 	virtual bool is_a(char *n);

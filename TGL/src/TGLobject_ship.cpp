@@ -39,7 +39,7 @@
 
 
 
-TGLobject_ship::TGLobject_ship(float x,float y,int initial_fuel) : TGLobject(x,y)
+TGLobject_ship::TGLobject_ship(float x,float y,int initial_fuel) : TGLobject(x,y,0)
 {
 	m_speed_x=0;
 	m_speed_y=0;

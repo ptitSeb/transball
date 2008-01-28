@@ -45,6 +45,12 @@ public:
 	char *get_map(void);
 	int get_initial_fuel(void);
 
+	void compute_statistics(void);
+	int get_fuel_used(void);
+	int get_n_shots(void);
+	float get_average_speed(void);
+	float get_max_speed(void);
+
 	bool read_one_cycle(void);
 
 private:
@@ -80,6 +86,12 @@ private:
 	// buffer:
 	char *m_buffer;		// replay loaded from a file that is being decoded
 	int m_buffer_position;
+
+	// statistics:
+	bool m_statistics_computed;
+	int m_used_fuel;
+	int m_n_shots;
+	float m_max_speed,m_average_speed,m_average_speed_tmp;
 };
 
 #endif

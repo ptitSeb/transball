@@ -267,13 +267,19 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 					m_rb_mouse_over_replay=selected;
 
 					if (button==1) {
-						m_rb_replay_selected=m_sr_first_replay+selected;
+						if (m_rb_replay_selected == m_sr_first_replay+selected) {
+							m_state_fading=2;
+							m_state_fading_cycle=0;
+							m_state_selection=5;
+						} else {
+							m_rb_replay_selected=m_sr_first_replay+selected;
 
-						strcpy(m_replay_name_inputframe->m_editing,m_sr_replay_names[m_rb_replay_selected]);
-						m_replay_name_inputframe->m_editing_position=strlen(m_replay_name_inputframe->m_editing);
-						m_replay_name_inputframe->m_enabled=true;
+							strcpy(m_replay_name_inputframe->m_editing,m_sr_replay_names[m_rb_replay_selected]);
+							m_replay_name_inputframe->m_editing_position=strlen(m_replay_name_inputframe->m_editing);
+							m_replay_name_inputframe->m_enabled=true;
 
-						name_changed=true;
+							name_changed=true;
+						} // if
 					} // if 
 				} // if 
 			} // if

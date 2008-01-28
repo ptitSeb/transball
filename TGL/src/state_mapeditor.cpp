@@ -142,7 +142,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 		TGLinterface::add_element(new TGLbutton("background",m_font16,10,110,80,20,8));
 
 		TGLinterface::add_element(new TGLbutton("mode",m_font16,10,140,80,20,3));
-		m_editor_mode=0;
+		m_editor_mode=1;
 
 //		m_editor_focus_x=m_editor_level_editing->get_dx()/2;
 //		m_editor_focus_y=m_editor_level_editing->get_dy()/2;
@@ -263,12 +263,9 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 	} else {
 		// Create the variable part of the interface depending on the selected mode:
 		switch(m_editor_mode) {
-		case 0: TGLinterface::remove_element(11);
-				TGLinterface::remove_element(14);
-				break;
-
 		case 1: // TILES
 				TGLinterface::remove_element(14);
+				TGLinterface::remove_element(15);
 				{
 					TGLTileBrowser *tb = (TGLTileBrowser *)TGLinterface::get(11);
 					if (tb==0) {
@@ -287,6 +284,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 		case 2: // OBJECTS
 				TGLinterface::remove_element(11);
+				TGLinterface::remove_element(15);
 
 				{
 					TGLTileBrowser *tb = (TGLTileBrowser *)TGLinterface::get(14);
@@ -324,6 +322,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 		case 3: TGLinterface::remove_element(11);
 				TGLinterface::remove_element(14);
+				TGLinterface::remove_element(15);
 				
 				// Check if the pointer is over an object (for the delete pointer):
 				{
@@ -437,7 +436,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 		case 3:	// MODE
 				m_editor_mode++;
-				if (m_editor_mode>3) m_editor_mode=0;
+				if (m_editor_mode>3) m_editor_mode=1;
 				break;
 
 		case 4: if (m_editor_level_editing->m_fg_dx>16) m_editor_level_editing->resize(m_editor_level_editing->m_fg_dx-1,m_editor_level_editing->m_fg_dy,m_GLTM);
@@ -494,8 +493,6 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 		// Button pressed (but not over any interface element);
 		if (ID==-1 && m_mouse_button==1) {
 			switch(m_editor_mode) {
-			case 0:
-					break;
 			case 1:
 					{
 						if (m_editor_selected_tile!=-1 &&
@@ -508,90 +505,90 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 			case 2:
 				
 					if (m_editor_selected_object==0) {
-						m_editor_level_editing->add_object(new TGLobject_ballstand(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_ballstand(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==1) {
-						m_editor_level_editing->add_object(new TGLobject_redlight(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
+						m_editor_level_editing->add_object(new TGLobject_redlight(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0));
 					} else if (m_editor_selected_object==2) {
-						m_editor_level_editing->add_object(new TGLobject_redlight(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),1));
+						m_editor_level_editing->add_object(new TGLobject_redlight(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,1));
 					} else if (m_editor_selected_object==3) {
-						m_editor_level_editing->add_object(new TGLobject_pipevscreen(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_pipevscreen(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==4) {
-						m_editor_level_editing->add_object(new TGLobject_pipehscreen(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_pipehscreen(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==5) {
-						m_editor_level_editing->add_object(new TGLobject_radar(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_radar(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==6) {
-						m_editor_level_editing->add_object(new TGLobject_laser_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_laser_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 						m_editor_level_editing->create_laser_objects();
 					} else if (m_editor_selected_object==7) {
-						m_editor_level_editing->add_object(new TGLobject_laser_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_laser_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 						m_editor_level_editing->create_laser_objects();
 					} else if (m_editor_selected_object==8) {
-						m_editor_level_editing->add_object(new TGLobject_laser_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_laser_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 						m_editor_level_editing->create_laser_objects();
 					} else if (m_editor_selected_object==9) {
-						m_editor_level_editing->add_object(new TGLobject_laser_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_laser_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 						m_editor_level_editing->create_laser_objects();
 
 					} else if (m_editor_selected_object==10) {
-						m_editor_level_editing->add_object(new TGLobject_cannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
+						m_editor_level_editing->add_object(new TGLobject_cannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0));
 					} else if (m_editor_selected_object==11) {
-						m_editor_level_editing->add_object(new TGLobject_cannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
+						m_editor_level_editing->add_object(new TGLobject_cannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0));
 					} else if (m_editor_selected_object==12) {
-						m_editor_level_editing->add_object(new TGLobject_cannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
+						m_editor_level_editing->add_object(new TGLobject_cannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0));
 					} else if (m_editor_selected_object==13) {
-						m_editor_level_editing->add_object(new TGLobject_cannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
+						m_editor_level_editing->add_object(new TGLobject_cannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0));
 					
 					} else if (m_editor_selected_object==14) {
-						m_editor_level_editing->add_object(new TGLobject_spike_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_spike_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==15) {
-						m_editor_level_editing->add_object(new TGLobject_spike_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_spike_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==16) {
-						m_editor_level_editing->add_object(new TGLobject_fuelrecharge(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_fuelrecharge(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 
 					} else if (m_editor_selected_object==17) {
-						m_editor_level_editing->add_object(new TGLobject_cannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),1));
+						m_editor_level_editing->add_object(new TGLobject_cannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,1));
 					} else if (m_editor_selected_object==18) {
-						m_editor_level_editing->add_object(new TGLobject_cannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),1));
+						m_editor_level_editing->add_object(new TGLobject_cannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,1));
 					} else if (m_editor_selected_object==19) {
-						m_editor_level_editing->add_object(new TGLobject_cannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),1));
+						m_editor_level_editing->add_object(new TGLobject_cannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,1));
 					} else if (m_editor_selected_object==20) {
-						m_editor_level_editing->add_object(new TGLobject_cannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),1));
+						m_editor_level_editing->add_object(new TGLobject_cannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,1));
 
 					} else if (m_editor_selected_object==21) {
-						m_editor_level_editing->add_object(new TGLobject_fastcannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_fastcannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==22) {
-						m_editor_level_editing->add_object(new TGLobject_fastcannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_fastcannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==23) {
-						m_editor_level_editing->add_object(new TGLobject_fastcannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_fastcannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==24) {
-						m_editor_level_editing->add_object(new TGLobject_fastcannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_fastcannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 
 					} else if (m_editor_selected_object==25) {
-						m_editor_level_editing->add_object(new TGLobject_techno_computer(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_techno_computer(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 
 					} else if (m_editor_selected_object==26) {
-						m_editor_level_editing->add_object(new TGLobject_directionalcannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_directionalcannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==27) {
-						m_editor_level_editing->add_object(new TGLobject_directionalcannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_directionalcannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==28) {
-						m_editor_level_editing->add_object(new TGLobject_directionalcannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_directionalcannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==29) {
-						m_editor_level_editing->add_object(new TGLobject_directionalcannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_directionalcannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 
 					} else if (m_editor_selected_object==30) {
-						m_editor_level_editing->add_object(new TGLobject_ha_directionalcannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_ha_directionalcannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==31) {
-						m_editor_level_editing->add_object(new TGLobject_ha_directionalcannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_ha_directionalcannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==32) {
-						m_editor_level_editing->add_object(new TGLobject_ha_directionalcannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_ha_directionalcannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==33) {
-						m_editor_level_editing->add_object(new TGLobject_ha_directionalcannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD)));
+						m_editor_level_editing->add_object(new TGLobject_ha_directionalcannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 
 					} else if (m_editor_selected_object==34) {
 						TGLobject_enemy *tank,*turret,*cannon;
-						tank=new TGLobject_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+45+STARFIELD),0);
-						turret=new TGLobject_tank_turret(float(m_editor_insert_x+34),float(m_editor_insert_y+28+STARFIELD),tank,0);
-						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+34),float(m_editor_insert_y+20+STARFIELD),turret);
+						tank=new TGLobject_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+45+STARFIELD),0,0);
+						turret=new TGLobject_tank_turret(float(m_editor_insert_x+34),float(m_editor_insert_y+28+STARFIELD),0,tank,0);
+						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+34),float(m_editor_insert_y+20+STARFIELD),0,turret);
 						m_editor_level_editing->add_object(cannon);
 						m_editor_level_editing->add_object(turret);
 						m_editor_level_editing->add_object(tank);
@@ -603,9 +600,9 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 						cannon->exclude_for_collision(turret);
 					} else if (m_editor_selected_object==35) {
 						TGLobject_enemy *tank,*turret,*cannon;
-						tank=new TGLobject_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+45+STARFIELD),1);
-						turret=new TGLobject_tank_turret(float(m_editor_insert_x+34),float(m_editor_insert_y+28+STARFIELD),tank,1);
-						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+34),float(m_editor_insert_y+20+STARFIELD),turret);
+						tank=new TGLobject_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+45+STARFIELD),0,1);
+						turret=new TGLobject_tank_turret(float(m_editor_insert_x+34),float(m_editor_insert_y+28+STARFIELD),0,tank,1);
+						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+34),float(m_editor_insert_y+20+STARFIELD),0,turret);
 						m_editor_level_editing->add_object(cannon);
 						m_editor_level_editing->add_object(turret);
 						m_editor_level_editing->add_object(tank);
@@ -617,9 +614,9 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 						cannon->exclude_for_collision(turret);
 					} else if (m_editor_selected_object==36) {
 						TGLobject_enemy *tank,*turret,*cannon;
-						tank=new TGLobject_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+45+STARFIELD),2);
-						turret=new TGLobject_tank_turret(float(m_editor_insert_x+34),float(m_editor_insert_y+28+STARFIELD),tank,2);
-						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+34),float(m_editor_insert_y+20+STARFIELD),turret);
+						tank=new TGLobject_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+45+STARFIELD),0,2);
+						turret=new TGLobject_tank_turret(float(m_editor_insert_x+34),float(m_editor_insert_y+28+STARFIELD),0,tank,2);
+						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+34),float(m_editor_insert_y+20+STARFIELD),0,turret);
 						m_editor_level_editing->add_object(cannon);
 						m_editor_level_editing->add_object(turret);
 						m_editor_level_editing->add_object(tank);
@@ -631,9 +628,9 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 						cannon->exclude_for_collision(turret);
 					} else if (m_editor_selected_object==37) {
 						TGLobject_enemy *tank,*turret,*cannon;
-						tank=new TGLobject_big_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+45+STARFIELD));
-						turret=new TGLobject_tank_turret(float(m_editor_insert_x+32),float(m_editor_insert_y+19+STARFIELD),tank,3);
-						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+32),float(m_editor_insert_y+11+STARFIELD),turret);
+						tank=new TGLobject_big_tank(float(m_editor_insert_x+32),float(m_editor_insert_y+45+STARFIELD),0);
+						turret=new TGLobject_tank_turret(float(m_editor_insert_x+32),float(m_editor_insert_y+19+STARFIELD),0,tank,3);
+						cannon=new TGLobject_tank_cannon(float(m_editor_insert_x+32),float(m_editor_insert_y+11+STARFIELD),0,turret);
 						m_editor_level_editing->add_object(cannon);
 						m_editor_level_editing->add_object(turret);
 						m_editor_level_editing->add_object(tank);
@@ -645,36 +642,36 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 						cannon->exclude_for_collision(turret);
 
 					} else if (m_editor_selected_object==38) {
-						m_editor_level_editing->add_object(new TGLobject_leftdoor(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0));
+						m_editor_level_editing->add_object(new TGLobject_leftdoor(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,0));
 					} else if (m_editor_selected_object==39) {
-						m_editor_level_editing->add_object(new TGLobject_rightdoor(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0));
+						m_editor_level_editing->add_object(new TGLobject_rightdoor(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,0));
 
 					} else if (m_editor_selected_object==40) {
-						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0));
+						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,0));
 					} else if (m_editor_selected_object==41) {
-						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,1));
+						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,1));
 					} else if (m_editor_selected_object==42) {
-						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,3));
+						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,3));
 					} else if (m_editor_selected_object==43) {
-						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,2));
+						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,2));
 
 					} else if (m_editor_selected_object==44) {
-						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,4));
+						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,4));
 					} else if (m_editor_selected_object==45) {
-						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,5));
+						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,5));
 					} else if (m_editor_selected_object==46) {
-						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,7));
+						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,7));
 					} else if (m_editor_selected_object==47) {
-						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,6));
+						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,6));
 
 					} else if (m_editor_selected_object==48) {
-						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,8));
+						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,8));
 					} else if (m_editor_selected_object==49) {
-						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,9));
+						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,9));
 					} else if (m_editor_selected_object==50) {
-						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,11));
+						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,11));
 					} else if (m_editor_selected_object==51) {
-						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,10));
+						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,10));
 					} // if 
 
 					break;
@@ -721,8 +718,6 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 		// Right button pressed (but not over any interface element);
 		if ((ID==-1 && m_mouse_button==3) || k->key_press(SDLK_DELETE)) {
 			switch(m_editor_mode) {
-			case 0:
-					break;
 			case 1:
 					{
 						if (m_editor_selected_tile!=-1 &&
@@ -900,9 +895,6 @@ void TGLapp::mapeditor_draw(void)
 	}
 
 	switch(m_editor_mode) {
-	case 0: TGLinterface::print_center("intelligent",m_font16,50,180);
-			break;
-
 	case 1: TGLinterface::print_center("tiles",m_font16,50,180);
 
 			if (m_editor_insert_x!=-1 && m_editor_selected_tile!=-1) {
@@ -1070,5 +1062,7 @@ void TGLapp::mapeditor_draw(void)
 
 	TGLinterface::draw();
 
-} /* TheGooniesApp::mapeditor_draw */ 
+} /* TGLapp::mapeditor_draw */ 
+
+
 

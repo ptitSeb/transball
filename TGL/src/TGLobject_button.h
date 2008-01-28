@@ -3,7 +3,7 @@
 
 class TGLobject_button : public TGLobject {
 public:
-	TGLobject_button(float x,float y,int event,int type);
+	TGLobject_button(float x,float y,int animation_offset,int event,int type);
 	virtual ~TGLobject_button();
 
 	void ball_hit(void);

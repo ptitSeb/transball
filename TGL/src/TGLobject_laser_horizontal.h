@@ -3,7 +3,7 @@
 
 class TGLobject_laser_horizontal : public TGLobject {
 public:
-	TGLobject_laser_horizontal(float x,float y,TGLobject *l1,TGLobject *l2);
+	TGLobject_laser_horizontal(float x,float y,int animation_offset,TGLobject *l1,TGLobject *l2);
 	virtual ~TGLobject_laser_horizontal();
 
 	virtual bool is_a(char *n);

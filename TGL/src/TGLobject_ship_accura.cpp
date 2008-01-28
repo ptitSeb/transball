@@ -128,10 +128,10 @@ bool TGLobject_ship_accura::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 		while(a>=360) a-=360;
 
 		if (m_missile_side==0) {
-			bullet=new TGLobject_bullet_hmissile(float(get_x()+(cos_table[a]*8)+(sin_table[a]*7)),float(get_y()+(sin_table[a]*8)-(cos_table[a]*7)),m_angle,4,1,GLTM->get("objects/bullet-small-grey-missile1"),GLTM->get("objects/bullet-small-grey-missile2"),this);
+			bullet=new TGLobject_bullet_hmissile(float(get_x()+(cos_table[a]*8)+(sin_table[a]*7)),float(get_y()+(sin_table[a]*8)-(cos_table[a]*7)),0,m_angle,4,1,GLTM->get("objects/bullet-small-grey-missile1"),GLTM->get("objects/bullet-small-grey-missile2"),this);
 			m_missile_side=1;
 		} else {
-			bullet=new TGLobject_bullet_hmissile(float(get_x()+(cos_table[a]*8)-(sin_table[a]*7)),float(get_y()+(sin_table[a]*8)+(cos_table[a]*7)),m_angle,4,1,GLTM->get("objects/bullet-small-grey-missile1"),GLTM->get("objects/bullet-small-grey-missile2"),this);
+			bullet=new TGLobject_bullet_hmissile(float(get_x()+(cos_table[a]*8)-(sin_table[a]*7)),float(get_y()+(sin_table[a]*8)+(cos_table[a]*7)),0,m_angle,4,1,GLTM->get("objects/bullet-small-grey-missile1"),GLTM->get("objects/bullet-small-grey-missile2"),this);
 			m_missile_side=0;
 		} // if 
 		if (m_ball!=0) bullet->exclude_for_collision(m_ball);

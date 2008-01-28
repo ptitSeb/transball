@@ -39,7 +39,7 @@
 
 
 
-TGLobject_leftdoor::TGLobject_leftdoor(float x,float y,int state,int action) : TGLobject(x,y)
+TGLobject_leftdoor::TGLobject_leftdoor(float x,float y,int ao,int state,int action) : TGLobject(x,y,ao)
 {
 	m_start_x=x;
 	m_state=state;

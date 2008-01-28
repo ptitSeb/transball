@@ -3,7 +3,7 @@
 
 class TGLobject_fuelrecharge : public TGLobject {
 public:
-	TGLobject_fuelrecharge(float x,float y);
+	TGLobject_fuelrecharge(float x,float y,int animation_offset);
 	virtual ~TGLobject_fuelrecharge();
 
 	virtual bool is_a(char *n);

@@ -3,7 +3,7 @@
 
 class TGLobject_cannon_up : public TGLobject_enemy {
 public:
-	TGLobject_cannon_up(float x,float y,int type);	// 0 : rock, 1: techno
+	TGLobject_cannon_up(float x,float y,int animation_offset,int type);	// 0 : rock, 1: techno
 	virtual ~TGLobject_cannon_up();
 
 	virtual bool is_a(char *n);

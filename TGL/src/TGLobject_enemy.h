@@ -3,7 +3,7 @@
 
 class TGLobject_enemy : public TGLobject {
 public:
-	TGLobject_enemy(float x,float y);
+	TGLobject_enemy(float x,float y,int animation_offset);
 	virtual ~TGLobject_enemy();
 
 	virtual bool is_a(char *n);

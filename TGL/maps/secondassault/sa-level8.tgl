@@ -2305,146 +2305,146 @@ foreground/wall1
 foreground/wall1
 foreground/wall1
 143
-ha-directional-cannon-down 22 2
-ha-directional-cannon-down 27 2
-wall-techno-computer 21 3
-wall-techno-computer 22 3
-wall-techno-computer 27 3
-wall-techno-computer 28 3
-fastcannon-techno-down 30 3
-fastcannon-techno-down 16 4
-wall-techno-computer 22 4
-door-left 24 4 1 0
-door-right 25 4 1 0
-wall-techno-computer 27 4
-wall-techno-computer 22 5
-wall-techno-computer 27 5
-wall-techno-computer 22 6
-wall-techno-computer 27 6
-fastcannon-techno-down 36 6
-fastcannon-techno-down 10 7
-wall-techno-computer 22 7
-wall-techno-computer 27 7
-wall-techno-computer 22 8
-cannon-techno-left 23 8
-wall-techno-computer 27 8
-wall-techno-computer 28 8
-wall-techno-computer 22 9
-cannon-techno-up 27 9
-wall-techno-computer 21 10
-wall-techno-computer 22 10
-fastcannon-techno-right 6 11
-directional-cannon-up 12 11
-cannon-techno-up 18 11
-ha-directional-cannon-right 38 11
-ha-directional-cannon-left 7 12
-wall-techno-computer 27 12
-wall-techno-computer 28 12
-wall-techno-computer 27 13
-cannon-techno-up 31 13
-door-left 14 14 0 1
-door-right 15 14 0 1
-wall-techno-computer 22 14
-wall-techno-computer 27 14
-pipe-vertical-screen 20 15
-wall-techno-computer 22 15
-wall-techno-computer 27 15
-ball-stand 33 15
-pipe-vertical-screen 35 15
-fastcannon-techno-left 44 15
-pipe-vertical-screen 11 16
-wall-techno-computer 22 16
-fastcannon-techno-left 23 16
-wall-techno-computer 27 16
-wall-techno-computer 22 17
-wall-techno-computer 27 17
-directional-cannon-left 28 17
-directional-cannon-left 7 18
-directional-cannon-right 21 18
-wall-techno-computer 22 18
-wall-techno-computer 27 18
-wall-techno-computer 22 19
-wall-techno-computer 27 19
-pipe-vertical-screen 11 20
-laser-left 12 20
-laser-right 14 20
-laser-left 15 20
-laser-right 17 20
-wall-techno-computer 22 20
-fastcannon-techno-right 26 20
-wall-techno-computer 27 20
-pipe-vertical-screen 15 21
-wall-techno-computer 22 21
-wall-techno-computer 27 21
-fastcannon-techno-left 28 21
-wall-techno-computer 22 22
-wall-techno-computer 27 22
-ha-directional-cannon-down 31 22
-wall-techno-computer 22 23
-wall-techno-computer 27 23
-wall-techno-computer 28 23
-wall-techno-computer 22 24
-cannon-techno-up 29 24
-directional-cannon-up 33 24
-fastcannon-techno-right 4 25
-pipe-vertical-screen 20 25
-wall-techno-computer 22 25
-cannon-techno-left 23 25
-wall-techno-computer 22 26
-pipe-horizontal-screen 9 27
-wall-techno-computer 22 27
-wall-techno-computer 27 27
-fastcannon-techno-left 28 27
-ha-directional-cannon-right 3 28
-directional-cannon-left 7 28
-wall-techno-computer 22 28
-cannon-techno-left 23 28
-wall-techno-computer 27 28
-wall-techno-computer 22 29
-wall-techno-computer 27 29
-pipe-horizontal-screen 11 30
-wall-techno-computer 22 30
-cannon-techno-right 26 30
-wall-techno-computer 27 30
-cannon-techno-up 31 30
-button-purple-right 42 30 0
-pipe-horizontal-screen 15 31
-wall-techno-computer 22 31
-wall-techno-computer 27 31
-fastcannon-techno-right 34 31
-fastcannon-techno-left 43 31
-wall-techno-computer 22 32
-wall-techno-computer 27 32
-wall-techno-computer 20 33
-wall-techno-computer 29 33
-wall-techno-computer 20 34
-fastcannon-techno-left 21 34
-fastcannon-techno-right 28 34
-wall-techno-computer 29 34
-wall-techno-computer 20 35
-wall-techno-computer 29 35
-wall-techno-computer 20 36
-cannon-techno-left 21 36
-fuel-recharge 24 36
-cannon-techno-right 28 36
-wall-techno-computer 29 36
-wall-techno-computer 20 37
-wall-techno-computer 29 37
-wall-techno-computer 20 38
-wall-techno-computer 29 38
-wall-techno-computer 20 39
-wall-techno-computer 21 39
-wall-techno-computer 22 39
-wall-techno-computer 23 39
-wall-techno-computer 24 39
-wall-techno-computer 25 39
-wall-techno-computer 26 39
-wall-techno-computer 27 39
-wall-techno-computer 28 39
-wall-techno-computer 29 39
-pipe-vertical-screen 34 42
-red-light 1 45
-radar 43 45
-radar 9 46
-grey-tank 39 30
-grey-tank 13 23
+ha-directional-cannon-down 0 22 2
+ha-directional-cannon-down 0 27 2
+wall-techno-computer 0 21 3
+wall-techno-computer 0 22 3
+wall-techno-computer 0 27 3
+wall-techno-computer 0 28 3
+fastcannon-techno-down 0 30 3
+fastcannon-techno-down 0 16 4
+wall-techno-computer 0 22 4
+door-left 0 24 4 1 0
+door-right 0 25 4 1 0
+wall-techno-computer 0 27 4
+wall-techno-computer 0 22 5
+wall-techno-computer 0 27 5
+wall-techno-computer 0 22 6
+wall-techno-computer 0 27 6
+fastcannon-techno-down 0 36 6
+fastcannon-techno-down 0 10 7
+wall-techno-computer 0 22 7
+wall-techno-computer 0 27 7
+wall-techno-computer 0 22 8
+cannon-techno-left 0 23 8
+wall-techno-computer 0 27 8
+wall-techno-computer 0 28 8
+wall-techno-computer 0 22 9
+cannon-techno-up 0 27 9
+wall-techno-computer 0 21 10
+wall-techno-computer 0 22 10
+fastcannon-techno-right 0 6 11
+directional-cannon-up 0 12 11
+cannon-techno-up 0 18 11
+ha-directional-cannon-right 0 38 11
+ha-directional-cannon-left 0 7 12
+wall-techno-computer 0 27 12
+wall-techno-computer 0 28 12
+wall-techno-computer 0 27 13
+cannon-techno-up 0 31 13
+door-left 0 14 14 0 1
+door-right 0 15 14 0 1
+wall-techno-computer 0 22 14
+wall-techno-computer 0 27 14
+pipe-vertical-screen 0 20 15
+wall-techno-computer 0 22 15
+wall-techno-computer 0 27 15
+ball-stand 0 33 15
+pipe-vertical-screen 0 35 15
+fastcannon-techno-left 0 44 15
+pipe-vertical-screen 0 11 16
+wall-techno-computer 0 22 16
+fastcannon-techno-left 0 23 16
+wall-techno-computer 0 27 16
+wall-techno-computer 0 22 17
+wall-techno-computer 0 27 17
+directional-cannon-left 0 28 17
+directional-cannon-left 0 7 18
+directional-cannon-right 0 21 18
+wall-techno-computer 0 22 18
+wall-techno-computer 0 27 18
+wall-techno-computer 0 22 19
+wall-techno-computer 0 27 19
+pipe-vertical-screen 0 11 20
+laser-left 0 12 20
+laser-right 0 14 20
+laser-left 0 15 20
+laser-right 0 17 20
+wall-techno-computer 0 22 20
+fastcannon-techno-right 0 26 20
+wall-techno-computer 0 27 20
+pipe-vertical-screen 0 15 21
+wall-techno-computer 0 22 21
+wall-techno-computer 0 27 21
+fastcannon-techno-left 0 28 21
+wall-techno-computer 0 22 22
+wall-techno-computer 0 27 22
+ha-directional-cannon-down 0 31 22
+wall-techno-computer 0 22 23
+wall-techno-computer 0 27 23
+wall-techno-computer 0 28 23
+wall-techno-computer 0 22 24
+cannon-techno-up 0 29 24
+directional-cannon-up 0 33 24
+fastcannon-techno-right 0 4 25
+pipe-vertical-screen 0 20 25
+wall-techno-computer 0 22 25
+cannon-techno-left 0 23 25
+wall-techno-computer 0 22 26
+pipe-horizontal-screen 0 9 27
+wall-techno-computer 0 22 27
+wall-techno-computer 0 27 27
+fastcannon-techno-left 0 28 27
+ha-directional-cannon-right 0 3 28
+directional-cannon-left 0 7 28
+wall-techno-computer 0 22 28
+cannon-techno-left 0 23 28
+wall-techno-computer 0 27 28
+wall-techno-computer 0 22 29
+wall-techno-computer 0 27 29
+pipe-horizontal-screen 0 11 30
+wall-techno-computer 0 22 30
+cannon-techno-right 0 26 30
+wall-techno-computer 0 27 30
+cannon-techno-up 0 31 30
+button-purple-right 0 42 30 0
+pipe-horizontal-screen 0 15 31
+wall-techno-computer 0 22 31
+wall-techno-computer 0 27 31
+fastcannon-techno-right 0 34 31
+fastcannon-techno-left 0 43 31
+wall-techno-computer 0 22 32
+wall-techno-computer 0 27 32
+wall-techno-computer 0 20 33
+wall-techno-computer 0 29 33
+wall-techno-computer 0 20 34
+fastcannon-techno-left 0 21 34
+fastcannon-techno-right 0 28 34
+wall-techno-computer 0 29 34
+wall-techno-computer 0 20 35
+wall-techno-computer 0 29 35
+wall-techno-computer 0 20 36
+cannon-techno-left 0 21 36
+fuel-recharge 0 24 36
+cannon-techno-right 0 28 36
+wall-techno-computer 0 29 36
+wall-techno-computer 0 20 37
+wall-techno-computer 0 29 37
+wall-techno-computer 0 20 38
+wall-techno-computer 0 29 38
+wall-techno-computer 0 20 39
+wall-techno-computer 0 21 39
+wall-techno-computer 0 22 39
+wall-techno-computer 0 23 39
+wall-techno-computer 0 24 39
+wall-techno-computer 0 25 39
+wall-techno-computer 0 26 39
+wall-techno-computer 0 27 39
+wall-techno-computer 0 28 39
+wall-techno-computer 0 29 39
+pipe-vertical-screen 0 34 42
+red-light 0 1 45
+radar 0 43 45
+radar 0 9 46
+grey-tank 0 39 30
+grey-tank 0 13 23

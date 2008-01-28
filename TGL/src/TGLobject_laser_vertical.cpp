@@ -39,7 +39,7 @@
 
 
 
-TGLobject_laser_vertical::TGLobject_laser_vertical(float x,float y,TGLobject *l1,TGLobject *l2) : TGLobject(x,y)
+TGLobject_laser_vertical::TGLobject_laser_vertical(float x,float y,int ao,TGLobject *l1,TGLobject *l2) : TGLobject(x,y,ao)
 {
 	m_l1=l1;
 	m_l2=l2;

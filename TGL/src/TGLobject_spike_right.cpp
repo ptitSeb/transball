@@ -39,7 +39,7 @@
 
 
 
-TGLobject_spike_right::TGLobject_spike_right(float x,float y) : TGLobject(x,y)
+TGLobject_spike_right::TGLobject_spike_right(float x,float y,int ao) : TGLobject(x,y,ao)
 {
 	m_start_x=m_x;
 } /* TGLobject_spike_right::TGLobject_spike_right */ 

@@ -3,7 +3,7 @@
 
 class TGLobject_bullet_missile : public TGLobject_bullet {
 public:
-	TGLobject_bullet_missile(float x,float y,int angle,float speed,int power,GLTile *tile,GLTile *tile2,TGLobject *ship);
+	TGLobject_bullet_missile(float x,float y,int animation_offset,int angle,float speed,int power,GLTile *tile,GLTile *tile2,TGLobject *ship);
 
 	virtual bool is_a(char *n);
 	virtual bool is_a(Symbol *n);

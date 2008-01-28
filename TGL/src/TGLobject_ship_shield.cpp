@@ -41,7 +41,7 @@
 
 
 
-TGLobject_ship_shield::TGLobject_ship_shield(float x,float y) : TGLobject(x,y)
+TGLobject_ship_shield::TGLobject_ship_shield(float x,float y) : TGLobject(x,y,0)
 {
 	m_shield_status=0;
 	m_shield_frame=0;

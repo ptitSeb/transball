@@ -385,12 +385,12 @@ foreground/wall1
 foreground/wall2
 foreground/wall1
 9
-red-light 2 2
-red-light 6 2
-radar 14 2
-cannon-rock-left 1 4
-laser-up 11 5
-laser-up 13 5
-laser-down 13 10
-laser-down 11 11
-ball-stand 20 11
+red-light 0 2 2
+red-light 0 6 2
+radar 0 14 2
+cannon-rock-left 0 1 4
+laser-up 0 11 5
+laser-up 0 13 5
+laser-down 0 13 10
+laser-down 0 11 11
+ball-stand 0 20 11
