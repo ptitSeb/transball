@@ -1,10 +1,6 @@
 To do in "Transball GL": --------------------------------------------------------
 
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
-- compute statistics at the end of the game: kills, accuracy
-- ship balancing (record replays again)
-    - harpoon is crap: modify the ship so that it's easier to aim and make the grabber stop if completely up (if ball
-      catched, the grabber does not go completely up) 
 - Nuevos elementos:
     - Más tiles
 	- ascensores (debes meterte en ellos, y moverte con ellos, tanto horizontales como verticales)
@@ -29,8 +25,8 @@ To do in "Transball GL": -------------------------------------------------------
         - cuando te conectas a otro ordenador, se sincronizan los highscores ("other-players" folder)
 - Música en el menu principal
 - Música/loop de sonido durante el juego 
+
 - Para las instrucciones (añadir a los tutoriales):
-    - TODO el juego tiene que estar en inglés y en español (español por defecto: localization files)
     - Para que el atractor funcione, la nave tiene que ir lenta! (lo mismo para el grabber the harpoon)
     - "Only the ship which has captured the ball can fire through it"
     - Harpoon:
