@@ -93,8 +93,13 @@ void LevelPack_Level::load(XMLNode *node,GLTManager *GLTM)
 			strcpy(m_name,n->get_value()->get());
 		} // if 
 		if (n->get_type()->cmp("description")) {
-			m_description=new char[strlen(n->get_value()->get())+1];
-			strcpy(m_description,n->get_value()->get());
+			if (n->get_value()!=0) {
+				m_description=new char[strlen(n->get_value()->get())+1];
+				strcpy(m_description,n->get_value()->get());
+			} else {
+				m_description=new char[1];
+				strcpy(m_description,"");
+			} // if
 		} // if 
 		if (n->get_type()->cmp("initial-fuel")) {
 			m_initial_fuel=atoi(n->get_value()->get());

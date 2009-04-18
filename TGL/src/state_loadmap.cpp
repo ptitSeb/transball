@@ -291,6 +291,11 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 						delete m_editor_level_editing;
 						m_editor_level_editing = new TGLmap(fp,m_GLTM);
 						fclose(fp);
+						if (m_editor_level!=0) {
+							if (m_editor_level->m_map!=0) delete []m_editor_level->m_map;
+							m_editor_level->m_map = new char[strlen(m_mb_m_names[m_mb_m_selected-m_mb_folders_names.Length()])+1];
+							strcpy(m_editor_level->m_map,m_mb_m_names[m_mb_m_selected-m_mb_folders_names.Length()]);
+						} // if
 					} // if 
 				} 
 	

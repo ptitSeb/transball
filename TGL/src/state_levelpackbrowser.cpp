@@ -133,8 +133,8 @@ int TGLapp::levelpackbrowser_cycle(KEYBOARDSTATE *k)
 							strcpy(tmp2,lp->m_name);
 							m_lpb_lp_info.Add(tmp2);
 
-							tmp2=new char[strlen(lp->m_creator_name)+strlen(lp->m_creator_nickname)+strlen(lp->m_description)+32];
-							sprintf(tmp2,"Creator: %s (%s)/%s",lp->m_creator_name,lp->m_creator_nickname,lp->m_description);
+							tmp2=new char[(lp->m_creator_name==0 ? 0:strlen(lp->m_creator_name))+(lp->m_creator_nickname==0 ? 0:strlen(lp->m_creator_nickname))+strlen(lp->m_description)+32];
+							sprintf(tmp2,"Creator: %s (%s)/%s",(lp->m_creator_name==0 ? "-":lp->m_creator_name),(lp->m_creator_nickname==0 ? "-":lp->m_creator_nickname),lp->m_description);
 							m_lpb_lp_longinfo.Add(tmp2);
 							delete lp;
 						} else {
