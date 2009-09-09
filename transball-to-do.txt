@@ -1,15 +1,15 @@
 To do in "Transball GL": --------------------------------------------------------
 
+***- Pause no funciona en Mac
+***- cuando pulsas QUIT, puedes seguir pulsando varias veces :p
+***- algunos objetos no se ven en las replays de tutoriales, regrabarlas
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
 - Nuevos elementos:
     - Más tiles
 	- ascensores (debes meterte en ellos, y moverte con ellos, tanto horizontales como verticales)
-	- Torretas de misiles (mega explosión con onda expansiva y además te siguen un poco (como ACCURA))
 	- Cañones direccionales rápidos (metralletas, con balas pequeñas y azules que te quitan fuel y
 					 te desplazan un poco)
 	- Mega Tanques: te siguen, disparan misiles, son inmensos y requieren un huevo de toques (varias torretas)
-    - Agua? (viscosa, frena la nave, etc. puedo definir corrientes de agua, cascadas, etc.)
-    - Mechs?
 - Modos 2 jugadores:
     - MODOS:
         - race: los 2 juegan a la vez (la otra nave se ve como un fantasma en tu pantalla), y
