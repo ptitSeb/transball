@@ -4,6 +4,13 @@
 
 #ifdef _WIN32
 #include "windows.h"
+#else
+#include <stddef.h>
+#include <sys/types.h>
+#include <sys/dir.h>
+#include <sys/param.h>
+#include <dirent.h>
+#include "ctype.h"
 #endif
 
 #include "stdio.h"
@@ -87,6 +94,25 @@
 #include "TGLobject_button.h"
 
 extern int SCREEN_X,SCREEN_Y;
+
+#ifndef _WIN32
+int filter_png(struct direct *entry)
+{	
+	if ((strcmp(entry->d_name, ".")== 0) ||
+		(strcmp(entry->d_name, "..") == 0))
+		return (0);
+	
+	/* Check for filename extensions */
+	if (strlen(entry->d_name)>4 &&
+		entry->d_name[strlen(entry->d_name)-1]=='g' &&
+		entry->d_name[strlen(entry->d_name)-2]=='n' &&
+		entry->d_name[strlen(entry->d_name)-3]=='p' &&
+		entry->d_name[strlen(entry->d_name)-4]=='.') 
+		return (1);
+	else
+		return(0);
+}
+#endif
 
 int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 {

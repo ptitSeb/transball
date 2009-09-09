@@ -4,6 +4,11 @@
 
 #ifdef _WIN32
 #include "windows.h"
+#else
+#include <stddef.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include "ctype.h"
 #endif
 
 #include "stdio.h"

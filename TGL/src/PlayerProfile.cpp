@@ -7,6 +7,8 @@
 #include "direct.h"
 #else
 #include <sys/time.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #endif
 
 #include <stdio.h>
@@ -433,7 +435,11 @@ void PlayerProfile::level_completed(char *levelpack_id,int level,TGLreplay *repl
 				// assume the folder does not exist:
 				char tmp2[256];
 				sprintf(tmp2,"players/%s",m_name);
+#ifdef _WIN32
 				_mkdir(tmp2);
+#else
+				mkdir(tmp2,S_IRWXU | S_IRWXG | S_IRWXO);
+#endif				
 
 				fp=fopen(tmp,"wb");
 			} // if 

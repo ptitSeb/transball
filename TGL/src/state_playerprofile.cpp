@@ -4,6 +4,11 @@
 
 #ifdef _WIN32
 #include "windows.h"
+#else
+#include <stddef.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include "ctype.h"
 #endif
 
 #include "stdio.h"
@@ -111,7 +116,7 @@ int TGLapp::playerprofile_cycle(KEYBOARDSTATE *k)
 						tmp=new char[strlen(ep->d_name)+1];
 						strcpy(tmp,ep->d_name);
 						tmp[strlen(tmp)-3]=0;
-						m_profile_profiles_names.Add(tmp);
+						m_profile_profile_names.Add(tmp);
 					} /* if */
 
 				} /* while */

@@ -5,6 +5,9 @@
 #ifdef _WIN32
 #include <windows.h>
 #include "direct.h"
+#else
+#include "sys/stat.h"
+#include "sys/types.h"
 #endif
 
 #include "stdlib.h"
@@ -339,7 +342,11 @@ void LevelPack_Level::save(FILE *fp,GLTManager *GLTM)
 			// assume the folder does not exist:
 			char folder_file[256];
 			sprintf(folder_file,"maps/%s",m_levelpack->m_id);
+#ifdef _WIN32
 			_mkdir(folder_file);
+#else
+			mkdir(folder_file,S_IRWXU | S_IRWXG | S_IRWXO);
+#endif
 
 			fp=fopen(map_file,"w+");
 		} // if

@@ -4,9 +4,15 @@
 
 #ifdef _WIN32
 #include "windows.h"
+#include "direct.h"
+#else
+#include <stddef.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include "ctype.h"
+#include "unistd.h"
 #endif
 
-#include "direct.h"
 #include "stdio.h"
 #include "math.h"
 #include "stdlib.h"
@@ -50,7 +56,11 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 	if (SDL_ShowCursor(SDL_QUERY)!=SDL_ENABLE) SDL_ShowCursor(SDL_ENABLE);
 	if (m_state_cycle==0) {
 
+#ifdef _WIN32
 		_getcwd(m_mb_current_path,256);
+#else
+		getcwd(m_mb_current_path,256);
+#endif
 		strcat(m_mb_current_path,"/maps");
 		m_mb_recheckfiles=true;
 
