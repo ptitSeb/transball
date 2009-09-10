@@ -116,8 +116,8 @@ int filter_png(struct direct *entry)
 
 int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 {
-	int old_mouse_x = m_mouse_x;
-	int old_mouse_y = m_mouse_y;
+//	int old_mouse_x = m_mouse_x;
+//	int old_mouse_y = m_mouse_y;
 
 	if (SDL_ShowCursor(SDL_QUERY)!=SDL_ENABLE) SDL_ShowCursor(SDL_ENABLE);
 
@@ -221,7 +221,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 				for (i=0; i<n; i++) {
 					snprintf(tmp, 512, "foreground/%s", namelist[i]->d_name);
 					tmp[strlen(tmp)-4]=0;	// remove extension
-					m_editor_tiles.Add(new GLTile(tmp));
+					m_editor_tiles.Add(m_GLTM->get(tmp));
 //					m_editor_tiles_name.Add(new Symbol(tmp));
 				}
 				free(namelist);

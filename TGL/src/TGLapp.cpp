@@ -4,7 +4,13 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#else
+#include "unistd.h"
+#include "sys/stat.h"
+#include "sys/types.h"
 #endif
+
+#include "debug.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -56,6 +62,21 @@ extern int current_cycle;
 TGLapp::TGLapp()
 {
 	int i;
+	
+#ifdef _WIN32
+	strcpy(m_player_data_path,"");
+#else
+
+#ifdef __DEBUG_MESSAGES
+	{
+		char tmp[256];
+		output_debug_message("CWD %s\n",getcwd(tmp,256));
+	}
+#endif
+	sprintf(m_player_data_path,"%s/.transballGL/",getenv("HOME"));
+	system("mkdir ~/.transballGL");
+	system("mkdir ~/.transballGL/players");
+#endif
 
 	m_font32=TTF_OpenFont("fonts/arial.ttf",32);
 	m_font16=TTF_OpenFont("fonts/arial.ttf",16);
@@ -194,7 +215,7 @@ bool TGLapp::cycle(KEYBOARDSTATE *k)
 
   
 #ifdef __DEBUG_MESSAGES
-	if (state_cycle==0) {
+	if (m_state_cycle==0) {
 		output_debug_message("First Cycle started for state %i...\n",m_state);
 	} /* if */ 
 #endif
@@ -286,8 +307,8 @@ void TGLapp::draw(int SCREEN_X,int SCREEN_Y)
 	m_screen_dy=SCREEN_Y;
 
 #ifdef __DEBUG_MESSAGES
-	if (state_cycle==0) {
-		output_debug_message("First Drawing cycle started for state %i...\n",state);
+	if (m_state_cycle==0) {
+		output_debug_message("First Drawing cycle started for state %i...\n",m_state);
 	} /* if */ 
 #endif
 
@@ -393,7 +414,7 @@ void TGLapp::save_playerprofile(void)
 	char tmp[256];
 
 	if (m_player_profile!=0) {
-		sprintf(tmp,"players/%s.pp",m_player_profile->m_name);
+		sprintf(tmp,"%splayers/%s.pp",m_player_data_path,m_player_profile->m_name);
 		fp=fopen(tmp,"w+");
 		if (fp!=0) {
 			m_player_profile->save(fp);
@@ -408,7 +429,7 @@ void TGLapp::load_playerprofile(char *name)
 	FILE *fp;
 	char tmp[256];
 
-	sprintf(tmp,"players/%s.pp",name);
+	sprintf(tmp,"%splayers/%s.pp",m_player_data_path,name);
 	fp=fopen(tmp,"rb");
 	if (fp!=0) {
 		m_player_profile=new PlayerProfile(fp);

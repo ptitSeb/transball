@@ -438,7 +438,11 @@ void PlayerProfile::level_completed(char *levelpack_id,int level,TGLreplay *repl
 #ifdef _WIN32
 				_mkdir(tmp2);
 #else
-				mkdir(tmp2,S_IRWXU | S_IRWXG | S_IRWXO);
+				{	
+					char tmp3[512];
+					sprintf(tmp3,"mkdir %s",tmp2);
+					system(tmp3);
+				}
 #endif				
 
 				fp=fopen(tmp,"wb");

@@ -104,8 +104,9 @@ int TGLapp::playerprofile_cycle(KEYBOARDSTATE *k)
 #else
 			DIR *dp;
 			struct dirent *ep;
-
-			dp = opendir ("players");
+			char dname[256];
+			sprintf(dname, "%splayers",m_player_data_path);
+			dp = opendir (dname);
 			if (dp != NULL) {
 				while (ep = readdir (dp)) {
 					if (strlen(ep->d_name) > 4 &&
@@ -127,8 +128,8 @@ int TGLapp::playerprofile_cycle(KEYBOARDSTATE *k)
 			for(i=0;i<m_profile_profile_names.Length();i++) {
 				char *tmp;
 
-				tmp=new char[strlen(m_profile_profile_names[i])+12];
-				sprintf(tmp,"players/%s.pp",m_profile_profile_names[i]);
+				tmp=new char[strlen(m_profile_profile_names[i])+256];
+				sprintf(tmp,"%splayers/%s.pp",m_player_data_path,m_profile_profile_names[i]);
 				m_profile_profile_fullnames.Add(tmp);
 				m_profile_profile_info.Add(0);
 			} // for
@@ -153,7 +154,7 @@ int TGLapp::playerprofile_cycle(KEYBOARDSTATE *k)
 					sprintf(tmp2,"player_%i",i);
 				} // if 
 
-				sprintf(tmp,"players/%s.pp",tmp2);
+				sprintf(tmp,"%splayers/%s.pp",m_player_data_path,tmp2);
 				fp=fopen(tmp,"rb");
 				if (fp!=0) {
 					fclose(fp);
@@ -259,7 +260,7 @@ int TGLapp::playerprofile_cycle(KEYBOARDSTATE *k)
 			bool valid_new_profile_name=true;
 			char tmp[256];
 
-			sprintf(tmp,"players/%s.pp",m_profile_name_inputframe->m_editing);
+			sprintf(tmp,"%splayers/%s.pp",m_player_data_path,m_profile_name_inputframe->m_editing);
 
             fp=fopen(tmp,"rb");
             if (fp!=0) {

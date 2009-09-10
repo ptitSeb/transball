@@ -46,8 +46,8 @@
 
 int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 {
-	int old_mouse_x = m_mouse_x;
-	int old_mouse_y = m_mouse_y;
+//	int old_mouse_x = m_mouse_x;
+//	int old_mouse_y = m_mouse_y;
 
 	if (SDL_ShowCursor(SDL_QUERY)!=SDL_ENABLE) SDL_ShowCursor(SDL_ENABLE);
 

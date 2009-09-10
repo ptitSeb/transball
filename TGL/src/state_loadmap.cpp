@@ -93,7 +93,7 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 
 		// Load the map filenames:
 		{
-			char tmp_path[256];
+//			char tmp_path[256];
 			char *tmp;
 
 			m_mb_first_m=0;

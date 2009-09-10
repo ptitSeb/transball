@@ -1,13 +1,18 @@
 To do in "Transball GL": --------------------------------------------------------
 
+***- for unix/mac folders for highscores/player profiels, etc. do not work. Create a home/.transballGL folder with everything:
+	ok - players
+	- highscores
+	- replays
+	- levelpacks
 ***- Pause no funciona en Mac
 ***- cuando pulsas QUIT, puedes seguir pulsando varias veces :p
 ***- algunos objetos no se ven en las replays de tutoriales, regrabarlas
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
 - Nuevos elementos:
-    - Más tiles
+    - MÂ·s tiles
 	- ascensores (debes meterte en ellos, y moverte con ellos, tanto horizontales como verticales)
-	- Cañones direccionales rápidos (metralletas, con balas pequeñas y azules que te quitan fuel y
+	- CaÃ’ones direccionales rÂ·pidos (metralletas, con balas pequeÃ’as y azules que te quitan fuel y
 					 te desplazan un poco)
 	- Mega Tanques: te siguen, disparan misiles, son inmensos y requieren un huevo de toques (varias torretas)
 - Modos 2 jugadores:
@@ -15,7 +20,7 @@ To do in "Transball GL": -------------------------------------------------------
         - race: los 2 juegan a la vez (la otra nave se ve como un fantasma en tu pantalla), y
                 se compite por tiempo
         - colaborativo:los 2 juegan a la vez, y colaboran para llevarse la bola fuera
-        - combate: los 2 jugadores en un mismo nivel, el único objetivo es matarse mutuamente
+        - combate: los 2 jugadores en un mismo nivel, el Ë™nico objetivo es matarse mutuamente
         - competitivo: los 2 jugadoes en un mismo nivel, compiten por conseguir la bola y
                        llevarsela
     - En los modos colaborativo y competitivo:
@@ -23,10 +28,10 @@ To do in "Transball GL": -------------------------------------------------------
         - los disparos de el adversario/colaborador te quitan fuel, te desplazan un poco, y te quitan la bola
     - En red:
         - cuando te conectas a otro ordenador, se sincronizan los highscores ("other-players" folder)
-- Música en el menu principal
-- Música/loop de sonido durante el juego 
+- MË™sica en el menu principal
+- MË™sica/loop de sonido durante el juego 
 
-- Para las instrucciones (añadir a los tutoriales):
+- Para las instrucciones (aÃ’adir a los tutoriales):
     - Para que el atractor funcione, la nave tiene que ir lenta! (lo mismo para el grabber the harpoon)
     - "Only the ship which has captured the ball can fire through it"
     - Harpoon:
@@ -35,7 +40,7 @@ To do in "Transball GL": -------------------------------------------------------
     - Como utilizar los especiales de cada nave
     - Editor:
         - modos
-        - especialmente el "properties mode" y qué quiere decir cada propiedad
+        - especialmente el "properties mode" y quÃˆ quiere decir cada propiedad
 
 : ------------------------------------------------------------------------------------------
 
@@ -47,11 +52,11 @@ Naves:
 	125 - VIPPER BEAM: laser, potente contra enemigos, pero no destruye las balas (te propulsa un poco)
 	25 - DODGER-K7: tiene thrusters laterales, al pulsar abajo, si pulsas izquierda/derecha, te mueves en vez de rotar
 	75 - GRAVIS T8: disparo como shadow runner, y lenta como x-terminator, pero tiene un "long range attractor",
-		 que al activarlo, atrae a la bola hacia donde estás tú sin importar la distancia (solo
-		 después de haberla cogido, por supuesto). De hecho, lo que hace es incrementar la atracción, de 28 a 128
+		 que al activarlo, atrae a la bola hacia donde estÂ·s tË™ sin importar la distancia (solo
+		 despuÃˆs de haberla cogido, por supuesto). De hecho, lo que hace es incrementar la atracciÃ›n, de 28 a 128
 	100 - ACCURA-T5: Mini homming misiles (little power, but homming)
 	40 - GYRUS-P: disparo cutre y lenta, pero el disparo es direccional! (si mantienes pulsado "abajo",
-	     com los cursores controlas la dirección del cañón!)
-	55 - D-FLECTER: rápida cono shadow runner, no dispara, pero tiene un escudo que quita fuel (que solo 
+	     com los cursores controlas la direcciÃ›n del caÃ’Ã›n!)
+	55 - D-FLECTER: rÂ·pida cono shadow runner, no dispara, pero tiene un escudo que quita fuel (que solo 
 	         protege de balas y choque, no contra lasers que atraviesan la nave de lado a lado)
-	15 - C-HARPOON (otro color): Tiene un arpón, y atrapa la bola con ua cuerda (nunca la pierde),
+	15 - C-HARPOON (otro color): Tiene un arpÃ›n, y atrapa la bola con ua cuerda (nunca la pierde),

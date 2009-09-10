@@ -213,6 +213,8 @@ protected:
 	int m_lpb_lp_selected;
 
 	// configure:
+	char m_player_data_path[256];	// This will be empty for windows (data will be saved directly int he aplication folder), 
+									// but set to "~/.transballGL/" in Linux/Mac
 	int m_configure_key_to_change;
 	TGLInterfaceElement *m_configure_fullscreen;
 	TGLInterfaceElement *m_configure_window;

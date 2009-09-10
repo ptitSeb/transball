@@ -345,7 +345,11 @@ void LevelPack_Level::save(FILE *fp,GLTManager *GLTM)
 #ifdef _WIN32
 			_mkdir(folder_file);
 #else
-			mkdir(folder_file,S_IRWXU | S_IRWXG | S_IRWXO);
+			{	
+				char tmp[512];
+				sprintf(tmp,"mkdir %s",folder_file);
+				system(tmp);
+			}
 #endif
 
 			fp=fopen(map_file,"w+");
