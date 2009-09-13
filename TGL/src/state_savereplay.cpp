@@ -79,7 +79,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 					sprintf(tmp2,"replay_%i.rpl",i);
 				} // if 
 
-				sprintf(tmp,"replays/%s",tmp2);
+				sprintf(tmp,"%sreplays/%s",m_player_data_path, tmp2);
 				fp=fopen(tmp,"rb");
 				if (fp!=0) {
 					fclose(fp);
@@ -126,8 +126,10 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 #else
 			DIR *dp;
 			struct dirent *ep;
+			char dname[256];
+			sprintf(dname,"%sreplays",m_player_data_path);
 
-			dp = opendir ("replays");
+			dp = opendir (dname);
 			if (dp != NULL) {
 				while (ep = readdir (dp)) {
 					if (strlen(ep->d_name) > 4 &&
@@ -150,7 +152,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 				char *tmp;
 
 				tmp=new char[strlen(m_sr_replay_names[i])+9];
-				sprintf(tmp,"replays/%s",m_sr_replay_names[i]);
+				sprintf(tmp,"%sreplays/%s",m_player_data_path,m_sr_replay_names[i]);
 				m_sr_replay_fullnames.Add(tmp);
 				m_sr_replay_info.Add(0);
 			} // for
@@ -241,7 +243,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 			bool valid_replay_name=true;
 			char tmp[256];
 
-			sprintf(tmp,"replays/%s",m_replay_name_inputframe->m_editing);
+			sprintf(tmp,"%sreplays/%s",m_player_data_path,m_replay_name_inputframe->m_editing);
 
             fp=fopen(tmp,"rb");
             if (fp!=0) {
@@ -273,7 +275,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 					FILE *fp;
 					char tmp[256];
 
-					sprintf(tmp,"replays/%s",m_replay_name_inputframe->m_editing);
+					sprintf(tmp,"%sreplays/%s",m_player_data_path,m_replay_name_inputframe->m_editing);
 
 					fp=fopen(tmp,"wb");
 					if (fp!=0) {
@@ -337,7 +339,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 						FILE *fp;
 						char tmp2[256];
 
-						sprintf(tmp2,"replays/update-%s",m_sr_replay_names[i]);
+						sprintf(tmp2,"%sreplays/update-%s",m_player_data_path,m_sr_replay_names[i]);
 						fp=fopen(tmp2,"wb+");
 
 						while(rpl->read_one_cycle());

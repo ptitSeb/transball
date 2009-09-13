@@ -5,14 +5,14 @@
 600 Shot the enemies to destroy them
 800 
 850 The V-panther's bullets/have medium power
-1050 
-1100 Take control of the ball with/the attractor
 1400 
-1450 The ball will be attracted by/the ship once captured
-1650
-1700 Activate buttons using the ball
-2250
-2200 Check for refueling!
-2700
-2750 Take the ball to the top/to complete a level!
+1500 Take control of the ball with/the attractor
+1700 
+1750 The ball will be attracted by/the ship once captured
+2000
+2050 Activate buttons using the ball
+2450
+2500 Check for refueling!
 3000
+3050 Take the ball to the top/to complete a level!
+3500

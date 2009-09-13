@@ -40,7 +40,7 @@ public:
 
 	int progress_in_levelpack(char *id);
 	int number_of_times_completed(char *lpid,int level);
-	void level_completed(char *levelpack_id,int level,TGLreplay *replay,LevelPack *lp);
+	void level_completed(char *player_data_path,char *levelpack_id,int level,TGLreplay *replay,LevelPack *lp);
 	int get_besttime(char *levelpack_id,int level,int ship);
 	int get_points(void);
 	int get_points(char *lp_id);

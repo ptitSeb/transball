@@ -116,8 +116,11 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 #else
 			DIR *dp;
 			struct dirent *ep;
+			char dname[256];
+			
+			sprintf(dname,"%sreplays",m_player_data_path);
 
-			dp = opendir ("replays");
+			dp = opendir (dname);
 			if (dp != NULL) {
 				while (ep = readdir (dp)) {
 					if (strlen(ep->d_name) > 4 &&
@@ -140,7 +143,7 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 				char *tmp;
 
 				tmp=new char[strlen(m_sr_replay_names[i])+9];
-				sprintf(tmp,"replays/%s",m_sr_replay_names[i]);
+				sprintf(tmp,"%sreplays/%s",m_player_data_path,m_sr_replay_names[i]);
 				m_sr_replay_fullnames.Add(tmp);
 				m_sr_replay_info.Add(0);
 			} // for
@@ -189,7 +192,7 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 			cp1=m_sr_replay_fullnames[m_rb_replay_selected];
 			cp2=m_sr_replay_names[m_rb_replay_selected];
 
-			sprintf(tmp,"replays/%s",m_replay_name_inputframe->m_editing);
+			sprintf(tmp,"%sreplays/%s",m_player_data_path,m_replay_name_inputframe->m_editing);
 			tmp2=new char[strlen(tmp)+1];
 			strcpy(tmp2,tmp);
 			
@@ -242,7 +245,7 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 			m_sr_replay_names.DeleteElement(cp2);
 			m_sr_replay_info.DeleteElement(cp3);
 
-			sprintf(tmp,"replays/%s",cp2);
+			sprintf(tmp,"%sreplays/%s",m_player_data_path,cp2);
 			remove(tmp);
 
 			check_for_replays_to_load=true;
@@ -298,7 +301,7 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 			bool valid_replay_name=true;
 			char tmp[256];
 
-			sprintf(tmp,"replays/%s",m_replay_name_inputframe->m_editing);
+			sprintf(tmp,"%sreplays/%s",m_player_data_path,m_replay_name_inputframe->m_editing);
 
             fp=fopen(tmp,"rb");
             if (fp!=0) {
@@ -326,7 +329,7 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 			bool valid_to_delete=false;
 			char tmp[256];
 
-			sprintf(tmp,"replays/%s",m_replay_name_inputframe->m_editing);
+			sprintf(tmp,"%sreplays/%s",m_player_data_path,m_replay_name_inputframe->m_editing);
 
             fp=fopen(tmp,"rb");
             if (fp!=0) {
@@ -358,7 +361,7 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 					{
 						FILE *fp;
 						char tmp[256];
-						sprintf(tmp,"replays/%s",m_sr_replay_names[m_rb_replay_selected]);
+						sprintf(tmp,"%sreplays/%s",m_player_data_path,m_sr_replay_names[m_rb_replay_selected]);
 						fp=fopen(tmp,"rb");
 						m_game_replay=new TGLreplay(fp);
 						fclose(fp);
@@ -433,7 +436,7 @@ int TGLapp::replaybrowser_cycle(KEYBOARDSTATE *k)
 						FILE *fp;
 						char tmp2[256];
 
-						sprintf(tmp2,"replays/update-%s",m_sr_replay_names[i]);
+						sprintf(tmp2,"%sreplays/update-%s",m_player_data_path,m_sr_replay_names[i]);
 						fp=fopen(tmp2,"wb+");
 
 						while(rpl->read_one_cycle());

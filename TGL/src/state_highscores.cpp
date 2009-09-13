@@ -67,7 +67,10 @@ int TGLapp::highscores_cycle(KEYBOARDSTATE *k)
 				int i;
 				char *tmp;
 				char buf[256];
-				char *folders[2]={"players","other-players"};
+				char folders[2][256];
+				
+				sprintf(folders[0],"%splayers",m_player_data_path);
+				sprintf(folders[1],"%sother-players",m_player_data_path);
 
 				for(i=0;i<2;i++) {
 #ifdef _WIN32
@@ -117,10 +120,10 @@ int TGLapp::highscores_cycle(KEYBOARDSTATE *k)
 				m_highscores_names.Rewind();
 				while(m_highscores_names.Iterate(tmp)) {
 
-					sprintf(buf,"players/%s.pp",tmp);
+					sprintf(buf,"%splayers/%s.pp",m_player_data_path,tmp);
 					FILE *fp=fopen(buf,"rb");
 					if (fp==0) {
-						sprintf(buf,"other-players/%s.pp",tmp);
+						sprintf(buf,"%sother-players/%s.pp",m_player_data_path,tmp);
 						fp=fopen(buf,"rb");
 					} // if 
 					if (fp!=0) {

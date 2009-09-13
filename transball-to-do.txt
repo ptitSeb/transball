@@ -1,13 +1,7 @@
 To do in "Transball GL": --------------------------------------------------------
 
-***- for unix/mac folders for highscores/player profiels, etc. do not work. Create a home/.transballGL folder with everything:
-	ok - players
-	- highscores
-	- replays
-	- levelpacks
 ***- Pause no funciona en Mac
-***- cuando pulsas QUIT, puedes seguir pulsando varias veces :p
-***- algunos objetos no se ven en las replays de tutoriales, regrabarlas
+***- en highscores, mostrar para empezar el level pack actual
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
 - Nuevos elementos:
     - M·s tiles

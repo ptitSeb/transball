@@ -73,9 +73,15 @@ TGLapp::TGLapp()
 		output_debug_message("CWD %s\n",getcwd(tmp,256));
 	}
 #endif
-	sprintf(m_player_data_path,"%s/.transballGL/",getenv("HOME"));
-	system("mkdir ~/.transballGL");
-	system("mkdir ~/.transballGL/players");
+	strcpy(m_player_data_path,"");
+	// This code was an attempt to make TGL a bundle in MacOX, but didn't work, since bundles are read only... (and, in principle, maps, etc.
+	// should be able to be edited using the map editor...) 
+//	sprintf(m_player_data_path,"%s/.transballGL/",getenv("HOME"));
+//	system("mkdir ~/.transballGL");
+//	system("mkdir ~/.transballGL/players");
+//	system("mkdir ~/.transballGL/other-players");
+//	system("mkdir ~/.transballGL/replays");
+//	system("mkdir ~/.transballGL/maps");
 #endif
 
 	m_font32=TTF_OpenFont("fonts/arial.ttf",32);

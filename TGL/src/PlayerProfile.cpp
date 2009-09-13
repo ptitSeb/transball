@@ -378,7 +378,7 @@ int PlayerProfile::progress_in_levelpack(char *id)
 
 
 
-void PlayerProfile::level_completed(char *levelpack_id,int level,TGLreplay *replay,LevelPack *lp)
+void PlayerProfile::level_completed(char *player_data_path,char *levelpack_id,int level,TGLreplay *replay,LevelPack *lp)
 {
 	PlayerProfileLPProgress *lpp,*selected=0;
 	PlayerProfileLevelResult *lr,*selected_l=0;
@@ -428,13 +428,13 @@ void PlayerProfile::level_completed(char *levelpack_id,int level,TGLreplay *repl
 			FILE *fp;
 			char tmp[256];
 
-			sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",m_name,levelpack_id,level,replay->get_playership(m_name));
+			sprintf(tmp,"%splayers/%s/%s-level-%i-%i.rpl", player_data_path ,m_name,levelpack_id,level,replay->get_playership(m_name));
 
 			fp=fopen(tmp,"wb");
 			if (fp==0) {
 				// assume the folder does not exist:
 				char tmp2[256];
-				sprintf(tmp2,"players/%s",m_name);
+				sprintf(tmp2,"%splayers/%s", player_data_path ,m_name);
 #ifdef _WIN32
 				_mkdir(tmp2);
 #else

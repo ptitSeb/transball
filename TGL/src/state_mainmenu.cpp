@@ -96,7 +96,7 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 	
 		ID=TGLinterface::update_state(mouse_x,mouse_y,button,button_status,k);
 
-		if (ID!=-1) {
+		if (ID!=-1 && m_state_fading!=2) {
 			m_state_fading=2;
 			m_state_fading_cycle=0;
 			m_state_selection=ID;
