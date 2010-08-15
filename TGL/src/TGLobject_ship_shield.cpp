@@ -174,7 +174,7 @@ void TGLobject_ship_shield::generate_shield_textures(void)
 
 					for(x=0;x<64;x++) {
 						for(y=0;y<64;y++) {
-							angle=float(atan2((y-32),(x-32)));
+							angle=float(atan2((double)(y-32),(double)(x-32)));
 							if (angle<0) angle+=M_PI*2;
 							angle/=(M_PI*2)/SHIELD_N_NODES;
 							r1=int(angle);
@@ -185,7 +185,7 @@ void TGLobject_ship_shield::generate_shield_textures(void)
 							if (r2>=SHIELD_N_NODES) r2-=SHIELD_N_NODES;
 							desired_radius=cr1*radius[r1]+cr2*radius[r2];
 
-							actual_radius=float(sqrt((x-32)*(x-32)+(y-32)*(y-32)));
+							actual_radius=float(sqrt((double)((x-32)*(x-32)+(y-32)*(y-32))));
 
 							// Solid shield:
 //							if (actual_radius<desired_radius) putpixel(sfc,x,y,SDL_MapRGBA(sfc->format,39,198,95,255));

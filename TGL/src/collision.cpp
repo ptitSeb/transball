@@ -50,7 +50,7 @@ bool collision_with_point(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y
 	if (hot_y1>dy1) dy1=hot_y1;
 
 	sq_radius1=dx1*dx1+dy1*dy1;
-	radius1=float(sqrt(sq_radius1))*scale1;
+	radius1=float(sqrt((double)sq_radius1))*scale1;
 	sq_distance=(x2-x1)*(x2-x1)+(y2-y1)*(y2-y1);
 
 	if (sq_distance>(radius1)*(radius1)) return false;
@@ -143,8 +143,8 @@ bool collision(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,int a1,fl
 
 	sq_radius1=dx1*dx1+dy1*dy1;
 	sq_radius2=dx2*dx2+dy2*dy2;
-	radius1=float(sqrt(sq_radius1))*scale1;
-	radius2=float(sqrt(sq_radius2))*scale2;
+	radius1=float(sqrt((double)sq_radius1))*scale1;
+	radius2=float(sqrt((double)sq_radius2))*scale2;
 	sq_distance=(x2-x1)*(x2-x1)+(y2-y1)*(y2-y1);
 
 	if (sq_distance>(radius1+radius2)*(radius1+radius2)) return false;
@@ -261,8 +261,8 @@ bool collision_vector(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,in
 
 	sq_radius1=dx1*dx1+dy1*dy1;
 	sq_radius2=dx2*dx2+dy2*dy2;
-	radius1=float(sqrt(sq_radius1))*scale1;
-	radius2=float(sqrt(sq_radius2))*scale2;
+	radius1=float(sqrt((double)sq_radius1))*scale1;
+	radius2=float(sqrt((double)sq_radius2))*scale2;
 	sq_distance=(x2-x1)*(x2-x1)+(y2-y1)*(y2-y1);
 
 	if (sq_distance>(radius1+radius2)*(radius1+radius2)) return false;

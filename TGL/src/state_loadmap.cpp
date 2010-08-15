@@ -93,7 +93,6 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 
 		// Load the map filenames:
 		{
-//			char tmp_path[256];
 			char *tmp;
 
 			m_mb_first_m=0;
@@ -103,6 +102,7 @@ int TGLapp::loadmap_cycle(KEYBOARDSTATE *k)
 
 #ifdef _WIN32
 			/* Find files: */
+			char tmp_path[256];
 			WIN32_FIND_DATA finfo;
 			HANDLE h;
 
