@@ -11,8 +11,8 @@
 #include "stdlib.h"
 #include "string.h"
 
-#include "GL/gl.h"
-#include "GL/glu.h"
+#include "gl.h"
+#include "glu.h"
 #include "SDL.h"
 #include "SDL_mixer.h"
 #include "SDL_ttf.h"
@@ -48,6 +48,7 @@ int TGLapp::game_cycle(KEYBOARDSTATE *k)
 	int i;
 	VirtualController *m_vc;
 	if (SDL_ShowCursor(SDL_QUERY)!=SDL_DISABLE) SDL_ShowCursor(SDL_DISABLE);
+	bool pause_pressed = false;
 
 
 	switch(m_game_replay_mode) {
@@ -122,6 +123,7 @@ int TGLapp::game_cycle(KEYBOARDSTATE *k)
 	m_lvc.Rewind();
 	while(m_lvc.Iterate(m_vc)) {
 		if (m_vc->m_quit) m_game_state=3;
+		if (m_vc->m_pause && !m_vc->m_old_pause) pause_pressed = true;
 	} // while 
 
 
@@ -141,11 +143,19 @@ int TGLapp::game_cycle(KEYBOARDSTATE *k)
 			
 			break;
 	case 1:	// playing
-			if (!m_game->cycle(&m_lvc,m_GLTM,m_SFXM,m_player_profile->m_sfx_volume)) {
-				if (m_game->get_game_result()==2) m_game_state=2;
-										     else m_game_state=3;
-				m_game_state_cycle=0;
-			} // if 
+			if (pause_pressed) {
+				// toogle pause
+				if (m_game_paused) m_game_paused = false;
+							  else m_game_paused = true;
+			}
+			
+			if (!m_game_paused) {
+				if (!m_game->cycle(&m_lvc,m_GLTM,m_SFXM,m_player_profile->m_sfx_volume)) {
+					if (m_game->get_game_result()==2) m_game_state=2;
+												 else m_game_state=3;
+					m_game_state_cycle=0;
+				} // if 
+			} // if
 			break;
 	case 2:	// Just waiting some time for showing the ship explosion
 			m_game->cycle(&m_lvc,m_GLTM,m_SFXM,m_player_profile->m_sfx_volume);
@@ -201,6 +211,9 @@ void TGLapp::game_draw(void)
 	case 2:
 			m_game_fade_effect=-1;
 			m_game->draw(m_GLTM);
+			
+			if (m_game_paused) fade_in_alpha(0.5);
+				
 			break;
 	case 3:
 			{

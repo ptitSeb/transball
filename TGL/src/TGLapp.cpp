@@ -17,8 +17,8 @@
 #include "math.h"
 #include "string.h"
 
-#include "GL/gl.h"
-#include "GL/glu.h"
+#include "gl.h"
+#include "glu.h"
 #include "SDL.h"
 #include "SDL_mixer.h"
 #include "SDL_ttf.h"
@@ -106,6 +106,7 @@ TGLapp::TGLapp()
 	m_state_fading_cycle=0;
 	m_state_selection=0;
 
+	m_game_paused = false;
 	m_game_state=0;
 	m_game_fade_effect=-1;
 	m_game_replay_mode=0;	

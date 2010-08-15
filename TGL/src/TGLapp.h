@@ -145,6 +145,7 @@ protected:
 	PlayerProfile *m_player_profile;
 
 	// Game state:
+	bool m_game_paused;
 	int m_game_state;
 	int m_game_state_cycle;
 	int m_game_fade_effect;

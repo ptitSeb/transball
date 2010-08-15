@@ -7,8 +7,8 @@
 #include "windows.h"
 #endif
 
-#include "GL/gl.h"
-#include "GL/glu.h"
+#include "gl.h"
+#include "glu.h"
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_ttf.h"

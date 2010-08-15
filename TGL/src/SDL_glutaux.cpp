@@ -6,7 +6,7 @@
 #include "windows.h"
 #endif
 
-#include <GL/gl.h>
+#include <gl.h>
 
 #include "SDL.h"
 #include "SDL_image.h"

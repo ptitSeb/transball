@@ -1,15 +1,16 @@
 To do in "Transball GL": --------------------------------------------------------
 
-***- Pause no funciona en Mac
 ***- en highscores, mostrar para empezar el level pack actual
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
 - Nuevos elementos:
-    - M·s tiles
+    - Mas tiles
 	- ascensores (debes meterte en ellos, y moverte con ellos, tanto horizontales como verticales)
 	- CaÒones direccionales r·pidos (metralletas, con balas pequeÒas y azules que te quitan fuel y
 					 te desplazan un poco)
-	- Mega Tanques: te siguen, disparan misiles, son inmensos y requieren un huevo de toques (varias torretas)
+	- Mega Tanques: te siguen, disparan misiles, son inmensos y requieren un huevo de toques
+	- Agua: hace que todo sea más lento y casi anula la gravedad. La bola flota
 - Modos 2 jugadores:
+	- jugar contra una IA?
     - MODOS:
         - race: los 2 juegan a la vez (la otra nave se ve como un fantasma en tu pantalla), y
                 se compite por tiempo
