@@ -960,8 +960,8 @@ foreground/wall-snow1
 foreground/wall-snow1
 foreground/wall-snow2
 foreground/wall-snow1
-68
-red-light-snow 0 6 0
+69
+red-light 0 6 0
 door-left 0 3 1 1 1
 door-right 0 4 1 1 1
 laser-left 0 0 5
@@ -1029,3 +1029,4 @@ ball-stand 0 19 27
 cannon-rock-right 0 12 28
 cannon-rock-down 0 22 29
 red-tank 0 5 21
+red-tank 0 7 30
