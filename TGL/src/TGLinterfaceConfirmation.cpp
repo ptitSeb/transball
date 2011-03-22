@@ -28,11 +28,31 @@
 
 #include "TGLinterface.h"
 
-TGLConfirmation::TGLConfirmation(char *message,TTF_Font *font,float x,float y,int ID) : TGLInterfaceElement()
+TGLConfirmation::TGLConfirmation(char *message,TTF_Font *font,float x,float y,int ID,bool cancelOption) : TGLInterfaceElement()
 {
 	m_font = font;
-	m_message=new char[strlen(message)+1];
-	strcpy(m_message,message);
+	{
+		char tmp[256];
+		int i,j=0;
+		for(i=0;message[i]!=0;i++) {
+			if (message[i]=='\n') {
+				tmp[j]=0;
+				char *tmp2 = new char[strlen(tmp)+1];
+				strcpy(tmp2,tmp);
+				m_message_lines.Add(tmp2);
+				j = 0;
+			} else {
+				tmp[j++] = message[i];
+			}
+		}
+		if (j!=0) {
+			tmp[j]=0;
+			char *tmp2 = new char[strlen(tmp)+1];
+			strcpy(tmp2,tmp);
+			m_message_lines.Add(tmp2);
+		}
+	}
+	
 	m_x=x;
 	m_y=y;
 	m_ID=ID;
@@ -42,16 +62,18 @@ TGLConfirmation::TGLConfirmation(char *message,TTF_Font *font,float x,float y,in
 	m_state=0;
 	m_cycle=0;
 
-	m_ok_button = new TGLbutton("ok",font,x-100,y+10,80,32,-1);
-	m_cancel_button = new TGLbutton("cancel",font,x+20,y+10,80,32,-1);
+	if (cancelOption) {
+		m_ok_button = new TGLbutton("ok",font,x-100,y+10,80,32,-1);
+		m_cancel_button = new TGLbutton("cancel",font,x+20,y+10,80,32,-1);
+	} else {
+		m_ok_button = new TGLbutton("ok",font,x-40,y+10,80,32,-1);
+		m_cancel_button = NULL;
+	}
 } /* TGLConfirmation::TGLConfirmation */ 
 
 
 TGLConfirmation::~TGLConfirmation()
 {
-	if (m_message!=0) delete []m_message;
-	m_message=0;
-
 	delete m_ok_button;
 	delete m_cancel_button;
 
@@ -93,10 +115,16 @@ void TGLConfirmation::draw(float alpha)
         glEnd();
     }
 
-	TGLinterface::print_center(m_message,m_font,m_x,m_y);
+	int y = m_y - TTF_FontHeight(m_font)*m_message_lines.Length();
+	char *message;
+	m_message_lines.Rewind();
+	while(m_message_lines.Iterate(message)) {
+		TGLinterface::print_center(message,m_font,m_x,y);
+		y+=TTF_FontHeight(m_font);
+	}
 
 	m_ok_button->draw(alpha);
-	m_cancel_button->draw(alpha);
+	if (m_cancel_button!=NULL) m_cancel_button->draw(alpha);
 
 } /* TGLConfirmation::draw */ 
 
@@ -115,7 +143,7 @@ bool TGLConfirmation::check_status(int mousex,int mousey,int button,int button_s
 		m_cycle=0;
 		return true;
 	} // if 
-	if (m_cancel_button->check_status(mousex,mousey,button,button_status,k)) {
+	if (m_cancel_button!=NULL && m_cancel_button->check_status(mousex,mousey,button,button_status,k)) {
 		m_state = 1;
 		m_cycle=0;
 	} // if 

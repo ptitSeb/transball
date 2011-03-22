@@ -104,8 +104,34 @@ int TGLapp::highscores_times_cycle(KEYBOARDSTATE *k)
 				} /* if */
 #endif
 			}
+			
+			if (m_current_levelpack!=0) {
+				// find which is the current level pack:
+				LevelPack *lp;
+				m_highscores_lp_names.Rewind();
+				char *name;
+				while(m_highscores_lp_names.Iterate(name)) {
+					char *tmp=new char[strlen(name)+9];
+					sprintf(tmp,"maps/%s",name);
+					{
+						FILE *fp;
+						fp=fopen(tmp,"rb");
+						if (fp!=0) {
+							lp=new LevelPack(fp,m_GLTM);
+							fclose(fp);
+							if (strcmp(lp->m_name,m_current_levelpack->m_name)==0) {
+								m_highscores_level_pack=name;
+							}
+						} else {
+							lp=0;
+						} // if 
+					}
+					delete tmp;
+				}
+			} else {
+				m_highscores_level_pack = m_highscores_lp_names[0];
+			}
 
-			m_highscores_level_pack=m_highscores_lp_names[0];
 
 			recompute_table=true;
 
@@ -131,8 +157,9 @@ int TGLapp::highscores_times_cycle(KEYBOARDSTATE *k)
 		TGLinterface::disable(3);
 
 		TGLinterface::add_element(new TGLbutton(m_GLTM->get("interface/leftarrow"),280,20,40,40,6));
-		TGLinterface::disable(6);
 		TGLinterface::add_element(new TGLbutton(m_GLTM->get("interface/rightarrow"),500,20,40,40,7));
+		if (m_highscores_lp_names.PositionRef(m_highscores_level_pack)<=0) TGLinterface::disable(6);
+																	  else TGLinterface::enable(6);
 		if (m_highscores_lp_names.PositionRef(m_highscores_level_pack)>=m_highscores_lp_names.Length()-1) TGLinterface::disable(7);
 																		 						     else TGLinterface::enable(7);
 
@@ -254,6 +281,7 @@ int TGLapp::highscores_times_cycle(KEYBOARDSTATE *k)
 					lp=0;
 				} // if 
 			}
+			delete tmp;
 		}
 
 		{

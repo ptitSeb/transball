@@ -92,6 +92,17 @@ void TGLinterface::reset(void)
 } /* TGLinterface::reset */ 
 
 
+bool TGLinterface::mouse_over_element(int mousex, int mousey)
+{
+	TGLInterfaceElement *e;
+	m_elements.Rewind();
+	while(m_elements.Iterate(e)) {		
+		if (e->mouse_over(mousex,mousey)) return true;
+	} // while 
+	return false;
+}
+
+
 int TGLinterface::update_state(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k)
 {
 	int ret_val=-1;
@@ -245,6 +256,12 @@ TGLInterfaceElement::TGLInterfaceElement()
 TGLInterfaceElement::~TGLInterfaceElement() 
 {
 } /* TGLInterfaceElement::~TGLInterfaceElement */ 
+
+
+bool TGLInterfaceElement::mouse_over(int mousex,int mousey)
+{
+	return false;
+}
 
 
 bool TGLInterfaceElement::check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k)
@@ -455,6 +472,13 @@ void TGLbutton::draw(float alpha)
 } /* TGLbutton::draw */ 
 
 
+bool TGLbutton::mouse_over(int mousex,int mousey)
+{
+	if (mousex>=m_x && mousex<m_x+m_dx &&
+		mousey>=m_y && mousey<m_y+m_dy) return true;
+	return false;
+}
+
 
 bool TGLbutton::check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k)
 {
@@ -627,6 +651,14 @@ TGLslider::TGLslider(float x,float y,float dx,float dy,float slider_dx,float sli
 TGLslider::~TGLslider()
 {
 } /* TGLslider::~TGLslider */ 
+
+
+bool TGLslider::mouse_over(int mousex,int mousey)
+{
+	if (mousex>=m_x && mousex<=m_x+m_dx &&
+		mousey>=m_y && mousey<=m_y+m_dy) return true;
+	return false;
+}
 
 
 bool TGLslider::check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k)

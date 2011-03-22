@@ -105,7 +105,7 @@ int TGLapp::playerprofile_cycle(KEYBOARDSTATE *k)
 			DIR *dp;
 			struct dirent *ep;
 			char dname[256];
-			sprintf(dname, "%splayers",m_player_data_path);
+			sprintf(dname, "%splayers/",m_player_data_path);
 			dp = opendir (dname);
 			if (dp != NULL) {
 				while (ep = readdir (dp)) {
@@ -138,9 +138,27 @@ int TGLapp::playerprofile_cycle(KEYBOARDSTATE *k)
 
 		// Find an initial name for the profile:
 		if (m_profile_profile_names.Length()>0) {
-			m_profile_name_inputframe=new TGLTextInputFrame(m_profile_profile_names[0],32,m_font16,100,340,440,32,0);
-			TGLinterface::add_element(m_profile_name_inputframe);
-			m_profile_name_inputframe->m_focus=true;
+			// select the last open profile:
+			{
+				char last[256];
+				char tmp[256];
+				sprintf(tmp,"%slastplayer",m_player_data_path);
+				FILE *fp=fopen(tmp,"r+");
+				if (fp!=NULL) {
+					fscanf(fp,"%s",last);
+					
+					m_profile_name_inputframe=new TGLTextInputFrame(last,32,m_font16,100,340,440,32,0);
+					TGLinterface::add_element(m_profile_name_inputframe);
+					m_profile_name_inputframe->m_focus=true;
+				} else {
+					last[0]=0;
+
+					m_profile_name_inputframe=new TGLTextInputFrame(m_profile_profile_names[0],32,m_font16,100,340,440,32,0);
+					TGLinterface::add_element(m_profile_name_inputframe);
+					m_profile_name_inputframe->m_focus=true;
+				}
+			}
+			
 		} else {		
 			int i=0;
 			FILE *fp;
@@ -262,7 +280,7 @@ int TGLapp::playerprofile_cycle(KEYBOARDSTATE *k)
 
 			sprintf(tmp,"%splayers/%s.pp",m_player_data_path,m_profile_name_inputframe->m_editing);
 
-            fp=fopen(tmp,"rb");
+            fp=fopen(tmp,"r");
             if (fp!=0) {
                 valid_new_profile_name=false;
                 fclose(fp);
@@ -273,7 +291,7 @@ int TGLapp::playerprofile_cycle(KEYBOARDSTATE *k)
             } /* if */
 
 			if (valid_new_profile_name) {
-				fp=fopen(tmp,"wb");
+				fp=fopen(tmp,"w");
 				if (fp!=0) {					
 					fclose(fp);
 					remove(tmp);

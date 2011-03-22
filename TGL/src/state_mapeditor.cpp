@@ -84,6 +84,10 @@
 #include "TGLobject_ha_directionalcannon_right.h"
 #include "TGLobject_ha_directionalcannon_up.h"
 #include "TGLobject_ha_directionalcannon_down.h"
+#include "TGLobject_fast_directionalcannon_left.h"
+#include "TGLobject_fast_directionalcannon_right.h"
+#include "TGLobject_fast_directionalcannon_up.h"
+#include "TGLobject_fast_directionalcannon_down.h"
 #include "TGLobject_tank.h"
 #include "TGLobject_tank_turret.h"
 #include "TGLobject_tank_cannon.h"
@@ -168,6 +172,8 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 		TGLinterface::add_element(new TGLbutton("background",m_font16,10,110,80,20,8));
 
 		TGLinterface::add_element(new TGLbutton("mode",m_font16,10,140,80,20,3));
+		
+		TGLinterface::add_element(new TGLbutton("help",m_font16,550,10,80,20,16));
 		m_editor_mode=1;
 
 //		m_editor_focus_x=m_editor_level_editing->get_dx()/2;
@@ -283,7 +289,10 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 			m_editor_object_tiles.Add(m_GLTM->get("objects/button-blue-right1"));
 			m_editor_object_tiles.Add(m_GLTM->get("objects/button-blue-down1"));
 			m_editor_object_tiles.Add(m_GLTM->get("objects/button-blue-up1"));
-
+			m_editor_object_tiles.Add(m_GLTM->get("objects/fast-directionalcannon-left"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/fast-directionalcannon-right"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/fast-directionalcannon-down"));
+			m_editor_object_tiles.Add(m_GLTM->get("objects/fast-directionalcannon-up"));			
 		} // if 
 
 	} else {
@@ -422,6 +431,36 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 			m_editor_focus_y+=int(8/m_editor_real_zoom);	
 			if (m_editor_focus_y>m_editor_level_editing->get_dy()) m_editor_focus_y=m_editor_level_editing->get_dy();		
 		} // if
+		if (k->key_press(SDLK_q)) {
+			if (m_editor_mode==1 && m_editor_selected_tile>0) {
+				TGLTileBrowser *tb = (TGLTileBrowser *)TGLinterface::get(11);
+				if (tb!=NULL) {
+					m_editor_selected_tile--;
+					tb->setSelected(m_editor_selected_tile);
+				}
+			} else if (m_editor_mode==2 && m_editor_selected_object>0) {
+				TGLTileBrowser *tb = (TGLTileBrowser *)TGLinterface::get(14);
+				if (tb!=NULL) {
+					m_editor_selected_object--;
+					tb->setSelected(m_editor_selected_object);				
+				}
+			}
+		}
+		if (k->key_press(SDLK_a)) {
+			if (m_editor_mode==1) {
+				TGLTileBrowser *tb = (TGLTileBrowser *)TGLinterface::get(11);
+				if (tb!=NULL && m_editor_selected_tile < tb->getNEntries()-1) {
+					m_editor_selected_tile++;
+					tb->setSelected(m_editor_selected_tile);
+				}
+			} else if (m_editor_mode==2) {
+				TGLTileBrowser *tb = (TGLTileBrowser *)TGLinterface::get(14);
+				if (tb!=NULL && m_editor_selected_object < tb->getNEntries()-1) {
+					m_editor_selected_object++;
+					tb->setSelected(m_editor_selected_object);
+				}
+			}			
+		}
 
 //		if (m_editor_focus_x*m_editor_real_zoom < (SCREEN_X/2)) m_editor_focus_x = int((SCREEN_X/2)/m_editor_real_zoom);
 //		if (m_editor_focus_y*m_editor_real_zoom < (SCREEN_Y/2)) m_editor_focus_y = int((SCREEN_Y/2)/m_editor_real_zoom);
@@ -505,7 +544,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 				break;		
 
 		case 12: // LOAD
-				TGLinterface::add_element(new TGLConfirmation("Discard current map?",m_font16,320,200,112));
+				TGLinterface::add_element(new TGLConfirmation("Discard current map?",m_font16,320,200,112,true));
 				break;
 		case 112:
 				return TGL_STATE_LOADMAP;
@@ -513,6 +552,13 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 		case 13:
 				return TGL_STATE_SAVEMAP;
+				break;
+		case 16:
+				TGLinterface::add_element(new TGLConfirmation("Map Editor Help:\n\n"
+															  "Cursors - navigate the map\n"
+															  "SPACE - Insert Tile/Object\n"
+															  "DELETE - Delete Tile/Object\n"
+															  "q/a - Previous/Next Tile/Object",m_font16,320,200,-1,false));
 				break;
 		} // switch
 
@@ -698,6 +744,15 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,11));
 					} else if (m_editor_selected_object==51) {
 						m_editor_level_editing->add_object(new TGLobject_button(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0,0,10));
+
+					} else if (m_editor_selected_object==52) {
+						m_editor_level_editing->add_object(new TGLobject_fast_directionalcannon_left(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
+					} else if (m_editor_selected_object==53) {
+						m_editor_level_editing->add_object(new TGLobject_fast_directionalcannon_right(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
+					} else if (m_editor_selected_object==54) {
+						m_editor_level_editing->add_object(new TGLobject_fast_directionalcannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
+					} else if (m_editor_selected_object==55) {
+						m_editor_level_editing->add_object(new TGLobject_fast_directionalcannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} // if 
 
 					break;
@@ -742,7 +797,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 		} // if
 
 		// Right button pressed (but not over any interface element);
-		if ((ID==-1 && m_mouse_button==3) || k->key_press(SDLK_DELETE)) {
+		if ((ID==-1 && m_mouse_button==3) || k->key_press(SDLK_DELETE)  || k->key_press(SDLK_BACKSPACE)) {
 			switch(m_editor_mode) {
 			case 1:
 					{
@@ -923,7 +978,7 @@ void TGLapp::mapeditor_draw(void)
 	switch(m_editor_mode) {
 	case 1: TGLinterface::print_center("tiles",m_font16,50,180);
 
-			if (m_editor_insert_x!=-1 && m_editor_selected_tile!=-1) {
+			if (m_editor_insert_x!=-1 && !TGLinterface::mouse_over_element(m_mouse_x,m_mouse_y)) {
 				float x,y;
 
 				x = ((m_editor_insert_x-m_editor_focus_x)*m_editor_current_zoom) + (SCREEN_X/2);
@@ -949,7 +1004,7 @@ void TGLapp::mapeditor_draw(void)
 
 	case 2: TGLinterface::print_center("objects",m_font16,50,180);
 
-			if (m_editor_insert_x!=-1 && m_editor_selected_object!=-1) {
+			if (m_editor_insert_x!=-1 && m_editor_selected_object!=-1 && !TGLinterface::mouse_over_element(m_mouse_x,m_mouse_y)) {
 				float x,y;
 				GLTile *t = m_editor_object_tiles[m_editor_selected_object];
 
@@ -972,7 +1027,7 @@ void TGLapp::mapeditor_draw(void)
 				glPopMatrix();
 			} // if
 
-			if (m_mb_object_under_pointer!=0) {
+			if (m_mb_object_under_pointer!=0 && !TGLinterface::mouse_over_element(m_mouse_x,m_mouse_y)) {
 				float x,y;
 				GLTile *t = m_mb_object_under_pointer->get_last_tile();
 

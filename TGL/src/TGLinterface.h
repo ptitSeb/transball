@@ -6,6 +6,7 @@ public:
 	TGLInterfaceElement();
 	virtual ~TGLInterfaceElement();
 
+	virtual bool mouse_over(int mousex,int mousey);
 	virtual bool check_status(int mousex,int mousey,int button,int button_status,class KEYBOARDSTATE *k);
 	virtual void draw(float alpha);
 	virtual void draw(void);
@@ -46,6 +47,7 @@ public:
 	TGLbutton(GLTile *icon,float x,float y,float dx,float dy,int ID);
 	virtual ~TGLbutton();
 
+	virtual bool mouse_over(int mousex,int mousey);
 	virtual bool check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);
 	virtual void draw(float alpha);
 	virtual void draw(void);
@@ -85,6 +87,7 @@ public:
 	TGLTextInputFrame(char *initial_text,int max_characters,TTF_Font *font,float x,float y,float dx,float dy,int ID);
 	virtual ~TGLTextInputFrame();
 
+	virtual bool mouse_over(int mousex,int mousey);
 	virtual bool check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);
 	virtual void draw(float alpha);
 	virtual void draw(void);
@@ -105,6 +108,7 @@ public:
 	TGLslider(float x,float y,float dx,float dy,float slider_dx,float slider_dy,int ID);
 	virtual ~TGLslider();
 
+	virtual bool mouse_over(int mousex,int mousey);
 	virtual bool check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);
 	virtual void draw(float alpha);
 	virtual void draw(void);
@@ -126,7 +130,9 @@ public:
 	void deleteEntry(int i);
 	void setSelected(int i);
 	int getSelected(void);
+	int getNEntries();
 
+	virtual bool mouse_over(int mousex,int mousey);
 	virtual bool check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);
 	virtual void draw(float alpha);
 	virtual void draw(void);
@@ -152,7 +158,9 @@ public:
 	void deleteEntry(int i);
 	void setSelected(int i);
 	int getSelected(void);
+	int getNEntries();
 
+	virtual bool mouse_over(int mousex,int mousey);
 	virtual bool check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);
 	virtual void draw(float alpha);
 	virtual void draw(void);
@@ -168,7 +176,8 @@ public:
 class TGLConfirmation : public TGLInterfaceElement {
 public:
 
-	TGLConfirmation(char *message,TTF_Font *font,float x,float y,int ID);
+	// Separate the different lines of the message with '\n' characters:
+	TGLConfirmation(char *message,TTF_Font *font,float x,float y,int ID,bool cancelOption);
 	virtual ~TGLConfirmation();
 
 	virtual bool check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);
@@ -176,12 +185,10 @@ public:
 	virtual void draw(void);
 
 	TTF_Font *m_font;
-	char *m_message;
+	List<char> m_message_lines;
 	int m_state,m_cycle;
 	TGLbutton *m_ok_button,*m_cancel_button;
 };
-
-
 
 
 
@@ -194,6 +201,7 @@ public:
 	static void remove_element(int ID);
 	static void substitute_element(TGLInterfaceElement *old,TGLInterfaceElement *n);
 	static void reset(void);
+	static bool mouse_over_element(int mousex, int mousey);
 	static int update_state(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);
 	static void draw(float alpha);
 	static void draw(void);

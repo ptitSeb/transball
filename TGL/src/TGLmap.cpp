@@ -66,6 +66,10 @@
 #include "TGLobject_ha_directionalcannon_right.h"
 #include "TGLobject_ha_directionalcannon_up.h"
 #include "TGLobject_ha_directionalcannon_down.h"
+#include "TGLobject_fast_directionalcannon_left.h"
+#include "TGLobject_fast_directionalcannon_right.h"
+#include "TGLobject_fast_directionalcannon_up.h"
+#include "TGLobject_fast_directionalcannon_down.h"
 #include "TGLobject_tank.h"
 #include "TGLobject_tank_turret.h"
 #include "TGLobject_tank_cannon.h"
@@ -187,6 +191,10 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 			if (strcmp(tmp,"ha-directional-cannon-right")==0) add_object(new TGLobject_ha_directionalcannon_right(x,y,animation_offset));
 			if (strcmp(tmp,"ha-directional-cannon-up")==0) add_object(new TGLobject_ha_directionalcannon_up(x,y,animation_offset));
 			if (strcmp(tmp,"ha-directional-cannon-down")==0) add_object(new TGLobject_ha_directionalcannon_down(x,y,animation_offset));	
+			if (strcmp(tmp,"fast-directional-cannon-left")==0) add_object(new TGLobject_fast_directionalcannon_left(x,y,animation_offset));	
+			if (strcmp(tmp,"fast-directional-cannon-right")==0) add_object(new TGLobject_fast_directionalcannon_right(x,y,animation_offset));
+			if (strcmp(tmp,"fast-directional-cannon-up")==0) add_object(new TGLobject_fast_directionalcannon_up(x,y,animation_offset));
+			if (strcmp(tmp,"fast-directional-cannon-down")==0) add_object(new TGLobject_fast_directionalcannon_down(x,y,animation_offset));	
 			if (strcmp(tmp,"grey-tank")==0) {
 				TGLobject_enemy *tank,*turret,*cannon;
 				tank=new TGLobject_tank(x,y,animation_offset,0);
@@ -1521,6 +1529,10 @@ void TGLmap::save(FILE *fp,GLTManager *GLTM)
 			if (o->is_a("TGLobject_ha_directionalcannon_right")) no++;
 			if (o->is_a("TGLobject_ha_directionalcannon_up")) no++;
 			if (o->is_a("TGLobject_ha_directionalcannon_down")) no++;
+			if (o->is_a("TGLobject_fast_directionalcannon_left")) no++;
+			if (o->is_a("TGLobject_fast_directionalcannon_right")) no++;
+			if (o->is_a("TGLobject_fast_directionalcannon_up")) no++;
+			if (o->is_a("TGLobject_fast_directionalcannon_down")) no++;
 			if (o->is_a("TGLobject_tank")) no++;
 			if (o->is_a("TGLobject_big_tank")) no++;
 			if (o->is_a("TGLobject_leftdoor")) no++;
@@ -1566,6 +1578,11 @@ void TGLmap::save(FILE *fp,GLTManager *GLTM)
 			if (o->is_a("TGLobject_ha_directionalcannon_right")) fprintf(fp,"ha-directional-cannon-right %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
 			if (o->is_a("TGLobject_ha_directionalcannon_up")) fprintf(fp,"ha-directional-cannon-up %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
 			if (o->is_a("TGLobject_ha_directionalcannon_down")) fprintf(fp,"ha-directional-cannon-down %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_fast_directionalcannon_left")) fprintf(fp,"fast-directional-cannon-left %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_fast_directionalcannon_right")) fprintf(fp,"fast-directional-cannon-right %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_fast_directionalcannon_up")) fprintf(fp,"fast-directional-cannon-up %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_fast_directionalcannon_down")) fprintf(fp,"fast-directional-cannon-down %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+
 			if (o->is_a("TGLobject_tank") && ((TGLobject_tank *)o)->get_type()==0) fprintf(fp,"grey-tank %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
 			if (o->is_a("TGLobject_tank") && ((TGLobject_tank *)o)->get_type()==1) fprintf(fp,"red-tank %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
 			if (o->is_a("TGLobject_tank") && ((TGLobject_tank *)o)->get_type()==2) fprintf(fp,"green-tank %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));

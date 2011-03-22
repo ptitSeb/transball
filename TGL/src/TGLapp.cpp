@@ -73,15 +73,12 @@ TGLapp::TGLapp()
 		output_debug_message("CWD %s\n",getcwd(tmp,256));
 	}
 #endif
-	strcpy(m_player_data_path,"");
-	// This code was an attempt to make TGL a bundle in MacOX, but didn't work, since bundles are read only... (and, in principle, maps, etc.
-	// should be able to be edited using the map editor...) 
-//	sprintf(m_player_data_path,"%s/.transballGL/",getenv("HOME"));
-//	system("mkdir ~/.transballGL");
-//	system("mkdir ~/.transballGL/players");
-//	system("mkdir ~/.transballGL/other-players");
-//	system("mkdir ~/.transballGL/replays");
-//	system("mkdir ~/.transballGL/maps");
+	sprintf(m_player_data_path,"%s/.transballGL/",getenv("HOME"));
+	system("mkdir ~/.transballGL");
+	system("mkdir ~/.transballGL/players");
+	system("mkdir ~/.transballGL/other-players");
+	system("mkdir ~/.transballGL/replays");
+	system("mkdir ~/.transballGL/maps");
 #endif
 
 	m_font32=TTF_OpenFont("fonts/arial.ttf",32);
@@ -175,6 +172,17 @@ TGLapp::~TGLapp()
 	TTF_CloseFont(m_ifont32);
 
 	save_playerprofile();
+	
+	// save which was the last open player profile:
+	if (m_player_profile!=NULL) {
+		char tmp[256];
+		sprintf(tmp,"%slastplayer",m_player_data_path);
+		FILE *fp=fopen(tmp,"w+");
+		if (fp!=NULL) {
+			fprintf(fp, m_player_profile->m_name);
+			fclose(fp);
+		}
+	}
 
 	if (m_mm_game!=0) delete m_mm_game;
 	m_mm_game=0;

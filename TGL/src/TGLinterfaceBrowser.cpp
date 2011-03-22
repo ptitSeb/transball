@@ -166,6 +166,14 @@ void TGLBrowser::draw(float alpha)
 } /* TGLBrowser::draw */ 
 
 
+bool TGLBrowser::mouse_over(int mousex,int mousey)
+{
+	if (mousex>=m_x && mousex<m_x+m_dx &&
+		mousey>=m_y && mousey<m_y+m_dy) return true;
+	return false;
+}
+
+
 bool TGLBrowser::check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k)
 {
 	if (mousex>m_x && mousex<m_x+(m_dx-20) && mousey>m_y && mousey<m_y+m_dy) {
@@ -245,3 +253,10 @@ int TGLBrowser::getSelected(void)
 {
 	return m_selected;
 } /* TGLBrowser::getSelected */ 
+
+
+int TGLBrowser::getNEntries() 
+{
+	return m_entries.Length();
+}
+

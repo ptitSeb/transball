@@ -185,6 +185,14 @@ void TGLTileBrowser::draw(float alpha)
 } /* TGLTileBrowser::draw */ 
 
 
+bool TGLTileBrowser::mouse_over(int mousex,int mousey)
+{
+	if (mousex>=m_x && mousex<m_x+m_dx &&
+		mousey>=m_y && mousey<m_y+m_dy) return true;
+	return false;
+}
+
+
 bool TGLTileBrowser::check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k)
 {
 	int height = 0;
@@ -270,6 +278,39 @@ void TGLTileBrowser::setSelected(int i)
 	if (i<-1) i=-1;
 	if (i>=m_entries.Length()) i = m_entries.Length()-1;
 	m_selected = i;
+	
+	int height = 0;
+	{
+		GLTile *t;
+		List<GLTile> l;
+		l.Instance(m_entries);
+		while(l.Iterate(t)) height+=t->get_dy()+4;
+	}
+	int first_y = int(-(m_slider_pos/(m_dy-8))*height);
+
+	int current = 0;
+	int selected_y = 0;
+	int selected_height = 0;
+	GLTile *t;
+	List<GLTile> l;
+	l.Instance(m_entries);
+	while(l.Iterate(t)) {
+		if (current == m_selected) {
+			selected_height = t->get_dy()+4;
+
+			break;
+		}
+		current++;
+		selected_y=selected_y+t->get_dy()+4;
+	} // while
+
+	if (selected_y+first_y < 0) {
+		m_slider_pos = (float(selected_y)*(m_dy-8))/height;
+	} else if (selected_y+first_y+selected_height > m_dy) {
+		m_slider_pos = (float(selected_y+selected_height - (m_dy-8))*(m_dy-8))/height;
+	}		
+
+	
 } /* TGLTileBrowser::setSelected */ 
 
 
@@ -277,3 +318,10 @@ int TGLTileBrowser::getSelected(void)
 {
 	return m_selected;
 } /* TGLTileBrowser::getSelected */ 
+
+
+int TGLTileBrowser::getNEntries() 
+{
+	return m_entries.Length();
+}
+

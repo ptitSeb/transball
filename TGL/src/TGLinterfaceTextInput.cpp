@@ -155,6 +155,14 @@ void TGLTextInputFrame::draw(void)
 } /* TGLTextInputFrame::draw */ 
 
 
+bool TGLTextInputFrame::mouse_over(int mousex,int mousey)
+{
+	if (mousex>=m_x && mousex<m_x+m_dx &&
+		mousey>=m_y && mousey<m_y+m_dy) return true;
+	return false;
+}
+
+
 bool TGLTextInputFrame::check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k)
 {
 	m_cycle++;
