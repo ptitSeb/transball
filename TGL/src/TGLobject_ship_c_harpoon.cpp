@@ -154,23 +154,46 @@ bool TGLobject_ship_c_harpoon::cycle(VirtualController *k,TGLmap *map,GLTManager
 		map->add_auxiliary_back_object(grabber);
 	} // if 
 
-
 	// Check for collision:
 	if (map->collision(this,0,0,0)) {
-		Sound_play(SFXM->get("sfx/explosion"),sfx_volume);
-		map->add_auxiliary_front_object(new TGLobject_FX_explosion2(get_x(),get_y(),256,200));
-
-		TGLobject_ship_chain *link;
-
-		m_chain.Rewind();
-		while(m_chain.Iterate(link)) map->remove_auxiliary_back_object(link);
-		m_chain.Delete();
-		map->remove_auxiliary_back_object(m_grabber);
-		map->remove_auxiliary_front_object(m_grabber);
-		delete m_grabber;
-		m_grabber=0;		
-
-		return false;
+		if (!map->collision_with_foreground(this,0,0,0)) {
+			TGLobject *obj = map->collision_with_object(this);
+			if (obj->is_a("TGLobject_soft_bullet")) {
+				int a=obj->get_angle()-90;
+				while(a<0) a+=360;
+				while(a>=360) a-=360;
+				m_speed_x+=float(cos_table[a]*54.0)/256.0f;
+				m_speed_y+=float(sin_table[a]*54.0)/256.0f;
+			} else {
+				Sound_play(SFXM->get("sfx/explosion"),sfx_volume);
+				map->add_auxiliary_front_object(new TGLobject_FX_explosion2(get_x(),get_y(),256,200));
+				
+				TGLobject_ship_chain *link;
+				
+				m_chain.Rewind();
+				while(m_chain.Iterate(link)) map->remove_auxiliary_back_object(link);
+				m_chain.Delete();
+				map->remove_auxiliary_back_object(m_grabber);
+				map->remove_auxiliary_front_object(m_grabber);
+				delete m_grabber;
+				m_grabber=0;		
+				return false;
+			}
+		} else {
+			Sound_play(SFXM->get("sfx/explosion"),sfx_volume);
+			map->add_auxiliary_front_object(new TGLobject_FX_explosion2(get_x(),get_y(),256,200));
+			
+			TGLobject_ship_chain *link;
+			
+			m_chain.Rewind();
+			while(m_chain.Iterate(link)) map->remove_auxiliary_back_object(link);
+			m_chain.Delete();
+			map->remove_auxiliary_back_object(m_grabber);
+			map->remove_auxiliary_front_object(m_grabber);
+			delete m_grabber;
+			m_grabber=0;		
+			return false;
+		}
 	} // if 
 
 	m_thrusting=false;

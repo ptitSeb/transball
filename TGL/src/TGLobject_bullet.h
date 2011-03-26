@@ -19,4 +19,13 @@ protected:
 	GLTile *m_tile;
 };
 
+class TGLobject_soft_bullet : public TGLobject_bullet {
+public:
+	TGLobject_soft_bullet(float x,float y,int animation_offset,int angle,float speed,int power,GLTile *tile,TGLobject *ship);
+
+	virtual bool is_a(char *n);
+	virtual bool is_a(Symbol *n);
+	virtual const char *get_class(void);
+};
+
 #endif

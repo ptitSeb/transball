@@ -86,7 +86,17 @@ bool TGLobject_ship_dflecter::cycle(VirtualController *k,TGLmap *map,GLTManager 
 
 	// Check for collision:
 	if (map->collision(this,0,0,0)) {
-		m_collision_counter++;
+		TGLobject *obj = map->collision_with_object(this);
+		if (obj!=NULL && obj->is_a("TGLobject_soft_bullet")) {
+			int a=obj->get_angle()-90;
+			while(a<0) a+=360;
+			while(a>=360) a-=360;
+			m_speed_x+=float(cos_table[a]*54.0)/256.0f;
+			m_speed_y+=float(sin_table[a]*54.0)/256.0f;
+			m_collision_counter=0;
+		} else {
+			m_collision_counter++;
+		}
 	} else {
 		m_collision_counter=0;
 	} // if

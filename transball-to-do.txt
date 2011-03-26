@@ -1,12 +1,18 @@
 To do in "Transball GL": --------------------------------------------------------
 
-***- en highscores, mostrar para empezar el level pack actual
+- Change 2007 to 2011 in the intro sequence
+***- Store which was the last level pack you were playing in
+***- New ships:
+	- T3-FORK: slow like X-terminator, fires 3 bullets at a time
+	- PULSAR-A3: fires a ripple (like in salamander). Not very powerful, but very useful for bloquing bulllets
+***- improve UI of map editor:
+	- in mac, recognize the two-finger swipe to scrill around
+	- "smart mode", where you can choose between: rock, snow, tech, pipe, and it auto generates all the edges
+	***- in MAC, what happens when you try to save a map when running it as a bundle? should the map editor allow you to only edit your local maps?
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
 - Nuevos elementos:
     - Mas tiles
-	- ascensores (debes meterte en ellos, y moverte con ellos, tanto horizontales como verticales)
-	- CaÒones direccionales r·pidos (metralletas, con balas pequeÒas y azules que te quitan fuel y
-					 te desplazan un poco)
+	- Giant rotating cogs (the ships fit in between the teeth)
 	- Mega Tanques: te siguen, disparan misiles, son inmensos y requieren un huevo de toques
 	- Agua: hace que todo sea más lento y casi anula la gravedad. La bola flota
 - Modos 2 jugadores:
@@ -23,10 +29,10 @@ To do in "Transball GL": -------------------------------------------------------
         - los disparos de el adversario/colaborador te quitan fuel, te desplazan un poco, y te quitan la bola
     - En red:
         - cuando te conectas a otro ordenador, se sincronizan los highscores ("other-players" folder)
-- M˙sica en el menu principal
-- M˙sica/loop de sonido durante el juego 
+- Musica en el menu principal
+- Musica/loop de sonido durante el juego 
 
-- Para las instrucciones (aÒadir a los tutoriales):
+- Para las instrucciones (añadir a los tutoriales):
     - Para que el atractor funcione, la nave tiene que ir lenta! (lo mismo para el grabber the harpoon)
     - "Only the ship which has captured the ball can fire through it"
     - Harpoon:

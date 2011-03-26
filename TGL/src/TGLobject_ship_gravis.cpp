@@ -82,11 +82,26 @@ bool TGLobject_ship_gravis::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 
 	// Check for collision:
 	if (map->collision(this,0,0,0)) {
-		Sound_play(SFXM->get("sfx/explosion"),sfx_volume);
-		map->add_auxiliary_front_object(new TGLobject_FX_explosion2(get_x(),get_y(),256,200));
-		return false;
+		if (!map->collision_with_foreground(this,0,0,0)) {
+			TGLobject *obj = map->collision_with_object(this);
+			if (obj->is_a("TGLobject_soft_bullet")) {
+				int a=obj->get_angle()-90;
+				while(a<0) a+=360;
+				while(a>=360) a-=360;
+				m_speed_x+=float(cos_table[a]*48.0)/256.0f;
+				m_speed_y+=float(sin_table[a]*48.0)/256.0f;
+			} else {
+				Sound_play(SFXM->get("sfx/explosion"),sfx_volume);
+				map->add_auxiliary_front_object(new TGLobject_FX_explosion2(get_x(),get_y(),256,200));
+				return false;
+			}
+		} else {
+			Sound_play(SFXM->get("sfx/explosion"),sfx_volume);
+			map->add_auxiliary_front_object(new TGLobject_FX_explosion2(get_x(),get_y(),256,200));
+			return false;
+		}
 	} // if 
-
+			
 	m_thrusting=false;
 	m_attracting=false;
 
