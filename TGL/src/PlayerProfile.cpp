@@ -57,6 +57,7 @@
 
 <player-profile>
   <name>player</name>
+  <lastlevelpack>maps/st2.lp</lastlevelpack>
   <video>
     <mode>window</mode>
     <resolutionx>640</resolutionx>
@@ -130,6 +131,9 @@ PlayerProfile::PlayerProfile(char *name)
 	m_ships.Add(new int(0));
 	m_ships.Add(new int(1));
 	m_ships.Add(new int(2));
+	
+	m_last_levelpack = new char[12];
+	strcpy(m_last_levelpack,"maps/st2.lp");
 } /* PlayerProfile::PlayerProfile */ 
 
 
@@ -137,6 +141,7 @@ PlayerProfile::PlayerProfile(char *name)
 PlayerProfile::PlayerProfile(FILE *fp)
 {
 	m_name=0;
+	m_last_levelpack=0;
 	m_fullscreen=false;
 	m_resolution_x=640;
 	m_resolution_y=480;
@@ -153,10 +158,11 @@ PlayerProfile::PlayerProfile(FILE *fp)
 	m_keys_configuration[0][KEY_QUIT]=SDLK_ESCAPE;
 
 	XMLNode *node=XMLNode::from_file(fp);
-	XMLNode *name,*video,*audio,*input,*ships,*progress;
+	XMLNode *name,*video,*audio,*input,*ships,*progress,*lastlevelpack;
 	XMLNode *tmp;
 
 	name=node->get_children("name");
+	lastlevelpack=node->get_children("lastlevelpack");
 	video=node->get_children("video");
 	audio=node->get_children("audio");
 	input=node->get_children("input");
@@ -167,6 +173,14 @@ PlayerProfile::PlayerProfile(FILE *fp)
 		m_name = new char[strlen(name->get_value()->get())+1];
 		strcpy(m_name,name->get_value()->get());
 	} // if 
+	
+	if (lastlevelpack!=0) {
+		m_last_levelpack = new char[strlen(lastlevelpack->get_value()->get())+1];
+		strcpy(m_last_levelpack,lastlevelpack->get_value()->get());
+	} else {
+		m_last_levelpack = new char[12];
+		strcpy(m_last_levelpack,"maps/st2.lp");
+	}
 
 	if (video!=0) {
 		tmp = video->get_children("mode");
@@ -295,6 +309,8 @@ PlayerProfile::~PlayerProfile()
 {
 	if (m_name!=0) delete []m_name;
 	m_name=0;
+	if (m_last_levelpack!=0) delete []m_last_levelpack;
+	m_last_levelpack=0;
 } /* PlayerProfile::~PlayerProfile */ 
 
 
@@ -306,6 +322,7 @@ bool PlayerProfile::save(FILE *fp)
 
 	fprintf(fp,"<player-profile>\n");
 	if (m_name!=0) fprintf(fp,"  <name>%s</name>\n",m_name);
+	if (m_last_levelpack!=0) fprintf(fp,"  <lastlevelpack>%s</lastlevelpack>\n",m_last_levelpack);
 	fprintf(fp,"  <video>\n");
 	fprintf(fp,"    <mode>%s</mode>\n",(m_fullscreen ? "fullscreen":"window"));
 	fprintf(fp,"    <resolutionx>%i</resolutionx>\n",m_resolution_x);
@@ -576,4 +593,18 @@ int PlayerProfile::get_accumulated_time(char *lp_id)
 
 	return time;
 } /* PlayerProfile::get_accumulated_time */ 
+
+
+void PlayerProfile::set_last_levelpack(char *id)
+{
+	if (m_last_levelpack!=0) delete []m_last_levelpack;
+	m_last_levelpack = new char[strlen(id)+1];
+	strcpy(m_last_levelpack,id);
+}
+
+
+char *PlayerProfile::get_last_levelpack()
+{
+	return m_last_levelpack;
+}
 

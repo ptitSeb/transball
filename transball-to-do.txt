@@ -1,17 +1,16 @@
 To do in "Transball GL": --------------------------------------------------------
 
 - Change 2007 to 2011 in the intro sequence
-***- Store which was the last level pack you were playing in
 ***- New ships:
 	- T3-FORK: slow like X-terminator, fires 3 bullets at a time
 	- PULSAR-A3: fires a ripple (like in salamander). Not very powerful, but very useful for bloquing bulllets
 ***- improve UI of map editor:
-	- in mac, recognize the two-finger swipe to scrill around
+	- in mac, recognize the two-finger swipe to scroll around
 	- "smart mode", where you can choose between: rock, snow, tech, pipe, and it auto generates all the edges
 	***- in MAC, what happens when you try to save a map when running it as a bundle? should the map editor allow you to only edit your local maps?
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
 - Nuevos elementos:
-    - Mas tiles
+    	- Mas tiles
 	- Giant rotating cogs (the ships fit in between the teeth)
 	- Mega Tanques: te siguen, disparan misiles, son inmensos y requieren un huevo de toques
 	- Agua: hace que todo sea más lento y casi anula la gravedad. La bola flota

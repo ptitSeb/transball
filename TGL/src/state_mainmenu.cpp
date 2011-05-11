@@ -41,6 +41,7 @@
 #include "TGLinterface.h"
 
 #include "LevelPack.h"
+#include "PlayerProfile.h"
 
 
 int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
@@ -111,15 +112,11 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 				if (m_current_levelpack!=0) delete m_current_levelpack;
 				{
 					FILE *fp;
-					fp=fopen("maps/st2.lp","rb");
-			//		fp=fopen("maps/sa.lp","rb");
-			//		fp=fopen("maps/expert.lp","rb");
-			//		fp=fopen("maps/tutorial.lp","rb");
+					fp=fopen(get_player_profile()->get_last_levelpack(),"rb");
 					if (fp!=0) {
 						m_current_levelpack=new LevelPack(fp,m_GLTM);
 						fclose(fp);
-
-			//			return TGL_STATE_REPLAYBROWSER;
+						
 						return TGL_STATE_LEVELPACKSCREEN;
 					} else {
 						return TGL_STATE_NONE;

@@ -37,7 +37,10 @@ public:
 	int m_keys_configuration[MAXLOCAL_PLAYERS][8];
 	List<PlayerProfileLPProgress> m_progress;
 	List<int> m_ships;
+	char *m_last_levelpack;	// name of the last level pack that the player had open
 
+	void set_last_levelpack(char *id);
+	char *get_last_levelpack();
 	int progress_in_levelpack(char *id);
 	int number_of_times_completed(char *lpid,int level);
 	void level_completed(char *player_data_path,char *levelpack_id,int level,TGLreplay *replay,LevelPack *lp);

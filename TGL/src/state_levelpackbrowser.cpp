@@ -256,6 +256,8 @@ int TGLapp::levelpackbrowser_cycle(KEYBOARDSTATE *k)
 						if (lp!=0) {
 							if (m_current_levelpack!=0) delete m_current_levelpack;
 							m_current_levelpack=lp;
+							
+							get_player_profile()->set_last_levelpack(m_lpb_lp_fullnames[m_lpb_lp_selected]);
 						} // if 
 						return TGL_STATE_LEVELPACKSCREEN;
 					} else {
