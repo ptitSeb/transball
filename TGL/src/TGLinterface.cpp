@@ -489,11 +489,11 @@ bool TGLbutton::check_status(int mousex,int mousey,int button,int button_status,
 
 	if (mousex>=m_x && mousex<m_x+m_dx &&
 		mousey>=m_y && mousey<m_y+m_dy) {
-		if (button==0) {
-			m_status=1;
-		} else {
+		if (button==1) {
 			m_status=2;
 			return true;
+		} else {
+			m_status=1;
 		} // if 
 	} else {
 		m_status=0;

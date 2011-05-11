@@ -337,6 +337,9 @@ int main(int argc, char** argv)
                 case SDL_QUIT:
                     quit = true;
                     break;
+					
+//				default:
+//					output_debug_message("Event: event.type: %i\n",event.type );
             } /* switch */ 
         } /* while */ 
 

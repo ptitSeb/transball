@@ -189,14 +189,14 @@ bool TGLBrowser::check_status(int mousex,int mousey,int button,int button_status
 		m_mouse_over = -1;
 	} // if 
 
-	if (button_status!=0 && mousex>m_x+(m_dx-20) && mousex<m_x+m_dx && mousey>m_y && mousey<m_y+m_dy) {
+	if (button_status==1 && mousex>m_x+(m_dx-20) && mousex<m_x+m_dx && mousey>m_y && mousey<m_y+m_dy) {
 		float p = (mousey-m_y-(m_slider_height/2))/(m_dy-8-m_slider_height);
 		if (p<0) p=0;
 		if (p>1) p=1;
 		m_slider_pos = p*(m_dy-8-m_slider_height);
 	} // if
 
-	if (m_mouse_over != -1 && button!=0) {
+	if (m_mouse_over != -1 && button==1) {
 		m_selected = m_mouse_over;
 		
 		m_old_mouse_x = mousex;
