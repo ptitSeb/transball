@@ -153,6 +153,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 		// CREATE THE INTERFACE:
 		// - 11 is the tile browser for the tile mode
 		// - 14 is the tile browser for the object mode
+		// - 17 is the tile browser for the smart mode
 
 		TGLinterface::reset();
 		TGLinterface::add_element(new TGLbutton("accept",m_font16,10,450,80,20,1));
@@ -294,6 +295,14 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 			m_editor_object_tiles.Add(m_GLTM->get("objects/fast-directionalcannon-down"));
 			m_editor_object_tiles.Add(m_GLTM->get("objects/fast-directionalcannon-up"));			
 		} // if 
+		
+		
+		if (m_editor_smart_tiles.EmptyP()) {
+			m_editor_smart_tiles.Add(m_GLTM->get("foreground/wall1"));
+			m_editor_smart_tiles.Add(m_GLTM->get("foreground/wall-snow1"));
+			m_editor_smart_tiles.Add(m_GLTM->get("foreground/wall-techno1"));
+			m_editor_smart_tiles.Add(m_GLTM->get("foreground/pipe-vertical1"));
+		}
 
 	} else {
 		// Create the variable part of the interface depending on the selected mode:
@@ -301,6 +310,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 		case 1: // TILES
 				TGLinterface::remove_element(14);
 				TGLinterface::remove_element(15);
+				TGLinterface::remove_element(17);
 				{
 					TGLTileBrowser *tb = (TGLTileBrowser *)TGLinterface::get(11);
 					if (tb==0) {
@@ -320,7 +330,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 		case 2: // OBJECTS
 				TGLinterface::remove_element(11);
 				TGLinterface::remove_element(15);
-
+				TGLinterface::remove_element(17);
 				{
 					TGLTileBrowser *tb = (TGLTileBrowser *)TGLinterface::get(14);
 					if (tb==0) {
@@ -358,6 +368,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 		case 3: TGLinterface::remove_element(11);
 				TGLinterface::remove_element(14);
 				TGLinterface::remove_element(15);
+				TGLinterface::remove_element(17);
 				
 				// Check if the pointer is over an object (for the delete pointer):
 				{
@@ -374,9 +385,27 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 					} // if
 
 					m_mb_object_under_pointer = m_editor_level_editing->collision_with_object(float(mouse_x),float(mouse_y));
-
 				}
+				break;
+				
+		case 4: // SMART MODE
+				TGLinterface::remove_element(11);
+				TGLinterface::remove_element(14);
+				TGLinterface::remove_element(15);
 
+				{
+					TGLTileBrowser *tb = (TGLTileBrowser *)TGLinterface::get(17);
+					if (tb==0) {
+						GLTile *t;
+						tb = new TGLTileBrowser(10,180,70,256,17);
+						TGLinterface::add_element(tb);
+						
+						m_editor_smart_tiles.Rewind();
+						while(m_editor_smart_tiles.Iterate(t)) tb->addEntry(t);
+					} // if
+					
+					m_editor_selected_tile = tb->getSelected();
+				}
 				break;
 
 		} // switch
@@ -484,7 +513,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 		case 3:	// MODE
 				m_editor_mode++;
-				if (m_editor_mode>3) m_editor_mode=1;
+				if (m_editor_mode>4) m_editor_mode=1;
 				break;
 
 		case 4: if (m_editor_level_editing->m_fg_dx>16) m_editor_level_editing->resize(m_editor_level_editing->m_fg_dx-1,m_editor_level_editing->m_fg_dy,m_GLTM);
@@ -546,11 +575,11 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 		} // switch
 
 		// Move around:
-		if ((ID==-1 && m_mouse_button==SDL_BUTTON_WHEELLEFT) || k->keyboard[SDLK_LEFT] || m_mouse_x<8) {
+		if (/*(ID==-1 && m_mouse_button==SDL_BUTTON_WHEELLEFT) || */k->keyboard[SDLK_LEFT] || m_mouse_x<8) {
 			m_editor_focus_x-=int(8/m_editor_real_zoom);
 			if (m_editor_focus_x<0) m_editor_focus_x=0;
 		} // if
-		if ((ID==-1 && m_mouse_button==SDL_BUTTON_WHEELRIGHT) || k->keyboard[SDLK_RIGHT] || m_mouse_x>=SCREEN_X-8) {
+		if (/*(ID==-1 && m_mouse_button==SDL_BUTTON_WHEELRIGHT) || */k->keyboard[SDLK_RIGHT] || m_mouse_x>=SCREEN_X-8) {
 			m_editor_focus_x+=int(8/m_editor_real_zoom);
 			if (m_editor_focus_x>m_editor_level_editing->get_dx()) m_editor_focus_x=m_editor_level_editing->get_dx();
 		} // if
@@ -794,6 +823,19 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 					} // if
 
 					break;
+			case 4: // SMART MODE CLICK:
+				{
+					if (m_editor_selected_tile!=-1 &&
+						m_editor_insert_x!=-1) {
+						int offs = m_editor_insert_x/32 + (m_editor_insert_y/32)*m_editor_level_editing->m_fg_dx;
+						
+						// compute the smar ttile:
+						// ...
+						
+						m_editor_level_editing->m_fg[offs]=m_editor_tiles[m_editor_selected_tile];
+					} // if
+				}
+					break;
 			} // if
 		} // if
 
@@ -942,6 +984,16 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 							} // if 							
 						} // if
 					} // if
+					break;
+					
+			case 4: // SMART MODE CLICK:
+					{
+						if (m_editor_selected_tile!=-1 &&
+							m_editor_insert_x!=-1) {
+							int offs = m_editor_insert_x/32 + (m_editor_insert_y/32)*m_editor_level_editing->m_fg_dx;
+							m_editor_level_editing->m_fg[offs]=0;
+						} // if
+					}
 					break;
 			} // if
 		} // if
@@ -1139,6 +1191,33 @@ void TGLapp::mapeditor_draw(void)
 				delete l;
 			}
 			break;
+			
+	case 4: TGLinterface::print_center("smart",m_font16,50,180);
+			
+			if (m_editor_insert_x!=-1 && !TGLinterface::mouse_over_element(m_mouse_x,m_mouse_y)) {
+				float x,y;
+				
+				x = ((m_editor_insert_x-m_editor_focus_x)*m_editor_current_zoom) + (SCREEN_X/2);
+				y = ((m_editor_insert_y+STARFIELD-m_editor_focus_y)*m_editor_current_zoom) + (SCREEN_Y/2);
+				
+				glPushMatrix();
+				glTranslatef(x,y,0);
+				glBegin(GL_LINES);
+				glColor4f(1,1,1,1);
+				glVertex3f(0,0,0);
+				glVertex3f(32*m_editor_current_zoom,0,0);
+				glVertex3f(0,32*m_editor_current_zoom,0);
+				glVertex3f(32*m_editor_current_zoom,32*m_editor_current_zoom,0);
+				glVertex3f(0,0,0);
+				glVertex3f(0,32*m_editor_current_zoom,0);
+				glVertex3f(32*m_editor_current_zoom,0,0);
+				glVertex3f(32*m_editor_current_zoom,32*m_editor_current_zoom,0);
+				glEnd();
+				glPopMatrix();
+			} // if
+			
+			break;
+			
 	} // switch
 	
 

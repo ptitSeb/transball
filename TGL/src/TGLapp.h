@@ -259,6 +259,7 @@ protected:
 	int m_editor_selected_tile,m_editor_selected_object;
 	List<GLTile> m_editor_tiles;
 	List<GLTile> m_editor_object_tiles;
+	List<GLTile> m_editor_smart_tiles;
 	int m_editor_insert_x,m_editor_insert_y;
 
 	// Load/Save maps:
