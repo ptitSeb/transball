@@ -1,13 +1,15 @@
 To do in "Transball GL": --------------------------------------------------------
 
 - Change 2007 to 2011 in the intro sequence
+***- switch to SDL1.3 -> get it from mercurial (I need it to detect horizontal mouse events)
+***- improve UI of map editor:
+	***- in mac, recognize the two-finger swipe to scroll around: mouse button events -> 4: up, 5: down, 6: left, 7: right
+	- "smart mode", where you can choose between: rock, snow, tech, pipe, and it auto generates all the edges:
+		***- list of "smart_tile_candidates". Only select from those
+	- in MAC, what happens when you try to save a map when running it as a bundle? should the map editor allow you to only edit your local maps?
 ***- New ships:
 	- T3-FORK: slow like X-terminator, fires 3 bullets at a time
-	- PULSAR-A3: fires a ripple (like in salamander). Not very powerful, but very useful for bloquing bulllets
-***- improve UI of map editor:
-	- in mac, recognize the two-finger swipe to scroll around
-	- "smart mode", where you can choose between: rock, snow, tech, pipe, and it auto generates all the edges
-	***- in MAC, what happens when you try to save a map when running it as a bundle? should the map editor allow you to only edit your local maps?
+	- PULSAR-A3: fires a ripple (like in salamander). Not very powerful, but very useful for blocking bullets
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
 - Nuevos elementos:
     	- Mas tiles

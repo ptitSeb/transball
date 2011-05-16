@@ -260,6 +260,7 @@ protected:
 	List<GLTile> m_editor_tiles;
 	List<GLTile> m_editor_object_tiles;
 	List<GLTile> m_editor_smart_tiles;
+	List<GLTile> m_editor_smart_tile_palette;
 	int m_editor_insert_x,m_editor_insert_y;
 
 	// Load/Save maps:

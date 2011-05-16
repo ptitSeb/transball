@@ -303,6 +303,113 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 			m_editor_smart_tiles.Add(m_GLTM->get("foreground/wall-techno1"));
 			m_editor_smart_tiles.Add(m_GLTM->get("foreground/pipe-vertical1"));
 		}
+		
+		if (m_editor_smart_tile_palette.EmptyP()) {
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-leftcorner-techno"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-leftcorner"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-leftcorner2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-rightcorner-techno"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-rightcorner"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-rightcorner2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-rock"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-snow-leftcorner"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-snow-rightcorner"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-snow"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-techno1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-techno2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-wall-leftcorner-snow"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-wall-leftcorner-techno"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-wall-leftcorner"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-wall-rightcorner-snow"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-wall-rightcorner-techno"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-wall-rightcorner"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-grass1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-grass2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-leftcorner-grass1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-leftcorner-grass2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-leftcorner-grass3"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-leftcorner-snow1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-leftcorner-snow2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-leftcorner-techno"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-rightcorner-grass1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-rightcorner-grass2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-rightcorner-grass3"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-rightcorner-snow1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-rightcorner-snow2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-rightcorner-techno"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-rock-techno1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-rock-techno2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-rock-techno3"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-rock-techno4"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-rock-techno5"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-rock"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-snow1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-techno1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-techno2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-techno3"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-wall-leftcorner-grass1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-wall-leftcorner-grass2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-wall-leftcorner-rock"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-wall-leftcorner-snow1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-wall-leftcorner-snow2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-wall-leftcorner-techno1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-wall-leftcorner-techno2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-wall-rightcorner-grass1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-wall-rightcorner-grass2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-wall-rightcorner-rock"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-wall-rightcorner-snow1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-wall-rightcorner-snow2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-wall-rightcorner-techno1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/floor-wall-rightcorner-techno2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-ceiling-rock"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-ceiling-snow"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-ceiling-techno"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-ground-grass"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-ground-rock"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-ground-snow"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-ground-techno"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-horizontal1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-left-down-corner1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-left-down-corner2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-left-up-corner1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-left-up-corner2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-node"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-right-down-corner1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-right-down-corner2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-right-up-corner1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-right-up-corner2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-t-down"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-t-left"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-t-up"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-t-right"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-vertical1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-wall-left-snow"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-wall-left-techno"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-wall-left"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-wall-right-snow"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-wall-right-techno"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/pipe-wall-right"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-left-snow"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-left-techno"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-left"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-right-snow"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-right-techno"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-right"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-rock-techno-left"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-rock-techno-right"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-rock-techno"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-snow1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-snow2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-snow3"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-snow4"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-snow5"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-techno1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall1"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall2"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall3"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall4"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall5"));
+		}
 
 	} else {
 		// Create the variable part of the interface depending on the selected mode:
@@ -827,12 +934,38 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 				{
 					if (m_editor_selected_tile!=-1 &&
 						m_editor_insert_x!=-1) {
-						int offs = m_editor_insert_x/32 + (m_editor_insert_y/32)*m_editor_level_editing->m_fg_dx;
-						
-						// compute the smar ttile:
-						// ...
-						
-						m_editor_level_editing->m_fg[offs]=m_editor_tiles[m_editor_selected_tile];
+						int offs = m_editor_insert_x/32 + (m_editor_insert_y/32)*m_editor_level_editing->m_fg_dx;												
+						m_editor_level_editing->m_fg[offs]=m_editor_smart_tiles[m_editor_selected_tile];
+
+						// compute the smart tiles for the tiles around:
+						if (m_editor_insert_x>0) {
+							m_editor_level_editing->m_fg[offs-1] = m_editor_level_editing->smartTile((m_editor_insert_x/32)-1,(m_editor_insert_y/32),0.25f,0.1f,1.0f,0.1f,&m_editor_smart_tile_palette);
+						}
+						if (m_editor_insert_x<m_editor_level_editing->get_dx()-32) {
+							m_editor_level_editing->m_fg[offs+1] = m_editor_level_editing->smartTile((m_editor_insert_x/32)+1,(m_editor_insert_y/32),1.0f,0,0.25f,0,&m_editor_smart_tile_palette);
+						}
+						if (m_editor_insert_y>0) {
+							m_editor_level_editing->m_fg[offs-m_editor_level_editing->m_fg_dx] = m_editor_level_editing->smartTile((m_editor_insert_x/32),(m_editor_insert_y/32)-1,0.1f,0.25f,0.1f,1.0,&m_editor_smart_tile_palette);
+						}
+						if (m_editor_insert_y<m_editor_level_editing->get_dy()-32) {
+							m_editor_level_editing->m_fg[offs+m_editor_level_editing->m_fg_dx] = m_editor_level_editing->smartTile((m_editor_insert_x/32),(m_editor_insert_y/32)+1,0.1f,1.0f,0.1f,0.25f,&m_editor_smart_tile_palette);
+						}
+						if (m_editor_insert_x>0) {
+							if (m_editor_insert_y>0) {
+								m_editor_level_editing->m_fg[offs-1-m_editor_level_editing->m_fg_dx] = m_editor_level_editing->smartTile((m_editor_insert_x/32)-1,(m_editor_insert_y/32)-1,0.25f,0.25f,1.0f,1.0f,&m_editor_smart_tile_palette);
+							}
+							if (m_editor_insert_y<m_editor_level_editing->get_dy()-32) {
+								m_editor_level_editing->m_fg[offs-1+m_editor_level_editing->m_fg_dx] = m_editor_level_editing->smartTile((m_editor_insert_x/32)-1,(m_editor_insert_y/32)+1,0.25f,1.0f,1.0f,0.25f,&m_editor_smart_tile_palette);
+							}
+						}
+						if (m_editor_insert_x<m_editor_level_editing->get_dx()-32) {
+							if (m_editor_insert_y>0) {
+								m_editor_level_editing->m_fg[offs+1-m_editor_level_editing->m_fg_dx] = m_editor_level_editing->smartTile((m_editor_insert_x/32)+1,(m_editor_insert_y/32)-1,1.0f,0.25f,0.25f,1.0f,&m_editor_smart_tile_palette);
+							}
+							if (m_editor_insert_y<m_editor_level_editing->get_dy()-32) {
+								m_editor_level_editing->m_fg[offs+1+m_editor_level_editing->m_fg_dx] = m_editor_level_editing->smartTile((m_editor_insert_x/32)+1,(m_editor_insert_y/32)+1,1.0f,1.0f,0.25f,0.25f,&m_editor_smart_tile_palette);
+							}
+						}
 					} // if
 				}
 					break;
@@ -1224,6 +1357,7 @@ void TGLapp::mapeditor_draw(void)
 	TGLinterface::draw();
 
 } /* TGLapp::mapeditor_draw */ 
+
 
 
 

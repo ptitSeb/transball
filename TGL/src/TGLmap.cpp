@@ -1608,3 +1608,118 @@ void TGLmap::save(FILE *fp,GLTManager *GLTM)
 } /* TGLmap::save */ 
 
 
+GLTile *TGLmap::smartTile(int x, int y, float wleft, float wup, float wright, float wdown, List<GLTile> *tiles)
+{
+	GLTile *best = 0;
+	float best_score = 0;
+	List<GLTile> l;
+	GLTile *tile = 0;
+	GLTile *tile_left = 0;
+	GLTile *tile_up = 0;
+	GLTile *tile_right = 0;
+	GLTile *tile_down = 0;
+	Uint32 pixel;
+	Uint8 r,g,b;
+	Uint32 pixel2;;
+	Uint8 r2,g2,b2;
+	
+	if (x>0) tile_left = m_fg[(x-1)+y*m_fg_dx];
+	if (y>0) tile_up = m_fg[(x)+(y-1)*m_fg_dx];
+	if (x<m_fg_dx-1) tile_right = m_fg[(x+1)+y*m_fg_dx];
+	if (y<m_fg_dy-1) tile_down = m_fg[(x)+(y+1)*m_fg_dx];
+
+	l.Instance(*tiles);
+
+/*
+#ifdef __DEBUG_MESSAGES
+	output_debug_message("smartTile %i,%i with (%i,%i,%i,%i)\n",x,y,l.PositionRef(tile_left), l.PositionRef(tile_up), l.PositionRef(tile_right), l.PositionRef(tile_down));
+#endif	
+*/
+	
+	l.Rewind();
+	while(l.Iterate(tile)) {		
+		float score_left = 0;
+		float score_up = 0;
+		float score_right = 0;
+		float score_down = 0;
+		float score = 0;
+		for(int i = 0;i<m_fg_cell_size;i++) {		
+			if (wleft>0) {
+				pixel = 0;
+				if (tile!=0) {
+					pixel = tile->get_pixel(0,i);
+					SDL_GetRGB(pixel, tile->get_tile(0)->format, &r, &g, &b);
+				} else {
+					r = g = b = 0;
+				}					
+				Uint32 pixel2 = 0;
+				if (tile_left!=0) {
+					pixel2 = tile_left->get_pixel(m_fg_cell_size-1,i);
+					SDL_GetRGB(pixel2, tile_left->get_tile(0)->format, &r2, &g2, &b2);			
+				} else {
+					r2 = g2 = b2 = 0;
+				}
+				score_left += (float(r-r2)*float(r-r2) + float(g-g2)*float(g-g2) + float(b-b2)*float(b-b2));
+			}
+			if (wup>0) {
+				pixel = 0;
+				if (tile!=0) {
+					pixel = tile->get_pixel(i,0);
+					SDL_GetRGB(pixel, tile->get_tile(0)->format, &r, &g, &b);
+				} else {
+					r = g = b = 0;
+				}
+				Uint32 pixel2 = 0;
+				if (tile_up!=0) {
+					pixel2 = tile_up->get_pixel(i,m_fg_cell_size-1);
+					SDL_GetRGB(pixel2, tile_up->get_tile(0)->format, &r2, &g2, &b2);			
+				} else {
+					r2 = g2 = b2 = 0;
+				}
+				score_up += (float(r-r2)*float(r-r2) + float(g-g2)*float(g-g2) + float(b-b2)*float(b-b2));
+			}
+			if (wright>0) {
+				pixel = 0;
+				if (tile!=0) {
+					pixel = tile->get_pixel(m_fg_cell_size-1,i);
+					SDL_GetRGB(pixel, tile->get_tile(0)->format, &r, &g, &b);
+				} else {
+					r = g = b = 0;
+				}
+				Uint32 pixel2 = 0;
+				if (tile_right!=0) {
+					pixel2 = tile_right->get_pixel(0,i);
+					SDL_GetRGB(pixel2, tile_right->get_tile(0)->format, &r2, &g2, &b2);			
+				} else {
+					r2 = g2 = b2 = 0;
+				}
+				score_right += (float(r-r2)*float(r-r2) + float(g-g2)*float(g-g2) + float(b-b2)*float(b-b2));
+			}
+			if (wdown>0) {
+				pixel = 0;
+				if (tile!=0) {
+					pixel = tile->get_pixel(i,m_fg_cell_size-1);
+					SDL_GetRGB(pixel, tile->get_tile(0)->format, &r, &g, &b);
+				} else {
+					r = g = b = 0;
+				}					
+				Uint32 pixel2 = 0;
+				if (tile_down!=0) {
+					pixel2 = tile_down->get_pixel(i,0);
+					SDL_GetRGB(pixel2, tile_down->get_tile(0)->format, &r2, &g2, &b2);			
+				} else {
+					r2 = g2 = b2 = 0;
+				}
+				score_down += (float(r-r2)*float(r-r2) + float(g-g2)*float(g-g2) + float(b-b2)*float(b-b2));
+			}
+			score += wleft*score_left + wup*score_up + wright*score_right + wdown*score_down;
+		}
+						
+		if (best==0 || score<best_score) {
+			best = tile;
+			best_score = score;
+		}
+	}
+		
+	return best;
+}

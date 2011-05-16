@@ -46,6 +46,8 @@ public:
 	bool collision_with_foreground(TGLobject *o,float offsx,float offsy,int offs_alpha);
 	TGLobject *collision_with_object(float x,float y);	/* Checks if there is any object in the given coordinates */ 
 
+	GLTile *smartTile(int x,int y,float wleft,float wup, float wright,float wdown,List<GLTile> *tiles);
+	
 	void action(int action);
 
 	void set_background(int type,GLTManager *GLTM);
