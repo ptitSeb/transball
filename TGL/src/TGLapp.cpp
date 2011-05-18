@@ -217,6 +217,8 @@ TGLapp::~TGLapp()
 
 	m_editor_tiles.ExtractAll();
 	m_editor_object_tiles.ExtractAll();
+	m_editor_smart_tiles.ExtractAll();
+	m_editor_smart_tile_palette.ExtractAll();
 
 	delete m_GLTM;
 	delete m_SFXM;

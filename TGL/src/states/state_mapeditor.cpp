@@ -409,6 +409,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall3"));
 			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall4"));
 			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall5"));
+			
 		}
 
 	} else {
@@ -527,7 +528,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 			if (m_editor_insert_x<0 || m_editor_insert_y<0 ||
 				m_editor_insert_x>=m_editor_level_editing->get_dx() ||
-				m_editor_insert_y>=m_editor_level_editing->get_dy()) {
+				m_editor_insert_y>=m_editor_level_editing->get_editable_dy()) {
 				m_editor_insert_x = -1;
 				m_editor_insert_y = -1;
 			} // if
@@ -939,22 +940,22 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 
 						// compute the smart tiles for the tiles around:
 						if (m_editor_insert_x>0) {
-							m_editor_level_editing->m_fg[offs-1] = m_editor_level_editing->smartTile((m_editor_insert_x/32)-1,(m_editor_insert_y/32),0.25f,0.1f,1.0f,0.1f,&m_editor_smart_tile_palette);
+							m_editor_level_editing->m_fg[offs-1] = m_editor_level_editing->smartTile((m_editor_insert_x/32)-1,(m_editor_insert_y/32),0.5f,0.0f,1.0f,0.0f,&m_editor_smart_tile_palette);
 						}
 						if (m_editor_insert_x<m_editor_level_editing->get_dx()-32) {
-							m_editor_level_editing->m_fg[offs+1] = m_editor_level_editing->smartTile((m_editor_insert_x/32)+1,(m_editor_insert_y/32),1.0f,0,0.25f,0,&m_editor_smart_tile_palette);
+							m_editor_level_editing->m_fg[offs+1] = m_editor_level_editing->smartTile((m_editor_insert_x/32)+1,(m_editor_insert_y/32),1.0f,0,0.5f,0,&m_editor_smart_tile_palette);
 						}
 						if (m_editor_insert_y>0) {
-							m_editor_level_editing->m_fg[offs-m_editor_level_editing->m_fg_dx] = m_editor_level_editing->smartTile((m_editor_insert_x/32),(m_editor_insert_y/32)-1,0.1f,0.25f,0.1f,1.0,&m_editor_smart_tile_palette);
+							m_editor_level_editing->m_fg[offs-m_editor_level_editing->m_fg_dx] = m_editor_level_editing->smartTile((m_editor_insert_x/32),(m_editor_insert_y/32)-1,0.0f,0.5f,0.0f,1.0,&m_editor_smart_tile_palette);
 						}
-						if (m_editor_insert_y<m_editor_level_editing->get_dy()-32) {
-							m_editor_level_editing->m_fg[offs+m_editor_level_editing->m_fg_dx] = m_editor_level_editing->smartTile((m_editor_insert_x/32),(m_editor_insert_y/32)+1,0.1f,1.0f,0.1f,0.25f,&m_editor_smart_tile_palette);
+						if (m_editor_insert_y<m_editor_level_editing->get_editable_dy()-32) {
+							m_editor_level_editing->m_fg[offs+m_editor_level_editing->m_fg_dx] = m_editor_level_editing->smartTile((m_editor_insert_x/32),(m_editor_insert_y/32)+1,0.0f,1.0f,0.0f,0.5f,&m_editor_smart_tile_palette);
 						}
 						if (m_editor_insert_x>0) {
 							if (m_editor_insert_y>0) {
 								m_editor_level_editing->m_fg[offs-1-m_editor_level_editing->m_fg_dx] = m_editor_level_editing->smartTile((m_editor_insert_x/32)-1,(m_editor_insert_y/32)-1,0.25f,0.25f,1.0f,1.0f,&m_editor_smart_tile_palette);
 							}
-							if (m_editor_insert_y<m_editor_level_editing->get_dy()-32) {
+							if (m_editor_insert_y<m_editor_level_editing->get_editable_dy()-32) {
 								m_editor_level_editing->m_fg[offs-1+m_editor_level_editing->m_fg_dx] = m_editor_level_editing->smartTile((m_editor_insert_x/32)-1,(m_editor_insert_y/32)+1,0.25f,1.0f,1.0f,0.25f,&m_editor_smart_tile_palette);
 							}
 						}
@@ -962,7 +963,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 							if (m_editor_insert_y>0) {
 								m_editor_level_editing->m_fg[offs+1-m_editor_level_editing->m_fg_dx] = m_editor_level_editing->smartTile((m_editor_insert_x/32)+1,(m_editor_insert_y/32)-1,1.0f,0.25f,0.25f,1.0f,&m_editor_smart_tile_palette);
 							}
-							if (m_editor_insert_y<m_editor_level_editing->get_dy()-32) {
+							if (m_editor_insert_y<m_editor_level_editing->get_editable_dy()-32) {
 								m_editor_level_editing->m_fg[offs+1+m_editor_level_editing->m_fg_dx] = m_editor_level_editing->smartTile((m_editor_insert_x/32)+1,(m_editor_insert_y/32)+1,1.0f,1.0f,0.25f,0.25f,&m_editor_smart_tile_palette);
 							}
 						}
@@ -1347,6 +1348,32 @@ void TGLapp::mapeditor_draw(void)
 				glVertex3f(32*m_editor_current_zoom,32*m_editor_current_zoom,0);
 				glEnd();
 				glPopMatrix();
+
+				
+				{
+					char tmp[80];
+					int offs = m_editor_insert_x/32 + (m_editor_insert_y/32)*m_editor_level_editing->m_fg_dx;
+					float score = 0;
+					if (m_editor_insert_x>0) score = m_editor_level_editing->smartTileScore(m_editor_level_editing->m_fg[offs], m_editor_level_editing->m_fg[offs-1],0);
+					sprintf(tmp,"Left: %g",score);
+					TGLinterface::print_left(tmp,m_font16,500,390,1,1,1,1.0f);
+
+					score = 0;
+					if (m_editor_insert_y>0) score = m_editor_level_editing->smartTileScore(m_editor_level_editing->m_fg[offs], m_editor_level_editing->m_fg[offs-m_editor_level_editing->m_fg_dx],1);
+					sprintf(tmp,"Up: %g",score);
+					TGLinterface::print_left(tmp,m_font16,500,410,1,1,1,1.0f);
+
+					score = 0;
+					if (m_editor_insert_x<m_editor_level_editing->get_dx()-32) score = m_editor_level_editing->smartTileScore(m_editor_level_editing->m_fg[offs], m_editor_level_editing->m_fg[offs+1],2);
+					sprintf(tmp,"Right: %g",score);
+					TGLinterface::print_left(tmp,m_font16,500,430,1,1,1,1.0f);
+
+					score = 0;
+					if (m_editor_insert_y<m_editor_level_editing->get_editable_dy()-32) score = m_editor_level_editing->smartTileScore(m_editor_level_editing->m_fg[offs], m_editor_level_editing->m_fg[offs+m_editor_level_editing->m_fg_dx],3);
+					sprintf(tmp,"Down: %g",score);
+					TGLinterface::print_left(tmp,m_font16,500,450,1,1,1,1.0f);
+				}
+				
 			} // if
 			
 			break;

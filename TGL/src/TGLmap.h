@@ -23,6 +23,7 @@ public:
 	
 	int get_dx(void) {return m_bg_dx*m_bg_cell_size;};
 	int get_dy(void) {return m_bg_dy*m_bg_cell_size+STARFIELD;};
+	int get_editable_dy(void) {return m_bg_dy*m_bg_cell_size;};
 
 	void add_object(class TGLobject *o);
 	void add_object_back(class TGLobject *o);	// Instead of adding at the end of the object list,
@@ -46,6 +47,7 @@ public:
 	bool collision_with_foreground(TGLobject *o,float offsx,float offsy,int offs_alpha);
 	TGLobject *collision_with_object(float x,float y);	/* Checks if there is any object in the given coordinates */ 
 
+	float smartTileScore(GLTile *t1, GLTile *t2, int direction);
 	GLTile *smartTile(int x,int y,float wleft,float wup, float wright,float wdown,List<GLTile> *tiles);
 	
 	void action(int action);
