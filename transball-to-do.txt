@@ -5,11 +5,9 @@ To do in "Transball GL": -------------------------------------------------------
 ***- improve UI of map editor:
 	***- in mac, recognize the two-finger swipe to scroll around: mouse button events -> 4: up, 5: down, 6: left, 7: right
 	- "smart mode", where you can choose between: rock, snow, tech, pipe, and it auto generates all the edges:
-		***- consider also the empty tile
-		***- consider more than just the last wrow of pixels (last 2 rows, and do average or derivative, or any othe properties)
-		***- consider the edges of the map
+	    ***- cache the result of the smarttile comparison in a hashtable -> separate all smart tile code in a separate class
 		***- when deleting in smart tile mode, also use smart tiles
-		***- break ties by tiles that have less amount of non-black pixels
+		***- pipes are a special case, do NOT start with a vertical tile always, try vertical, horizontal, etc.
 		***- add additional border tiles between techno/wall
 		***- add to the SVN the file with the smart tiles code
 	- in MAC, what happens when you try to save a map when running it as a bundle? should the map editor allow you to only edit your local maps?

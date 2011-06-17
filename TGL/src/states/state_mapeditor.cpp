@@ -1354,22 +1354,22 @@ void TGLapp::mapeditor_draw(void)
 					char tmp[80];
 					int offs = m_editor_insert_x/32 + (m_editor_insert_y/32)*m_editor_level_editing->m_fg_dx;
 					float score = 0;
-					if (m_editor_insert_x>0) score = m_editor_level_editing->smartTileScore(m_editor_level_editing->m_fg[offs], m_editor_level_editing->m_fg[offs-1],0);
+					if (m_editor_insert_x>0) score = m_editor_level_editing->smartTileScore(m_editor_level_editing->m_fg[offs], m_editor_level_editing->m_fg[offs-1],0,1);
 					sprintf(tmp,"Left: %g",score);
 					TGLinterface::print_left(tmp,m_font16,500,390,1,1,1,1.0f);
 
 					score = 0;
-					if (m_editor_insert_y>0) score = m_editor_level_editing->smartTileScore(m_editor_level_editing->m_fg[offs], m_editor_level_editing->m_fg[offs-m_editor_level_editing->m_fg_dx],1);
+					if (m_editor_insert_y>0) score = m_editor_level_editing->smartTileScore(m_editor_level_editing->m_fg[offs], m_editor_level_editing->m_fg[offs-m_editor_level_editing->m_fg_dx],1,1);
 					sprintf(tmp,"Up: %g",score);
 					TGLinterface::print_left(tmp,m_font16,500,410,1,1,1,1.0f);
 
 					score = 0;
-					if (m_editor_insert_x<m_editor_level_editing->get_dx()-32) score = m_editor_level_editing->smartTileScore(m_editor_level_editing->m_fg[offs], m_editor_level_editing->m_fg[offs+1],2);
+					if (m_editor_insert_x<m_editor_level_editing->get_dx()-32) score = m_editor_level_editing->smartTileScore(m_editor_level_editing->m_fg[offs], m_editor_level_editing->m_fg[offs+1],2,1);
 					sprintf(tmp,"Right: %g",score);
 					TGLinterface::print_left(tmp,m_font16,500,430,1,1,1,1.0f);
 
 					score = 0;
-					if (m_editor_insert_y<m_editor_level_editing->get_editable_dy()-32) score = m_editor_level_editing->smartTileScore(m_editor_level_editing->m_fg[offs], m_editor_level_editing->m_fg[offs+m_editor_level_editing->m_fg_dx],3);
+					if (m_editor_insert_y<m_editor_level_editing->get_editable_dy()-32) score = m_editor_level_editing->smartTileScore(m_editor_level_editing->m_fg[offs], m_editor_level_editing->m_fg[offs+m_editor_level_editing->m_fg_dx],3,1);
 					sprintf(tmp,"Down: %g",score);
 					TGLinterface::print_left(tmp,m_font16,500,450,1,1,1,1.0f);
 				}
