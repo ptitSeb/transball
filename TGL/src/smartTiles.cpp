@@ -31,12 +31,39 @@
 
 #include "GLTManager.h"
 #include "SFXManager.h"
-#include "TGLmap.h"
 #include "TGLobject.h"
+#include "TGLmap.h"
 
-#include "collision.h"
+#include "SmartTiles.h"
+
 
 #include "debug.h"
+
+// results cache:
+List<SmartTileCacheEntry> smartTileCache[1024];
+
+
+SmartTileCacheEntry *findSmarTileInCache(GLTile *t1, GLTile *t2, int direction, int windowSize) 
+{
+	List<SmartTileCacheEntry> l;
+	SmartTileCacheEntry tmp,*tmp2;
+	tmp.t1 = t1;
+	tmp.t2 = t2;
+	tmp.direction = direction;
+	tmp.windowsize = windowSize;
+	int h = tmp.hash();
+	
+	l.Instance(smartTileCache[h]);
+	l.Rewind();
+	while(l.Iterate(tmp2)) {
+		if (tmp2->t1 == tmp.t1 &&
+			tmp2->t2 == tmp.t2 &&
+			tmp2->direction == tmp.direction &&
+			tmp2->windowsize == tmp.windowsize) return tmp2;
+	}
+	
+	return 0;
+}
 
 
 /*
@@ -46,8 +73,12 @@
  
  windowSize: between 1 to 32: 1 checks pixels 1 by one, 2 checks windows of 2x2 pixels, etc. 32, just checks for the average color of the tiles
  */
-float TGLmap::smartTileScore(GLTile *t1, GLTile *t2, int direction, int windowSize)
+float smartTileScore(GLTile *t1, GLTile *t2, int direction, int windowSize)
 {
+	SmartTileCacheEntry *tmp = findSmarTileInCache(t1,t2,direction,windowSize);
+	if (tmp!=0) return tmp->result;
+	
+	
 	Uint32 pixel;
 	Uint8 r,g,b,a;
 	Uint32 pixel2;;
@@ -97,11 +128,20 @@ float TGLmap::smartTileScore(GLTile *t1, GLTile *t2, int direction, int windowSi
 		
 		score += (float(ar-ar2)*float(ar-ar2) + float(ag-ag2)*float(ag-ag2) + float(ab-ab2)*float(ab-ab2));
 	}
+	
+	tmp = new SmartTileCacheEntry();
+	tmp->t1 = t1;
+	tmp->t2 = t2;
+	tmp->direction = direction;
+	tmp->windowsize = windowSize;
+	tmp->result = score;
+	smartTileCache[tmp->hash()].Add(tmp);
+	
 	return score;
 }
 
 
-float TGLmap::smartTileNumberOfNonZeroPizels(GLTile *t)
+float smartTileNumberOfNonZeroPizels(GLTile *t)
 {
 	Uint32 pixel;
 	Uint8 r,g,b,a;
@@ -120,7 +160,7 @@ float TGLmap::smartTileNumberOfNonZeroPizels(GLTile *t)
 }
 
 
-GLTile *TGLmap::smartTile(int x, int y, float wleft, float wup, float wright, float wdown, List<GLTile> *tiles)
+GLTile *smartTile(TGLmap *map, int x, int y, float wleft, float wup, float wright, float wdown, List<GLTile> *tiles)
 {
 	GLTile *best = 0;
 	float best_score = 0;
@@ -136,10 +176,10 @@ GLTile *TGLmap::smartTile(int x, int y, float wleft, float wup, float wright, fl
 	Uint8 r2,g2,b2,a2;
 	int windowSize = 4;
 	
-	if (x>0) tile_left = m_fg[(x-1)+y*m_fg_dx]; else wleft = 0;
-	if (y>0) tile_up = m_fg[(x)+(y-1)*m_fg_dx]; else wup = 0;
-	if (x<m_fg_dx-1) tile_right = m_fg[(x+1)+y*m_fg_dx]; else wright = 0;
-	if (y<m_fg_dy-1) tile_down = m_fg[(x)+(y+1)*m_fg_dx]; else wdown = 0;
+	if (x>0) tile_left = map->getFGTile((x-1)+y*map->get_fg_dx()); else wleft = 0;
+	if (y>0) tile_up = map->getFGTile((x)+(y-1)*map->get_fg_dx()); else wup = 0;
+	if (x<map->get_fg_dx()-1) tile_right = map->getFGTile((x+1)+y*map->get_fg_dx()); else wright = 0;
+	if (y<map->get_fg_dy()-1) tile_down = map->getFGTile((x)+(y+1)*map->get_fg_dx()); else wdown = 0;
 	
 	l.Instance(*tiles);
 	

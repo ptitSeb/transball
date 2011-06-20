@@ -21,9 +21,14 @@ public:
 	void reset(void);
 	void create_laser_objects(void);
 	
+	int get_fg_dx(void) {return m_fg_dx;};
+	int get_fg_dy(void) {return m_fg_dy;};
+
 	int get_dx(void) {return m_bg_dx*m_bg_cell_size;};
 	int get_dy(void) {return m_bg_dy*m_bg_cell_size+STARFIELD;};
 	int get_editable_dy(void) {return m_bg_dy*m_bg_cell_size;};
+	
+	GLTile *getFGTile(int i);
 
 	void add_object(class TGLobject *o);
 	void add_object_back(class TGLobject *o);	// Instead of adding at the end of the object list,
@@ -46,10 +51,6 @@ public:
 	TGLobject *collision_with_object(TGLobject *o);
 	bool collision_with_foreground(TGLobject *o,float offsx,float offsy,int offs_alpha);
 	TGLobject *collision_with_object(float x,float y);	/* Checks if there is any object in the given coordinates */ 
-
-	float smartTileScore(GLTile *t1, GLTile *t2, int direction, int windowSize);
-	float smartTileNumberOfNonZeroPizels(GLTile *t);
-	GLTile *smartTile(int x,int y,float wleft,float wup, float wright,float wdown,List<GLTile> *tiles);
 	
 	void action(int action);
 

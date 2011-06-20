@@ -1465,6 +1465,12 @@ void TGLmap::resize(int dx,int dy,GLTManager *GLTM)
 } /* TGLmap::resize */ 
 
 
+GLTile *TGLmap::getFGTile(int i)
+{
+	return m_fg[i];
+}
+
+
 void TGLmap::save(FILE *fp,GLTManager *GLTM)
 {
 	int i;
