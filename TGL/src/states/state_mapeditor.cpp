@@ -302,7 +302,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 			m_editor_smart_tiles.Add(m_GLTM->get("foreground/wall1"));
 			m_editor_smart_tiles.Add(m_GLTM->get("foreground/wall-snow1"));
 			m_editor_smart_tiles.Add(m_GLTM->get("foreground/wall-techno1"));
-			m_editor_smart_tiles.Add(m_GLTM->get("foreground/pipe-vertical1"));
+//			m_editor_smart_tiles.Add(m_GLTM->get("foreground/pipe-vertical1"));
 		}
 		
 		if (m_editor_smart_tile_palette.EmptyP()) {
@@ -398,6 +398,16 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-right"));
 			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-rock-techno-left"));
 			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-rock-techno-right"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-rock-techno"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-rock-techno-right"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-rock-techno-left"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-leftcorner-techno-bg"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-rightcorner-techno-bg"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-wall-rightcorner-techno-bg"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-wall-leftcorner-techno-bg"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/ceiling-wall-leftcorner-techno-bg"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-right-techno-bg"));
+			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-left-techno-bg"));
 			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-rock-techno"));
 			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-snow1"));
 			m_editor_smart_tile_palette.Add(m_GLTM->get("foreground/wall-snow2"));
@@ -1125,8 +1135,38 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 					{
 						if (m_editor_selected_tile!=-1 &&
 							m_editor_insert_x!=-1) {
-							int offs = m_editor_insert_x/32 + (m_editor_insert_y/32)*m_editor_level_editing->m_fg_dx;
+							int offs = m_editor_insert_x/32 + (m_editor_insert_y/32)*m_editor_level_editing->m_fg_dx;												
 							m_editor_level_editing->m_fg[offs]=0;
+							
+							// compute the smart tiles for the tiles around:
+							if (m_editor_insert_x>0) {
+								m_editor_level_editing->m_fg[offs-1] = smartTile(m_editor_level_editing,(m_editor_insert_x/32)-1,(m_editor_insert_y/32),0.5f,0.0f,1.0f,0.0f,&m_editor_smart_tile_palette);
+							}
+							if (m_editor_insert_x<m_editor_level_editing->get_dx()-32) {
+								m_editor_level_editing->m_fg[offs+1] = smartTile(m_editor_level_editing,(m_editor_insert_x/32)+1,(m_editor_insert_y/32),1.0f,0,0.5f,0,&m_editor_smart_tile_palette);
+							}
+							if (m_editor_insert_y>0) {
+								m_editor_level_editing->m_fg[offs-m_editor_level_editing->m_fg_dx] = smartTile(m_editor_level_editing,(m_editor_insert_x/32),(m_editor_insert_y/32)-1,0.0f,0.5f,0.0f,1.0,&m_editor_smart_tile_palette);
+							}
+							if (m_editor_insert_y<m_editor_level_editing->get_editable_dy()-32) {
+								m_editor_level_editing->m_fg[offs+m_editor_level_editing->m_fg_dx] = smartTile(m_editor_level_editing,(m_editor_insert_x/32),(m_editor_insert_y/32)+1,0.0f,1.0f,0.0f,0.5f,&m_editor_smart_tile_palette);
+							}
+							if (m_editor_insert_x>0) {
+								if (m_editor_insert_y>0) {
+									m_editor_level_editing->m_fg[offs-1-m_editor_level_editing->m_fg_dx] = smartTile(m_editor_level_editing,(m_editor_insert_x/32)-1,(m_editor_insert_y/32)-1,0.25f,0.25f,1.0f,1.0f,&m_editor_smart_tile_palette);
+								}
+								if (m_editor_insert_y<m_editor_level_editing->get_editable_dy()-32) {
+									m_editor_level_editing->m_fg[offs-1+m_editor_level_editing->m_fg_dx] = smartTile(m_editor_level_editing,(m_editor_insert_x/32)-1,(m_editor_insert_y/32)+1,0.25f,1.0f,1.0f,0.25f,&m_editor_smart_tile_palette);
+								}
+							}
+							if (m_editor_insert_x<m_editor_level_editing->get_dx()-32) {
+								if (m_editor_insert_y>0) {
+									m_editor_level_editing->m_fg[offs+1-m_editor_level_editing->m_fg_dx] = smartTile(m_editor_level_editing,(m_editor_insert_x/32)+1,(m_editor_insert_y/32)-1,1.0f,0.25f,0.25f,1.0f,&m_editor_smart_tile_palette);
+								}
+								if (m_editor_insert_y<m_editor_level_editing->get_editable_dy()-32) {
+									m_editor_level_editing->m_fg[offs+1+m_editor_level_editing->m_fg_dx] = smartTile(m_editor_level_editing,(m_editor_insert_x/32)+1,(m_editor_insert_y/32)+1,1.0f,1.0f,0.25f,0.25f,&m_editor_smart_tile_palette);
+								}
+							}
 						} // if
 					}
 					break;
@@ -1350,7 +1390,7 @@ void TGLapp::mapeditor_draw(void)
 				glEnd();
 				glPopMatrix();
 
-				
+				/*
 				{
 					char tmp[80];
 					int offs = m_editor_insert_x/32 + (m_editor_insert_y/32)*m_editor_level_editing->m_fg_dx;
@@ -1374,6 +1414,7 @@ void TGLapp::mapeditor_draw(void)
 					sprintf(tmp,"Down: %g",score);
 					TGLinterface::print_left(tmp,m_font16,500,450,1,1,1,1.0f);
 				}
+				*/
 				
 			} // if
 			
