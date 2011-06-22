@@ -1,25 +1,16 @@
 To do in "Transball GL": --------------------------------------------------------
 
-- Change 2007 to 2011 in the intro sequence
-***- switch to SDL1.3 -> get it from mercurial (I need it to detect horizontal mouse events)
-***- improve UI of map editor:
-	***- in mac, recognize the two-finger swipe to scroll around: mouse button events -> 4: up, 5: down, 6: left, 7: right
-	- "smart mode", where you can choose between: rock, snow, tech, pipe, and it auto generates all the edges:
-	    ***- cache the result of the smarttile comparison in a hashtable -> separate all smart tile code in a separate class
-		***- when deleting in smart tile mode, also use smart tiles
-		***- pipes are a special case, do NOT start with a vertical tile always, try vertical, horizontal, etc.
-		***- add additional border tiles between techno/wall
-		***- add to the SVN the file with the smart tiles code
-	- in MAC, what happens when you try to save a map when running it as a bundle? should the map editor allow you to only edit your local maps?
-***- New ships:
+- in MAC, what happens when you try to save a map when running it as a bundle? should the map editor allow you to only edit your local maps?
+- improve UI of map editor:
+	- in mac, recognize the two-finger swipe to scroll around: mouse button events -> 4: up, 5: down, 6: left, 7: right
+- New ships:
 	- T3-FORK: slow like X-terminator, fires 3 bullets at a time
 	- PULSAR-A3: fires a ripple (like in salamander). Not very powerful, but very useful for blocking bullets
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
 - Nuevos elementos:
-    	- Mas tiles
+	- Mas tiles
 	- Giant rotating cogs (the ships fit in between the teeth)
 	- Mega Tanques: te siguen, disparan misiles, son inmensos y requieren un huevo de toques
-	- Agua: hace que todo sea más lento y casi anula la gravedad. La bola flota
 - Modos 2 jugadores:
 	- jugar contra una IA?
     - MODOS:
