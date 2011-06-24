@@ -46,7 +46,7 @@
 
 int TGLapp::postgame_cycle(KEYBOARDSTATE *k)
 {
-	int points_for_ship[11]={0,0,0,5,125, 25,75,100,40,55, 15};
+	int points_for_ship[12]={0,0,0,5,125,25,75,100,40,55,15,150};
 
 	if (SDL_ShowCursor(SDL_QUERY)!=SDL_ENABLE) SDL_ShowCursor(SDL_ENABLE);
 	if (m_state_cycle==0) {
@@ -182,7 +182,7 @@ void TGLapp::postgame_draw(void)
 		sprintf(buffer,"Fuel used: %i    Shots: %i",fuel_used,shots);
 		TGLinterface::print_center(buffer,m_font16,320,145);
 
-		sprintf(buffer,"Mspeed: %.2f    Average Speed: %.2f",max_speed,average_speed);
+		sprintf(buffer,"Max speed: %.2f    Average Speed: %.2f",max_speed,average_speed);
 		TGLinterface::print_center(buffer,m_font16,320,165);
 
 		sprintf(buffer,"Current score: %i",m_player_profile->get_points());

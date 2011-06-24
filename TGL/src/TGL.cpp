@@ -47,6 +47,7 @@
 #include "TGLobject_ship_chain.h"
 #include "TGLobject_ship_grabber.h"
 #include "TGLobject_ship_c_harpoon.h"
+#include "TGLobject_ship_pulsar.h"
 #include "TGLmap.h"
 #include "TGL.h"
 #include "TGLapp.h"
@@ -105,6 +106,8 @@ TGL::TGL(char *map, int ship,int initial_fuel,int sfx_volume, int music_volume, 
 		case 9:	m_ship=new TGLobject_ship_dflecter(float(m_map->get_dx()/2),32,initial_fuel);
 				break;
 		case 10:m_ship=new TGLobject_ship_c_harpoon(float(m_map->get_dx()/2),32,initial_fuel);
+				break;
+		case 11:m_ship=new TGLobject_ship_pulsar(float(m_map->get_dx()/2),32,initial_fuel);
 				break;
 		} // switch
 		m_map->add_object(m_ship);

@@ -57,3 +57,4 @@ Naves:
 	55 - D-FLECTER: r·pida cono shadow runner, no dispara, pero tiene un escudo que quita fuel (que solo 
 	         protege de balas y choque, no contra lasers que atraviesan la nave de lado a lado)
 	15 - C-HARPOON (otro color): Tiene un arpÛn, y atrapa la bola con ua cuerda (nunca la pierde),
+	150 - PULSAR-A3: fires a bubble, which is good for defending, but not very powerful
