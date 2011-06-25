@@ -34,8 +34,7 @@
 #include "TGLobject.h"
 #include "TGLobject_ship.h"
 #include "TGLobject_ship_pulsar.h"
-#include "TGLobject_bullet.h"
-#include "TGLobject_bullet_missile.h"
+#include "TGLobject_ship_pulsar_bullet.h"
 #include "TGLobject_ball.h"
 #include "TGLmap.h"
 
@@ -141,7 +140,7 @@ bool TGLobject_ship_pulsar::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 		int a=m_angle-90;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*12)),float(get_y()+(sin_table[a]*12)),0,m_angle,5,2,GLTM->get("objects/bullet-blue"),this);
+		bullet=new TGLobject_ship_pulsar_bullet(float(get_x()+(cos_table[a]*12)),float(get_y()+(sin_table[a]*12)),m_angle,this);
 		if (m_ball!=0) bullet->exclude_for_collision(m_ball);
 		map->add_object_back(bullet);
 		m_fuel-=64;

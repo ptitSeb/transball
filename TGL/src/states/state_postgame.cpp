@@ -46,7 +46,7 @@
 
 int TGLapp::postgame_cycle(KEYBOARDSTATE *k)
 {
-	int points_for_ship[12]={0,0,0,5,125,25,75,100,40,55,15,150};
+	int points_for_ship[12]={0,0,0,5,150,25,75,125,40,55,15,100};
 
 	if (SDL_ShowCursor(SDL_QUERY)!=SDL_ENABLE) SDL_ShowCursor(SDL_ENABLE);
 	if (m_state_cycle==0) {

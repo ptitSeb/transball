@@ -316,6 +316,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 							   "tutorial1-gyr",
 							   "tutorial1-def",
 							   "tutorial1-harp",
+							   "tutorial1-vp", // TODO!!!
 								};
 
 		if (m_lp_tutorial_game!=0) {
@@ -612,6 +613,7 @@ void TGLapp::levelpackscreen_draw(void)
 							"objects/ship-gyrus",
 							"objects/ship-dflecter-1",
 							"objects/ship-harpoon",
+							"objects/ship-pulsar-1",
 							};
 		char *ship_names[]={"V-Panther",
 							"X-Terminator",
@@ -624,6 +626,7 @@ void TGLapp::levelpackscreen_draw(void)
 							"Gyrus-P",
 							"D-Flecter",
 							"C-Harpoon",
+							"Pulsar A3",
 							};
 
 		int i,s;

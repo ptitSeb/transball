@@ -5,7 +5,11 @@ To do in "Transball GL": -------------------------------------------------------
 	- in mac, recognize the two-finger swipe to scroll around: mouse button events -> 4: up, 5: down, 6: left, 7: right
 - New ships:
 	- T3-FORK: slow like X-terminator, fires 3 bullets at a time
-	- PULSAR-A3: fires a ripple (like in salamander). Not very powerful, but very useful for blocking bullets
+	- PULSAR-A3: fires a ripple (like in salamander). Not very powerful, but very useful for blocking bullets:
+		- ball of the same color as the ship
+		- weapon
+		- better ship picture (it's currently awful!)
+- use the new soft cannons in some map
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
 - Nuevos elementos:
 	- Mas tiles
@@ -46,15 +50,15 @@ Naves:
 	0 - V-PANTHER 2 (initial fuel: 64, shot fuel: 64)
 	0 - X-TERMINATOR (initial fuel: 96, shot fuel: 96)
 	5 - NITRO BLASTER: poder de disparo como shadow runner (velocidad como v-panther), pero con nitro!
-	125 - VIPPER BEAM: laser, potente contra enemigos, pero no destruye las balas (te propulsa un poco)
+	150 - VIPPER BEAM: laser, potente contra enemigos, pero no destruye las balas (te propulsa un poco)
 	25 - DODGER-K7: tiene thrusters laterales, al pulsar abajo, si pulsas izquierda/derecha, te mueves en vez de rotar
 	75 - GRAVIS T8: disparo como shadow runner, y lenta como x-terminator, pero tiene un "long range attractor",
 		 que al activarlo, atrae a la bola hacia donde est·s t˙ sin importar la distancia (solo
 		 despuÈs de haberla cogido, por supuesto). De hecho, lo que hace es incrementar la atracciÛn, de 28 a 128
-	100 - ACCURA-T5: Mini homming misiles (little power, but homming)
+	125 - ACCURA-T5: Mini homming misiles (little power, but homming)
 	40 - GYRUS-P: disparo cutre y lenta, pero el disparo es direccional! (si mantienes pulsado "abajo",
 	     com los cursores controlas la direcciÛn del caÒÛn!)
 	55 - D-FLECTER: r·pida cono shadow runner, no dispara, pero tiene un escudo que quita fuel (que solo 
 	         protege de balas y choque, no contra lasers que atraviesan la nave de lado a lado)
 	15 - C-HARPOON (otro color): Tiene un arpÛn, y atrapa la bola con ua cuerda (nunca la pierde),
-	150 - PULSAR-A3: fires a bubble, which is good for defending, but not very powerful
+	100 - PULSAR-A3: fires a bubble, which is good for defending, but not very powerful
