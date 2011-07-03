@@ -216,6 +216,10 @@ bool collision(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,int a1,fl
 					if (obj2_sfc!=s2) SDL_FreeSurface(obj2_sfc);
 					return false;
 				} // if 
+				
+				int area1 = s1->w*s1->h;
+				int area2 = s2->w*s2->h;
+				int min_area = (area1>area2 ? area2:area1);
 
 				for(i=common_y1;i<common_y2;i++) {
 					offs1=(common_x1-r1.x)*4+(i-r1.y)*obj1_sfc->pitch;
@@ -224,7 +228,7 @@ bool collision(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,int a1,fl
 						if ((*((Uint32 *)((char *)(obj1_sfc->pixels)+offs1))&AMASK)==AMASK &&
 							(*((Uint32 *)((char *)(obj2_sfc->pixels)+offs2))&AMASK)==AMASK)
 							collision_pixels++;
-							if (collision_pixels>COLLISION_TOLERANCE) {
+							if (collision_pixels>COLLISION_TOLERANCE || collision_pixels>=min_area) {
 								if (obj1_sfc!=s1) SDL_FreeSurface(obj1_sfc);
 								if (obj2_sfc!=s2) SDL_FreeSurface(obj2_sfc);
 								return true;

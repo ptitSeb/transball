@@ -37,6 +37,22 @@
 #include "debug.h"
 
 
+TGLobject::TGLobject(GLTile *t,float x,float y,int animation_offset)
+{
+	m_x=x;
+	m_y=y;
+	m_angle=0;
+	m_scale=1;
+	m_last_tile=t;
+	m_last_mask=t;
+	m_state=0;
+	m_cycle=0;
+	m_animation_offset=animation_offset;
+	
+	m_controller=0;
+	
+} /* TGLobject::TGLobject */ 
+
 
 
 TGLobject::TGLobject(float x,float y,int animation_offset)

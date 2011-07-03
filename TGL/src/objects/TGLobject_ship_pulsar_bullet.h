@@ -15,7 +15,16 @@ public:
 
 private:
 	float m_speed;
-	int m_radius;
+	float m_radius;
+
+	int n_points;
+	int timmer;
+	double *m_point_x,*m_point_y;
+	double *m_point_alpha;
+	double *m_point_width;
+	
+	GLTile *pixel_tile;
+	TGLobject *pixel_object;
 };
 
 #endif

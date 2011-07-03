@@ -7,7 +7,9 @@ To do in "Transball GL": -------------------------------------------------------
 	- T3-FORK: slow like X-terminator, fires 3 bullets at a time
 	- PULSAR-A3: fires a ripple (like in salamander). Not very powerful, but very useful for blocking bullets:
 		- ball of the same color as the ship
-		- weapon
+		- weapon:
+			- I don't think collision works well -> can I replace it with a ring of objects only for collision?
+			- no collision with bullets
 		- better ship picture (it's currently awful!)
 - use the new soft cannons in some map
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)

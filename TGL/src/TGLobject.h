@@ -18,6 +18,7 @@
 
 class TGLobject {
 public:
+	TGLobject(GLTile *t,float x,float y,int animation_offset);
 	TGLobject(float x,float y,int animation_offset);
 	virtual ~TGLobject();
 

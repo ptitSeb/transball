@@ -141,6 +141,7 @@ bool TGLobject_ship_pulsar::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
 		bullet=new TGLobject_ship_pulsar_bullet(float(get_x()+(cos_table[a]*12)),float(get_y()+(sin_table[a]*12)),m_angle,this);
+//		bullet=new TGLobject_ship_pulsar_bullet(float(get_x()),float(get_y()),m_angle,this);
 		if (m_ball!=0) bullet->exclude_for_collision(m_ball);
 		map->add_object_back(bullet);
 		m_fuel-=64;
