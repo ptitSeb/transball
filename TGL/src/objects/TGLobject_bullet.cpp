@@ -111,6 +111,11 @@ bool TGLobject_bullet::cycle(VirtualController *k,class TGLmap *map,GLTManager *
 } /* TGLobject_bullet::cycle */ 
 
 
+void TGLobject_bullet::hit(void) {
+	m_state = 1;
+	m_cycle = 0;
+}
+
 void TGLobject_bullet::draw(GLTManager *GLTM)
 {
 	m_last_tile=m_tile;

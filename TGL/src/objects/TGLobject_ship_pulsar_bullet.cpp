@@ -32,6 +32,7 @@
 #include "GLTManager.h"
 #include "SFXManager.h"
 #include "TGLobject.h"
+#include "TGLobject_bullet.h"
 #include "TGLobject_enemy.h"
 #include "TGLobject_ship_pulsar_bullet.h"
 #include "TGLobject_FX_particle.h"
@@ -46,11 +47,11 @@ TGLobject_ship_pulsar_bullet::TGLobject_ship_pulsar_bullet(float x,float y, floa
 {
 	m_angle=angle;
 	m_radius=8;
-	m_speed = 2;
-	timmer = 200;
+	m_speed = 1.5;
+	timmer = 250;
 	exclude_for_collision(ship);
 	
-	n_points = 64;
+	n_points = 128;
 	m_point_x = new double[n_points];
 	m_point_y = new double[n_points];
 	m_point_alpha = new double[n_points];
@@ -81,7 +82,7 @@ bool TGLobject_ship_pulsar_bullet::cycle(VirtualController *k,TGLmap *map,GLTMan
 {
 	m_cycle++;
 	timmer--;
-	m_radius+=0.5;
+	m_radius+=0.3;
 	
 	// Move:
 	if (m_state==0) {
@@ -100,35 +101,23 @@ bool TGLobject_ship_pulsar_bullet::cycle(VirtualController *k,TGLmap *map,GLTMan
 	
 	// propagate disintegration:
 	double max_alpha = 0;
-	double previous_alpha = m_point_alpha[n_points-1], tmp;
-	for(int i = 0;i<n_points;i++) {
-		tmp = m_point_alpha[i];
-		if (m_point_alpha[i]>max_alpha) max_alpha = m_point_alpha[i];
-		if (m_point_alpha[i]<0.99 ||
-			m_point_alpha[(i+1)%n_points]<0.99 ||
-			previous_alpha<0.99) {
-			m_point_alpha[i]*=0.5;
+	for(int i = 0;i<2;i++) {
+		double previous_alpha = m_point_alpha[n_points-1], tmp;
+		for(int i = 0;i<n_points;i++) {
+			tmp = m_point_alpha[i];
+			if (m_point_alpha[i]>max_alpha) max_alpha = m_point_alpha[i];
+			if (m_point_alpha[i]<0.99 ||
+				m_point_alpha[(i+1)%n_points]<0.99 ||
+				previous_alpha<0.99) {
+				m_point_alpha[i]*=0.5;
+			}
+			previous_alpha = tmp;
 		}
-		previous_alpha = tmp;
 	}
-	
+		
 	// collisions for the parts of the wave still alive:
 	for(int i = 0;i<n_points;i++) {
 		if (m_point_alpha[i]>0.99) {
-			/*
-			 bool TGLmap::pixel_collision(float x,float y)
-			 {
-			 SDL_Surface *pixel_sfc = SDL_CreateRGBSurface(SDL_SWSURFACE,1,1,32,RMASK,GMASK,BMASK,AMASK);
-			 putpixel(pixel_sfc,0,0,SDL_MapRGBA(pixel_sfc->format, 255,255,255,255));
-			 GLTile *tmp = new GLTile(pixel_sfc);
-			 TGLobject *pixel = new TGLobject(tmp,x,y,0);
-			 bool res = collision(pixel,0,0,0);
-			 delete pixel;
-			 delete tmp;
-			 return res;
-			 }
-			 */
-			
 			if (map->collision(pixel_object,m_x+m_point_x[i],m_y+m_point_y[i],0)) {
 				m_point_alpha[i]*=0.5;
 				
@@ -136,7 +125,10 @@ bool TGLobject_ship_pulsar_bullet::cycle(VirtualController *k,TGLmap *map,GLTMan
 				if (o!=0) {
 					if (o->is_a("TGLobject_enemy") && this->check_collision(o)) {
 						((TGLobject_enemy *)o)->hit(1);
-					} // if
+						exclude_for_collision(o);	// only hit each enemy once per wave
+					} else if (o->is_a("TGLobject_bullet") && this->check_collision(o)) {
+						((TGLobject_bullet *)o)->hit();
+					}
 				} // if 	
 			} // if 
 		}
@@ -149,22 +141,30 @@ bool TGLobject_ship_pulsar_bullet::cycle(VirtualController *k,TGLmap *map,GLTMan
 	return true;
 } /* TGLobject_ship_pulsar_bullet::cycle */ 
 
+
 void TGLobject_ship_pulsar_bullet::draw(GLTManager *GLTM)
 {
 	glPushMatrix();
 	glTranslatef(m_x,m_y,0);
-	if (m_angle!=0) glRotatef(m_angle,0,0,1);
+
+	int angle=m_angle;
+	while(angle<0) angle+=360;
+	while(angle>=360) angle-=360;
 	
 	double d = 0, r = 0, perturb = 0;
 	double a = 0;
+	double x,y;
 	for(int i = 0;i<n_points;i++,a+=(M_PI*2/n_points)) {
 		d = a * m_radius;
 		perturb = m_radius*0.1;
 		if (perturb>8) perturb = 10;
 		r = m_radius + sin(d*0.075)*perturb;
-		m_point_x[i] = r*cos(a);
-		m_point_y[i] = r*sin(a)*0.1;
+		x = r*cos(a);
+		y = r*sin(a)*0.25;
 		m_point_width[i] = 8;
+		
+		m_point_x[i] = cos_table[angle]*x - sin_table[angle]*y;
+		m_point_y[i] = sin_table[angle]*x + cos_table[angle]*y;
 	}
 
 	glBegin(GL_QUAD_STRIP);
@@ -207,7 +207,15 @@ void TGLobject_ship_pulsar_bullet::draw(GLTManager *GLTM)
 		glVertex3f(m_point_x[(i+1)%n_points], m_point_y[(i+1)%n_points], 0);
 	}
 	glEnd();
-	 
+/*
+	glBegin(GL_POINTS);
+	for(int i = 0;i<n_points;i++) {
+		glColor4f(1,1,1,m_point_alpha[i]);
+		glVertex3f(m_point_x[i], m_point_y[i], 0);
+	}
+	glEnd();
+*/
+	
 	glPopMatrix();
 } /* TGLobject_ship_pulsar_bullet::draw */ 
 
