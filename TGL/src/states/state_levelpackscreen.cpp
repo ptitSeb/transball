@@ -464,112 +464,117 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 				break;
 		case 1: return TGL_STATE_LEVELPACKBROWSER;
 				break;
-			case 10:
-					// View replay:
-					{
-						// m_lp_first_level
-
+		case 10:
+				// View replay:
+				{
+					// m_lp_first_level
+					FILE *fp;
+					char tmp[256];
+					sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",
+								m_player_profile->m_name,m_current_levelpack->m_id,m_lp_first_level,
+								m_selected_ship);
+					fp=fopen(tmp,"rb");
+					if (fp!=0) {
 						m_game_replay_mode=2;
-						{
-							FILE *fp;
-							char tmp[256];
-							sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",
-										m_player_profile->m_name,m_current_levelpack->m_id,m_lp_first_level,
-										m_selected_ship);
-							fp=fopen(tmp,"rb");
-							m_game_replay=new TGLreplay(fp);
-							m_game_replay->rewind();
-							fclose(fp);
-						}
+
+						m_game_replay=new TGLreplay(fp);
+						m_game_replay->rewind();
+						fclose(fp);
+
 						char *map_name=m_game_replay->get_map();
 						m_game=new TGL(map_name,m_selected_ship,m_current_levelpack->m_levels[m_lp_first_level]->m_initial_fuel,m_player_profile->m_sfx_volume,m_player_profile->m_music_volume,m_GLTM);
 						m_game->reset();
-
+						
 						m_game_state=0;
 						m_game_state_cycle=0;
-
+						
 						m_game_previous_state=TGL_STATE_LEVELPACKSCREEN;
 						m_game_reinit_previous_state=false;
 						return TGL_STATE_GAME;
 					}
-					break;
-			case 12:
-					// View replay:
-					{
-						// m_lp_first_level
-
+				}
+				break;
+		case 12:
+				// View replay:
+				{
+					// m_lp_first_level
+					FILE *fp;
+					char tmp[256];
+					sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",
+								m_player_profile->m_name,m_current_levelpack->m_id,m_lp_first_level+1,
+								m_selected_ship);
+					fp=fopen(tmp,"rb");
+					if (fp!=0) {
 						m_game_replay_mode=2;
-						{
-							FILE *fp;
-							char tmp[256];
-							sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",
-										m_player_profile->m_name,m_current_levelpack->m_id,m_lp_first_level+1,
-										m_selected_ship);
-							fp=fopen(tmp,"rb");
-							m_game_replay=new TGLreplay(fp);
-							m_game_replay->rewind();
-							fclose(fp);
-						}
+
+						m_game_replay=new TGLreplay(fp);
+						m_game_replay->rewind();
+						fclose(fp);
+
 						char *map_name=m_game_replay->get_map();
 						m_game=new TGL(map_name,m_selected_ship,m_current_levelpack->m_levels[m_lp_first_level+1]->m_initial_fuel,m_player_profile->m_sfx_volume,m_player_profile->m_music_volume,m_GLTM);
 						m_game->reset();
-
+						
 						m_game_state=0;
 						m_game_state_cycle=0;
-
+						
 						m_game_previous_state=TGL_STATE_LEVELPACKSCREEN;
 						m_game_reinit_previous_state=false;
 						return TGL_STATE_GAME;
 					}
-					break;
-			case 14:
-					// View replay:
+				}
+				break;
+		case 14:
+				// View replay:
+				{
+					// m_lp_first_level
 					{
-						// m_lp_first_level
+						FILE *fp;
+						char tmp[256];
+						sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",
+									m_player_profile->m_name,m_current_levelpack->m_id,m_lp_first_level+2,
+									m_selected_ship);
+						fp=fopen(tmp,"rb");
+						if (fp!=0) {
+							m_game_replay_mode=2;
 
-						m_game_replay_mode=2;
-						{
-							FILE *fp;
-							char tmp[256];
-							sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",
-										m_player_profile->m_name,m_current_levelpack->m_id,m_lp_first_level+2,
-										m_selected_ship);
-							fp=fopen(tmp,"rb");
 							m_game_replay=new TGLreplay(fp);
 							m_game_replay->rewind();
 							fclose(fp);
+
+							char *map_name=m_game_replay->get_map();
+							m_game=new TGL(map_name,m_selected_ship,m_current_levelpack->m_levels[m_lp_first_level+2]->m_initial_fuel,m_player_profile->m_sfx_volume,m_player_profile->m_music_volume,m_GLTM);
+							m_game->reset();
+							
+							m_game_state=0;
+							m_game_state_cycle=0;
+							
+							m_game_previous_state=TGL_STATE_LEVELPACKSCREEN;
+							m_game_reinit_previous_state=false;
+							return TGL_STATE_GAME;
 						}
-						char *map_name=m_game_replay->get_map();
-						m_game=new TGL(map_name,m_selected_ship,m_current_levelpack->m_levels[m_lp_first_level+2]->m_initial_fuel,m_player_profile->m_sfx_volume,m_player_profile->m_music_volume,m_GLTM);
-						m_game->reset();
-
-						m_game_state=0;
-						m_game_state_cycle=0;
-
-						m_game_previous_state=TGL_STATE_LEVELPACKSCREEN;
-						m_game_reinit_previous_state=false;
-						return TGL_STATE_GAME;
 					}
-					break;
-			case 11:
-					// Play:
-					m_selected_level = m_lp_first_level;
-					if (m_lp_music_channel!=-1) Mix_HaltChannel(m_lp_music_channel);
-					m_lp_music_channel=-1;
-					return TGL_STATE_PREGAME;					
-			case 13:
-					// Play:
-					m_selected_level = m_lp_first_level + 1;
-					if (m_lp_music_channel!=-1) Mix_HaltChannel(m_lp_music_channel);
-					m_lp_music_channel=-1;
-					return TGL_STATE_PREGAME;					
-			case 15:
-					// Play:
-					m_selected_level = m_lp_first_level + 2;
-					if (m_lp_music_channel!=-1) Mix_HaltChannel(m_lp_music_channel);
-					m_lp_music_channel=-1;
-					return TGL_STATE_PREGAME;					
-					break;
+				}
+				break;
+		case 11:
+				// Play:
+				m_selected_level = m_lp_first_level;
+				if (m_lp_music_channel!=-1) Mix_HaltChannel(m_lp_music_channel);
+				m_lp_music_channel=-1;
+				return TGL_STATE_PREGAME;					
+		case 13:
+				// Play:
+				m_selected_level = m_lp_first_level + 1;
+				if (m_lp_music_channel!=-1) Mix_HaltChannel(m_lp_music_channel);
+				m_lp_music_channel=-1;
+				return TGL_STATE_PREGAME;					
+		case 15:
+				// Play:
+				m_selected_level = m_lp_first_level + 2;
+				if (m_lp_music_channel!=-1) Mix_HaltChannel(m_lp_music_channel);
+				m_lp_music_channel=-1;
+				return TGL_STATE_PREGAME;					
+				break;
 		} // switch
 	} // if 
 

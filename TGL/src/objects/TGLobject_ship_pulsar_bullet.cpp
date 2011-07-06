@@ -118,17 +118,20 @@ bool TGLobject_ship_pulsar_bullet::cycle(VirtualController *k,TGLmap *map,GLTMan
 	// collisions for the parts of the wave still alive:
 	for(int i = 0;i<n_points;i++) {
 		if (m_point_alpha[i]>0.99) {
-			if (map->collision(pixel_object,m_x+m_point_x[i],m_y+m_point_y[i],0)) {
-				m_point_alpha[i]*=0.5;
-				
+			if (map->collision(pixel_object,m_x+m_point_x[i],m_y+m_point_y[i],0)) {				
 				TGLobject *o=map->collision_with_object(m_x+m_point_x[i],m_y+m_point_y[i]);
 				if (o!=0) {
-					if (o->is_a("TGLobject_enemy") && this->check_collision(o)) {
-						((TGLobject_enemy *)o)->hit(1);
-						exclude_for_collision(o);	// only hit each enemy once per wave
-					} else if (o->is_a("TGLobject_bullet") && this->check_collision(o)) {
-						((TGLobject_bullet *)o)->hit();
+					if (this->check_collision(o)) {
+						m_point_alpha[i]*=0.5;
+						if (o->is_a("TGLobject_enemy")) {
+							((TGLobject_enemy *)o)->hit(1);
+							exclude_for_collision(o);	// only hit each enemy once per wave
+						} else if (o->is_a("TGLobject_bullet") && this->check_collision(o)) {
+							((TGLobject_bullet *)o)->hit();
+						}
 					}
+				} else {
+					m_point_alpha[i]*=0.5;
 				} // if 	
 			} // if 
 		}
