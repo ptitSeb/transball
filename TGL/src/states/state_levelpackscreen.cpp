@@ -470,7 +470,8 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 					// m_lp_first_level
 					FILE *fp;
 					char tmp[256];
-					sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",
+					sprintf(tmp,"%splayers/%s/%s-level-%i-%i.rpl",
+								m_player_data_path,
 								m_player_profile->m_name,m_current_levelpack->m_id,m_lp_first_level,
 								m_selected_ship);
 					fp=fopen(tmp,"rb");
@@ -500,7 +501,8 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 					// m_lp_first_level
 					FILE *fp;
 					char tmp[256];
-					sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",
+					sprintf(tmp,"%splayers/%s/%s-level-%i-%i.rpl",
+								m_player_data_path,
 								m_player_profile->m_name,m_current_levelpack->m_id,m_lp_first_level+1,
 								m_selected_ship);
 					fp=fopen(tmp,"rb");
@@ -531,7 +533,8 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 					{
 						FILE *fp;
 						char tmp[256];
-						sprintf(tmp,"players/%s/%s-level-%i-%i.rpl",
+						sprintf(tmp,"%splayers/%s/%s-level-%i-%i.rpl",
+									m_player_data_path,
 									m_player_profile->m_name,m_current_levelpack->m_id,m_lp_first_level+2,
 									m_selected_ship);
 						fp=fopen(tmp,"rb");

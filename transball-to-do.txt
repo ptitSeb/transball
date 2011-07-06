@@ -6,7 +6,6 @@ To do in "Transball GL": -------------------------------------------------------
 ***- use the new soft cannons in some map
 - Folder issues in Mac:
 	- in MAC, what happens when you try to save a map when running it as a bundle? should the map editor allow you to only edit your local maps?
-	- replays cannot be replayed directly in MAC from the levelpackscreen (set the proper folder)
 - improve UI of map editor:
 	- in mac, recognize the two-finger swipe to scroll around: mouse button events -> 4: up, 5: down, 6: left, 7: right
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
