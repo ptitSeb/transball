@@ -96,7 +96,7 @@ bool TGLobject_ship_pulsar_bullet::cycle(VirtualController *k,TGLmap *map,GLTMan
 	// after a while, the ripple desintegrates:
 	if (timmer==0) {
 		// one point at random (use the "x" position as the random number generator to avoid calls to "rand()"):
-		m_point_alpha[int(m_x)%n_points] *= 0.5;
+		m_point_alpha[int(m_x)%n_points] *= 0.9;
 	}
 	
 	// propagate disintegration:
@@ -109,7 +109,7 @@ bool TGLobject_ship_pulsar_bullet::cycle(VirtualController *k,TGLmap *map,GLTMan
 			if (m_point_alpha[i]<0.99 ||
 				m_point_alpha[(i+1)%n_points]<0.99 ||
 				previous_alpha<0.99) {
-				m_point_alpha[i]*=0.5;
+				m_point_alpha[i]*=0.9;
 			}
 			previous_alpha = tmp;
 		}
@@ -122,7 +122,7 @@ bool TGLobject_ship_pulsar_bullet::cycle(VirtualController *k,TGLmap *map,GLTMan
 				TGLobject *o=map->collision_with_object(m_x+m_point_x[i],m_y+m_point_y[i]);
 				if (o!=0) {
 					if (this->check_collision(o)) {
-						m_point_alpha[i]*=0.5;
+						m_point_alpha[i]*=0.9;
 						if (o->is_a("TGLobject_enemy")) {
 							((TGLobject_enemy *)o)->hit(1);
 							exclude_for_collision(o);	// only hit each enemy once per wave
@@ -131,7 +131,7 @@ bool TGLobject_ship_pulsar_bullet::cycle(VirtualController *k,TGLmap *map,GLTMan
 						}
 					}
 				} else {
-					m_point_alpha[i]*=0.5;
+					m_point_alpha[i]*=0.9;
 				} // if 	
 			} // if 
 		}

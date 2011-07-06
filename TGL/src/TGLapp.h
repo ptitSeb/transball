@@ -7,7 +7,7 @@
 
 #define MAXLOCAL_PLAYERS	4
 
-#define N_SHIPS		11
+#define N_SHIPS		12
 
 #define TGL_STATE_NONE	-1
 #define TGL_STATE_PLAYERPROFILE	1

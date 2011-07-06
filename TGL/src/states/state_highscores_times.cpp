@@ -323,6 +323,7 @@ int TGLapp::highscores_times_cycle(KEYBOARDSTATE *k)
 									  "GYR",
 									  "D-F",
 									  "C-H",
+									  "PA3"
 									};
 			char folders[2][256];
 			
@@ -561,6 +562,7 @@ void TGLapp::highscores_times_draw(void)
 									"objects/ship-gyrus",
 									"objects/ship-dflecter-1",
 									"objects/ship-harpoon",
+									"objects/ship-pulsar-1",
 									};
 				char *ship_names[]={"V-Panther",
 									"X-Terminator",
@@ -573,6 +575,7 @@ void TGLapp::highscores_times_draw(void)
 									"Gyrus-P",
 									"D-Flecter",
 									"C-Harpoon",
+									"Pulsar A3",
 									};
 
 				GLTile *t;

@@ -1,7 +1,6 @@
 To do in "Transball GL": --------------------------------------------------------
 
 ***- Pulsar A3:
-	- improve the way the waves disappear
 	- find a way to draw the white riples in the riples on top of the blue part
 	- play one level with the pulsar for the intro demo:
 ***- use the new soft cannons in some map
