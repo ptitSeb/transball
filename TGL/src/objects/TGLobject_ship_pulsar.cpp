@@ -111,7 +111,7 @@ bool TGLobject_ship_pulsar::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 		if (ball!=0 && m_ball==0) {
 			if (ball->attractor()) {
 				if (ball->get_state()==0) map->action(0);
-				ball->capture(1);
+				ball->capture(7);
 				m_ball=ball;
 				Sound_play(SFXM->get("sfx/takeball"),sfx_volume);
 			} // if 

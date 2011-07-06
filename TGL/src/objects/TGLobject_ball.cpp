@@ -155,6 +155,8 @@ void TGLobject_ball::draw(GLTManager *GLTM)
 			break;
 	case 6: m_last_tile=GLTM->get("objects/ball-darkblue");
 			break;
+	case 7: m_last_tile=GLTM->get("objects/ball-turquoise");
+			break;
 	} // switch
 
 	if (m_last_tile!=0) m_last_tile->draw(m_x,m_y,0,0,1);

@@ -316,7 +316,7 @@ int TGLapp::levelpackscreen_cycle(KEYBOARDSTATE *k)
 							   "tutorial1-gyr",
 							   "tutorial1-def",
 							   "tutorial1-harp",
-							   "tutorial1-vp", // TODO!!!
+							   "tutorial1-pul",
 								};
 
 		if (m_lp_tutorial_game!=0) {
