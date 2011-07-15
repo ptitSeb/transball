@@ -1,6 +1,8 @@
 To do in "Transball GL": --------------------------------------------------------
 
 ***- Pulsar A3:
+	- make sure collisions work, I've seen some ripples disappear when they should not
+	- are the ripples too slow?
 	- find a way to draw the white riples in the riples on top of the blue part
 	- play one level with the pulsar for the intro demo:
 ***- use the new soft cannons in some map

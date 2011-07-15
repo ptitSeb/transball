@@ -320,6 +320,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 										"Gyrus-P",
 										"D-Flecter",
 										"C-Harpoon",
+										"Pulsar A3"
 										};
 					
 					char *tmp=new char[256];
