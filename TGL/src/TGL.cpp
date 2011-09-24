@@ -58,6 +58,37 @@
 
 #define MAPPAUSE_TIME	25
 
+
+char *TGL::ship_tiles[TGL_SHIP_NUMBER]={
+	"objects/ship-vpanther-1",
+	"objects/ship-xterminator-1",
+	"objects/ship-srunner-1",
+	"objects/ship-nblaster-1",
+	"objects/ship-vbeam-1",
+	"objects/ship-dodger-1",
+	"objects/ship-gravis-1",
+	"objects/ship-accura-1",
+	"objects/ship-gyrus",
+	"objects/ship-dflecter-1",
+	"objects/ship-harpoon",
+	"objects/ship-pulsar-1",
+};
+char *TGL::ship_names[TGL_SHIP_NUMBER]={
+	"V-Panther",
+	"X-Terminator",
+	"Shadow Runner",
+	"Nitro Blaster",
+	"Vipper Beam",
+	"Dodger K7",
+	"Gravis T8",
+	"Accura T5",
+	"Gyrus-P",
+	"D-Flecter",
+	"C-Harpoon",
+	"Pulsar A3",
+};
+
+
 TGL::TGL(char *map, int ship,int initial_fuel,int sfx_volume, int music_volume, GLTManager *GLTM)
 {	
 	m_font=TTF_OpenFont("fonts/arial.ttf",12);

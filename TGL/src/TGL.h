@@ -1,6 +1,7 @@
 #ifndef _TGL_GAME
 #define _TGL_GAME
 
+#define TGL_SHIP_NUMBER	12
 
 class TGL {
 public:
@@ -23,6 +24,9 @@ public:
 
 	int get_cycle();
 
+	static char *ship_tiles[TGL_SHIP_NUMBER];
+	static char *ship_names[TGL_SHIP_NUMBER];
+	
 protected:
 	TTF_Font *m_font;
 
@@ -39,6 +43,7 @@ protected:
 	// sound:
 	int m_sfx_volume,m_music_volume;
 	int m_music_channel;
+	
 };
 
 #endif

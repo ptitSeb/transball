@@ -610,40 +610,13 @@ void TGLapp::levelpackscreen_draw(void)
 	
 	// Draw Selected ship:
 	{
-		char *ship_tiles[]={"objects/ship-vpanther-1",
-							"objects/ship-xterminator-1",
-							"objects/ship-srunner-1",
-							"objects/ship-nblaster-1",
-							"objects/ship-vbeam-1",
-							"objects/ship-dodger-1",
-							"objects/ship-gravis-1",
-							"objects/ship-accura-1",
-							"objects/ship-gyrus",
-							"objects/ship-dflecter-1",
-							"objects/ship-harpoon",
-							"objects/ship-pulsar-1",
-							};
-		char *ship_names[]={"V-Panther",
-							"X-Terminator",
-							"Shadow Runner",
-							"Nitro Blaster",
-							"Vipper Beam",
-							"Dodger K7",
-							"Gravis T8",
-							"Accura T5",
-							"Gyrus-P",
-							"D-Flecter",
-							"C-Harpoon",
-							"Pulsar A3",
-							};
-
 		int i,s;
 		GLTile *t;
 
 		for(i=-1;i<2;i++) {
 			s=m_player_profile->m_ships.Position(&m_selected_ship)+i;
 			if (s>=0 && s<m_player_profile->m_ships.Length()) {
-				t=m_GLTM->get(ship_tiles[*(m_player_profile->m_ships[s])]);
+				t=m_GLTM->get(TGL::ship_tiles[*(m_player_profile->m_ships[s])]);
 
 				if (i==0) {
 					t->draw(495,160,0,0,1);
@@ -654,7 +627,7 @@ void TGLapp::levelpackscreen_draw(void)
 			} // if
 		} // for
 
-		TGLinterface::print_center(ship_names[m_selected_ship],m_font32,495,220);
+		TGLinterface::print_center(TGL::ship_names[m_selected_ship],m_font32,495,220);
 	}
 
 	switch(m_lp_replay_mode) {

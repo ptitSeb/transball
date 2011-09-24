@@ -551,41 +551,14 @@ void TGLapp::highscores_times_draw(void)
 		{
 			ship=m_highscores_first_ship;
 			{
-				char *ship_tiles[]={"objects/ship-vpanther-1",
-									"objects/ship-xterminator-1",
-									"objects/ship-srunner-1",
-									"objects/ship-nblaster-1",
-									"objects/ship-vbeam-1",
-									"objects/ship-dodger-1",
-									"objects/ship-gravis-1",
-									"objects/ship-accura-1",
-									"objects/ship-gyrus",
-									"objects/ship-dflecter-1",
-									"objects/ship-harpoon",
-									"objects/ship-pulsar-1",
-									};
-				char *ship_names[]={"V-Panther",
-									"X-Terminator",
-									"Shadow Runner",
-									"Nitro Blaster",
-									"Vipper Beam",
-									"Dodger K7",
-									"Gravis T8",
-									"Accura T5",
-									"Gyrus-P",
-									"D-Flecter",
-									"C-Harpoon",
-									"Pulsar A3",
-									};
-
 				GLTile *t;
 
 				{
-					t=m_GLTM->get(ship_tiles[ship]);
+					t=m_GLTM->get(TGL::ship_tiles[ship]);
 
 					t->draw(float(150+310),float(start_y),0,0,0.6f);
 
-					TGLinterface::print_center(ship_names[ship],m_font16,float(150+310),float(start_y+30));
+					TGLinterface::print_center(TGL::ship_names[ship],m_font16,float(150+310),float(start_y+30));
 	
 					TGLinterface::print_center("Any ship",m_font16,float(150),float(start_y+30));
 				} // if

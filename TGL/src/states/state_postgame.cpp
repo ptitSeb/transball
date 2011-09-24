@@ -137,11 +137,6 @@ int TGLapp::postgame_cycle(KEYBOARDSTATE *k)
 void TGLapp::postgame_draw(void)
 {
 	char buffer[255];
-	char *ship_names[11]={"V-Panther","X-Terminator","Shadow Runner",
-		 				  "Nitro Blaster","Vipper Beam","Dodger-K7",
-						  "Gravis T8","Accura-T 5","Gyrus-P",
-						  "D-Flecter","C-Harpoon"};
-
 	glClearColor(0,0,0,1);
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -189,7 +184,7 @@ void TGLapp::postgame_draw(void)
 		TGLinterface::print_center(buffer,m_font16,320,200);
 		
 		if (m_ship_unlocked!=-1) {
-			sprintf(buffer,"New ship unlocked: '%s'!",ship_names[m_ship_unlocked]);
+			sprintf(buffer,"New ship unlocked: '%s'!",TGL::ship_names[m_ship_unlocked]);
 		} // if 
 		TGLinterface::print_center(buffer,m_font16,320,225);
 	}

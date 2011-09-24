@@ -308,20 +308,6 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 				if (fp!=0) {
 					TGLreplay *rpl=new TGLreplay(fp);
 					fclose(fp);
-
-					char *ship_names[]={"V-Panther",
-										"X-Terminator",
-										"Shadow Runner",
-										"Nitro Blaster",
-										"Vipper Beam",
-										"Dodger K7",
-										"Gravis T8",
-										"Accura T5",
-										"Gyrus-P",
-										"D-Flecter",
-										"C-Harpoon",
-										"Pulsar A3"
-										};
 					
 					char *tmp=new char[256];
 					{
@@ -330,7 +316,7 @@ int TGLapp::savereplay_cycle(KEYBOARDSTATE *k)
 						int secs=(milis/1000)%60;
 						int mins=(milis/60000);
 
-						sprintf(tmp,"%s - %i:%.2i:%.2i",ship_names[rpl->get_playership(rpl->get_playername(0))],mins,secs,hunds);
+						sprintf(tmp,"%s - %i:%.2i:%.2i",TGL::ship_names[rpl->get_playership(rpl->get_playername(0))],mins,secs,hunds);
 					}
 
 					m_sr_replay_info.SetObj(i,tmp);
