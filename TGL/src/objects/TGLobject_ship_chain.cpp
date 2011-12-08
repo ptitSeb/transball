@@ -27,7 +27,6 @@
 #include "keyboardstate.h"
 #include "randomc.h"
 #include "VirtualController.h"
-#include "sincos.h"
 
 #include "GLTManager.h"
 #include "SFXManager.h"
@@ -100,8 +99,8 @@ void TGLobject_ship_chain::chain_cycle(void)
 		m_previous_join_y==m_next_join_y) {
 		m_x=m_x*(1-CHAIN_TENSION)+m_previous_join_x*CHAIN_TENSION;
 		m_y=m_y*(1-CHAIN_TENSION)+m_previous_join_y*CHAIN_TENSION;
-		desired_next_join_x=m_x+float((CHAIN_LINK_LENGTH/2)*cos_table[90-m_angle]);
-		desired_next_join_y=m_x+float((CHAIN_LINK_LENGTH/2)*sin_table[90-m_angle]);
+		desired_next_join_x=m_x+float((CHAIN_LINK_LENGTH/2)*cos_degree(90-m_angle));
+		desired_next_join_y=m_x+float((CHAIN_LINK_LENGTH/2)*sin_degree(90-m_angle));
 	} else {
 		float center_x,center_y;
 		int desired_angle;
@@ -113,10 +112,10 @@ void TGLobject_ship_chain::chain_cycle(void)
 		desired_angle=int((180*atan2(m_next_join_y-m_previous_join_y,m_next_join_x-m_previous_join_x))/M_PI);
 		while(desired_angle<0) desired_angle+=360;
 		while(desired_angle>=360) desired_angle-=360;
-		desired_x=center_x+float((-CHAIN_LINK_LENGTH/2)*cos_table[desired_angle]);
-		desired_y=center_y+float((-CHAIN_LINK_LENGTH/2)*sin_table[desired_angle]);
-		desired_next_join_x=center_x+float((CHAIN_LINK_LENGTH/2)*cos_table[desired_angle]);
-		desired_next_join_y=center_y+float((CHAIN_LINK_LENGTH/2)*sin_table[desired_angle]);
+		desired_x=center_x+float((-CHAIN_LINK_LENGTH/2)*cos_degree(desired_angle));
+		desired_y=center_y+float((-CHAIN_LINK_LENGTH/2)*sin_degree(desired_angle));
+		desired_next_join_x=center_x+float((CHAIN_LINK_LENGTH/2)*cos_degree(desired_angle));
+		desired_next_join_y=center_y+float((CHAIN_LINK_LENGTH/2)*sin_degree(desired_angle));
 //		desired_angle=90-desired_angle;
 		desired_angle=desired_angle-90;
 

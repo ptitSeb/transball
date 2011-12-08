@@ -1198,3 +1198,17 @@ bool load_int(FILE *fp,int *f)
 
 	return true;
 } /* load_int */ 
+
+
+double sin_degree(double degree)
+{
+	return sin(degree*M_PI/180.0);
+}
+
+
+double cos_degree(double degree)
+{
+	return cos(degree*M_PI/180.0);
+}
+
+

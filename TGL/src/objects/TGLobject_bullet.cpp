@@ -27,7 +27,6 @@
 #include "keyboardstate.h"
 #include "randomc.h"
 #include "VirtualController.h"
-#include "sincos.h"
 
 #include "GLTManager.h"
 #include "SFXManager.h"
@@ -89,8 +88,8 @@ bool TGLobject_bullet::cycle(VirtualController *k,class TGLmap *map,GLTManager *
 				int a=m_angle-90;
 				while(a<0) a+=360;
 				while(a>=360) a-=360;
-				m_x+=float((cos_table[a]*m_speed));
-				m_y+=float((sin_table[a]*m_speed));
+				m_x+=float((cos_degree(a)*m_speed));
+				m_y+=float((sin_degree(a)*m_speed));
 			} // if			
 
 

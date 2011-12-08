@@ -70,7 +70,7 @@ void TGLTileBrowser::draw(float alpha)
 		GLTile *t;
 		List<GLTile> l;
 		l.Instance(m_entries);
-		while(l.Iterate(t)) height+=t->get_dy()+4;
+		while(l.Iterate(t)) height+=t->get_dy()*scale(t)+4;
 	}
 
 	glBegin(GL_QUADS);
@@ -146,14 +146,15 @@ void TGLTileBrowser::draw(float alpha)
 
 		m_entries.Rewind();
 		while(m_entries.Iterate(entry) && (y<m_y+m_dy)) {
-
+			float s = scale(entry);
+			
 			if (m_mouse_over == i) {
 				glBegin(GL_QUADS);
 				glColor4f(0.5f,1,0.5f,alpha*0.5f);
 				glVertex3f(m_x+4,float(y+4),0);
 				glVertex3f(m_x+m_dx-4,float(y+4),0);
-				glVertex3f(m_x+m_dx-4,float(y+entry->get_dy()+4),0);
-				glVertex3f(m_x+4,float(y+entry->get_dy()+4),0);
+				glVertex3f(m_x+m_dx-4,float(y+entry->get_dy()*s+4),0);
+				glVertex3f(m_x+4,float(y+entry->get_dy()*s+4),0);
 				glEnd();
 			} // if 
 
@@ -163,19 +164,19 @@ void TGLTileBrowser::draw(float alpha)
 				glBegin(GL_LINES);
 				glColor4f(1,1,1,1);
 				glVertex3f(0,0,0);
-				glVertex3f(float(entry->get_dx()+4),0,0);
-				glVertex3f(0,float(entry->get_dy()+4),0);
-				glVertex3f(float(entry->get_dx()+4),float(entry->get_dy()+4),0);
+				glVertex3f(float(entry->get_dx()*s+4),0,0);
+				glVertex3f(0,float(entry->get_dy()*s+4),0);
+				glVertex3f(float(entry->get_dx()*s+4),float(entry->get_dy()*s+4),0);
 				glVertex3f(0,0,0);
-				glVertex3f(0,float(entry->get_dy()+4),0);
-				glVertex3f(float(entry->get_dx()+4),0,0);
-				glVertex3f(float(entry->get_dx()+4),float(entry->get_dy()+4),0);
+				glVertex3f(0,float(entry->get_dy()*s+4),0);
+				glVertex3f(float(entry->get_dx()*s+4),0,0);
+				glVertex3f(float(entry->get_dx()*s+4),float(entry->get_dy()*s+4),0);
 				glEnd();
 				glPopMatrix();
 			} // if
 
-			entry->draw(m_x+8,float(y+4),0,0,1);
-			y+=entry->get_dy()+4;;
+			entry->draw(m_x+8+entry->get_hot_x()*s,float(y+4)+entry->get_hot_y()*s,0,0,s);
+			y+=entry->get_dy()*s+4;;
 			i++;
 		} // while
 
@@ -200,7 +201,7 @@ bool TGLTileBrowser::check_status(int mousex,int mousey,int button,int button_st
 		GLTile *t;
 		List<GLTile> l;
 		l.Instance(m_entries);
-		while(l.Iterate(t)) height+=t->get_dy()+4;
+		while(l.Iterate(t)) height+=t->get_dy()*scale(t)+4;
 	}
 
 	if (mousex>m_x && mousex<m_x+(m_dx-20) && mousey>m_y && mousey<m_y+m_dy) {
@@ -284,7 +285,7 @@ void TGLTileBrowser::setSelected(int i)
 		GLTile *t;
 		List<GLTile> l;
 		l.Instance(m_entries);
-		while(l.Iterate(t)) height+=t->get_dy()+4;
+		while(l.Iterate(t)) height+=t->get_dy()*scale(t)+4;
 	}
 	int first_y = int(-(m_slider_pos/(m_dy-8))*height);
 
@@ -309,8 +310,6 @@ void TGLTileBrowser::setSelected(int i)
 	} else if (selected_y+first_y+selected_height > m_dy) {
 		m_slider_pos = (float(selected_y+selected_height - (m_dy-8))*(m_dy-8))/height;
 	}		
-
-	
 } /* TGLTileBrowser::setSelected */ 
 
 
@@ -323,5 +322,14 @@ int TGLTileBrowser::getSelected(void)
 int TGLTileBrowser::getNEntries() 
 {
 	return m_entries.Length();
+}
+
+
+float TGLTileBrowser::scale(GLTile *t)
+{
+	float scale = 1;
+	int dx = m_dx - 28;
+	if (t->get_dx()>dx) scale = float(dx)/float(t->get_dx());
+	return scale;
 }
 

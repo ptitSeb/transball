@@ -27,7 +27,6 @@
 #include "keyboardstate.h"
 #include "randomc.h"
 #include "VirtualController.h"
-#include "sincos.h"
 
 #include "GLTManager.h"
 #include "SFXManager.h"
@@ -110,10 +109,10 @@ void TGLobject_FX_explosion1::draw(GLTManager *GLTM)
 	    for (angle=0;angle<360;angle+=30) {
 		  glVertex2f(float(m_x),
 					 float(m_y));
-		  glVertex2f(float(m_x+(cos_table[angle]*radius)),
-					 float(m_y+(sin_table[angle]*radius)));
-		  glVertex2f(float(m_x+(cos_table[(angle+30)%360]*radius)),
-					 float(m_y+(sin_table[(angle+30)%360]*radius)));
+		  glVertex2f(float(m_x+(cos_degree(angle)*radius)),
+					 float(m_y+(sin_degree(angle)*radius)));
+		  glVertex2f(float(m_x+(cos_degree((angle+30)%360)*radius)),
+					 float(m_y+(sin_degree((angle+30)%360)*radius)));
 		} // for
 		glEnd();
 

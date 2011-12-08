@@ -64,7 +64,7 @@ protected:
 	int m_state;
 	int m_cycle;
 	float m_x,m_y;
-	int m_angle;
+	float m_angle;
 	float m_scale;
 	int m_animation_offset;
 	GLTile *m_last_tile;

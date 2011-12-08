@@ -97,6 +97,7 @@
 #include "TGLobject_leftdoor.h"
 #include "TGLobject_rightdoor.h"
 #include "TGLobject_button.h"
+#include "TGLobject_cog.h"
 
 extern int SCREEN_X,SCREEN_Y;
 
@@ -295,6 +296,7 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 			m_editor_object_tiles.Add(m_GLTM->get("objects/fast-directionalcannon-right"));
 			m_editor_object_tiles.Add(m_GLTM->get("objects/fast-directionalcannon-down"));
 			m_editor_object_tiles.Add(m_GLTM->get("objects/fast-directionalcannon-up"));			
+			m_editor_object_tiles.Add(m_GLTM->get("objects/cog"));
 		} // if 
 		
 		
@@ -902,6 +904,8 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 						m_editor_level_editing->add_object(new TGLobject_fast_directionalcannon_down(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
 					} else if (m_editor_selected_object==55) {
 						m_editor_level_editing->add_object(new TGLobject_fast_directionalcannon_up(float(m_editor_insert_x),float(m_editor_insert_y+STARFIELD),0));
+					} else if (m_editor_selected_object==56) {
+						m_editor_level_editing->add_object(new TGLobject_cog(float(m_editor_insert_x+320),float(m_editor_insert_y+320+STARFIELD),0));
 					} // if 
 
 					break;

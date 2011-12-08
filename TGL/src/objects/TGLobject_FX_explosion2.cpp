@@ -27,7 +27,6 @@
 #include "keyboardstate.h"
 #include "randomc.h"
 #include "VirtualController.h"
-#include "sincos.h"
 
 #include "GLTManager.h"
 #include "SFXManager.h"
@@ -81,20 +80,20 @@ bool TGLobject_FX_explosion2::cycle(VirtualController *k,class TGLmap *map,GLTMa
 			int r=rand()%range;
 			int a=rand()%360;
 			if ((rand()%128)==0) {
-				map->insert_auxiliary_front_object(new TGLobject_FX_particle(get_x(),get_y(),rand()%360,float(r*cos_table[a])/16,float(r*sin_table[a])/16,4,true,
+				map->insert_auxiliary_front_object(new TGLobject_FX_particle(get_x(),get_y(),rand()%360,float(r*cos_degree(a))/16,float(r*sin_degree(a))/16,4,true,
 																		 0.5f,0.5f,
 																		 0.5f,0.5f,
 																		 0.5f,0.5f,
 																		 1,0,0.25f,0.35f,m_duration/2,GLTM->get("objects/explosion")));
 			} else {
 				if (r<range/2) {
-					map->add_auxiliary_front_object(new TGLobject_FX_particle(get_x(),get_y(),rand()%360,float(r*cos_table[a])/32,float(r*sin_table[a])/32,4,false,
+					map->add_auxiliary_front_object(new TGLobject_FX_particle(get_x(),get_y(),rand()%360,float(r*cos_degree(a))/32,float(r*sin_degree(a))/32,4,false,
 																			 1,1,
 																			 1,1,
 																			 1,1,
 																			 1,0,0.25f,0.35f,m_duration/4,GLTM->get("objects/explosion")));
 				} else {
-					map->insert_auxiliary_front_object(new TGLobject_FX_particle(get_x(),get_y(),rand()%360,float(r*cos_table[a])/32,float(r*sin_table[a])/32,4,false,
+					map->insert_auxiliary_front_object(new TGLobject_FX_particle(get_x(),get_y(),rand()%360,float(r*cos_degree(a))/32,float(r*sin_degree(a))/32,4,false,
 																			 0.5f,0.5f,
 																			 0.5f,0.5f,
 																			 1,1,

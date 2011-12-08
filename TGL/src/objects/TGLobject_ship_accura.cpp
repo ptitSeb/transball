@@ -27,7 +27,6 @@
 #include "keyboardstate.h"
 #include "randomc.h"
 #include "VirtualController.h"
-#include "sincos.h"
 
 #include "GLTManager.h"
 #include "SFXManager.h"
@@ -80,8 +79,8 @@ bool TGLobject_ship_accura::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 				int a=obj->get_angle()-90;
 				while(a<0) a+=360;
 				while(a>=360) a-=360;
-				m_speed_x+=float(cos_table[a]*48.0)/256.0f;
-				m_speed_y+=float(sin_table[a]*48.0)/256.0f;
+				m_speed_x+=float(cos_degree(a)*48.0)/256.0f;
+				m_speed_y+=float(sin_degree(a)*48.0)/256.0f;
 			} else {
 				Sound_play(SFXM->get("sfx/explosion"),sfx_volume);
 				map->add_auxiliary_front_object(new TGLobject_FX_explosion2(get_x(),get_y(),256,200));
@@ -143,10 +142,10 @@ bool TGLobject_ship_accura::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 		while(a>=360) a-=360;
 
 		if (m_missile_side==0) {
-			bullet=new TGLobject_bullet_hmissile(float(get_x()+(cos_table[a]*8)+(sin_table[a]*7)),float(get_y()+(sin_table[a]*8)-(cos_table[a]*7)),0,m_angle,4,1,GLTM->get("objects/bullet-small-grey-missile1"),GLTM->get("objects/bullet-small-grey-missile2"),this);
+			bullet=new TGLobject_bullet_hmissile(float(get_x()+(cos_degree(a)*8)+(sin_degree(a)*7)),float(get_y()+(sin_degree(a)*8)-(cos_degree(a)*7)),0,m_angle,4,1,GLTM->get("objects/bullet-small-grey-missile1"),GLTM->get("objects/bullet-small-grey-missile2"),this);
 			m_missile_side=1;
 		} else {
-			bullet=new TGLobject_bullet_hmissile(float(get_x()+(cos_table[a]*8)-(sin_table[a]*7)),float(get_y()+(sin_table[a]*8)+(cos_table[a]*7)),0,m_angle,4,1,GLTM->get("objects/bullet-small-grey-missile1"),GLTM->get("objects/bullet-small-grey-missile2"),this);
+			bullet=new TGLobject_bullet_hmissile(float(get_x()+(cos_degree(a)*8)-(sin_degree(a)*7)),float(get_y()+(sin_degree(a)*8)+(cos_degree(a)*7)),0,m_angle,4,1,GLTM->get("objects/bullet-small-grey-missile1"),GLTM->get("objects/bullet-small-grey-missile2"),this);
 			m_missile_side=0;
 		} // if 
 		if (m_ball!=0) bullet->exclude_for_collision(m_ball);
@@ -168,8 +167,8 @@ bool TGLobject_ship_accura::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 		int a=m_angle-90;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		m_speed_x+=float(cos_table[a]*11.0)/256.0f;
-		m_speed_y+=float(sin_table[a]*11.0)/256.0f;
+		m_speed_x+=float(cos_degree(a)*11.0)/256.0f;
+		m_speed_y+=float(sin_degree(a)*11.0)/256.0f;
 		m_thrusting=true;
 		m_fuel--;
 	} // if 

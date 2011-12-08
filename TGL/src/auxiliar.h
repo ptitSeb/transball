@@ -95,6 +95,9 @@ bool load_float(FILE *fp,float *f);
 bool save_int(FILE *fp,int f);
 bool load_int(FILE *fp,int *f);
 
+// like standard sin/cos functions, but defined for degrees, rather than radians:
+double sin_degree(double degree);
+double cos_degree(double degree);
 
 #endif
 

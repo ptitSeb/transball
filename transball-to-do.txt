@@ -5,30 +5,19 @@ To do in "Transball GL": -------------------------------------------------------
 	- are the ripples too slow?
 	- find a way to draw the white riples in the riples on top of the blue part
 	- play one level with the pulsar for the intro demo:
+***- Clearly gear it towards playing the default level pack, the rest are extras
 ***- use the new soft cannons in some map
 - Folder issues in Mac:
 	- in MAC, what happens when you try to save a map when running it as a bundle? should the map editor allow you to only edit your local maps?
-- improve UI of map editor:
+- map editor:
 	- in mac, recognize the two-finger swipe to scroll around: mouse button events -> 4: up, 5: down, 6: left, 7: right
+	- why does ot slow down with giant cogs when in object mode?
+	- set the rotation + animation offset of rorating cogs
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
 - Nuevos elementos:
 	- Mas tiles
-	- Giant rotating cogs (the ships fit in between the teeth)
 	- Mega Tanques: te siguen, disparan misiles, son inmensos y requieren un huevo de toques
-- Modos 2 jugadores:
-	- jugar contra una IA?
-    - MODOS:
-        - race: los 2 juegan a la vez (la otra nave se ve como un fantasma en tu pantalla), y
-                se compite por tiempo
-        - colaborativo:los 2 juegan a la vez, y colaboran para llevarse la bola fuera
-        - combate: los 2 jugadores en un mismo nivel, el ˙nico objetivo es matarse mutuamente
-        - competitivo: los 2 jugadoes en un mismo nivel, compiten por conseguir la bola y
-                       llevarsela
-    - En los modos colaborativo y competitivo:
-        - hay 2 bolas (cualquiera puede coger cualquiera de las dos), pero solo una a la vez.
-        - los disparos de el adversario/colaborador te quitan fuel, te desplazan un poco, y te quitan la bola
-    - En red:
-        - cuando te conectas a otro ordenador, se sincronizan los highscores ("other-players" folder)
+	- tractor beams (como ascensores, que te mueven en una dirección, y te atraen hacia su centro si estás en ellos)
 - Musica en el menu principal
 - Musica/loop de sonido durante el juego 
 

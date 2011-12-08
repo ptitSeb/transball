@@ -27,7 +27,6 @@
 #include "keyboardstate.h"
 #include "randomc.h"
 #include "VirtualController.h"
-#include "sincos.h"
 
 #include "GLTManager.h"
 #include "SFXManager.h"
@@ -80,8 +79,8 @@ bool TGLobject_ship_dodger::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 				int a=obj->get_angle()-90;
 				while(a<0) a+=360;
 				while(a>=360) a-=360;
-				m_speed_x+=float(cos_table[a]*54.0)/256.0f;
-				m_speed_y+=float(sin_table[a]*54.0)/256.0f;
+				m_speed_x+=float(cos_degree(a)*54.0)/256.0f;
+				m_speed_y+=float(sin_degree(a)*54.0)/256.0f;
 			} else {
 				Sound_play(SFXM->get("sfx/explosion"),sfx_volume);
 				map->add_auxiliary_front_object(new TGLobject_FX_explosion2(get_x(),get_y(),256,200));
@@ -145,7 +144,7 @@ bool TGLobject_ship_dodger::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 		int a=m_angle-90;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*12)),float(get_y()+(sin_table[a]*12)),0,m_angle,6,1,GLTM->get("objects/bullet-green"),this);
+		bullet=new TGLobject_bullet(float(get_x()+(cos_degree(a)*12)),float(get_y()+(sin_degree(a)*12)),0,m_angle,6,1,GLTM->get("objects/bullet-green"),this);
 		if (m_ball!=0) bullet->exclude_for_collision(m_ball);
 		map->add_object_back(bullet);
 		m_fuel-=40;
@@ -165,8 +164,8 @@ bool TGLobject_ship_dodger::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 		int a=m_angle-90;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		m_speed_x+=float(cos_table[a]*21.0)/256.0f;
-		m_speed_y+=float(sin_table[a]*21.0)/256.0f;
+		m_speed_x+=float(cos_degree(a)*21.0)/256.0f;
+		m_speed_y+=float(sin_degree(a)*21.0)/256.0f;
 		m_thrusting=true;
 		m_fuel--;
 	} // if 
@@ -175,8 +174,8 @@ bool TGLobject_ship_dodger::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 		int a=m_angle;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		m_speed_x+=float(cos_table[a]*12.0)/256.0f;
-		m_speed_y+=float(sin_table[a]*12.0)/256.0f;
+		m_speed_x+=float(cos_degree(a)*12.0)/256.0f;
+		m_speed_y+=float(sin_degree(a)*12.0)/256.0f;
 		m_leftthrusting=true;
 		m_fuel--;
 	} // if 
@@ -185,8 +184,8 @@ bool TGLobject_ship_dodger::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 		int a=m_angle-180;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		m_speed_x+=float(cos_table[a]*12.0)/256.0f;
-		m_speed_y+=float(sin_table[a]*12.0)/256.0f;
+		m_speed_x+=float(cos_degree(a)*12.0)/256.0f;
+		m_speed_y+=float(sin_degree(a)*12.0)/256.0f;
 		m_rightthrusting=true;
 		m_fuel--;
 	} // if 
@@ -245,14 +244,14 @@ bool TGLobject_ship_dodger::cycle(VirtualController *k,TGLmap *map,GLTManager *G
 		int a=m_angle;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		if ((m_cycle%4)==0) map->add_auxiliary_back_object(new TGLobject_FX_particle(float(get_x()-(cos_table[a]*8)),float(get_y()-(sin_table[a]*8)),rand()%60,0,0,1,false,0.125f,0,0.25f,0.75f,50,GLTM->get("objects/smoke")));
+		if ((m_cycle%4)==0) map->add_auxiliary_back_object(new TGLobject_FX_particle(float(get_x()-(cos_degree(a)*8)),float(get_y()-(sin_degree(a)*8)),rand()%60,0,0,1,false,0.125f,0,0.25f,0.75f,50,GLTM->get("objects/smoke")));
 	} // if
 
 	if (m_rightthrusting) {
 		int a=m_angle;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		if ((m_cycle%4)==0) map->add_auxiliary_back_object(new TGLobject_FX_particle(float(get_x()+(cos_table[a]*8)),float(get_y()+(sin_table[a]*8)),rand()%60,0,0,1,false,0.125f,0,0.25f,0.75f,50,GLTM->get("objects/smoke")));
+		if ((m_cycle%4)==0) map->add_auxiliary_back_object(new TGLobject_FX_particle(float(get_x()+(cos_degree(a)*8)),float(get_y()+(sin_degree(a)*8)),rand()%60,0,0,1,false,0.125f,0,0.25f,0.75f,50,GLTM->get("objects/smoke")));
 	} // if
 
 	if (m_thrusting || m_leftthrusting || m_rightthrusting) {

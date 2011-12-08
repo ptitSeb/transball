@@ -27,7 +27,6 @@
 #include "keyboardstate.h"
 #include "randomc.h"
 #include "VirtualController.h"
-#include "sincos.h"
 
 #include "GLTManager.h"
 #include "SFXManager.h"
@@ -162,8 +161,8 @@ bool TGLobject_ship_c_harpoon::cycle(VirtualController *k,TGLmap *map,GLTManager
 				int a=obj->get_angle()-90;
 				while(a<0) a+=360;
 				while(a>=360) a-=360;
-				m_speed_x+=float(cos_table[a]*54.0)/256.0f;
-				m_speed_y+=float(sin_table[a]*54.0)/256.0f;
+				m_speed_x+=float(cos_degree(a)*54.0)/256.0f;
+				m_speed_y+=float(sin_degree(a)*54.0)/256.0f;
 			} else {
 				Sound_play(SFXM->get("sfx/explosion"),sfx_volume);
 				map->add_auxiliary_front_object(new TGLobject_FX_explosion2(get_x(),get_y(),256,200));
@@ -213,7 +212,7 @@ bool TGLobject_ship_c_harpoon::cycle(VirtualController *k,TGLmap *map,GLTManager
 		int a=m_angle-90;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*12)),float(get_y()+(sin_table[a]*12)),0,m_angle,5,1,GLTM->get("objects/bullet-red"),this);
+		bullet=new TGLobject_bullet(float(get_x()+(cos_degree(a)*12)),float(get_y()+(sin_degree(a)*12)),0,m_angle,5,1,GLTM->get("objects/bullet-red"),this);
 		if (m_ball!=0) bullet->exclude_for_collision(m_ball);
 		map->add_object_back(bullet);
 		m_fuel-=32;
@@ -234,8 +233,8 @@ bool TGLobject_ship_c_harpoon::cycle(VirtualController *k,TGLmap *map,GLTManager
 		int a=m_angle-90;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		m_speed_x+=float(cos_table[a]*18.0)/256.0f;
-		m_speed_y+=float(sin_table[a]*18.0)/256.0f;
+		m_speed_x+=float(cos_degree(a)*18.0)/256.0f;
+		m_speed_y+=float(sin_degree(a)*18.0)/256.0f;
 		m_thrusting=true;
 		m_fuel--;
 	} // if 
@@ -328,8 +327,8 @@ bool TGLobject_ship_c_harpoon::cycle(VirtualController *k,TGLmap *map,GLTManager
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
 
-		if ((m_cycle%4)==0) map->add_auxiliary_back_object(new TGLobject_FX_particle(float(get_x()+(cos_table[a]*11)),float(get_y()+(sin_table[a]*11)),rand()%60,0,0,1,false,0.125f,0,0.375f,1.0f,50,GLTM->get("objects/smoke")));
-		if ((m_cycle%4)==0) map->add_auxiliary_back_object(new TGLobject_FX_particle(float(get_x()-(cos_table[a]*11)),float(get_y()-(sin_table[a]*11)),rand()%60,0,0,1,false,0.125f,0,0.375f,1.0f,50,GLTM->get("objects/smoke")));
+		if ((m_cycle%4)==0) map->add_auxiliary_back_object(new TGLobject_FX_particle(float(get_x()+(cos_degree(a)*11)),float(get_y()+(sin_degree(a)*11)),rand()%60,0,0,1,false,0.125f,0,0.375f,1.0f,50,GLTM->get("objects/smoke")));
+		if ((m_cycle%4)==0) map->add_auxiliary_back_object(new TGLobject_FX_particle(float(get_x()-(cos_degree(a)*11)),float(get_y()-(sin_degree(a)*11)),rand()%60,0,0,1,false,0.125f,0,0.375f,1.0f,50,GLTM->get("objects/smoke")));
 
 		if (m_thrust_channel==-1) {
 			m_thrust_channel=Sound_play_continuous(SFXM->get("sfx/thrust"),sfx_volume);

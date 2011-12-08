@@ -27,7 +27,6 @@
 #include "keyboardstate.h"
 #include "randomc.h"
 #include "VirtualController.h"
-#include "sincos.h"
 
 #include "GLTManager.h"
 #include "SFXManager.h"
@@ -89,8 +88,8 @@ bool TGLobject_ship_pulsar_bullet::cycle(VirtualController *k,TGLmap *map,GLTMan
 		int a=m_angle-90;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		m_x+=float((cos_table[a]*m_speed));
-		m_y+=float((sin_table[a]*m_speed));
+		m_x+=float((cos_degree(a)*m_speed));
+		m_y+=float((sin_degree(a)*m_speed));
 	} // if	
 	
 	// after a while, the ripple desintegrates:
@@ -166,8 +165,8 @@ void TGLobject_ship_pulsar_bullet::draw(GLTManager *GLTM)
 		y = r*sin(a)*0.25;
 		m_point_width[i] = 8;
 		
-		m_point_x[i] = cos_table[angle]*x - sin_table[angle]*y;
-		m_point_y[i] = sin_table[angle]*x + cos_table[angle]*y;
+		m_point_x[i] = cos_degree(angle)*x - sin_degree(angle)*y;
+		m_point_y[i] = sin_degree(angle)*x + cos_degree(angle)*y;
 	}
 
 	glBegin(GL_QUAD_STRIP);

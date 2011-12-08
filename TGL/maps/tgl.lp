@@ -18,5 +18,10 @@
       <description>A very wide tunnel</description>
       <points>1</points>
     </level>
+    <level>
+      <name>Mechano</name>
+      <description>That is a big cog!</description>
+      <points>1</points>
+    </level>
   </levels>
 </levelpack>

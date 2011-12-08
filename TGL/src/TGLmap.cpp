@@ -79,6 +79,7 @@
 #include "TGLobject_rightdoor.h"
 #include "TGLobject_button.h"
 #include "TGLobject_ship.h"
+#include "TGLobject_cog.h"
 
 #include "collision.h"
 
@@ -325,6 +326,7 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 				if (1!=fscanf(fp,"%i",&p1)) return;
 				add_object(new TGLobject_button(x,y,animation_offset,p1,11));
 			} // if 
+			if (strcmp(tmp,"cog")==0) add_object(new TGLobject_cog(x,y,animation_offset));
 		} // for 
 	}
 
@@ -1544,6 +1546,7 @@ void TGLmap::save(FILE *fp,GLTManager *GLTM)
 			if (o->is_a("TGLobject_leftdoor")) no++;
 			if (o->is_a("TGLobject_rightdoor")) no++;
 			if (o->is_a("TGLobject_button")) no++;
+			if (o->is_a("TGLobject_cog")) no++;
 		} // while 
 
 		fprintf(fp,"%i\n",no);
@@ -1607,6 +1610,7 @@ void TGLmap::save(FILE *fp,GLTManager *GLTM)
 			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==9) fprintf(fp,"button-blue-right %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
 			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==10) fprintf(fp,"button-blue-up %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
 			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==11) fprintf(fp,"button-blue-down %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
+			if (o->is_a("TGLobject_cog")) fprintf(fp,"cog %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
 		} // while 
 	
 	}

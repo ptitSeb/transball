@@ -159,6 +159,8 @@ public:
 	void setSelected(int i);
 	int getSelected(void);
 	int getNEntries();
+	
+	float scale(GLTile *t);
 
 	virtual bool mouse_over(int mousex,int mousey);
 	virtual bool check_status(int mousex,int mousey,int button,int button_status,KEYBOARDSTATE *k);

@@ -27,7 +27,6 @@
 #include "keyboardstate.h"
 #include "randomc.h"
 #include "VirtualController.h"
-#include "sincos.h"
 
 #include "GLTManager.h"
 #include "SFXManager.h"
@@ -90,7 +89,7 @@ bool TGLobject_fast_directionalcannon_up::cycle(VirtualController *k,class TGLma
 				int a=m_angle;
 				while(a<0) a+=360;
 				while(a>=360) a-=360;
-				bullet=new TGLobject_soft_bullet(float(get_x()+(cos_table[a]*14)),float(get_y()+(sin_table[a]*14)),0,m_angle+90,3,1,GLTM->get("objects/bullet-smallblue"),this);
+				bullet=new TGLobject_soft_bullet(float(get_x()+(cos_degree(a)*14)),float(get_y()+(sin_degree(a)*14)),0,m_angle+90,3,1,GLTM->get("objects/bullet-smallblue"),this);
 				map->add_object_back(bullet);
 				m_state=24;
 				Sound_play(SFXM->get("sfx/shot"),sfx_volume);
@@ -99,7 +98,7 @@ bool TGLobject_fast_directionalcannon_up::cycle(VirtualController *k,class TGLma
 				{
 					int i;
 					for(i=0;i<4;i++) {
-						map->add_auxiliary_back_object(new TGLobject_FX_particle(float(get_x()+(cos_table[a]*14)),float(get_y()+(sin_table[a]*14)),rand()%60,float((rand()%101)-50)/256.0f,float((rand()%101)-50)/256.0f,1,false,0.25f,0,0.25f,0.75f,50,GLTM->get("objects/smoke")));
+						map->add_auxiliary_back_object(new TGLobject_FX_particle(float(get_x()+(cos_degree(a)*14)),float(get_y()+(sin_degree(a)*14)),rand()%60,float((rand()%101)-50)/256.0f,float((rand()%101)-50)/256.0f,1,false,0.25f,0,0.25f,0.75f,50,GLTM->get("objects/smoke")));
 					} // for
 				}
 			} else {

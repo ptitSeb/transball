@@ -27,7 +27,6 @@
 #include "keyboardstate.h"
 #include "randomc.h"
 #include "VirtualController.h"
-#include "sincos.h"
 #include "Vector.h"
 
 #include "GLTManager.h"
@@ -102,8 +101,8 @@ bool TGLobject_bullet_hmissile::cycle(VirtualController *k,class TGLmap *map,GLT
 			int a=(m_angle+i)-90;
 			while(a<0) a+=360;
 			while(a>=360) a-=360;
-			float next_x=float(m_x+(cos_table[a]*m_speed));
-			float next_y=float(m_y+(sin_table[a]*m_speed));
+			float next_x=float(m_x+(cos_degree(a)*m_speed));
+			float next_y=float(m_y+(sin_degree(a)*m_speed));
 
 			d=float(sqrt((next_x-m_dest_x)*(next_x-m_dest_x)+(next_y-m_dest_y)*(next_y-m_dest_y)));
 

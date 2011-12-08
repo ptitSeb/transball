@@ -55,11 +55,8 @@ int TGLapp::mainmenu_cycle(KEYBOARDSTATE *k)
 		m_mm_demo_timmer=0;
 
 		TGLinterface::reset();
-		SDL_WarpMouse(210,315);
-		TGLinterface::add_element(new TGLbuttonTransparent("SOLO PLAY",m_ifont32,150,305,160,30,0));
-		e=new TGLbuttonTransparent("NET PLAY",m_ifont32,330,305,160,30,1);
-		e->m_enabled=false;
-		TGLinterface::add_element(e);
+		SDL_WarpMouse(320,315);
+		TGLinterface::add_element(new TGLbuttonTransparent("PLAY",m_ifont32,240,305,160,30,0));
 
 		e=new TGLbuttonTransparent("OPTIONS",m_ifont32,150,350,160,30,2);
 		TGLinterface::add_element(e);

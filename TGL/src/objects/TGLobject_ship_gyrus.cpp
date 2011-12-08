@@ -27,7 +27,6 @@
 #include "keyboardstate.h"
 #include "randomc.h"
 #include "VirtualController.h"
-#include "sincos.h"
 
 #include "GLTManager.h"
 #include "SFXManager.h"
@@ -84,8 +83,8 @@ bool TGLobject_ship_gyrus::cycle(VirtualController *k,TGLmap *map,GLTManager *GL
 				int a=obj->get_angle()-90;
 				while(a<0) a+=360;
 				while(a>=360) a-=360;
-				m_speed_x+=float(cos_table[a]*50.0)/256.0f;
-				m_speed_y+=float(sin_table[a]*50.0)/256.0f;
+				m_speed_x+=float(cos_degree(a)*50.0)/256.0f;
+				m_speed_y+=float(sin_degree(a)*50.0)/256.0f;
 			} else {
 				Sound_play(SFXM->get("sfx/explosion"),sfx_volume);
 				map->add_auxiliary_front_object(new TGLobject_FX_explosion2(get_x(),get_y(),256,200));
@@ -148,7 +147,7 @@ bool TGLobject_ship_gyrus::cycle(VirtualController *k,TGLmap *map,GLTManager *GL
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
 
-		bullet=new TGLobject_bullet(float(get_x()+(cos_table[a]*8)),float(get_y()+(sin_table[a]*8)),0,m_angle+m_cannon_angle,5,2,GLTM->get("objects/bullet-red2"),this);
+		bullet=new TGLobject_bullet(float(get_x()+(cos_degree(a)*8)),float(get_y()+(sin_degree(a)*8)),0,m_angle+m_cannon_angle,5,2,GLTM->get("objects/bullet-red2"),this);
 		if (m_ball!=0) bullet->exclude_for_collision(m_ball);
 		map->add_object(bullet);
 		m_fuel-=64;
@@ -181,8 +180,8 @@ bool TGLobject_ship_gyrus::cycle(VirtualController *k,TGLmap *map,GLTManager *GL
 		int a=m_angle-90;
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
-		m_speed_x+=float(cos_table[a]*14.0)/256.0f;
-		m_speed_y+=float(sin_table[a]*14.0)/256.0f;
+		m_speed_x+=float(cos_degree(a)*14.0)/256.0f;
+		m_speed_y+=float(sin_degree(a)*14.0)/256.0f;
 		m_thrusting=true;
 		m_fuel--;
 	} // if 
@@ -268,8 +267,8 @@ void TGLobject_ship_gyrus::draw(GLTManager *GLTM)
 		while(a<0) a+=360;
 		while(a>=360) a-=360;
 
-		inc_x = float(cos_table[a]*8);
-		inc_y = float(sin_table[a]*8);
+		inc_x = float(cos_degree(a)*8);
+		inc_y = float(sin_degree(a)*8);
 		for(i=0;i<8;i++) {
 			dot->draw(1,1,1,f,x,y,0,0,0.5f);
 			x+=inc_x;
