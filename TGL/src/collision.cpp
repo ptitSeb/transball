@@ -93,7 +93,7 @@ bool collision_with_point(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y
 
 			{
 				int i,j,offs1;
-				int common_x1,common_x2;
+				int common_x1,common_x2; 
 				int common_y1,common_y2;
 
 				common_x1=max(r1.x,int(x2+0));
@@ -110,9 +110,10 @@ bool collision_with_point(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y
 				for(i=common_y1;i<common_y2;i++) {
 					offs1=(common_x1-r1.x)*4+(i-r1.y)*obj1_sfc->pitch;					
 					for(j=common_x1;j<common_x2;j++,offs1+=4) {
-						if ((*((Uint32 *)((char *)(obj1_sfc->pixels)+offs1))&AMASK)==AMASK)
+						if ((*((Uint32 *)((char *)(obj1_sfc->pixels)+offs1))&AMASK)==AMASK) {
 							if (obj1_sfc!=s1) SDL_FreeSurface(obj1_sfc);
 							return true;
+						}
 					} // for
 				} // for
 			}
