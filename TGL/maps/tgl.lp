@@ -19,6 +19,7 @@
       <points>1</points>
     </level>
     <level>
+      <map>tgl-level3.tgl</map>
       <name>Mechano</name>
       <description>That is a big cog!</description>
       <points>1</points>

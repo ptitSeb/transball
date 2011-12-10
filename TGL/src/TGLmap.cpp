@@ -326,7 +326,11 @@ TGLmap::TGLmap(FILE *fp, GLTManager *GLTM)
 				if (1!=fscanf(fp,"%i",&p1)) return;
 				add_object(new TGLobject_button(x,y,animation_offset,p1,11));
 			} // if 
-			if (strcmp(tmp,"cog")==0) add_object(new TGLobject_cog(x,y,animation_offset));
+			if (strcmp(tmp,"cog")==0) {
+				int dir;
+				if (1!=fscanf(fp,"%i",&dir)) return;
+				add_object(new TGLobject_cog(x,y,animation_offset,dir));
+			}
 		} // for 
 	}
 
@@ -1074,7 +1078,7 @@ bool TGLmap::collision(TGLobject *o,float offsx,float offsy,int offs_alpha)
 					angle2=o2->get_angle();
 					s2=o2->get_scale();
 
-					if (::collision(sfc,x,y,hx,hy,angle,s1,sfc2,x2,y2,hx2,hy2,angle2,s2)) return true;
+					if (::collision(o,sfc,x,y,hx,hy,angle,s1,o2,sfc2,x2,y2,hx2,hy2,angle2,s2)) return true;
 				} // if 
 
 			} // if 
@@ -1102,7 +1106,7 @@ bool TGLmap::collision(TGLobject *o,float offsx,float offsy,int offs_alpha)
 			for(j=start_x;j<end_x;j++,k++) {
 				if (m_fg[k]!=0) {
 					SDL_Surface *sfc2=m_fg[k]->get_tile(0);
-					if (::collision(sfc,x,y,hx,hy,angle,s1,sfc2,float(j*m_fg_cell_size),float(i*m_fg_cell_size+STARFIELD),0,0,0,1)) return true;
+					if (::collision(o,sfc,x,y,hx,hy,angle,s1,0,sfc2,float(j*m_fg_cell_size),float(i*m_fg_cell_size+STARFIELD),0,0,0,1)) return true;
 				} // if 
 			} // for
 		} // for
@@ -1155,7 +1159,7 @@ bool TGLmap::collision_vector(TGLobject *o,float *vx,float *vy)
 					angle2=o2->get_angle();
 					s2=o2->get_scale();
 
-					if (::collision_vector(sfc,x,y,hx,hy,angle,s1,sfc2,x2,y2,hx2,hy2,angle2,s2,vx,vy)) return true;
+					if (::collision_vector(o,sfc,x,y,hx,hy,angle,s1,o2,sfc2,x2,y2,hx2,hy2,angle2,s2,vx,vy)) return true;
 				} // if 
 
 			} // if 
@@ -1183,7 +1187,7 @@ bool TGLmap::collision_vector(TGLobject *o,float *vx,float *vy)
 			for(j=start_x;j<end_x;j++,k++) {
 				if (m_fg[k]!=0) {
 					SDL_Surface *sfc2=m_fg[k]->get_tile(0);
-					if (::collision_vector(sfc,x,y,hx,hy,angle,s1,sfc2,float(j*m_fg_cell_size),float(i*m_fg_cell_size+STARFIELD),0,0,0,1,vx,vy)) return true;
+					if (::collision_vector(o,sfc,x,y,hx,hy,angle,s1,0,sfc2,float(j*m_fg_cell_size),float(i*m_fg_cell_size+STARFIELD),0,0,0,1,vx,vy)) return true;
 				} // if 
 			} // for
 		} // for
@@ -1237,7 +1241,7 @@ TGLobject *TGLmap::collision_with_object(TGLobject *o)
 					angle2=o2->get_angle();
 					s2=o2->get_scale();
 
-					if (::collision(sfc,x,y,hx,hy,angle,s1,sfc2,x2,y2,hx2,hy2,angle2,s2)) return o2;
+					if (::collision(o,sfc,x,y,hx,hy,angle,s1,o2,sfc2,x2,y2,hx2,hy2,angle2,s2)) return o2;
 				} // if 
 
 			} // if 
@@ -1272,7 +1276,7 @@ TGLobject *TGLmap::collision_with_object(float x,float y)
 			angle2=o2->get_angle();
 			s2=o2->get_scale();
 
-			if (::collision_with_point(sfc2,x2,y2,hx2,hy2,angle2,s2,x,y)) return o2;
+			if (::collision_with_point(o2,sfc2,x2,y2,hx2,hy2,angle2,s2,x,y)) return o2;
 		} // if 
 
 	} // while 
@@ -1359,7 +1363,7 @@ bool TGLmap::collision_with_foreground(TGLobject *o,float offsx,float offsy,int 
 					} // if 
 
 					SDL_Surface *sfc2=m_fg[k]->get_tile(0);
-					if (::collision(sfc,x,y,hx,hy,angle,s1,sfc2,float(j*m_fg_cell_size),float(i*m_fg_cell_size+STARFIELD),0,0,0,1)) {
+					if (::collision(o,sfc,x,y,hx,hy,angle,s1,0,sfc2,float(j*m_fg_cell_size),float(i*m_fg_cell_size+STARFIELD),0,0,0,1)) {
 						if (transformation_done) SDL_FreeSurface(sfc);
 						return true;
 					} // if 
@@ -1610,7 +1614,7 @@ void TGLmap::save(FILE *fp,GLTManager *GLTM)
 			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==9) fprintf(fp,"button-blue-right %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
 			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==10) fprintf(fp,"button-blue-up %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
 			if (o->is_a("TGLobject_button") && ((TGLobject_button *)o)->get_type()==11) fprintf(fp,"button-blue-down %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),int(((TGLobject_leftdoor *)o)->get_action()));
-			if (o->is_a("TGLobject_cog")) fprintf(fp,"cog %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size));
+			if (o->is_a("TGLobject_cog")) fprintf(fp,"cog %i %i %i %i\n",o->get_animation_offset(),int(o->get_x()/m_fg_cell_size),int((o->get_y()-STARFIELD)/m_fg_cell_size),((TGLobject_cog *)o)->get_direction());
 		} // while 
 	
 	}

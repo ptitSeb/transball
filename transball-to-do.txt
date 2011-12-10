@@ -4,14 +4,15 @@ To do in "Transball GL": -------------------------------------------------------
 	- make sure collisions work, I've seen some ripples disappear when they should not
 	- are the ripples too slow?
 	- find a way to draw the white riples in the riples on top of the blue part
-	- play one level with the pulsar for the intro demo:
+	- play one level with the pulsar for the intro demo
+***- The ball doesn't react very well with the rotating cogs! some times it gets stuck, etc.
 ***- Clearly gear it towards playing the default level pack, the rest are extras
 ***- use the new soft cannons in some map
+***- use the new cogs in some map
 - Folder issues in Mac:
 	- in MAC, what happens when you try to save a map when running it as a bundle? should the map editor allow you to only edit your local maps?
 - map editor:
 	- in mac, recognize the two-finger swipe to scroll around: mouse button events -> 4: up, 5: down, 6: left, 7: right
-	- set the rotation + animation offset of rorating cogs
 - complete the state "recuperation" while replaying replays (the code should be separated and reused for the network mode)
 - Nuevos elementos:
 	- Mas tiles

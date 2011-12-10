@@ -219,6 +219,7 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 				break;
 
 		case 2: // LOAD
+				SDL_WarpMouse(320+60,200+26);
 				TGLinterface::add_element(new TGLConfirmation("Discard current level pack?",m_font16,320,200,106,true));
 				break;
 		case 106:
@@ -274,8 +275,10 @@ int TGLapp::editor_cycle(KEYBOARDSTATE *k)
 					do{
 						sprintf(tmp,"level-%i",i);
 						i++;
-					}while(m_editor_levelpack->getLevel(tmp)!=0);
+					}while(m_editor_levelpack->getLevel(tmp)!=0 || 
+						   m_editor_levelpack->getLevelByMap(tmp)!=0);
 					l->setName(tmp);
+					l->setMapName(tmp);
 					l->m_description=new char[1];
 					strcpy(l->m_description,"");
 					m_editor_levelpack->m_levels.Add(l);

@@ -937,7 +937,10 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 							if (k->keyboard[SDLK_2]) {
 								m_mb_object_under_pointer->set_state(1-m_mb_object_under_pointer->get_state());
 							} // if 
-
+						} else if (m_mb_object_under_pointer->is_a("TGLobject_cog")) {
+							if (k->keyboard[SDLK_1]) {
+								((TGLobject_cog *)m_mb_object_under_pointer)->set_direction(1 - ((TGLobject_cog *)m_mb_object_under_pointer)->get_direction());
+							} // if 							
 						} else {
 							if (k->keyboard[SDLK_1]) {
 								m_mb_object_under_pointer->set_animation_offset(m_mb_object_under_pointer->get_animation_offset()+1);
@@ -1126,7 +1129,10 @@ int TGLapp::mapeditor_cycle(KEYBOARDSTATE *k)
 							if (k->keyboard[SDLK_2]) {
 								m_mb_object_under_pointer->set_state(1-m_mb_object_under_pointer->get_state());
 							} // if 
-
+						} else if (m_mb_object_under_pointer->is_a("TGLobject_cog")) {
+							if (k->keyboard[SDLK_1]) {
+								((TGLobject_cog *)m_mb_object_under_pointer)->set_direction(1 - ((TGLobject_cog *)m_mb_object_under_pointer)->get_direction());
+							} // if 														
 						} else {
 							if (k->keyboard[SDLK_1]) {
 								m_mb_object_under_pointer->set_animation_offset(m_mb_object_under_pointer->get_animation_offset()-1);
@@ -1326,45 +1332,52 @@ void TGLapp::mapeditor_draw(void)
 					float x,y;
 					GLTile *t = o->get_last_tile();
 
-					x = o->get_x() - t->get_hot_x();
-					y = o->get_y() - t->get_hot_y();
+					if ( t!= 0) {
+						x = o->get_x() - t->get_hot_x();
+						y = o->get_y() - t->get_hot_y();
 
-					x = ((x-m_editor_focus_x)*m_editor_current_zoom) + (SCREEN_X/2);
-					y = ((y-m_editor_focus_y)*m_editor_current_zoom) + (SCREEN_Y/2);
+						x = ((x-m_editor_focus_x)*m_editor_current_zoom) + (SCREEN_X/2);
+						y = ((y-m_editor_focus_y)*m_editor_current_zoom) + (SCREEN_Y/2);
 
-					if (m_mb_object_under_pointer==o) {
-						r = 1;
-						g = 0;
-						b = 0;
-					} else {
-						r = 1;
-						g = 1;
-						b = 1;
-					} // if 
+						if (m_mb_object_under_pointer==o) {
+							r = 1;
+							g = 0;
+							b = 0;
+						} else {
+							r = 1;
+							g = 1;
+							b = 1;
+						} // if 
 
-					if (o->is_a("TGLobject_button")) {
-						char tmp[80];
-						sprintf(tmp,"(1) AO: %i",o->get_animation_offset());
-						TGLinterface::print_left(tmp,m_font16,x,y,r,g,b,1.0f);
-						sprintf(tmp,"(2) ID: %i",((TGLobject_button *)o)->get_event());
-						TGLinterface::print_left(tmp,m_font16,x,y+16,r,g,b,1.0f);
-					} else if (o->is_a("TGLobject_leftdoor")) {
-						char tmp[80];
-						sprintf(tmp,"(1) ID: %i",((TGLobject_leftdoor *)o)->get_action());
-						TGLinterface::print_left(tmp,m_font16,x,y,r,g,b,1.0f);
-						sprintf(tmp,"(2) IS: %i",o->get_state());
-						TGLinterface::print_left(tmp,m_font16,x,y+16,r,g,b,1.0f);
-					} else if (o->is_a("TGLobject_rightdoor")) {
-						char tmp[80];
-						sprintf(tmp,"(1) ID: %i",((TGLobject_rightdoor *)o)->get_action());
-						TGLinterface::print_left(tmp,m_font16,x,y,r,g,b,1.0f);
-						sprintf(tmp,"(2) IS: %i",o->get_state());
-						TGLinterface::print_left(tmp,m_font16,x,y+16,r,g,b,1.0f);
-					} else {
-						char tmp[80];
-						sprintf(tmp,"(1) AO: %i",o->get_animation_offset());
-						TGLinterface::print_left(tmp,m_font16,x,y,r,g,b,1.0f);
-					} // if 
+						if (o->is_a("TGLobject_button")) {
+							char tmp[80];
+							sprintf(tmp,"(1) AO: %i",o->get_animation_offset());
+							TGLinterface::print_left(tmp,m_font16,x,y,r,g,b,1.0f);
+							sprintf(tmp,"(2) ID: %i",((TGLobject_button *)o)->get_event());
+							TGLinterface::print_left(tmp,m_font16,x,y+16,r,g,b,1.0f);
+						} else if (o->is_a("TGLobject_leftdoor")) {
+							char tmp[80];
+							sprintf(tmp,"(1) ID: %i",((TGLobject_leftdoor *)o)->get_action());
+							TGLinterface::print_left(tmp,m_font16,x,y,r,g,b,1.0f);
+							sprintf(tmp,"(2) IS: %i",o->get_state());
+							TGLinterface::print_left(tmp,m_font16,x,y+16,r,g,b,1.0f);
+						} else if (o->is_a("TGLobject_rightdoor")) {
+							char tmp[80];
+							sprintf(tmp,"(1) ID: %i",((TGLobject_rightdoor *)o)->get_action());
+							TGLinterface::print_left(tmp,m_font16,x,y,r,g,b,1.0f);
+							sprintf(tmp,"(2) IS: %i",o->get_state());
+							TGLinterface::print_left(tmp,m_font16,x,y+16,r,g,b,1.0f);
+						} else if (o->is_a("TGLobject_cog")) {
+							char tmp[80];
+							if (((TGLobject_cog *)o)->get_direction()==0) sprintf(tmp,"(1) clockwise");
+																	 else sprintf(tmp,"(1) anti-clockwise");
+							TGLinterface::print_left(tmp,m_font16,x,y,r,g,b,1.0f);
+						} else {
+							char tmp[80];
+							sprintf(tmp,"(1) AO: %i",o->get_animation_offset());
+							TGLinterface::print_left(tmp,m_font16,x,y,r,g,b,1.0f);
+						} // if 
+					}
 				} // while
 				l->ExtractAll();
 				delete l;

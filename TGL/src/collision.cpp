@@ -25,8 +25,11 @@
 
 #include "gl.h"
 #include "glu.h"
+
+#include "Symbol.h"
 #include "GLtile.h"
 
+#include "TGLobject.h"
 #include "collision.h"
 
 #include "debug.h"
@@ -37,7 +40,7 @@
 
 
 
-bool collision_with_point(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,float a1,float scale1,float x2,float y2)
+bool collision_with_point(TGLobject *o1,SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,float a1,float scale1,float x2,float y2)
 {
 	// Radius check:
 	int collision_pixels=0;
@@ -48,6 +51,7 @@ bool collision_with_point(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y
 	int dy1=s1->h - hot_y1;
 	if (hot_x1>dx1) dx1=hot_x1;
 	if (hot_y1>dy1) dy1=hot_y1;
+	bool free_rotozoom = false;
 
 	sq_radius1=dx1*dx1+dy1*dy1;
 	radius1=float(sqrt((double)sq_radius1))*scale1;
@@ -65,8 +69,20 @@ bool collision_with_point(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y
 		SDL_Rect r1;
 
 		// Draw the first object:
-		if (a1==0 && scale1==1) obj1_sfc=s1;
-						   else	obj1_sfc=rotozoomSurface(s1,-a1,scale1,0);
+		if (a1==0 && scale1==1) {
+			obj1_sfc=s1;
+		} else {
+			if (o1!=0) {
+				obj1_sfc = o1->get_collision_cache(a1,scale1,s1);
+				if (obj1_sfc==0) {
+					obj1_sfc=rotozoomSurface(s1,-a1,scale1,0);
+					o1->set_collision_cache(obj1_sfc,a1,scale1,s1);
+				}
+			} else {
+				obj1_sfc=rotozoomSurface(s1,-a1,scale1,0);
+				free_rotozoom = true;
+			}
+		}
 		{
 			float rad_ang1=float((float(-a1)*M_PI))/180;
 			float tmpx1=hot_x1-float(s1->w)/2;
@@ -103,7 +119,7 @@ bool collision_with_point(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y
 				common_y2=min(r1.y+r1.h,int(y2+1));
 
 				if (common_x1>=common_x2 || common_y1>=common_y2) {
-					if (obj1_sfc!=s1) SDL_FreeSurface(obj1_sfc);
+					if (free_rotozoom) SDL_FreeSurface(obj1_sfc);
 					return false;
 				} // if 
 
@@ -111,13 +127,13 @@ bool collision_with_point(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y
 					offs1=(common_x1-r1.x)*4+(i-r1.y)*obj1_sfc->pitch;					
 					for(j=common_x1;j<common_x2;j++,offs1+=4) {
 						if ((*((Uint32 *)((char *)(obj1_sfc->pixels)+offs1))&AMASK)==AMASK) {
-							if (obj1_sfc!=s1) SDL_FreeSurface(obj1_sfc);
+							if (free_rotozoom) SDL_FreeSurface(obj1_sfc);
 							return true;
 						}
 					} // for
 				} // for
 			}
-			if (obj1_sfc!=s1) SDL_FreeSurface(obj1_sfc);
+			if (free_rotozoom) SDL_FreeSurface(obj1_sfc);
 		}
 	}
 	return false;
@@ -125,7 +141,7 @@ bool collision_with_point(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y
 
 
 
-bool collision(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,float a1,float scale1,SDL_Surface *s2,float x2,float y2,int hot_x2,int hot_y2,float a2,float scale2)
+bool collision(TGLobject *o1,SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,float a1,float scale1,TGLobject *o2,SDL_Surface *s2,float x2,float y2,int hot_x2,int hot_y2,float a2,float scale2)
 {
 	// Radius check:
 	int collision_pixels=0;
@@ -160,12 +176,38 @@ bool collision(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,float a1,
 		int new_hot_x2,new_hot_y2;
 		SDL_Rect r1;
 		SDL_Rect r2;
+		bool free_rotozoom1 = false;
+		bool free_rotozoom2 = false;
 
 		// Draw the first object:
-		if (a1==0 && scale1==1) obj1_sfc=s1;
-						   else	obj1_sfc=rotozoomSurface(s1,-a1,scale1,0);
-		if (a2==0 && scale2==1) obj2_sfc=s2;
-						   else obj2_sfc=rotozoomSurface(s2,-a2,scale2,0);
+		if (a1==0 && scale1==1) {
+			obj1_sfc=s1;
+		} else {
+			if (o1!=0) {
+				obj1_sfc = o1->get_collision_cache(a1,scale1,s1);
+				if (obj1_sfc==0) {
+					obj1_sfc=rotozoomSurface(s1,-a1,scale1,0);
+					o1->set_collision_cache(obj1_sfc,a1,scale1,s1);
+				}
+			} else {
+				obj1_sfc=rotozoomSurface(s1,-a1,scale1,0);
+				free_rotozoom1 = true;
+			}
+		}
+		if (a2==0 && scale2==1) {
+			obj2_sfc=s2;
+		} else {
+			if (o2!=0) {
+				obj2_sfc = o2->get_collision_cache(a2,scale2,s2);
+				if (obj2_sfc==0) {
+					obj2_sfc=rotozoomSurface(s2,-a2,scale2,0);
+					o2->set_collision_cache(obj2_sfc,a2,scale2,s2);
+				}
+			} else {
+				obj2_sfc=rotozoomSurface(s2,-a2,scale2,0);
+				free_rotozoom2 = true;
+			}
+		}
 		{
 			float rad_ang1=float((float(-a1)*M_PI))/180;
 			float tmpx1=hot_x1-float(s1->w)/2;
@@ -213,8 +255,8 @@ bool collision(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,float a1,
 				common_y2=min(r1.y+r1.h,r2.y+r2.h);
 
 				if (common_x1>=common_x2 || common_y1>=common_y2) {
-					if (obj1_sfc!=s1) SDL_FreeSurface(obj1_sfc);
-					if (obj2_sfc!=s2) SDL_FreeSurface(obj2_sfc);
+					if (free_rotozoom1) SDL_FreeSurface(obj1_sfc);
+					if (free_rotozoom2) SDL_FreeSurface(obj2_sfc);
 					return false;
 				} // if 
 				
@@ -230,16 +272,16 @@ bool collision(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,float a1,
 							(*((Uint32 *)((char *)(obj2_sfc->pixels)+offs2))&AMASK)==AMASK)
 							collision_pixels++;
 							if (collision_pixels>COLLISION_TOLERANCE || collision_pixels>=min_area) {
-								if (obj1_sfc!=s1) SDL_FreeSurface(obj1_sfc);
-								if (obj2_sfc!=s2) SDL_FreeSurface(obj2_sfc);
+								if (free_rotozoom1) SDL_FreeSurface(obj1_sfc);
+								if (free_rotozoom2) SDL_FreeSurface(obj2_sfc);
 								return true;
 							} // if 
 					} // for
 				} // for
 			}
 	
-			if (obj1_sfc!=s1) SDL_FreeSurface(obj1_sfc);
-			if (obj2_sfc!=s2) SDL_FreeSurface(obj2_sfc);
+			if (free_rotozoom1) SDL_FreeSurface(obj1_sfc);
+			if (free_rotozoom2) SDL_FreeSurface(obj2_sfc);
 		}
 	}
 	return false;
@@ -247,7 +289,7 @@ bool collision(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,float a1,
 
 
 
-bool collision_vector(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,float a1,float scale1,SDL_Surface *s2,float x2,float y2,int hot_x2,int hot_y2,float a2,float scale2,float *collision_vector_x,float *collision_vector_y)
+bool collision_vector(TGLobject *o1,SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,float a1,float scale1,TGLobject *o2,SDL_Surface *s2,float x2,float y2,int hot_x2,int hot_y2,float a2,float scale2,float *collision_vector_x,float *collision_vector_y)
 {
 	List<int> collision_x,collision_y;	
 	int collision_pixels=0;
@@ -282,10 +324,38 @@ bool collision_vector(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,fl
 		int new_hot_x2,new_hot_y2;
 		SDL_Rect r1;
 		SDL_Rect r2;
+		bool free_rotozoom1 = false;
+		bool free_rotozoom2 = false;
 
 		// Draw the first object:
-		obj1_sfc=rotozoomSurface(s1,-a1,scale1,0);
-		obj2_sfc=rotozoomSurface(s2,-a2,scale2,0);
+		if (a1==0 && scale1==1) {
+			obj1_sfc=s1;
+		} else {
+			if (o1!=0) {
+				obj1_sfc = o1->get_collision_cache(a1,scale1,s1);
+				if (obj1_sfc==0) {
+					obj1_sfc=rotozoomSurface(s1,-a1,scale1,0);
+					o1->set_collision_cache(obj1_sfc,a1,scale1,s1);
+				}
+			} else {
+				obj1_sfc=rotozoomSurface(s1,-a1,scale1,0);
+				free_rotozoom1 = true;
+			}
+		}
+		if (a2==0 && scale2==1) {
+			obj2_sfc=s2;
+		} else {
+			if (o2!=0) {
+				obj2_sfc = o2->get_collision_cache(a2,scale2,s2);
+				if (obj2_sfc==0) {
+					obj2_sfc=rotozoomSurface(s2,-a2,scale2,0);
+					o2->set_collision_cache(obj2_sfc,a2,scale2,s2);
+				}
+			} else {
+				obj2_sfc=rotozoomSurface(s2,-a2,scale2,0);
+				free_rotozoom2 = true;
+			}
+		}
 		{
 			float rad_ang1=float(float(-a1)*M_PI)/180;
 			float tmpx1=hot_x1-float(s1->w)/2;
@@ -337,8 +407,8 @@ bool collision_vector(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,fl
 				common_y2=min(r1.y+r1.h,r2.y+r2.h);
 
 				if (common_x1>=common_x2 || common_y1>=common_y2) {
-					if (obj1_sfc!=s1) SDL_FreeSurface(obj1_sfc);
-					if (obj2_sfc!=s2) SDL_FreeSurface(obj2_sfc);
+					if (free_rotozoom1) SDL_FreeSurface(obj1_sfc);
+					if (free_rotozoom2) SDL_FreeSurface(obj2_sfc);
 					return false;
 				} // if 
 
@@ -356,40 +426,8 @@ bool collision_vector(SDL_Surface *s1,float x1,float y1,int hot_x1,int hot_y1,fl
 					} // for
 				} // for
 			}
-/*		
-			{
-				int i,j,offs1,offs2;
-				for(i=0;i<obj1_sfc->h;i++) {
-					for(j=0,offs1=i*obj1_sfc->pitch,offs2=(r1.y+i)*sfc->pitch+(r1.x*4);
-						j<obj1_sfc->w;
-						j++,offs1+=4,offs2+=4) {
-						if ((*((Uint32 *)((char *)(obj1_sfc->pixels)+offs1))&AMASK)==AMASK) {
-							*((Uint32 *)((char *)(sfc->pixels)+offs2))|=RMASK|AMASK;					
-						} // if 
-					} // for
-				} // for
-			}
-
-			{
-				int i,j,offs1,offs2;
-				for(i=0;i<obj2_sfc->h;i++) {
-					for(j=0,offs1=i*obj2_sfc->pitch,offs2=(r2.y+i)*sfc->pitch+(r2.x*4);
-						j<obj2_sfc->w;
-						j++,offs1+=4,offs2+=4) {					
-						if ((*((Uint32 *)((char *)(obj2_sfc->pixels)+offs1))&AMASK)==AMASK &&
-							*((Uint32 *)((char *)(sfc->pixels)+offs2))!=0) {
-//							*((Uint32 *)((char *)(sfc->pixels)+offs2))|=BMASK|AMASK;
-							collision_pixels++;
-
-							collision_x.Add(new int(((r2.x+j)-r1.x)-new_hot_x1));
-							collision_y.Add(new int(((r2.y+i)-r1.y)-new_hot_y1));
-						} // if 
-					} // for
-				} // for
-			}
-*/
-			if (obj1_sfc!=s1) SDL_FreeSurface(obj1_sfc);
-			if (obj2_sfc!=s2) SDL_FreeSurface(obj2_sfc);
+			if (free_rotozoom1) SDL_FreeSurface(obj1_sfc);
+			if (free_rotozoom2) SDL_FreeSurface(obj2_sfc);
 		}
 
 //		if (last_collision!=0) delete last_collision;

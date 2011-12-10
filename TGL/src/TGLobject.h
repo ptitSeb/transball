@@ -22,8 +22,8 @@ public:
 	TGLobject(float x,float y,int animation_offset);
 	virtual ~TGLobject();
 
-	virtual void draw(GLTManager *GLTM);
-	virtual bool cycle(VirtualController *k,class TGLmap *map,GLTManager *GLTM,SFXManager *SFXM,int sfx_volume);
+	virtual void draw(class GLTManager *GLTM);
+	virtual bool cycle(class VirtualController *k,class TGLmap *map,class GLTManager *GLTM,class SFXManager *SFXM,int sfx_volume);
 	virtual bool editor_cycle(TGLmap *map,GLTManager *GLTM);
 
 	void exclude_for_collision(TGLobject *o);
@@ -58,6 +58,9 @@ public:
 	virtual bool is_a(char *n);
 	virtual bool is_a(Symbol *n);
 	virtual const char *get_class(void);
+	
+	SDL_Surface *get_collision_cache(float angle,float scale,SDL_Surface *source);
+	void set_collision_cache(SDL_Surface *s, float angle, float scale, SDL_Surface *source);
 
 protected:
 	int m_controller;	// identifies which controller from the list is it taking input from
@@ -69,6 +72,11 @@ protected:
 	int m_animation_offset;
 	GLTile *m_last_tile;
 	GLTile *m_last_mask;
+	
+	SDL_Surface *m_collision_cache;	// this stores the result of rotozooming the object to the current angle and scale, 
+									// to prevent computing it again and again in the same cycle when multiple objects need to test for collision
+	float m_collision_cache_angle, m_collision_cache_scale;
+	SDL_Surface *m_collision_cache_source;
 
 	List<TGLobject> m_excluded_from_collision;
 //	GLTileCache *m_transformation_cache[360];		// Note: this assumes that the "m_scale" parameter wont change!!

@@ -41,6 +41,14 @@
 
 TGLobject_cog::TGLobject_cog(float x,float y, int ao) : TGLobject(x,y,ao)
 {
+	m_direction = 0;
+} /* TGLobject_cog::TGLobject_cog */ 
+
+
+TGLobject_cog::TGLobject_cog(float x,float y, int ao, int dir) : TGLobject(x,y,ao)
+{
+	m_direction = dir;
+	if (m_direction==1) m_angle = 15;
 } /* TGLobject_cog::TGLobject_cog */ 
 
 
@@ -52,7 +60,8 @@ TGLobject_cog::~TGLobject_cog()
 bool TGLobject_cog::cycle(VirtualController *k,class TGLmap *map,GLTManager *GLTM,SFXManager *SFXM,int sfx_volume)
 {
 	m_cycle++;
-	m_angle+=0.25;
+	if (m_direction) m_angle+=0.25;
+				else m_angle-=0.25;
 	
 	return true;
 } /* TGLobject_cog::cycle */ 
@@ -61,7 +70,8 @@ bool TGLobject_cog::cycle(VirtualController *k,class TGLmap *map,GLTManager *GLT
 bool TGLobject_cog::editor_cycle(TGLmap *map,GLTManager *GLTM)
 {
 	m_cycle++;
-	m_angle+=0.25;
+	if (m_direction) m_angle+=0.25;
+				else m_angle-=0.25;
 
 	return true;
 } /* TGLobject_cog::editor_cycle */ 

@@ -11,6 +11,7 @@ public:
 	void load(XMLNode *node,GLTManager *GLTM);
 	void save(FILE *fp,GLTManager *GLTM);
 	void setName(char* name);
+	void setMapName(char* name);
 
 	char *m_map;
 	char *m_name;
@@ -36,6 +37,7 @@ public:
 	int getNLevels();
 	LevelPack_Level *getLevel(int n);
 	LevelPack_Level *getLevel(char *name);
+	LevelPack_Level *getLevelByMap(char *map);
 
 	char *m_id;
 	char *m_name;

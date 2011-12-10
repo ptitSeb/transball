@@ -51,6 +51,8 @@ TGLobject::TGLobject(GLTile *t,float x,float y,int animation_offset)
 	
 	m_controller=0;
 	
+	m_collision_cache = 0;
+	
 } /* TGLobject::TGLobject */ 
 
 
@@ -68,13 +70,19 @@ TGLobject::TGLobject(float x,float y,int animation_offset)
 	m_animation_offset=animation_offset;
 
 	m_controller=0;
-
+	
+	m_collision_cache = 0;
+	
 } /* TGLobject::TGLobject */ 
 
 
 TGLobject::~TGLobject()
 {
 	m_excluded_from_collision.ExtractAll();
+	if (m_collision_cache!=0) {
+		SDL_FreeSurface(m_collision_cache);
+		m_collision_cache = 0;
+	}
 } /* TGLobject::~TGLobject */ 
 
 
@@ -273,7 +281,7 @@ bool TGLobject::collision(TGLobject *o)
 			angle2=o->get_angle();
 			s2=o->get_scale();
 
-			if (::collision(sfc,x,y,hx,hy,angle,s1,sfc2,x2,y2,hx2,hy2,angle2,s2)) return true;
+			if (::collision(this,sfc,x,y,hx,hy,angle,s1,o,sfc2,x2,y2,hx2,hy2,angle2,s2)) return true;
 		} // if 
 	} // if 
 
@@ -281,3 +289,18 @@ bool TGLobject::collision(TGLobject *o)
 } /* TGLobject::collision */ 
 
 
+SDL_Surface *TGLobject::get_collision_cache(float angle,float scale,SDL_Surface *source) {
+	if (angle == m_collision_cache_angle && 
+		scale == m_collision_cache_scale &&
+		source == m_collision_cache_source)
+		return m_collision_cache;
+	return 0;
+}
+
+void TGLobject::set_collision_cache(SDL_Surface *s, float angle, float scale, SDL_Surface *source) {
+	if (m_collision_cache!=0) SDL_FreeSurface(m_collision_cache);
+	m_collision_cache = s;
+	m_collision_cache_angle = angle;
+	m_collision_cache_scale = scale;
+	m_collision_cache_source = source;
+}

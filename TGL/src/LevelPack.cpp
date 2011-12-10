@@ -144,6 +144,14 @@ LevelPack_Level::~LevelPack_Level()
 } /* LevelPack_Level::~LevelPack_Level */ 
 
 
+void LevelPack_Level::setMapName(char* name)
+{
+	if (m_map!=0) delete m_map;
+	m_map = new char[strlen(name)+1];
+	strcpy(m_map,name);
+} /* LevelPack_Level::setMapName */ 
+
+
 void LevelPack_Level::setName(char* name)
 {
 	if (m_name!=0) delete m_name;
@@ -291,6 +299,19 @@ LevelPack_Level *LevelPack::getLevel(char *name)
 
 	return 0;
 } /* LevelPack::getLevel */ 
+
+
+LevelPack_Level *LevelPack::getLevelByMap(char *map)
+{
+	LevelPack_Level *l;
+	
+	m_levels.Rewind();
+	while(m_levels.Iterate(l)) {
+		if (strcmp(l->m_map,map)==0) return l;
+	} // while
+	
+	return 0;
+} /* LevelPack::getLevelByMap */ 
 
 
 void LevelPack::save(FILE *fp,GLTManager *GLTM)
