@@ -7,6 +7,18 @@ To do in "Transball GL": -------------------------------------------------------
 	- play one level with the pulsar for the intro demo
 ***- The ball doesn't react very well with the rotating cogs! some times it gets stuck, etc.
 ***- Clearly gear it towards playing the default level pack, the rest are extras
+***- Clearly gear it towards playing the default level pack, the rest are extras
+***- Drop NETWORK mode, and substitute by "achievements" (all achievements are over the basic level pack, other level packs do not give achievements)
+	- each achievement has 1/2/3 star rating
+		- for each ship, complete 1 level with it
+		- for each ship, complete all levels with it
+		- kill X cannons
+		- kill X tanks
+		- activate X buttons
+		- block X bullets
+		- refuel X fuel
+		- complete level X without firing a bullet (nor using shield)
+***- Points system: stars, more stars unlocks new ships. Determine 1/2/3 star time for each level
 ***- use the new soft cannons in some map
 ***- use the new cogs in some map
 - Folder issues in Mac:
