@@ -16,7 +16,7 @@
 
 #include "List.h"
 
-#include "symbol.h"
+#include "Symbol.h"
 
 #include "XMLparser.h"
 
