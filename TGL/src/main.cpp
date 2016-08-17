@@ -46,12 +46,21 @@
 
 char *application_name="Transball GL";
 char *application_version="V0.1";
+#ifdef PANDORA
+int SCREEN_X=800;
+int SCREEN_Y=480;
+int N_SFX_CHANNELS=16;
+int COLOUR_DEPTH=16;
+bool sound=true;
+bool fullscreen=true;
+#else
 int SCREEN_X=640;
 int SCREEN_Y=480;
 int N_SFX_CHANNELS=16;
 int COLOUR_DEPTH=32;
 bool sound=true;
 bool fullscreen=false;
+#endif
 SDL_Surface *screen_sfc=0;
 
 TRanrotBGenerator *rg=0;

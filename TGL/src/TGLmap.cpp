@@ -1207,7 +1207,7 @@ TGLobject *TGLmap::collision_with_object(TGLobject *o)
 	float s1;
 
 	mask=o->get_last_mask();
-	if (mask==0) return false;
+	if (mask==0) return nullptr;
 	sfc=mask->get_tile(0);
 	x=o->get_x();
 	y=o->get_y();
