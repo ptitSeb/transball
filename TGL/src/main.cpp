@@ -76,6 +76,9 @@ int init_time=0;
 bool show_fps=false;
 int current_cycle=0;
 
+void CRC_BuildTable();
+void Init_TexManager();
+ 
 
 
 /*						AUXILIAR FUNCTION DEFINITION:							*/ 
@@ -101,6 +104,9 @@ SDL_Surface *initialization(int flags)
     const SDL_VideoInfo* info=0;
     int bpp=0;
 	SDL_Surface *screen;
+
+    CRC_BuildTable();
+    Init_TexManager();
 
 	rg=new TRanrotBGenerator(0);
 

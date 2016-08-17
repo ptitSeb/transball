@@ -7,6 +7,10 @@ GLuint  createTextureSmooth(SDL_Surface *sfc,float *tx,float *ty);
 GLuint  createTextureClampSmooth(SDL_Surface *sfc,float *tx,float *ty);
 GLuint  createTextureFromScreen(int x,int y,int dx,int dy,float *tx,float *ty);
 
+/* Texture manager */
+void Init_TexManager();
+bool Find_Texture(SDL_Surface *sfc, int w, int h, bool clamp, bool smooth, GLuint *ID);
+void TM_glDeleteTextures(GLuint n, GLuint *first);
 
 /*
 void gl_print_left(int x,int y,char *text,int r,int g,int b,TTF_Font *font);

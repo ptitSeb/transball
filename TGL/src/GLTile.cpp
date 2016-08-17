@@ -363,7 +363,7 @@ void GLTile::free(void)
 			if (tile[i]!=0) {
 				SDL_FreeSurface(tile[i]);
 				tile[i]=0;
-				glDeleteTextures(1,&(tex[i]));
+				TM_glDeleteTextures(1,&(tex[i]));
 				if (tex_coord_x[i]!=0 && tex_coord_y[i]!=0) memory_used-=int((dx[i]*dy[i]*4)/(tex_coord_x[i]*tex_coord_y[i]));
 			} /* if */ 
 		} /* for */ 
@@ -507,7 +507,7 @@ void GLTile::set_repeat(void)
 	last_texture_check=required_texture_check;
 
 	for(i=0;i<nparts;i++) {
-	   glDeleteTextures(1,&(tex[i]));
+	   TM_glDeleteTextures(1,&(tex[i]));
 	   tex[i]=createTexture(tile[i],&(tex_coord_x[i]),&(tex_coord_y[i]));
 	} /* for */ 
 
@@ -524,7 +524,7 @@ void GLTile::set_clamp(void)
 	last_texture_check=required_texture_check;
 
 	for(i=0;i<nparts;i++) {
-		glDeleteTextures(1,&(tex[i]));
+		TM_glDeleteTextures(1,&(tex[i]));
 		tex[i]=createTextureClamp(tile[i],&(tex_coord_x[i]),&(tex_coord_y[i]));
 	} /* for */ 
 
@@ -541,7 +541,7 @@ void GLTile::set_smooth(void)
 	last_texture_check=required_texture_check;
 
 	for(i=0;i<nparts;i++) {
-		glDeleteTextures(1,&(tex[i]));
+		TM_glDeleteTextures(1,&(tex[i]));
 	    tex[i]=createTextureSmooth(tile[i],&(tex_coord_x[i]),&(tex_coord_y[i]));
 	} /* for */ 
 
@@ -1120,7 +1120,7 @@ void GLTile::optimize(int o_dx,int o_dy)
 
 		if (some_empty) {			
 
-			glDeleteTextures(1,&(tex[0]));
+			TM_glDeleteTextures(1,&(tex[0]));
 			if (tex_coord_x[0]!=0 && tex_coord_y[0]!=0) memory_used-=int((dx[0]*dy[0]*4)/(tex_coord_x[0]*tex_coord_y[0]));
 
 			delete []tile;
