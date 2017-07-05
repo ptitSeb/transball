@@ -5,24 +5,24 @@
 #ifdef _WIN32
 #include <windows.h>
 #else
-#include "unistd.h"
-#include "sys/stat.h"
-#include "sys/types.h"
+#include <unistd.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #endif
 
 #include "debug.h"
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "math.h"
-#include "string.h"
+#include <math.h>
+#include <string.h>
 
-#include "gl.h"
-#include "glu.h"
-#include "SDL.h"
-#include "SDL_mixer.h"
-#include "SDL_ttf.h"
-#include "pthread.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <SDL.h>
+#include <SDL_mixer.h>
+#include <SDL_ttf.h>
+#include <pthread.h>
 
 #include "List.h"
 #include "Symbol.h"

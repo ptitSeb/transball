@@ -6,14 +6,14 @@
 #include "windows.h"
 #endif
 
-#include <gl.h>
+#include <GL/gl.h>
 
-#include "SDL.h"
-#include "SDL_image.h"
-#include "SDL_ttf.h"
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 
-#include "stdio.h"
-#include "math.h"
+#include <stdio.h>
+#include <math.h>
 
 #include "auxiliar.h"
 #include "debug.h"

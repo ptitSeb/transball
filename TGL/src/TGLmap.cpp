@@ -8,14 +8,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "math.h"
-#include "string.h"
+#include <math.h>
+#include <string.h>
 
-#include "gl.h"
-#include "glu.h"
-#include "SDL.h"
-#include "SDL_mixer.h"
-#include "SDL_ttf.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <SDL.h>
+#include <SDL_mixer.h>
+#include <SDL_ttf.h>
 #include "SDL_rotozoom.h"
 
 #include "List.h"
@@ -1207,7 +1207,7 @@ TGLobject *TGLmap::collision_with_object(TGLobject *o)
 	float s1;
 
 	mask=o->get_last_mask();
-	if (mask==0) return nullptr;
+	if (mask==0) return NULL;
 	sfc=mask->get_tile(0);
 	x=o->get_x();
 	y=o->get_y();

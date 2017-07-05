@@ -4,17 +4,17 @@
 
 
 #ifdef _WIN32
-#include "windows.h"
+#include <windows.h>
 #endif
 
-#include "gl.h"
-#include "glu.h"
-#include "SDL.h"
-#include "SDL_image.h"
-#include "SDL_ttf.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 
-#include "stdlib.h"
-#include "string.h"
+#include <stdlib.h>
+#include <string.h>
 #include "List.h"
 #include "debug.h"
 

@@ -8,12 +8,12 @@
 
 #include "math.h"
 
-#include "gl.h"
-#include "glu.h"
-#include "SDL.h"
-#include "SDL_ttf.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <SDL.h>
+#include <SDL_ttf.h>
 
-#include "stdlib.h"
+#include <stdlib.h>
 #include "auxiliar.h"
 #include "2DCMC.h"
 #include "Vector.h"

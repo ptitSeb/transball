@@ -12,13 +12,13 @@
 #endif
 #include <stdio.h>
 #include <stdlib.h>
-#include "ctype.h"
-#include "math.h"
-#include "string.h"
+#include <ctype.h>
+#include <math.h>
+#include <string.h>
 
-#include "SDL.h"
-#include "SDL_image.h"
-#include "SDL_ttf.h"
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 
 #include "auxiliar.h"
 #include "List.h"
@@ -92,11 +92,11 @@ SDL_Surface *load_maskedimage(char *imagefile,char *maskfile,char *path)
 	mask=IMG_Load(name);
 
     if (tmp==0 ||
-		mask==0) return nullptr;
+		mask==0) return NULL;
 
 	res=SDL_DisplayFormatAlpha(tmp);
 
-	/* Aplicar la máscara: */ 
+	/* Aplicar la mï¿½scara: */ 
 	{
 		int x,y;
 		Uint8 r,g,b,a;

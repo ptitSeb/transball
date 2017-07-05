@@ -1,11 +1,11 @@
-#include "SDL.h"
-#include "SDL_mixer.h"
-//#include "SDL_sound.h"
-#include "sound.h"
-#include "stdio.h"
-#include "string.h"
-#include "stdlib.h"
-#include "assert.h"
+#include <SDL.h>
+#include <SDL_mixer.h>
+//#include <SDL_sound.h>
+#include <sound.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <assert.h>
 
 #include "debug.h"
 

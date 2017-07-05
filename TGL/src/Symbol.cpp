@@ -2,12 +2,12 @@
 #include "debug_memorymanager.h"
 #endif
 
-#include "stdio.h"
-#include "stdlib.h"
-#include "string.h"
-#include "math.h"
-#include "pthread.h"
-#include "assert.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <pthread.h>
+#include <assert.h>
 
 #include "List.h"
 

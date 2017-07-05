@@ -4,21 +4,21 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#include "direct.h"
+#include <direct.h>
 #else
-#include "sys/stat.h"
-#include "sys/types.h"
+#include <sys/stat.h>
+#include <sys/types.h>
 #endif
 
-#include "stdlib.h"
-#include "string.h"
-#include "stdio.h"
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
-#include "gl.h"
-#include "glu.h"
-#include "SDL.h"
-#include "SDL_mixer.h"
-#include "SDL_ttf.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <SDL.h>
+#include <SDL_mixer.h>
+#include <SDL_ttf.h>
 #include "SDL_rotozoom.h"
 
 #include "List.h"

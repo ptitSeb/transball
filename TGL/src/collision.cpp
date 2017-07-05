@@ -12,19 +12,19 @@
 #endif
 #include <stdio.h>
 #include <stdlib.h>
-#include "ctype.h"
-#include "math.h"
-#include "string.h"
-#include "assert.h"
+#include <ctype.h>
+#include <math.h>
+#include <string.h>
+#include <assert.h>
 
-#include "SDL.h"
+#include <SDL.h>
 #include "SDL_rotozoom.h"
 
 #include "List.h"
 #include "auxiliar.h"
 
-#include "gl.h"
-#include "glu.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
 
 #include "Symbol.h"
 #include "GLTile.h"

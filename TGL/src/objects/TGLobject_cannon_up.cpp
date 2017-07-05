@@ -8,14 +8,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "math.h"
-#include "string.h"
+#include <math.h>
+#include <string.h>
 
-#include "gl.h"
-#include "glu.h"
-#include "SDL.h"
-#include "SDL_mixer.h"
-#include "SDL_ttf.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <SDL.h>
+#include <SDL_mixer.h>
+#include <SDL_ttf.h>
 
 #include "List.h"
 #include "Symbol.h"

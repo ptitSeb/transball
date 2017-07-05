@@ -3,27 +3,27 @@
 #endif
 
 #ifdef _WIN32
-#include "windows.h"
-#include "direct.h"
+#include <windows.h>
+#include <direct.h>
 #else
 #include <stddef.h>
 #include <sys/types.h>
 #include <dirent.h>
-#include "ctype.h"
-#include "unistd.h"
+#include <ctype.h>
+#include <unistd.h>
 #endif
 
-#include "stdio.h"
-#include "math.h"
-#include "stdlib.h"
-#include "string.h"
+#include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
+#include <string.h>
 
-#include "gl.h"
-#include "glu.h"
-#include "SDL.h"
-#include "SDL_mixer.h"
-#include "SDL_ttf.h"
-#include "pthread.h"
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <SDL.h>
+#include <SDL_mixer.h>
+#include <SDL_ttf.h>
+#include <pthread.h>
 
 #include "List.h"
 #include "Symbol.h"

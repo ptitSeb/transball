@@ -4,16 +4,16 @@
 
 
 #ifdef _WIN32
-#include "windows.h"
+#include <windows.h>
 #else
-#include "dirent.h"
+#include <dirent.h>
 #endif
 
-#include "SDL.h"
-#include "SDL_mixer.h"
+#include <SDL.h>
+#include <SDL_mixer.h>
 
-#include "stdlib.h"
-#include "string.h"
+#include <stdlib.h>
+#include <string.h>
 #include "List.h"
 
 #include "Symbol.h"

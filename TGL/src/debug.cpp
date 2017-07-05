@@ -4,12 +4,12 @@
 
 
 #ifdef _WIN32
-#include "windows.h"
+#include <windows.h>
 #endif
 
-#include "stdio.h"
+#include <stdio.h>
 #include <stdlib.h>
-#include "stdarg.h"
+#include <stdarg.h>
 
 
 FILE *fp=0;

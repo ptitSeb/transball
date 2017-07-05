@@ -1,16 +1,20 @@
 #TransballGL (c) Braingames
 #Copyright (c) ptitSeb
 
-CFLAGS = -mfloat-abi=softfp -fsigned-char -mcpu=cortex-a8 -mfpu=neon -ffast-math -fsingle-precision-constant -O3  -fuse-ld=gold -fuse-linker-plugin -DPANDORA -g
+ifeq ($(ODROID),1)
+ CFLAGS = -mcpu=cortex-a9 -mfpu=neon -mfloat-abi=hard -ftree-vectorize -fsingle-precision-constant -DODROID -I/usr/X11R6/include
+else ifeq ($(LINUX),1)
+ CFLAGS = -mcpu=native -Ofast -I/usr/X11R6/include
+else
+ CFLAGS = -mfloat-abi=softfp -fsigned-char -mcpu=cortex-a8 -mfpu=neon -ffast-math -fsingle-precision-constant -fuse-ld=gold -fuse-linker-plugin -DPANDORA
+endif
 
-CFLAGS += `sdl-config --cflags` -I/mnt/utmp/codeblocks/usr/include/GL -Isrc -Isrc/objects -Isrc/interface
-
-CFLAGS += -Wno-write-strings
-
-CPPFLAGS := $(CFLAGS) -fpermissive
-
+CFLAGS = -Isrc -Isrc/objects -Isrc/interface `sdl-config --cflags`
 LIBS = `sdl-config --libs` -lSDL_mixer -lSDL_ttf -lSDL_image -lz -lm -lrt -lGL -lGLU
 
+CFLAGS += -Wno-write-strings
+CFLAGS += -Ofast -g
+CPPFLAGS := $(CFLAGS) -fpermissive
 
 #C_INCLUDES := -I$(SDL_PATH)/include 
 SRC_C := src/SDL_rotozoom.c
@@ -144,7 +148,7 @@ OBJ_C       := $(SRC_C:.c=.o)
 all: transballgl
 
 transballgl: $(OBJ_CPP) $(OBJ_C)
-	g++ -o transballgl $(CPPFLAGS) $(LIBS) $^
+	g++ -o transballgl $(CPPFLAGS) $^ $(LIBS) 
 
 %.o:  %.c
 	gcc $(CFLAGS) -c $< -o $@
