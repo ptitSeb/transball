@@ -4,7 +4,7 @@ transball
 ![transball build status](https://api.travis-ci.org/ptitSeb/transball.png "transball build status")
 
 
-Port of TransballGL to the OpenPandora (using glshim) - Status: WIP
+Port of TransballGL to the OpenPandora (using [gl4es](https://github.com/ptitSeb/gl4es)) - Status: WIP
 
 
 To compile on the Pandora, using the Codeblocks Command Line PND, just type
