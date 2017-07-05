@@ -4,3 +4,5 @@
 #ignore the generated libraries also
 *.so
 *.dll
+transballgl
+transballgl.exe
